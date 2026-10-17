@@ -62,6 +62,10 @@ python3 -B -I tools/qualify_offline.py /tmp/antigravity-two-fresh-runs
 
 Use a new output directory outside the repository. The launcher controls use synthetic process/transport doubles: no real Antigravity binary, auth proxy, provider or model is called. Their result is offline repeatability evidence, not native containment qualification.
 
+## Roadmap
+
+We’re working on Gemini Argon / High as an additional preflight model option. Support is planned for an upcoming release, subject to compatibility testing and qualification. Gemini 3.8 Flash / High remains the supported configuration in the current release.
+
 ## Project
 
 - [Exploratory four-case plan audit](benchmarks/exploratory-plan-audit/README.md) — saved responses with corrected scoring and retrospective limitations
