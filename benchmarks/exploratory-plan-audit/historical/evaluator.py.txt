@@ -1,0 +1,74 @@
+"""Evaluator for Antigravity Preflight Benchmark."""
+import json
+import re
+from pathlib import Path
+from typing import Dict, Any, List
+
+
+class PreflightEvaluator:
+    @staticmethod
+    def extract_verdict(text: str) -> str:
+        text_upper = text.upper()
+        # Look for explicit NO-GO / NO GO / CHANGES_RECOMMENDED
+        if "NO-GO" in text_upper or "NO GO" in text_upper or "CHANGES_RECOMMENDED" in text_upper or "BLOCKERS_FOUND" in text_upper:
+            return "NO-GO"
+        if "GO" in text_upper or "NO_BLOCKERS_FOUND" in text_upper:
+            # Check for negative polarity preceding GO
+            if re.search(r'\b(NOT|CANNOT|NEVER|DO NOT)\s+GO\b', text_upper):
+                return "NO-GO"
+            return "GO"
+        return "UNCLEAR"
+
+    @staticmethod
+    def check_tripwire_recall(text: str, ground_truth: Dict[str, Any]) -> bool:
+        if ground_truth["expected_verdict"] == "GO":
+            return True  # No tripwire to recall
+        text_lower = text.lower()
+        # Require at least one key identifier from ground truth
+        matches = [kw for kw in ground_truth["key_identifiers"] if kw.lower() in text_lower]
+        return len(matches) > 0
+
+    def score_result(self, raw_result: Dict[str, Any], case: Dict[str, Any]) -> Dict[str, Any]:
+        output = raw_result.get("stdout", "")
+        ground_truth = case["ground_truth"]
+        
+        detected_verdict = self.extract_verdict(output)
+        verdict_correct = (detected_verdict == ground_truth["expected_verdict"])
+        tripwire_detected = self.check_tripwire_recall(output, ground_truth)
+        
+        passed = verdict_correct and (tripwire_detected if ground_truth["expected_verdict"] == "NO-GO" else True)
+        
+        return {
+            "runner": raw_result["runner"],
+            "model": raw_result["model"],
+            "case_id": case["id"],
+            "case_name": case["name"],
+            "expected_verdict": ground_truth["expected_verdict"],
+            "detected_verdict": detected_verdict,
+            "verdict_correct": verdict_correct,
+            "tripwire_detected": tripwire_detected,
+            "overall_pass": passed,
+            "elapsed_seconds": raw_result.get("elapsed_seconds", 0.0),
+            "output_chars": len(output),
+            "exit_code": raw_result.get("exit_code", 0)
+        }
+
+    def generate_markdown_summary(self, scored_results: List[Dict[str, Any]]) -> str:
+        lines = [
+            "# Antigravity Preflight Benchmark Scorecard",
+            "",
+            "| Runner | Model | Case | Expected | Detected | Tripwire Caught | Latency (s) | Pass |",
+            "|---|---|---|---|---|---|---|---|"
+        ]
+        
+        for r in scored_results:
+            caught_str = "✅ Yes" if r["tripwire_detected"] else "❌ No"
+            if r["expected_verdict"] == "GO":
+                caught_str = "N/A (Clean)"
+            pass_str = "✅ PASS" if r["overall_pass"] else "❌ FAIL"
+            lines.append(
+                f"| {r['runner']} | `{r['model']}` | {r['case_name']} | **{r['expected_verdict']}** | {r['detected_verdict']} | {caught_str} | {r['elapsed_seconds']}s | {pass_str} |"
+            )
+            
+        lines.append("")
+        return "\n".join(lines)

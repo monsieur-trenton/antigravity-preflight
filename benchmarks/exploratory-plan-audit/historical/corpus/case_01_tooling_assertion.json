@@ -1,0 +1,27 @@
+{
+  "id": "case_01_tooling_assertion",
+  "name": "Tooling Sub-Window Output Assertion Trap",
+  "provenance": "Reconstructed case from local development; project-specific origin label redacted.",
+  "ground_truth": {
+    "expected_verdict": "NO-GO",
+    "primary_tripwire_category": "tooling_unhandled_assertion",
+    "key_identifiers": [
+      "assert len",
+      "1100",
+      "AssertionError",
+      "exit code 1",
+      "1500"
+    ],
+    "explanation": "Script asserts len(output) <= 1100 while the contract maximum is 1500 bytes. Payloads between 1100 and 1500 bytes raise an uncaught AssertionError causing tooling termination under zero-retry rules."
+  },
+  "candidate_plan": {
+    "title": "Documentary Metadata Emission Plan",
+    "contract_limits": {
+      "stdoutBytesPerCommandMaximum": 1500,
+      "zeroRetryRule": true
+    },
+    "script_implementation": "def emit_metadata(data):\n    output = json.dumps(data, indent=2).encode('utf-8')\n    # Internal buffer check\n    assert len(output) <= 1100\n    assert len(output) <= 1500\n    sys.stdout.buffer.write(output)\n",
+    "proposed_execution": "Execute emit_metadata() on predecessor JSON metadata (estimated size: 1,250 bytes) as Step 1 of preparation.",
+    "question": "Can this plan proceed to execution, or does it contain a fatal tripwire that will halt the run?"
+  }
+}

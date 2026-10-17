@@ -1,0 +1,76 @@
+{
+  "kind": "RETROSPECTIVE_LABEL_EXTRACTION_NOT_SEMANTIC_BENCHMARK",
+  "observations": 4,
+  "originalLabelMatches": 4,
+  "newModelCalls": 0,
+  "results": [
+    {
+      "case_id": "case_01_tooling_assertion",
+      "recordedConfiguredModel": "gemini-3.8-flash-high",
+      "processOutcomeAdmitted": true,
+      "originalExpectedLabel": "NO-GO",
+      "extractedLabel": "NO-GO",
+      "originalLabelMatch": true,
+      "keywordHints": [
+        "assert len",
+        "1100",
+        "AssertionError",
+        "1500"
+      ],
+      "keywordHintsAreSemanticCredit": false,
+      "reportedCliWallSeconds": 19.92,
+      "semanticGrade": "REQUIRES_SEPARATE_ADJUDICATION"
+    },
+    {
+      "case_id": "case_02_resource_timeout",
+      "recordedConfiguredModel": "gemini-3.8-flash-high",
+      "processOutcomeAdmitted": true,
+      "originalExpectedLabel": "NO-GO",
+      "extractedLabel": "NO-GO",
+      "originalLabelMatch": true,
+      "keywordHints": [
+        "xz",
+        "-9e",
+        "threads=1",
+        "timeout",
+        "SIGTERM",
+        "30-minute"
+      ],
+      "keywordHintsAreSemanticCredit": false,
+      "reportedCliWallSeconds": 52.35,
+      "semanticGrade": "REQUIRES_SEPARATE_ADJUDICATION"
+    },
+    {
+      "case_id": "case_03_contract_coverage_gap",
+      "recordedConfiguredModel": "gemini-3.8-flash-high",
+      "processOutcomeAdmitted": true,
+      "originalExpectedLabel": "NO-GO",
+      "extractedLabel": "NO-GO",
+      "originalLabelMatch": true,
+      "keywordHints": [
+        "incomplete required coverage",
+        "UNVERIFIABLE",
+        "observationComplete",
+        "OBSERVED_MISMATCH"
+      ],
+      "keywordHintsAreSemanticCredit": false,
+      "reportedCliWallSeconds": 19.17,
+      "semanticGrade": "REQUIRES_SEPARATE_ADJUDICATION"
+    },
+    {
+      "case_id": "case_04_sound_control_plan",
+      "recordedConfiguredModel": "gemini-3.8-flash-high",
+      "processOutcomeAdmitted": true,
+      "originalExpectedLabel": "GO",
+      "extractedLabel": "GO",
+      "originalLabelMatch": true,
+      "keywordHints": [
+        "GO"
+      ],
+      "keywordHintsAreSemanticCredit": false,
+      "reportedCliWallSeconds": 194.69,
+      "semanticGrade": "REQUIRES_SEPARATE_ADJUDICATION"
+    }
+  ],
+  "limits": "Original labels include an unproven timeout oracle and an invalid clean control; label matches are not correctness or recall estimates."
+}

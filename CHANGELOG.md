@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- Publish a sanitized historical four-case plan-audit case study, preserving original responses/scores and documenting the unqualified execution route and flawed oracle/control.
+- Add strict retrospective label extraction and offline regression tests; keyword hints supply no semantic credit.
+- Propose blind counterfactual testing and full-workflow integrity testing. No new live model observations were collected.
+
 ## 0.1.0 — 2026-10-17
 
 Initial public release targeting Gemini 3.8 Flash / High.

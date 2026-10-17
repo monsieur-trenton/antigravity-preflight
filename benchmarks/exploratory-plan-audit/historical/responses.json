@@ -1,0 +1,42 @@
+[
+  {
+    "runner": "Gemini 3.8 Flash (High)",
+    "model": "gemini-3.8-flash-high",
+    "case_id": "case_01_tooling_assertion",
+    "exit_code": 0,
+    "elapsed_seconds": 19.92,
+    "stdout": "### Verdict\n**NO-GO** (Fatal tripwire detected)\n\n---\n\n### Fatal Tripwire\n**Mismatched Internal Assertion:** `assert len(output) <= 1100` in [`emit_metadata()`](historical/corpus/case_01_tooling_assertion.json#unverified-original-link)\n\n---\n\n### Concrete Failure Mechanism\n1. **Assertion Failure:** The proposed execution feeds predecessor metadata estimated at **~1,250 bytes**. While this conforms to the external contract maximum (`stdoutBytesPerCommandMaximum: 1500`), it violates the tighter internal guard `assert len(output) <= 1100`.\n2. **Immediate Abort Under Contract Rules:** Evaluating `1250 <= 1100` evaluates to `False`, raising an unhandled `AssertionError` during Step 1.\n3. **Zero-Retry Fatal Termination:** Under the specified contract constraint (`zeroRetryRule: true`), unhandled exceptions immediately terminate the run with zero retry allowance, halting the entire workflow before any metadata is emitted.\n",
+    "stderr": "",
+    "error": null
+  },
+  {
+    "runner": "Gemini 3.8 Flash (High)",
+    "model": "gemini-3.8-flash-high",
+    "case_id": "case_02_resource_timeout",
+    "exit_code": 0,
+    "elapsed_seconds": 52.35,
+    "stdout": "### PREFLIGHT AUDIT REPORT\n\n**Verdict:** **NO-GO** (Fatal tripwire detected)\n\n---\n\n### Fatal Tripwire: Operational Work Window Timeout Overrun\n* **Violated Contract Limit:** `workWindowMinutes: 30` (1,800 seconds)\n* **Risk Severity:** Critical / Fatal (unrecoverable execution termination)\n\n---\n\n### Concrete Failure Mechanism\n\n1. **Throughput Deficit under `-9e` and Single-Threaded Constraints:**\n   * The candidate plan stages an archive of **1,388,769,280 bytes (~1.39 GB / ~1.29 GiB)**.\n   * Invoking `/usr/bin/xz` with `--threads=1` restricts compression to a single CPU core.\n   * Combining preset `-9` with the `-e` (`--extreme`) flag forces LZMA2 into exhaustive match-finder passes (`nice=273`, extensive dictionary tree search). On modern x86_64 processors, single-threaded throughput under `-9e` typically collapses to **0.5 MB/s – 0.8 MB/s**.\n   * **Projected Wall Time:**\n     $$\\text{Estimated Runtime} = \\frac{1,388.77\\text{ MB}}{0.6\\text{ MB/s}} \\approx 2,314\\text{ seconds} \\approx 38.6\\text{ minutes}$$\n     Even under optimistic single-core performance (~0.75 MB/s), compression requires $\\approx 1,852\\text{ seconds}$ (~30.9 minutes), strictly exceeding the 30-minute `workWindowMinutes` ceiling and risking overrun of the 45-minute commission wall limit.\n\n2. **Unrecoverable Process Abort:**\n   * `subprocess.run(argv, stdout=out, check=True)` has no internal `timeout` parameter and does not perform progress reporting or atomic checkpointing.\n   * When the supervisory platform enforces the 30-minute operational window boundary, the process will be terminated externally (`SIGTERM`/`SIGKILL`), resulting in an incomplete, corrupted archive at `output_path` and late-stage admission failure.\n\n---\n\n### Remediation Requirements (To Achieve 'GO')\n* **Parallelize:** Remove `--threads=1` and utilize multi-threading (e.g., `--threads=0` or pinned to allocated vCPUs).\n* **Drop `--extreme`:** Use standard presets (e.g., `-6` or `-7`), which achieve ~98% of the compression density of `-9e` at 5x–10x the throughput.\n* **Internal Guardrails:** Add `timeout=1680` (28 minutes) to `subprocess.run` to allow clean error handling and artifact cleanup before orchestrator-level SIGKILL.\n",
+    "stderr": "",
+    "error": null
+  },
+  {
+    "runner": "Gemini 3.8 Flash (High)",
+    "model": "gemini-3.8-flash-high",
+    "case_id": "case_03_contract_coverage_gap",
+    "exit_code": 0,
+    "elapsed_seconds": 19.17,
+    "stdout": "### Audit Verdict\n**NO-GO** (Fatal tripwire detected)\n\n---\n\n### Fatal Tripwire\n**Contract Violation & Precondition Invalidation under Fail-Closed Outcome Rules**\n\nThe proposed implementation attempts to assign `report.result = 'OBSERVED_MISMATCH'` while explicitly emitting incomplete phase coverage (`observationComplete = false`, `completedPhaseCount = 2`, `downstreamUnrun = true`).\n\n---\n\n### Concrete Failure Mechanism\n1. **Precondition Failure for `OBSERVED_MISMATCH`**:\n   The governing contract explicitly dictates that `OBSERVED_MISMATCH` *requires complete independently bound observation*. By aborting early after phase 2 (`REFERENCE_ONLY`) and leaving the remaining required phases (`FIRST_DECLARED_CALL`, `LATER_DECLARED_CALLS`, `TEARDOWN`) unrun, observation completeness is not achieved.\n2. **Mandatory Fail-Closed Rule Invalidation**:\n   The contract mandates that `UNVERIFIABLE` is required for *incomplete required coverage*. Short-circuiting execution to emit `OBSERVED_MISMATCH` on early divergence violates the precedence order of the outcome rules.\n3. **Late-Stage Rejection**:\n   Downstream schema validators and verification harnesses will detect the contradiction between `result: 'OBSERVED_MISMATCH'` and `coverage.observationComplete: false` / `completedPhaseCount: 2 < 5`, rejecting the report as invalid.\n",
+    "stderr": "",
+    "error": null
+  },
+  {
+    "runner": "Gemini 3.8 Flash (High)",
+    "model": "gemini-3.8-flash-high",
+    "case_id": "case_04_sound_control_plan",
+    "exit_code": 0,
+    "elapsed_seconds": 194.69,
+    "stdout": "### Verdict: **GO** (Safe to proceed)\n\n---\n\n### Contract Compliance & Execution Safety Audit\n\n1. **Compliance with `stdoutBytesPerCommandMaximum: 1500`**\n   - **Inline Branch (`len(raw) <= 1500`)**: Metadata within budget is emitted directly without exceeding the 1500-byte cap.\n   - **Fallback Branch (`len(raw) > 1500`)**: Payloads exceeding 1500 bytes are offloaded to disk (`metadata-full.json`). The emitted stdout summary is a compact pointer (`status`, `path`, `bytes`, `sha256`) with a static schema footprint of ~150–250 bytes.\n   - **Assertion Guard**: `assert len(summary) <= 1500` enforces the bound before writing to the stream.\n   - **Binary Stream Safety**: Writing directly to `sys.stdout.buffer.write()` preserves exact byte-length measurements and avoids OS-level newline expansion (e.g., `\\n` to `\\r\\n`) that could cause unexpected byte inflation.\n\n2. **Compliance with `zeroRetryRule: true`**\n   - **Deterministic Single-Pass Logic**: Branching is based strictly on pre-measured byte lengths (`len(raw)`), eliminating speculative operations, ambiguous states, or secondary retry requirements.\n\n3. **Execution Safety Preconditions**\n   - The execution assumes `output_dir` is an existing, writable artifact directory and `data` contains JSON-serializable metadata structures. Under standard environment path lengths, the fallback pointer will consistently execute within contract bounds on the first pass.\n",
+    "stderr": "",
+    "error": null
+  }
+]

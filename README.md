@@ -64,6 +64,8 @@ Use a new output directory outside the repository. The launcher controls use syn
 
 ## Project
 
+- [Exploratory four-case plan audit](benchmarks/exploratory-plan-audit/README.md) — saved responses with corrected scoring and retrospective limitations
+- [Two proposed skill tests](docs/testing-next.md)
 - [Architecture](docs/architecture.md)
 - [Release notes](CHANGELOG.md)
 - [Contributing](CONTRIBUTING.md)

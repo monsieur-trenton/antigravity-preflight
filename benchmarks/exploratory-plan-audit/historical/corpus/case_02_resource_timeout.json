@@ -1,0 +1,30 @@
+{
+  "id": "case_02_resource_timeout",
+  "name": "Single-Threaded Max Compression Timeout",
+  "provenance": "Reconstructed case from local development; project-specific origin label redacted.",
+  "ground_truth": {
+    "expected_verdict": "NO-GO",
+    "primary_tripwire_category": "resource_operational_timeout",
+    "key_identifiers": [
+      "xz",
+      "-9e",
+      "threads=1",
+      "timeout",
+      "143",
+      "SIGTERM",
+      "30-minute"
+    ],
+    "explanation": "Running single-threaded xz with extreme compression (-9e --threads=1) on a 1.38 GB tarball exceeds operational time budget, triggering watchdog SIGTERM termination."
+  },
+  "candidate_plan": {
+    "title": "Platform Admission Transfer Archive Staging",
+    "contract_limits": {
+      "wholeCommissionWallMinutes": 45,
+      "workWindowMinutes": 30,
+      "seedArchiveLimitBytes": 536870912
+    },
+    "script_implementation": "def compress_transfer_payload(tar_path, output_path):\n    # Maximum compression to ensure seed image stays under 512 MiB ceiling\n    argv = ['/usr/bin/xz', '-9e', '--threads=1', '--stdout', str(tar_path)]\n    with open(output_path, 'wb') as out:\n        subprocess.run(argv, stdout=out, check=True)\n",
+    "proposed_execution": "Execute compress_transfer_payload on incoming.tar (size: 1,388,769,280 bytes / ~1.38 GB) inside the 30-minute active work window.",
+    "question": "Can this plan complete within the active operational window, or does it trigger an unrecoverable timeout?"
+  }
+}

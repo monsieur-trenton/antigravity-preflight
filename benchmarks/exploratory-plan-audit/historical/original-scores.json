@@ -1,0 +1,58 @@
+[
+  {
+    "runner": "Gemini 3.8 Flash (High)",
+    "model": "gemini-3.8-flash-high",
+    "case_id": "case_01_tooling_assertion",
+    "case_name": "Tooling Sub-Window Output Assertion Trap",
+    "expected_verdict": "NO-GO",
+    "detected_verdict": "NO-GO",
+    "verdict_correct": true,
+    "tripwire_detected": true,
+    "overall_pass": true,
+    "elapsed_seconds": 19.92,
+    "output_chars": 913,
+    "exit_code": 0
+  },
+  {
+    "runner": "Gemini 3.8 Flash (High)",
+    "model": "gemini-3.8-flash-high",
+    "case_id": "case_02_resource_timeout",
+    "case_name": "Single-Threaded Max Compression Timeout",
+    "expected_verdict": "NO-GO",
+    "detected_verdict": "NO-GO",
+    "verdict_correct": true,
+    "tripwire_detected": true,
+    "overall_pass": true,
+    "elapsed_seconds": 52.35,
+    "output_chars": 2202,
+    "exit_code": 0
+  },
+  {
+    "runner": "Gemini 3.8 Flash (High)",
+    "model": "gemini-3.8-flash-high",
+    "case_id": "case_03_contract_coverage_gap",
+    "case_name": "Conclusive Verdict on Incomplete Phase Coverage",
+    "expected_verdict": "NO-GO",
+    "detected_verdict": "NO-GO",
+    "verdict_correct": true,
+    "tripwire_detected": true,
+    "overall_pass": true,
+    "elapsed_seconds": 19.17,
+    "output_chars": 1333,
+    "exit_code": 0
+  },
+  {
+    "runner": "Gemini 3.8 Flash (High)",
+    "model": "gemini-3.8-flash-high",
+    "case_id": "case_04_sound_control_plan",
+    "case_name": "Clean Negative Control Plan",
+    "expected_verdict": "GO",
+    "detected_verdict": "GO",
+    "verdict_correct": true,
+    "tripwire_detected": true,
+    "overall_pass": true,
+    "elapsed_seconds": 194.69,
+    "output_chars": 1425,
+    "exit_code": 0
+  }
+]

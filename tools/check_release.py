@@ -51,6 +51,11 @@ def main():
     inventory = json.loads((ROOT / "examples/plan/inventory.json").read_bytes())
     for source in inventory["sources"]:
         assert pin(ROOT / "examples/plan" / source["path"])["sha256"] == source["sha256"]
+    benchmark = ROOT / "benchmarks/exploratory-plan-audit"
+    if benchmark.exists():
+        history = json.loads((benchmark / "provenance.json").read_bytes())
+        for row in history["files"]:
+            assert pin(benchmark / row["publishedPath"]) == row["publishedPin"], ("HISTORICAL_EVIDENCE_PIN", row["publishedPath"])
     print(json.dumps({"status": "PASS", "runtimePins": 6, "publicationPins": len(provenance["files"]),
                       "pythonSourcesSyntaxChecked": python_count, "providerCalls": 0}))
 

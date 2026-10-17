@@ -1,0 +1,139 @@
+{
+  "schemaVersion": 1,
+  "kind": "SANITIZED_HISTORICAL_EVIDENCE_COPY",
+  "files": [
+    {
+      "sourceName": "corpus/case_01_tooling_assertion.json",
+      "publishedPath": "historical/corpus/case_01_tooling_assertion.json",
+      "originalPin": {
+        "sha256": "e97e413a2cbf960580305375f053c24144896c9926f61349447e777fe775ee39",
+        "bytes": 1317
+      },
+      "publishedPin": {
+        "sha256": "2fa140f6003634ff1fd82167e7a55df6cf169050b9a272be4d4fde5bf4eb2419",
+        "bytes": 1342
+      },
+      "change": "Provenance label redacted; candidate_plan, ground_truth, id and name unchanged."
+    },
+    {
+      "sourceName": "corpus/case_02_resource_timeout.json",
+      "publishedPath": "historical/corpus/case_02_resource_timeout.json",
+      "originalPin": {
+        "sha256": "870b77c437a1723ce86f61c54ca5120b93bcaed658bbd0ccfb3033aa83b4c4ee",
+        "bytes": 1486
+      },
+      "publishedPin": {
+        "sha256": "74dc00385b4af2b93e62af7c52885efbb3bbe1bee14ff301e77c4c4d19b62b50",
+        "bytes": 1495
+      },
+      "change": "Provenance label redacted; candidate_plan, ground_truth, id and name unchanged."
+    },
+    {
+      "sourceName": "corpus/case_03_contract_coverage_gap.json",
+      "publishedPath": "historical/corpus/case_03_contract_coverage_gap.json",
+      "originalPin": {
+        "sha256": "f7ffca2fcc4cbe3b619ba9724185976885478297ac4cd7dc2af701b2a3e57eac",
+        "bytes": 1950
+      },
+      "publishedPin": {
+        "sha256": "4224677eaba556a8ab38947f0c6ec64a8fb59580aaa3ffb594ccf8b7ec77d449",
+        "bytes": 2027
+      },
+      "change": "Provenance label redacted; candidate_plan, ground_truth, id and name unchanged."
+    },
+    {
+      "sourceName": "corpus/case_04_sound_control_plan.json",
+      "publishedPath": "historical/corpus/case_04_sound_control_plan.json",
+      "originalPin": {
+        "sha256": "de5ff10962f9a2b16babe15e2a85c76d1407074493151827a9ebdfa76dc3fbaa",
+        "bytes": 1627
+      },
+      "publishedPin": {
+        "sha256": "0ebfcd549d1dc715a4455c56ba53bcdc9f624ae717b5a76700f870bd845659e0",
+        "bytes": 1661
+      },
+      "change": "Provenance label redacted; candidate_plan, ground_truth, id and name unchanged."
+    },
+    {
+      "sourceName": "results/raw_results.json",
+      "publishedPath": "historical/responses.json",
+      "originalPin": {
+        "sha256": "05031a309941295a7db9e4c6d8abf99a92abcf9e374a5fe8f8f3a83e5e2dab3b",
+        "bytes": 6934
+      },
+      "publishedPin": {
+        "sha256": "6264411936ec623e3fcd2bb39b7acb16fefb6e21594855d5f058f0e7e12e4c58",
+        "bytes": 6940
+      },
+      "change": "One local-file citation URL replaced with an explicitly unverified local archive reference. Response prose, verdicts, timing and outcome fields unchanged."
+    },
+    {
+      "sourceName": "results/scored_results.json",
+      "publishedPath": "historical/original-scores.json",
+      "originalPin": {
+        "sha256": "6ea40fdef3857b01c6770d1fb4457a1da90a35f6540a98a01703466a2fd17436",
+        "bytes": 1673
+      },
+      "publishedPin": {
+        "sha256": "6ea40fdef3857b01c6770d1fb4457a1da90a35f6540a98a01703466a2fd17436",
+        "bytes": 1673
+      },
+      "change": "NONE"
+    },
+    {
+      "sourceName": "results/BENCHMARK-RESULTS.md",
+      "publishedPath": "historical/original-scorecard.md",
+      "originalPin": {
+        "sha256": "8ea4af78359e09efece08308c49adbf2e4eb3f6df73893d98a7f49a4c0ae3b5e",
+        "bytes": 746
+      },
+      "publishedPin": {
+        "sha256": "29bfb2136dadeb95c142f378217022be8d000005c699574a160f37e43743427a",
+        "bytes": 903
+      },
+      "change": "Added a historical/superseded notice; original scorecard text follows unchanged."
+    },
+    {
+      "sourceName": "runners/gemini_flash_runner.py",
+      "publishedPath": "historical/gemini_flash_runner.py.txt",
+      "originalPin": {
+        "sha256": "908c25e029c46b06d015e735204c65994655ea5bba8743ecd86deb232fc74d0e",
+        "bytes": 1805
+      },
+      "publishedPin": {
+        "sha256": "7efbc93794b5c520a6df759859d40bc71547caf643e6836e1facf4e5b7cacb54",
+        "bytes": 1795
+      },
+      "change": "Host executable path redacted. Historical unsafe direct invocation retained as inert text, not supported executable tooling."
+    },
+    {
+      "sourceName": "runners/base_runner.py",
+      "publishedPath": "historical/base_runner.py.txt",
+      "originalPin": {
+        "sha256": "bf24982aa770da33e0111ac12baf7a4a7810cec39a9a3d9f87d37bd0e195c632",
+        "bytes": 1634
+      },
+      "publishedPin": {
+        "sha256": "bf24982aa770da33e0111ac12baf7a4a7810cec39a9a3d9f87d37bd0e195c632",
+        "bytes": 1634
+      },
+      "change": "NONE"
+    },
+    {
+      "sourceName": "evaluator.py",
+      "publishedPath": "historical/evaluator.py.txt",
+      "originalPin": {
+        "sha256": "1a8f68ddaf02423a94f45bcda6c0cc42371a408e1ca85508a942213c8de10467",
+        "bytes": 3244
+      },
+      "publishedPin": {
+        "sha256": "1a8f68ddaf02423a94f45bcda6c0cc42371a408e1ca85508a942213c8de10467",
+        "bytes": 3244
+      },
+      "change": "NONE"
+    }
+  ],
+  "newModelCalls": 0,
+  "newNativeCalls": 0,
+  "attestation": "Original saved outputs and local source were inspected; no independent binary, serving-model, tool-use or isolation attestation is supplied."
+}

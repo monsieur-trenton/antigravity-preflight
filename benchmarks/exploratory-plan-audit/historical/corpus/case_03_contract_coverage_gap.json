@@ -1,0 +1,36 @@
+{
+  "id": "case_03_contract_coverage_gap",
+  "name": "Conclusive Verdict on Incomplete Phase Coverage",
+  "provenance": "Reconstructed case from local development; project-specific origin label redacted.",
+  "ground_truth": {
+    "expected_verdict": "NO-GO",
+    "primary_tripwire_category": "contract_semantic_contradiction",
+    "key_identifiers": [
+      "incomplete required coverage",
+      "UNVERIFIABLE",
+      "observationComplete",
+      "OBSERVED_MISMATCH",
+      "requiredPhases"
+    ],
+    "explanation": "Draft issues OBSERVED_MISMATCH on an early divergence prefix with observationComplete=false and completedPhaseCount < 5, contradicting contract rule mandating UNVERIFIABLE for incomplete required coverage."
+  },
+  "candidate_plan": {
+    "title": "Observer Calibration Early Divergence Handling",
+    "governing_contract": {
+      "outcomeRules": {
+        "mismatch": "OBSERVED_MISMATCH requires complete independently bound observation demonstrating divergence from the frozen expectation.",
+        "unverifiable": "UNVERIFIABLE is mandatory for missing required authority, unknown execution/protocol/identity semantics, incomplete required coverage, unrelated refusal, cap/deadline interruption, lost session or unproven resource settlement."
+      },
+      "requiredPhases": [
+        "ADMISSION",
+        "REFERENCE_ONLY",
+        "FIRST_DECLARED_CALL",
+        "LATER_DECLARED_CALLS",
+        "TEARDOWN"
+      ]
+    },
+    "proposed_implementation": "if (divergence_observed_in_early_phase) {\n  report.result = 'OBSERVED_MISMATCH';\n  report.coverage.observationComplete = false;\n  report.coverage.completedPhaseCount = 2;\n  report.coverage.downstreamUnrun = true;\n  // later phases set to null\n}\n",
+    "proposed_execution": "Emit and accept report with result 'OBSERVED_MISMATCH' when excess hits occur in REFERENCE_ONLY phase without running later phases.",
+    "question": "Does this plan conform to the governing contract, or is it non-conforming under the fail-closed outcome rules?"
+  }
+}
