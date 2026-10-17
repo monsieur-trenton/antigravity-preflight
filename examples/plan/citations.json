@@ -1,0 +1,16 @@
+{
+  "citations": [
+    {
+      "id": "F01-P1",
+      "source": "S01",
+      "line": 2,
+      "quote": "Missing required source coverage makes the report INCOMPLETE."
+    },
+    {
+      "id": "F01-P2",
+      "source": "S02",
+      "line": 2,
+      "quote": "Do not check whether every supplied source was covered."
+    }
+  ]
+}

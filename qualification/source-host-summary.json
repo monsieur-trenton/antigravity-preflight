@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "kind": "SANITIZED_DOCUMENTARY_SUMMARY_NOT_ADMISSION_ENVELOPE",
+  "model": "gemini-3.8-flash-high",
+  "effort": "high",
+  "nativeVersion": "1.3.6",
+  "nativeBinary": {
+    "sha256": "e14253aa79d4e910cbf8bcb40b68e80f9e85476725e130ed085122c98face92b",
+    "bytes": 217768144
+  },
+  "sourceRecords": {
+    "normalOfflineQualification": {
+      "sha256": "9f8b48bc83ab65f37c58eb5ada3f4992522235d2daccfb3914c7f094a4619aaa",
+      "bytes": 2953
+    },
+    "ownerActivationResult": {
+      "sha256": "7eeebdbb7a8a863ad34f1e23c6243cc9cebea054e51f86b18c786faa10d94aba",
+      "bytes": 2177
+    },
+    "ownerActivationReport": {
+      "sha256": "d875ecbb8857e8007ddbb2464da58d0afddc73b60f49168ecd1b37f7debac0ca",
+      "bytes": 2153
+    }
+  },
+  "observations": {
+    "P2": "ISSUED_2_OF_2",
+    "P3": "PASS_SCOPED_KNOWN_BAD",
+    "P4": "PASS_SCOPED_KNOWN_GOOD",
+    "P5": "OWNER_RATIFIED_PASS_P5_QUALIFICATION",
+    "activation": "SOURCE_HOST_ONLY",
+    "manualDefault": true,
+    "nativeObserver": "PARKED",
+    "Argon": "NOT_QUALIFIED_BY_THIS_RELEASE"
+  },
+  "independence": "SAME_CONTINUING_CHAT_ACCEPTANCE; owner accepted P5A-F05 / P5-F09 limitation",
+  "independentServingModelEffortAndBackendRequestAttestation": "UNAVAILABLE",
+  "publicationNativeCalls": 0,
+  "publicationProviderCalls": 0,
+  "limits": "Original private sealed lineage and owner-only oracles not distributed. This summary does not transfer host qualification or establish independent certification."
+}

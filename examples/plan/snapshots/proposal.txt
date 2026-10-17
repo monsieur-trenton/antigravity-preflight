@@ -1,0 +1,2 @@
+Accept a reviewer report whenever its findings array is empty.
+Do not check whether every supplied source was covered.

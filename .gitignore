@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+.venv/
+.env
+.env.*
+evidence/
+offline-run*/
+private-home/
+*.stdout
+*.stderr
+*.jsonl
+CLI-SYNTAX.json
+CLI-OFFLINE-CONTROLS.json
+POST-OVERFLOW-CONTROLS.json
+COMPLETION-CONTROLS.json

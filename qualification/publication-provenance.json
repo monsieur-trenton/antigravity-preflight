@@ -1,0 +1,234 @@
+{
+  "schemaVersion": 1,
+  "release": "0.1.0",
+  "files": [
+    {
+      "path": "skills/antigravity-preflight/SKILL.md",
+      "source": "activated installed skill",
+      "sourcePin": {
+        "sha256": "837b46ee847f925c53a796bfa466d126f82e43de09b6732555fb07662f4fc479",
+        "bytes": 4709
+      },
+      "publication": "DOCUMENTATION_PORTABILITY_EDIT",
+      "publishedPin": {
+        "sha256": "6508c8a1f648358e1e58208381184d5e01ef7561cc742e7cacd73ddcc06c6016",
+        "bytes": 4887
+      }
+    },
+    {
+      "path": "skills/antigravity-preflight/references/review-contract.md",
+      "source": "activated installed skill",
+      "sourcePin": {
+        "sha256": "a3458a4dbdaebbf6cccdcdc6c7fc4f1354f5af3b30678baa9e59ff174db19fba",
+        "bytes": 3858
+      },
+      "publication": "DOCUMENTATION_PORTABILITY_EDIT",
+      "publishedPin": {
+        "sha256": "56d171ae30bba4b332b1f6427ee6327b74d7f3fd81b4c2d96518c432dbef75aa",
+        "bytes": 3544
+      }
+    },
+    {
+      "path": "skills/antigravity-preflight/references/packet-template.md",
+      "source": "activated installed skill",
+      "sourcePin": {
+        "sha256": "052b1c4bc0ed058d36d4fa743a5e34d521bc8a7760690e8590a58dbbea4f3dc7",
+        "bytes": 4310
+      },
+      "publication": "DOCUMENTATION_PORTABILITY_EDIT",
+      "publishedPin": {
+        "sha256": "7a233611b21f5f6aa0d61ca2ab3d8ce04b6c2fb5e90921aa6429ae567fe53151",
+        "bytes": 3761
+      }
+    },
+    {
+      "path": "skills/antigravity-preflight/references/manual-handoff.md",
+      "source": "activated installed skill",
+      "sourcePin": {
+        "sha256": "4fa3ecd8e11c61533b9dfdb8ee45c25c329027824a1a89449b546f6407efd4bc",
+        "bytes": 6604
+      },
+      "publication": "DOCUMENTATION_PORTABILITY_EDIT",
+      "publishedPin": {
+        "sha256": "54d6ad70b4daf857d982a9af23552f07ca3b6f308747a192ec8a3c0351757f77",
+        "bytes": 6557
+      }
+    },
+    {
+      "path": "skills/antigravity-preflight/references/decision-template.md",
+      "source": "activated installed skill",
+      "sourcePin": {
+        "sha256": "89b00937be20af36b56cb4c15e6ef7bfef7fac3ee7ca899b7667dbb9d18fd8d5",
+        "bytes": 2195
+      },
+      "publication": "BYTE_IDENTICAL"
+    },
+    {
+      "path": "skills/antigravity-preflight/references/citation-checks.md",
+      "source": "activated installed skill",
+      "sourcePin": {
+        "sha256": "f7ee2bcae5ccf9e2a2baf631820905d73de662be190a158e56872ada4f7e9366",
+        "bytes": 3693
+      },
+      "publication": "DOCUMENTATION_PORTABILITY_EDIT",
+      "publishedPin": {
+        "sha256": "14d7d487ad247cf743fa64374f648138d760ead59cc9e7f7418ba305d4b479b4",
+        "bytes": 3674
+      }
+    },
+    {
+      "path": "skills/antigravity-preflight/references/cli-updates.md",
+      "source": "activated installed skill",
+      "sourcePin": {
+        "sha256": "34a57f643927de7d6f1bd599efb8e6687b10441f00019ce1e2543728786ff856",
+        "bytes": 3315
+      },
+      "publication": "DOCUMENTATION_PORTABILITY_EDIT",
+      "publishedPin": {
+        "sha256": "be65ad745b47bc3640138bc8148211baba143c3c4e2a871b70bfb4c5415c6f01",
+        "bytes": 3468
+      }
+    },
+    {
+      "path": "skills/antigravity-preflight/agents/openai.yaml",
+      "source": "activated installed skill",
+      "sourcePin": {
+        "sha256": "755a1b731680310039563d0271e48d9001be0d33ca892f5dc4811bc14833c2c7",
+        "bytes": 289
+      },
+      "publication": "BYTE_IDENTICAL"
+    },
+    {
+      "path": "skills/antigravity-preflight/scripts/manual_citations.py",
+      "source": "activated installed skill",
+      "sourcePin": {
+        "sha256": "9bf9b723381f3615e1874599b4efc7b4386ecd98cf0ceda4dc64f26dba0983dd",
+        "bytes": 5511
+      },
+      "publication": "BYTE_IDENTICAL"
+    },
+    {
+      "path": "skills/antigravity-preflight/scripts/test_manual_citations.py",
+      "source": "activated installed skill",
+      "sourcePin": {
+        "sha256": "f68734d8995f04281ba119da90b54e988a9b86df3df667e67b72d339fdbbc075",
+        "bytes": 7342
+      },
+      "publication": "BYTE_IDENTICAL"
+    },
+    {
+      "path": "runtime/flash-high/scripts/cli_review.py",
+      "source": "qualified six-file normal runtime",
+      "sourcePin": {
+        "sha256": "10b6fd23c1d8b8c21befd64e4733542a203a5563e8f3423787688442493fa07e",
+        "bytes": 27643
+      },
+      "publication": "BYTE_IDENTICAL"
+    },
+    {
+      "path": "runtime/flash-high/scripts/cli_capabilities.py",
+      "source": "qualified six-file normal runtime",
+      "sourcePin": {
+        "sha256": "7e7d1c52e364e2a115ed22745b35315abe5a08aeedc441c5f94156370db09ef0",
+        "bytes": 6760
+      },
+      "publication": "BYTE_IDENTICAL"
+    },
+    {
+      "path": "runtime/flash-high/scripts/manual_citations.py",
+      "source": "qualified six-file normal runtime",
+      "sourcePin": {
+        "sha256": "9bf9b723381f3615e1874599b4efc7b4386ecd98cf0ceda4dc64f26dba0983dd",
+        "bytes": 5511
+      },
+      "publication": "BYTE_IDENTICAL"
+    },
+    {
+      "path": "runtime/flash-high/assets/cli-review/deny_tools.py",
+      "source": "qualified six-file normal runtime",
+      "sourcePin": {
+        "sha256": "f514b4e3c3960ae557beec12f36b0e647df9295626ca56bf080fa812a8eb2c8d",
+        "bytes": 755
+      },
+      "publication": "BYTE_IDENTICAL"
+    },
+    {
+      "path": "runtime/flash-high/assets/cli-review/.agents/hooks.json",
+      "source": "qualified six-file normal runtime",
+      "sourcePin": {
+        "sha256": "a8dcd7f06c3594494eda7918e9372150f26fa162a243f470288e618ca7b3d163",
+        "bytes": 295
+      },
+      "publication": "BYTE_IDENTICAL"
+    },
+    {
+      "path": "runtime/flash-high/assets/cli-review/.agents/agents/preflight-inline.md",
+      "source": "qualified six-file normal runtime",
+      "sourcePin": {
+        "sha256": "a02ae60b431dd7c8ef19f7d24a552dc27c528eda4a31753a08708975f7d11569",
+        "bytes": 397
+      },
+      "publication": "BYTE_IDENTICAL"
+    },
+    {
+      "path": "runtime/flash-high/scripts/test_cli_capabilities.py",
+      "source": "r3 offline qualification harness",
+      "sourcePin": {
+        "sha256": "5c02a2bd030af005d917670d18c4b6435a1f27d6d6336b14b47ab3ff1b583063",
+        "bytes": 7157
+      },
+      "publication": "BYTE_IDENTICAL"
+    },
+    {
+      "path": "runtime/flash-high/scripts/test_ledger.py",
+      "source": "r3 offline qualification harness",
+      "sourcePin": {
+        "sha256": "9acec2ce2543f8e23c885d736cbebe0b3537e534d9f0ebe01a6dd2c763d31619",
+        "bytes": 6556
+      },
+      "publication": "BYTE_IDENTICAL"
+    },
+    {
+      "path": "runtime/flash-high/scripts/test_completion.py",
+      "source": "r3 offline qualification harness",
+      "sourcePin": {
+        "sha256": "55cc0fe98c48b0f379929eba40fee8376847c986f7d34b9cabeeb17c67658895",
+        "bytes": 5373
+      },
+      "publication": "BYTE_IDENTICAL"
+    },
+    {
+      "path": "runtime/flash-high/scripts/test_cli_launcher.py",
+      "source": "r3 offline qualification harness",
+      "sourcePin": {
+        "sha256": "873b406f33a1987491341ab458800cca33af6bb85d1765f9b7207d213436b1b5",
+        "bytes": 27192
+      },
+      "publication": "TEST_FIXTURE_PORTABILITY_EDIT",
+      "publishedPin": {
+        "sha256": "3d0b39504e5fbd82d8d41ff0cbbfcdec7038ef6d1397a732b5a27b764d22e813",
+        "bytes": 27273
+      },
+      "change": "Synthetic proxy creates readiness marker instead of unused AF_UNIX socket; no native socket/Secret Service qualification."
+    },
+    {
+      "path": "runtime/flash-high/scripts/qualify_cli_launcher.py",
+      "source": "r3 offline qualification harness",
+      "sourcePin": {
+        "sha256": "c64a35c5d8d081d9ac248e130e370a4c6dc3fe2008e053a4f9721e5fbfa2e22c",
+        "bytes": 4539
+      },
+      "publication": "BYTE_IDENTICAL"
+    }
+  ],
+  "excluded": [
+    "Vendor Antigravity binary",
+    "Credentials and authentication scratch",
+    "Private task packets and raw native streams",
+    "Concordance-specific project profile",
+    "Historical schema adapter and P2 challenge drivers",
+    "Argon design work"
+  ],
+  "runtimeBehaviorChanges": "NONE: all six qualified runtime files byte-identical",
+  "scope": "Public copy only; installed skill and sealed development records remain unchanged"
+}

@@ -1,0 +1,14 @@
+{
+  "sources": [
+    {
+      "id": "S01",
+      "path": "snapshots/contract.txt",
+      "sha256": "de68b0f7dfb253263790a3d1f854a802e8a3be3f500bdc55057e33df775651eb"
+    },
+    {
+      "id": "S02",
+      "path": "snapshots/proposal.txt",
+      "sha256": "865d3a24fd66254c7a9726acaebbcbb6d286a8d6f09e23fd5916d06f2edbe771"
+    }
+  ]
+}

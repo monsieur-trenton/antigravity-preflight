@@ -1,0 +1,4 @@
+interface:
+  display_name: "Antigravity Preflight"
+  short_description: "Manual Gemini advisory handoff before independent review"
+  default_prompt: "Use $antigravity-preflight to prepare a manual Gemini 3.8 Flash / High handoff and adjudicate its cited report before independent review."

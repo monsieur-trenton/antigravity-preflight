@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "model": "gemini-3.8-flash-high",
+  "effort": "high",
+  "runtimeRoot": "runtime/flash-high",
+  "packageFiles": {
+    "scripts/cli_review.py": {
+      "sha256": "10b6fd23c1d8b8c21befd64e4733542a203a5563e8f3423787688442493fa07e",
+      "bytes": 27643
+    },
+    "scripts/cli_capabilities.py": {
+      "sha256": "7e7d1c52e364e2a115ed22745b35315abe5a08aeedc441c5f94156370db09ef0",
+      "bytes": 6760
+    },
+    "scripts/manual_citations.py": {
+      "sha256": "9bf9b723381f3615e1874599b4efc7b4386ecd98cf0ceda4dc64f26dba0983dd",
+      "bytes": 5511
+    },
+    "assets/cli-review/deny_tools.py": {
+      "sha256": "f514b4e3c3960ae557beec12f36b0e647df9295626ca56bf080fa812a8eb2c8d",
+      "bytes": 755
+    },
+    "assets/cli-review/.agents/hooks.json": {
+      "sha256": "a8dcd7f06c3594494eda7918e9372150f26fa162a243f470288e618ca7b3d163",
+      "bytes": 295
+    },
+    "assets/cli-review/.agents/agents/preflight-inline.md": {
+      "sha256": "a02ae60b431dd7c8ef19f7d24a552dc27c528eda4a31753a08708975f7d11569",
+      "bytes": 397
+    }
+  }
+}
