@@ -12,6 +12,16 @@ def pin(path):
     return {"sha256": hashlib.sha256(body).hexdigest(), "bytes": len(body)}
 
 
+def validate_asset_tree(package, files):
+    expected = {Path(n) for n in files if n.startswith("assets/cli-review/")}
+    expected_dirs = {parent for n in expected for parent in n.parents if str(parent).startswith("assets/cli-review")}
+    for path in (package / "assets/cli-review").rglob("*"):
+        relative = path.relative_to(package)
+        if path.is_symlink() or (relative not in expected if path.is_file() else relative not in expected_dirs):
+            raise ValueError("UNQUALIFIED_ASSET:" + str(relative))
+    if {p.relative_to(package) for p in (package / "assets/cli-review").rglob("*") if p.is_file()} != expected:
+        raise ValueError("MISSING_ASSET")
+
 def main():
     pins = json.loads((ROOT / "qualification/runtime-pins.json").read_bytes())
     runtime = ROOT / pins["runtimeRoot"]
@@ -22,6 +32,16 @@ def main():
     for row in provenance["files"]:
         expected = row.get("publishedPin", row["sourcePin"])
         assert pin(ROOT / row["path"]) == expected, ("PUBLICATION_PIN", row["path"])
+    argon = json.loads((ROOT / "qualification/argon-runtime-pins.json").read_bytes())
+    for name, expected in argon["packageFiles"].items():
+        if pin(ROOT / argon["runtimeRoot"] / name) != expected:
+            raise ValueError("ARGON_RUNTIME_PIN:" + name)
+    argon_provenance = json.loads((ROOT / "qualification/argon-publication-provenance.json").read_bytes())
+    for row in argon_provenance["files"]:
+        if pin(ROOT / row["path"]) != row.get("publishedPin", row["sourcePin"]):
+            raise ValueError("ARGON_PUBLICATION_PIN:" + row["path"])
+    for record in (pins, argon):
+        validate_asset_tree(ROOT / record["runtimeRoot"], record["packageFiles"])
     paths = [p for p in ROOT.rglob("*") if p.is_file() and ".git" not in p.parts
              and "__pycache__" not in p.parts]
     python_count = 0
@@ -56,7 +76,7 @@ def main():
         history = json.loads((benchmark / "provenance.json").read_bytes())
         for row in history["files"]:
             assert pin(benchmark / row["publishedPath"]) == row["publishedPin"], ("HISTORICAL_EVIDENCE_PIN", row["publishedPath"])
-    print(json.dumps({"status": "PASS", "runtimePins": 6, "publicationPins": len(provenance["files"]),
+    print(json.dumps({"status": "PASS", "runtimePins": 13, "publicationPins": len(provenance["files"]),
                       "pythonSourcesSyntaxChecked": python_count, "providerCalls": 0}))
 
 

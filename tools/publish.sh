@@ -6,7 +6,7 @@ cd "$task_repo_root"
 python3 -B -I tools/check_release.py
 test -z "$(git status --porcelain)"
 test "$(git branch --show-current)" = main
-test "$(git rev-parse v0.1.0)" = "$(git rev-parse HEAD)"
+test "$(git rev-parse v0.2.0)" = "$(git rev-parse HEAD)"
 gh auth status --hostname github.com
 if git remote get-url origin >/dev/null 2>&1; then
   task_origin="$(git remote get-url origin)"
@@ -16,13 +16,13 @@ if git remote get-url origin >/dev/null 2>&1; then
   esac
 else
   gh repo create monsieur-trenton/antigravity-preflight --public --source . --remote origin --push \
-    --description 'Bounded Gemini 3.8 Flash / High preflight, exact citations and adjudication before independent review.'
+    --description 'Bounded Gemini Flash / High and Argon / High preflight, exact citations and adjudication before independent review.'
 fi
-git push origin main v0.1.0
-if ! gh release view v0.1.0 --repo monsieur-trenton/antigravity-preflight >/dev/null 2>&1; then
-  gh release create v0.1.0 --repo monsieur-trenton/antigravity-preflight --verify-tag \
-    --title 'Antigravity Preflight 0.1.0 — Gemini 3.8 Flash / High' \
-    --notes-file docs/release-v0.1.0.md
+git push origin main v0.2.0
+if ! gh release view v0.2.0 --repo monsieur-trenton/antigravity-preflight >/dev/null 2>&1; then
+  gh release create v0.2.0 --repo monsieur-trenton/antigravity-preflight --verify-tag \
+    --title 'Antigravity Preflight 0.2.0 — Argon / High option' \
+    --notes-file docs/release-v0.2.0.md
 fi
 gh repo view monsieur-trenton/antigravity-preflight --json nameWithOwner,isPrivate,url
-gh release view v0.1.0 --repo monsieur-trenton/antigravity-preflight --json tagName,url,isDraft,isPrerelease
+gh release view v0.2.0 --repo monsieur-trenton/antigravity-preflight --json tagName,url,isDraft,isPrerelease

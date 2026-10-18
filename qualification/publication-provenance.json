@@ -11,9 +11,10 @@
       },
       "publication": "DOCUMENTATION_PORTABILITY_EDIT",
       "publishedPin": {
-        "sha256": "6508c8a1f648358e1e58208381184d5e01ef7561cc742e7cacd73ddcc06c6016",
-        "bytes": 4887
-      }
+        "sha256": "1fe36f842c68223235365ee08ea61a584ea8d549b7fffcec260b0e0b5e932252",
+        "bytes": 5273
+      },
+      "publicationNote": "v0.2.0 portable documentation: explicit Argon option, generic project reviewer, installed citation path and retained limitations; sourcePin preserved."
     },
     {
       "path": "skills/antigravity-preflight/references/review-contract.md",
@@ -24,9 +25,10 @@
       },
       "publication": "DOCUMENTATION_PORTABILITY_EDIT",
       "publishedPin": {
-        "sha256": "56d171ae30bba4b332b1f6427ee6327b74d7f3fd81b4c2d96518c432dbef75aa",
-        "bytes": 3544
-      }
+        "sha256": "b79a0de9f1f3052bf0a3b7cb661e6e62edd93f6aecc04c897bf9f077fb01d302",
+        "bytes": 3542
+      },
+      "publicationNote": "v0.2.0 portable documentation and project-owned reviewer policy; original sourcePin preserved."
     },
     {
       "path": "skills/antigravity-preflight/references/packet-template.md",
@@ -72,9 +74,10 @@
       },
       "publication": "DOCUMENTATION_PORTABILITY_EDIT",
       "publishedPin": {
-        "sha256": "14d7d487ad247cf743fa64374f648138d760ead59cc9e7f7418ba305d4b479b4",
-        "bytes": 3674
-      }
+        "sha256": "92204b5d2438a541fa1eff1f1d6f4e3accbcd3b87068f44d37f8b6c755db9189",
+        "bytes": 4109
+      },
+      "publicationNote": "v0.2.0 portable documentation: explicit Argon option, generic project reviewer, installed citation path and retained limitations; sourcePin preserved."
     },
     {
       "path": "skills/antigravity-preflight/references/cli-updates.md",
@@ -85,9 +88,10 @@
       },
       "publication": "DOCUMENTATION_PORTABILITY_EDIT",
       "publishedPin": {
-        "sha256": "be65ad745b47bc3640138bc8148211baba143c3c4e2a871b70bfb4c5415c6f01",
-        "bytes": 3468
-      }
+        "sha256": "b3703b3577f2e8310c168ee43585976a283a544ebedf40879e3581dee5373e9e",
+        "bytes": 3909
+      },
+      "publicationNote": "v0.2.0 portable documentation: explicit Argon option, generic project reviewer, installed citation path and retained limitations; sourcePin preserved."
     },
     {
       "path": "skills/antigravity-preflight/agents/openai.yaml",

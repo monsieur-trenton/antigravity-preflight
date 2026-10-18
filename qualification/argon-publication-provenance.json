@@ -1,0 +1,161 @@
+{
+  "schemaVersion": 1,
+  "release": "0.2.0",
+  "files": [
+    {
+      "path": "runtime/argon-high/scripts/cli_review.py",
+      "source": "Gate E activated normal runtime",
+      "sourcePin": {
+        "sha256": "741e4753f169521e2ae1da3e424283cc881c33279b96108c34b249ddefb22ed7",
+        "bytes": 28563
+      },
+      "publication": "BYTE_IDENTICAL"
+    },
+    {
+      "path": "runtime/argon-high/scripts/cli_capabilities.py",
+      "source": "Gate E activated normal runtime",
+      "sourcePin": {
+        "sha256": "a8c933bf55dccdc2f6dda03346e88e5e8d757ce289733ef30bb27b7ebf319ef3",
+        "bytes": 8447
+      },
+      "publication": "BYTE_IDENTICAL"
+    },
+    {
+      "path": "runtime/argon-high/scripts/manual_citations.py",
+      "source": "Gate E activated normal runtime",
+      "sourcePin": {
+        "sha256": "9bf9b723381f3615e1874599b4efc7b4386ecd98cf0ceda4dc64f26dba0983dd",
+        "bytes": 5511
+      },
+      "publication": "BYTE_IDENTICAL"
+    },
+    {
+      "path": "runtime/argon-high/assets/cli-review/deny_tools.py",
+      "source": "Gate E activated normal runtime",
+      "sourcePin": {
+        "sha256": "f514b4e3c3960ae557beec12f36b0e647df9295626ca56bf080fa812a8eb2c8d",
+        "bytes": 755
+      },
+      "publication": "BYTE_IDENTICAL"
+    },
+    {
+      "path": "runtime/argon-high/assets/cli-review/.agents/hooks.json",
+      "source": "Gate E activated normal runtime",
+      "sourcePin": {
+        "sha256": "a8dcd7f06c3594494eda7918e9372150f26fa162a243f470288e618ca7b3d163",
+        "bytes": 295
+      },
+      "publication": "BYTE_IDENTICAL"
+    },
+    {
+      "path": "runtime/argon-high/assets/cli-review/.agents/agents/preflight-inline.md",
+      "source": "Gate E activated normal runtime",
+      "sourcePin": {
+        "sha256": "a02ae60b431dd7c8ef19f7d24a552dc27c528eda4a31753a08708975f7d11569",
+        "bytes": 397
+      },
+      "publication": "BYTE_IDENTICAL"
+    },
+    {
+      "path": "runtime/argon-high/RUNTIME-PROFILES.json",
+      "source": "Gate E activated normal runtime",
+      "sourcePin": {
+        "sha256": "45d5399356241ffd1f66c476c85ab66ba5598fbc6606b3bedab85d397d82f2c6",
+        "bytes": 362
+      },
+      "publication": "BYTE_IDENTICAL"
+    },
+    {
+      "path": "runtime/argon-high/scripts/test_cli_capabilities.py",
+      "source": "Accepted r5c normal-runtime harness",
+      "sourcePin": {
+        "sha256": "e8491343e6ddc5e7fa1287213cec868187eb93c8311b4849efa091803c4a2135",
+        "bytes": 7392
+      },
+      "publication": "BYTE_IDENTICAL"
+    },
+    {
+      "path": "runtime/argon-high/scripts/test_cli_launcher.py",
+      "source": "Accepted r5c normal-runtime harness",
+      "sourcePin": {
+        "sha256": "4be351964f766721e087a891481494bb48bda808151475d6bc8ef1aff1677396",
+        "bytes": 27490
+      },
+      "publication": "TEST_HARNESS_PORTABILITY_EDIT",
+      "publishedPin": {
+        "sha256": "61e82ef54c0bc0e31f41aa5a5f2e0aeb28f4162a36940db1e087f8fd31e560c7",
+        "bytes": 27496
+      },
+      "change": "Synthetic proxy readiness file replaces unused socket. Profile harness locates public runtime at its containing package root. No native/auth/socket qualification credit."
+    },
+    {
+      "path": "runtime/argon-high/scripts/test_ledger.py",
+      "source": "Accepted r5c normal-runtime harness",
+      "sourcePin": {
+        "sha256": "9acec2ce2543f8e23c885d736cbebe0b3537e534d9f0ebe01a6dd2c763d31619",
+        "bytes": 6556
+      },
+      "publication": "BYTE_IDENTICAL"
+    },
+    {
+      "path": "runtime/argon-high/scripts/test_completion.py",
+      "source": "Accepted r5c normal-runtime harness",
+      "sourcePin": {
+        "sha256": "55cc0fe98c48b0f379929eba40fee8376847c986f7d34b9cabeeb17c67658895",
+        "bytes": 5373
+      },
+      "publication": "BYTE_IDENTICAL"
+    },
+    {
+      "path": "runtime/argon-high/scripts/test_profiles.py",
+      "source": "Accepted r5c profile/gate harness",
+      "sourcePin": {
+        "sha256": "c03592f716bb5966074f832d8be55eae6402debde028d1569b3861a6e8aa1459",
+        "bytes": 12219
+      },
+      "publication": "TEST_HARNESS_PORTABILITY_EDIT",
+      "publishedPin": {
+        "sha256": "1195a25b5e529c254cf1d9398da5d2ce7ffcf50f581791cc6faec867bf14baf9",
+        "bytes": 12196
+      },
+      "change": "Synthetic proxy readiness file replaces unused socket. Profile harness locates public runtime at its containing package root. No native/auth/socket qualification credit."
+    },
+    {
+      "path": "qualification/argon-source-host-offline-qualification.json",
+      "source": "Gate E exact saved historical offline envelope; not host activation authority",
+      "sourcePin": {
+        "sha256": "d768cc19d81a268ef476034999b21db9055caeef37a58a5902913175fc2e2199",
+        "bytes": 3000
+      },
+      "publication": "BYTE_IDENTICAL"
+    },
+    {
+      "path": "qualification/argon-runtime-pins.json",
+      "source": "Derived sanitized publication record",
+      "sourcePin": {
+        "sha256": "bc9b20cfb875be44c444e98a7bc562387b8e5ccaf076537c604a067a80c6cc43",
+        "bytes": 1267
+      },
+      "publication": "DERIVED_NOT_ORIGINAL_HOST_RECORD"
+    },
+    {
+      "path": "qualification/argon-source-host-summary.json",
+      "source": "Derived sanitized publication record",
+      "sourcePin": {
+        "sha256": "e681d0bb942e445d11c49895f5e9960b885262f191ad7b12a31d88cdcbefe1b5",
+        "bytes": 4495
+      },
+      "publication": "DERIVED_NOT_ORIGINAL_HOST_RECORD"
+    }
+  ],
+  "runtimeBehaviorChanges": "NONE: seven accepted runtime files byte-identical",
+  "excluded": [
+    "Vendor binary",
+    "Credentials",
+    "Private qualification packets/oracles",
+    "Raw native streams",
+    "P2 challenge drivers"
+  ],
+  "publicationNativeCalls": 0,
+  "publicationProviderCalls": 0
+}

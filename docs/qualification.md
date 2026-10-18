@@ -25,7 +25,7 @@ The owner accepted P5A-F05 / P5-F09: the acceptance pass took place in the same 
 - Raw native streams and original audit JSONL were not retained for independent replay. P3/P4 optional runner hook-audits were absent; no unobserved finish-hook credit is claimed.
 - Cleanup observations apply to registered owned groups and represented direct children. Three P1 metadata commands had reaping-only evidence. Escaped descendants and whole-host isolation were not proved.
 - Network sharing, authentication infrastructure and read-only system exposure remain. Provider retention guarantees are not established by this package.
-- Native runtime use on another host requires applicable local qualification and owner authorization. Argon and native observer development are not part of this release.
+- Native runtime use on another host requires applicable local qualification and owner authorization. This section describes the original Flash package; the Argon addition is documented below. Native observer development remains PARKED.
 
 ## Public evidence
 
@@ -34,3 +34,7 @@ The owner accepted P5A-F05 / P5-F09: the acceptance pass took place in the same 
 Run the offline command in the README to reproduce the included controls on your own host. Its generated envelope is explicitly OFFLINE_ONLY. The release's `qualification/offline-repeatability.json` summarizes newly run public-package controls; those are not replacement native trials.
 
 The publication harness changes only the synthetic proxy fixture to create a plain readiness file instead of binding a Unix socket. The fake native child never connects to that endpoint; the marker exercises the same existence/liveness gate in the unchanged runner. This allows offline transport controls in environments that forbid socket creation. It supplies no Unix-socket or Secret Service qualification. The original unmodified harness stopped here at AUTH_PROXY_START because socket creation was denied; that stopped result is retained locally, rather than relabelled as a pass. The six runtime files remain unchanged.
+
+## v0.2.0 Argon addition
+
+The separately pinned seven-file Argon runtime completed source-host qualification and Gate E owner activation. See [Argon qualification and use](argon-high.md). The original Flash evidence above remains scoped to its six-file package. Portable Argon repeatability covers 618 controls per run twice plus 40 saved-envelope controls; the historical 1,714-case source-host envelope has additional private denial-driver scope. No new native execution is claimed by this publication.

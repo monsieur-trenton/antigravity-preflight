@@ -1,0 +1,225 @@
+{
+  "status": "PASS",
+  "scope": "OFFLINE_ONLY",
+  "twoFreshRuns": true,
+  "packageFiles": {
+    "scripts/cli_review.py": {
+      "sha256": "741e4753f169521e2ae1da3e424283cc881c33279b96108c34b249ddefb22ed7",
+      "bytes": 28563
+    },
+    "scripts/cli_capabilities.py": {
+      "sha256": "a8c933bf55dccdc2f6dda03346e88e5e8d757ce289733ef30bb27b7ebf319ef3",
+      "bytes": 8447
+    },
+    "scripts/manual_citations.py": {
+      "sha256": "9bf9b723381f3615e1874599b4efc7b4386ecd98cf0ceda4dc64f26dba0983dd",
+      "bytes": 5511
+    },
+    "assets/cli-review/deny_tools.py": {
+      "sha256": "f514b4e3c3960ae557beec12f36b0e647df9295626ca56bf080fa812a8eb2c8d",
+      "bytes": 755
+    },
+    "assets/cli-review/.agents/hooks.json": {
+      "sha256": "a8dcd7f06c3594494eda7918e9372150f26fa162a243f470288e618ca7b3d163",
+      "bytes": 295
+    },
+    "assets/cli-review/.agents/agents/preflight-inline.md": {
+      "sha256": "a02ae60b431dd7c8ef19f7d24a552dc27c528eda4a31753a08708975f7d11569",
+      "bytes": 397
+    },
+    "RUNTIME-PROFILES.json": {
+      "sha256": "45d5399356241ffd1f66c476c85ab66ba5598fbc6606b3bedab85d397d82f2c6",
+      "bytes": 362
+    }
+  },
+  "runtimeProfiles": {
+    "flash-high": {
+      "id": "flash-high",
+      "model": "gemini-3.8-flash-high",
+      "effort": "high",
+      "useG1Credits": false,
+      "registry": {
+        "sha256": "45d5399356241ffd1f66c476c85ab66ba5598fbc6606b3bedab85d397d82f2c6",
+        "bytes": 362
+      }
+    },
+    "argon-high": {
+      "id": "argon-high",
+      "model": "gemini-4-argon-high",
+      "effort": "high",
+      "useG1Credits": true,
+      "registry": {
+        "sha256": "45d5399356241ffd1f66c476c85ab66ba5598fbc6606b3bedab85d397d82f2c6",
+        "bytes": 362
+      }
+    }
+  },
+  "casesPerRun": 618,
+  "totalCases": 1236,
+  "runs": [
+    {
+      "id": "run-1",
+      "status": "PASS",
+      "cases": 618,
+      "result": {
+        "sha256": "1f75c23c7fc8478fb06dc85dc0116b22912b724229e70ee1f26cca8d0340d473",
+        "bytes": 1646
+      },
+      "suites": [
+        {
+          "suite": "caps-flash-high",
+          "cases": 48,
+          "result": {
+            "sha256": "3858c1c85ab576944571502e51f3c5b213c34c3207e21267c0245fe8d500ebdb",
+            "bytes": 4722
+          }
+        },
+        {
+          "suite": "launcher-flash-high",
+          "cases": 142,
+          "result": {
+            "sha256": "9f002570c3f6445a994cfca40c069779532888286f943eed69fb0591fc589eaf",
+            "bytes": 21838
+          }
+        },
+        {
+          "suite": "caps-argon-high",
+          "cases": 48,
+          "result": {
+            "sha256": "3858c1c85ab576944571502e51f3c5b213c34c3207e21267c0245fe8d500ebdb",
+            "bytes": 4722
+          }
+        },
+        {
+          "suite": "launcher-argon-high",
+          "cases": 142,
+          "result": {
+            "sha256": "9f002570c3f6445a994cfca40c069779532888286f943eed69fb0591fc589eaf",
+            "bytes": 21838
+          }
+        },
+        {
+          "suite": "parser",
+          "cases": 24,
+          "result": {
+            "sha256": "526437ced8cdc236492641d1d4f2cafdf1bf8bcc413016be6c28f2cd99cadb39",
+            "bytes": 2505
+          }
+        },
+        {
+          "suite": "overflow",
+          "cases": 42,
+          "result": {
+            "sha256": "037e0c2f1425b909a296e2ef4a0dfc2aba76626a6f0b56eb8454134913834bd6",
+            "bytes": 23228
+          }
+        },
+        {
+          "suite": "completion",
+          "cases": 76,
+          "result": {
+            "sha256": "58b3cc0efef151bae1f661e2a84e1ea0f6f8dbc8e31934c7ef9560da8d9bfb83",
+            "bytes": 37978
+          }
+        },
+        {
+          "suite": "profiles",
+          "cases": 96,
+          "result": {
+            "sha256": "2a3a8b76bff4154a6e1a44576ca732cdf239e8f9a609be1b1ba8ea92eaaed485",
+            "bytes": 18007
+          }
+        }
+      ]
+    },
+    {
+      "id": "run-2",
+      "status": "PASS",
+      "cases": 618,
+      "result": {
+        "sha256": "4618dc395b42293b9bd1b2ab72a3619f0b93438d4ce469dc0c37578f9df7bb73",
+        "bytes": 1646
+      },
+      "suites": [
+        {
+          "suite": "caps-flash-high",
+          "cases": 48,
+          "result": {
+            "sha256": "3858c1c85ab576944571502e51f3c5b213c34c3207e21267c0245fe8d500ebdb",
+            "bytes": 4722
+          }
+        },
+        {
+          "suite": "launcher-flash-high",
+          "cases": 142,
+          "result": {
+            "sha256": "9f002570c3f6445a994cfca40c069779532888286f943eed69fb0591fc589eaf",
+            "bytes": 21838
+          }
+        },
+        {
+          "suite": "caps-argon-high",
+          "cases": 48,
+          "result": {
+            "sha256": "3858c1c85ab576944571502e51f3c5b213c34c3207e21267c0245fe8d500ebdb",
+            "bytes": 4722
+          }
+        },
+        {
+          "suite": "launcher-argon-high",
+          "cases": 142,
+          "result": {
+            "sha256": "9f002570c3f6445a994cfca40c069779532888286f943eed69fb0591fc589eaf",
+            "bytes": 21838
+          }
+        },
+        {
+          "suite": "parser",
+          "cases": 24,
+          "result": {
+            "sha256": "526437ced8cdc236492641d1d4f2cafdf1bf8bcc413016be6c28f2cd99cadb39",
+            "bytes": 2505
+          }
+        },
+        {
+          "suite": "overflow",
+          "cases": 42,
+          "result": {
+            "sha256": "037e0c2f1425b909a296e2ef4a0dfc2aba76626a6f0b56eb8454134913834bd6",
+            "bytes": 23228
+          }
+        },
+        {
+          "suite": "completion",
+          "cases": 76,
+          "result": {
+            "sha256": "58b3cc0efef151bae1f661e2a84e1ea0f6f8dbc8e31934c7ef9560da8d9bfb83",
+            "bytes": 37978
+          }
+        },
+        {
+          "suite": "profiles",
+          "cases": 96,
+          "result": {
+            "sha256": "bbcff93374119376311c5cdddcbacd02b27d14b08571c776ae6b396d992a61d4",
+            "bytes": 18007
+          }
+        }
+      ]
+    }
+  ],
+  "nativeCalls": 0,
+  "proxyCalls": 0,
+  "providerCalls": 0,
+  "qualificationCredit": 0,
+  "sharedImplementationAndHost": true,
+  "limits": "Synthetic normal/profile subset; excludes historical denial drivers. No native qualification or owner authorization.",
+  "actualSavedEnvelopeControls": {
+    "cases": 40,
+    "status": "PASS",
+    "result": {
+      "sha256": "52daf39783a44c71fc581fa6f24c0f21963c9492abc58343a625594c4102706f",
+      "bytes": 10682
+    }
+  }
+}

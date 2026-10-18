@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "runtimeRoot": "runtime/argon-high",
+  "supportedNativeProfile": "argon-high",
+  "model": "gemini-4-argon-high",
+  "effort": "high",
+  "useG1Credits": true,
+  "packageFiles": {
+    "scripts/cli_review.py": {
+      "sha256": "741e4753f169521e2ae1da3e424283cc881c33279b96108c34b249ddefb22ed7",
+      "bytes": 28563
+    },
+    "scripts/cli_capabilities.py": {
+      "sha256": "a8c933bf55dccdc2f6dda03346e88e5e8d757ce289733ef30bb27b7ebf319ef3",
+      "bytes": 8447
+    },
+    "scripts/manual_citations.py": {
+      "sha256": "9bf9b723381f3615e1874599b4efc7b4386ecd98cf0ceda4dc64f26dba0983dd",
+      "bytes": 5511
+    },
+    "assets/cli-review/deny_tools.py": {
+      "sha256": "f514b4e3c3960ae557beec12f36b0e647df9295626ca56bf080fa812a8eb2c8d",
+      "bytes": 755
+    },
+    "assets/cli-review/.agents/hooks.json": {
+      "sha256": "a8dcd7f06c3594494eda7918e9372150f26fa162a243f470288e618ca7b3d163",
+      "bytes": 295
+    },
+    "assets/cli-review/.agents/agents/preflight-inline.md": {
+      "sha256": "a02ae60b431dd7c8ef19f7d24a552dc27c528eda4a31753a08708975f7d11569",
+      "bytes": 397
+    },
+    "RUNTIME-PROFILES.json": {
+      "sha256": "45d5399356241ffd1f66c476c85ab66ba5598fbc6606b3bedab85d397d82f2c6",
+      "bytes": 362
+    }
+  }
+}

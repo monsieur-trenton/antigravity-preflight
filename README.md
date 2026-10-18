@@ -4,7 +4,7 @@ Catch blockers and incomplete evidence before independent review.
 
 Antigravity Preflight is a Codex skill for preparing a bounded Gemini advisory review, checking source coverage and exact citations, and recording a disposition for every finding. It supports **PLAN** reviews of proposed work and **DIFF** reviews of implemented changes.
 
-**This release targets Gemini 3.8 Flash / High (`gemini-3.8-flash-high`, effort `high`).** Manual handoff is the default. A byte-preserved Linux native CLI runner is included for separately commissioned, qualified use. No automatic model calls, fallback, remediation loop, or independent-review launch is configured.
+**v0.2.0 adds Gemini 4 Argon / High (`gemini-4-argon-high`, effort `high`) as an explicitly selected native CLI option. Gemini 3.8 Flash / High remains the manual default.** Manual handoff is the default. A byte-preserved Linux native CLI runner is included for separately commissioned, qualified use. No automatic model calls, fallback, remediation loop, or independent-review launch is configured.
 
 ## What it does
 
@@ -46,7 +46,7 @@ These commands call no provider. The example report is explicitly synthetic. See
 
 Read [the runtime runbook](skills/antigravity-preflight/references/runtime.md) before attempting native use. It targets Linux, Bubblewrap, `xdg-dbus-proxy`, an authenticated Secret Service session, and the exact separately obtained Antigravity binary and metadata. The vendor binary and credentials are **not distributed**.
 
-The source-host Flash qualification reached P1–P5 and owner activation. That record is scoped to frozen agy **1.3.6**, the exact six-file runner/profile package and finite fixtures. Installing this repository does not transfer that host qualification or authorize a live run. Argon compatibility and native observer development are outside this release.
+The source-host Flash qualification reached P1–P5 and owner activation. That record is scoped to frozen agy **1.3.6**, the exact six-file runner/profile package and finite fixtures. Installing this repository does not transfer that host qualification or authorize a live run. The exact seven-file Argon runtime also completed source-host qualification and owner activation. Argon requires `useG1Credits=true`; observer development remains PARKED. See [Argon qualification and use](docs/argon-high.md).
 
 See [qualification status and limits](docs/qualification.md), [runtime pins](qualification/runtime-pins.json), and [publication provenance](qualification/publication-provenance.json). The qualification summary reports retained source-host evidence; this publication does not claim a new independent native audit.
 
@@ -62,9 +62,13 @@ python3 -B -I tools/qualify_offline.py /tmp/antigravity-two-fresh-runs
 
 Use a new output directory outside the repository. The launcher controls use synthetic process/transport doubles: no real Antigravity binary, auth proxy, provider or model is called. Their result is offline repeatability evidence, not native containment qualification.
 
-## Roadmap
+## Additional Argon validation
 
-We’re working on Gemini Argon / High as an additional preflight model option. Support is planned for an upcoming release, subject to compatibility testing and qualification. Gemini 3.8 Flash / High remains the supported configuration in the current release.
+```bash
+python3 -B -I tools/qualify_argon_offline.py /tmp/antigravity-argon-two-fresh-runs
+```
+
+This runs 618 synthetic normal/profile controls twice, followed by 40 controls against the saved envelope. Historical source-host suites included private denial-driver controls and have a different count. See the [v0.2.0 release notes](docs/release-v0.2.0.md) and [review reconciliation](docs/reviews/2026-10-17-reconciliation.md).
 
 ## Project
 

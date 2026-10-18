@@ -11,7 +11,7 @@ Freeze sanitized UTF-8 snapshots before hashing. Put this small inventory beside
 ```
 
 ```bash
-python3 -I skills/antigravity-preflight/scripts/manual_citations.py render inventory.json NUMBERED-SOURCES.txt
+python3 -B -I "$HOME/.codex/skills/antigravity-preflight/scripts/manual_citations.py" render inventory.json NUMBERED-SOURCES.txt
 ```
 
 The output file must be new. Supply the numbered view together with the exact original snapshots and record the view's hash in the packet inventory. Each `[S01:17]` prefix identifies **snapshot-local line 17**; it is display metadata, excluded from source hashes and quotations. The utility hashes the original bytes before rendering. LF delimits lines; CRLF is one line ending; a terminal newline does not create another source line. Unicode separators inside a line do not renumber the snapshot. Excerpt-original coordinates belong in separate metadata.
@@ -27,9 +27,11 @@ Preserve and hash the original report before extraction. Codex extracts every ex
 ```
 
 ```bash
-python3 -I skills/antigravity-preflight/scripts/manual_citations.py check inventory.json CITATIONS.json
+python3 -B -I "$HOME/.codex/skills/antigravity-preflight/scripts/manual_citations.py" check inventory.json CITATIONS.json
 ```
 
 Exit 0 / `CITATIONS_MATCHED` means every supplied ledger quote occurs verbatim on its specified source line after source hashes authenticate. Whitespace, spelling and Unicode are not normalized. Exit 1 / `STOPPED` ends checks at the first failure; remaining checks are `UNRUN`. Failure output contains a classification, not source text, supplied quotations or host paths. An empty ledger is refused; if no quotation was required, record that justified N/A separately instead of treating an empty check as a pass.
 
 The utility does not parse the Markdown report, prove extraction completeness, validate source/question coverage, or decide whether quotations support the finding. Those remain Codex checks under the manual handoff protocol. Retain the original report, inventory, numbered view, extraction ledger and result with task evidence. A mismatch withholds admission of the report; it does not prove the finding false. Never search for a better coordinate to repair the original report. A separately authorized source assessment must produce a separate record with new citations and preserve the failed return.
+
+Commands above use the typical installed skill path; use your actual installation path for another skill directory. In a repository checkout use `skills/antigravity-preflight/scripts/manual_citations.py`. Matching permits any nonempty substring on the selected line, including a single character; context, extraction completeness and every premise require separate human or adjudicator assessment.

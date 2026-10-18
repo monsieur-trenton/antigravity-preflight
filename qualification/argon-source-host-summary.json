@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "kind": "SANITIZED_DOCUMENTARY_SUMMARY_NOT_HOST_AUTHORIZATION",
+  "model": "gemini-4-argon-high",
+  "effort": "high",
+  "useG1Credits": true,
+  "profile": "argon-high",
+  "nativeVersion": "1.3.6",
+  "sourceRecords": {
+    "acceptanceResult": {
+      "sha256": "1c78d02c8cd4d4f2cf20e019138cc4e851163aaae157882d65be40c8edc277f5",
+      "bytes": 22863
+    },
+    "activationResult": {
+      "sha256": "4d216ddcbd7ee2932ca9c3042ebb3d51f9c7831290ba2b5b69af954042e58089",
+      "bytes": 6130
+    },
+    "ownerRuling": {
+      "sha256": "8183ab375fca7db39ac817f05d4ac89d9fd59bf0ad6e91a64eb514fc6ec52231",
+      "bytes": 5968
+    },
+    "runtimeCopyCheck": {
+      "sha256": "d31c0b7b8c38d15fb057da2b3cae3a406b478892bac97a06d73a50efbfa56667",
+      "bytes": 3274
+    }
+  },
+  "qualification": {
+    "acceptance": "ACCEPT_WITH_RISKS_COMPLETE",
+    "activation": "SOURCE_HOST_COMMISSIONED_NATIVE_CLI_TASKS",
+    "lanes": 7,
+    "packetAQuotes": 77,
+    "packetBQuotes": 93,
+    "packetBFalseBlockers": 0,
+    "denialCredit": "2/2",
+    "historicalOfflineCasesPerRun": 1714,
+    "historicalOfflineScope": "1714 includes private denial-driver controls; public normal/profile suite is 618 cases per run"
+  },
+  "risks": [
+    {
+      "id": "D4R2-R01",
+      "text": "In-session documentary verification on the same host and helper lineage; no separately attested reviewer identity or independent provider service was invoked."
+    },
+    {
+      "id": "D4R2-R02",
+      "text": "Native model/effort settings and CLI initialization are host evidence; independent serving/runtime/effort attestation remains unavailable."
+    },
+    {
+      "id": "D4R2-R03",
+      "text": "Backend request counts, internal provider retries and prior live spend are unmeasured. This documentary commission made zero new calls and incurred $0.00 live spend."
+    },
+    {
+      "id": "D4R2-R04",
+      "text": "Finite synthetic fixtures and seven direct hook controls do not establish universal sandboxing, exhaustive input rejection, production acceptance or universal review accuracy. Shared network/read-only system exposure remains."
+    },
+    {
+      "id": "D4R2-R05",
+      "text": "Cleanup proves saved observations of registered numeric groups and direct-child reaping only; no escaped-descendant, hidden backend child, whole-host or provider-containment guarantee. Gate C metadata-group coverage is not inferred. No live probes were performed here."
+    },
+    {
+      "id": "D4R2-R06",
+      "text": "Optional normal-runner hook audits were absent in D2/D3; no unobserved finish-hook coverage credited. P2 native denial audits are separately present and verified. H06/H07 direct hook refusals have no named-tool audit row."
+    },
+    {
+      "id": "D4R2-R07",
+      "text": "Frozen advisory prompts retain the historical Flash label. Authenticated plans and CLI init records bind Argon High, and reports disclose the distinction. No prompt edit or silent fallback."
+    },
+    {
+      "id": "D4R2-R08",
+      "text": "D2 raw report uses BLOCKERS_FOUND / CHANGES_RECOMMENDED; its four substantiated blockers and explicit rejection support preserved BLOCKERS_FOUND and WITHHELD readiness."
+    },
+    {
+      "id": "D4R2-R09",
+      "text": "D3 preserved three local checker diagnostics and four local checker executions before admission, while its native review ran once. This r2 independently rechecked all 93 quoted passages and retained the inline property-name literal classification without changing report text or coordinates."
+    },
+    {
+      "id": "D4R2-R10",
+      "text": "Custody uses all 27 bounded exterior receipt/manifest/count bindings, direct consumed/source/runtime/seed/installed hashing, and seven full governing-package payload readbacks. Giant historical payload trees were not recursively replayed."
+    },
+    {
+      "id": "D4R2-R11",
+      "text": "Unrun JavaScript assertions remain runtime/product obligations outside the finite static review gate; no test execution credit granted. No new native qualification credit is issued by documentary synthesis."
+    }
+  ],
+  "manualDefault": "Gemini 3.8 Flash High",
+  "flashRuntime": "PRESERVED_UNCHANGED",
+  "nativeObserver": "PARKED",
+  "independentServingRuntimeEffortAttestation": "UNAVAILABLE",
+  "limits": "Documentary source-host records; same host/helper and prior context. Not an independent service certification or transferable host qualification. Publication launches no real native/model/proxy calls."
+}

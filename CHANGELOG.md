@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.0 — 2026-10-18
+
+- Add the exact qualified and owner-activated Argon / High native runtime, explicit profile binding and credit selection.
+- Keep manual Flash default and original Flash runtime unchanged.
+- Add portable Argon offline checks, provenance, source-host summaries and review reconciliation.
+
+
 ## Unreleased
 
 - Publish a sanitized historical four-case plan-audit case study, preserving original responses/scores and documenting the unqualified execution route and flawed oracle/control.

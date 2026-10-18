@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "profiles": {
+    "flash-high": {
+      "model": "gemini-3.8-flash-high",
+      "label": "Gemini 3.8 Flash (High)",
+      "effort": "high",
+      "useG1Credits": false
+    },
+    "argon-high": {
+      "model": "gemini-4-argon-high",
+      "label": "Gemini 4 Argon (High)",
+      "effort": "high",
+      "useG1Credits": true
+    }
+  }
+}

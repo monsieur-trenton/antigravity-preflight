@@ -1,10 +1,10 @@
-# Flash High native runtime
+# Native runtime routes
 
-Manual Gemini 3.8 Flash / High remains the default. Use the native CLI route only for a specifically authorized task after applicable local qualification. Production code still requires the project's independent review (Claude in the originating workflow). Native observer development remains PARKED.
+Manual Gemini 3.8 Flash / High remains the default. Use the native CLI route only for a specifically authorized task after applicable local qualification. Production code still requires the project's independent review . Native observer development remains PARKED.
 
 ## Package and configuration
 
-The repository's `runtime/flash-high` directory contains the exact six qualified normal-runtime files plus their offline harness. The six runtime bytes are unchanged from the source-host qualification. [Runtime pins](../../../qualification/runtime-pins.json) enumerate every file; authenticate all six, not just the runner. [Qualification notes](../../../docs/qualification.md) state the source-host evidence and accepted limits.
+The repository's `runtime/flash-high` directory contains the exact six qualified normal-runtime files plus their offline harness. The six runtime bytes are unchanged from the source-host qualification. [Runtime pins](https://github.com/monsieur-trenton/antigravity-preflight/blob/v0.2.0/qualification/runtime-pins.json) enumerate every file; authenticate all six, not just the runner. [Qualification notes](https://github.com/monsieur-trenton/antigravity-preflight/blob/v0.2.0/docs/qualification.md) state the source-host evidence and accepted limits.
 
 - Runner, from repository root: `runtime/flash-high/scripts/cli_review.py`.
 - Model: `gemini-3.8-flash-high`; effort: `high`. No silent substitution.
@@ -43,4 +43,10 @@ Retain bounded, content-free transport/cleanup receipts. Do not publish raw stre
 
 Default-deny hooks, filesystem isolation, stream validation and closing custody are separate layers. Shared network and read-only system exposure remain. Source-host serving model/effort, backend request counts, provider retention and complete host isolation are not independently attested. One host session is not one measured backend request. No universal review accuracy is claimed.
 
-Binary, model, effort, profile, runtime, contract or validator changes invalidate affected proof. Require a fresh candidate, applicable offline/native qualification and owner decision. Preserve stopped attempts. Argon and native observer work remain outside this release; no automatic independent-review launch or changed-runtime installation follows.
+Binary, model, effort, profile, runtime, contract or validator changes invalidate affected proof. Require a fresh candidate, applicable offline/native qualification and owner decision. Preserve stopped attempts. Native observer work remains outside this release; no automatic independent-review launch or changed-runtime installation follows.
+
+## Optional Argon / High
+
+The seven-file owner-activated Argon package is available separately in a full repository checkout. Select `argon-high` explicitly, with model `gemini-4-argon-high`, effort `high` and `useG1Credits=true`. Its prepare command requires `--runtime-profile argon-high`; its metadata helper takes positional `argon-high`. Use the [Argon runbook and pins](https://github.com/monsieur-trenton/antigravity-preflight/blob/v0.2.0/docs/argon-high.md). The Flash instructions above continue to describe the original six-file Flash route. Copying only this manual skill does not install either native package.
+
+Metadata helpers run outside the review sandbox and inherit the real environment/home. Secret Service permissions are service-level, and the review retains shared network access. Offline envelopes validate supplied shape and pins, not external authority. Per-directory one-shot enforcement does not prevent copying a seed for another attempt; honor the commissioned zero-retry procedure.

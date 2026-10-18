@@ -14,3 +14,7 @@ Do not compare the current version to a hardcoded historical release. Updates re
 5. Use one explicitly authorized bounded call, with no host retry or model fallback. Preserve report/citation failures and cleanup/custody evidence. These checks grant no activation, native, product or release credit.
 
 The helper's source-free process tests are in `runtime/flash-high/scripts/test_cli_capabilities.py`. Run twice into separate new roots after changes. Each 48-case run covers ASCII/LF and Unicode/CRLF outputs, old/current/future/prerelease versions, missing/prefix flags, exact model identity, failed commands, invalid text, timeout/overflow and binary drift. Channel controls cover help on stdout, stderr and both, missing/prefix flags on stderr, invalid UTF-8 on either help channel and a token split across channels that must remain missing. Fixture scripts are syntax-checked and hash-recorded before execution; no real CLI or provider is called. Both runs share the test implementation, so they are repeatability evidence, not independent implementation proof.
+
+## Argon route
+
+The optional Argon package uses its own seven-file pins and explicit profile. Its metadata helper accepts `argon-high` as the third positional argument; follow the [Argon runbook](https://github.com/monsieur-trenton/antigravity-preflight/blob/v0.2.0/docs/argon-high.md). Metadata capture is unsandboxed, inherits the real environment/home and may contact the provider. Review sandboxing does not apply to that capture step.
