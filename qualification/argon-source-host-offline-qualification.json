@@ -28,35 +28,35 @@
   "runs": [
     {
       "receipt": {
-        "sha256": "2156b31ded77eee47192d46bd4dfcf35b75618c7f1a79d7de1c6c716f31cc8ab",
-        "bytes": 291
+        "sha256": "97495f3d041864a899dd7170f22d002dcd1ad68b2bc62901f8bc5f9eb7b2a72e",
+        "bytes": 281
       },
       "manifest": {
-        "sha256": "68119dce975857ae23049f97fc33555a9d50b448afce7790d2b75ed480e6bc4d",
-        "bytes": 11387977
+        "sha256": "cd78367560261b6bd462a8f7c637bce65ad888a77c9611ee2fc1a9a0964c37ca",
+        "bytes": 16166703
       },
       "result": {
-        "sha256": "0d7f4d75148a719a41b386b8f24483cb023a02beeebc0bf8ee9c72f73c06cc61",
-        "bytes": 2457
+        "sha256": "0388ea0a339e3d686b31a02ae29b0ce05c9c9f632896111c99c86186e2faa2df",
+        "bytes": 2839
       }
     },
     {
       "receipt": {
-        "sha256": "1f13620c87df563717dd1cd1ba8d4e4867e12ecf1cbdb8330539c87361f36c04",
-        "bytes": 291
+        "sha256": "3deb982cf711fe0f59999664112d56d18940bacda173ff0f8a22f2477cf87e2e",
+        "bytes": 281
       },
       "manifest": {
-        "sha256": "13d74e89d7a63e2da4a7a4074b2b1d52b9a8498ff60c491ccf3e867d994c71b9",
-        "bytes": 11387977
+        "sha256": "1bb6cf37c049c9af9ac26ab1db0eea5611e34ac1b334c8ad4622611e1797b38d",
+        "bytes": 16166703
       },
       "result": {
-        "sha256": "a4ef26f092bfeede36e3b7da4b2044b5c954a5d9ae6426f96bd88bcf088edf91",
-        "bytes": 2457
+        "sha256": "a020264dd80575859710a0250773df151a7fe1741c550cd4419d342141b4cacd",
+        "bytes": 2839
       }
     }
   ],
-  "orderedOutcomeSha256": "2ba11c98a11bcb1fbadce6de71e30c81eb64ff86482e147bd96081ff1cd1e143",
-  "casesPerRun": 1714,
+  "orderedOutcomeSha256": "37232282dcf0ff5935dc0e29bfe0aa0ea71b9d03e9f44a26325906788ea18917",
+  "casesPerRun": 1828,
   "qualificationCredit": 0,
   "realNativeCalls": 0,
   "realProxyCalls": 0,
@@ -65,24 +65,24 @@
   "limits": "Shared host/helper; synthetic transport only, scripted G cleanup oracles; no native Argon credit",
   "packageFiles": {
     "scripts/cli_review.py": {
-      "sha256": "741e4753f169521e2ae1da3e424283cc881c33279b96108c34b249ddefb22ed7",
-      "bytes": 28563
+      "sha256": "83b06b60d924a84c691515c3ee00a7dd2f1118ee4af3a9072fef1df345241d89",
+      "bytes": 35570
     },
     "scripts/cli_capabilities.py": {
-      "sha256": "a8c933bf55dccdc2f6dda03346e88e5e8d757ce289733ef30bb27b7ebf319ef3",
-      "bytes": 8447
+      "sha256": "6824b61d8b0b0ec1f200ad58fe2f27310409d6518c537b4b83b07e6e565644e7",
+      "bytes": 8489
     },
     "scripts/manual_citations.py": {
-      "sha256": "9bf9b723381f3615e1874599b4efc7b4386ecd98cf0ceda4dc64f26dba0983dd",
-      "bytes": 5511
+      "sha256": "bb3b0c137ff7e1694d1958781036f524ce6821f4d679833c991f062e77b01cd9",
+      "bytes": 5569
     },
     "assets/cli-review/deny_tools.py": {
       "sha256": "f514b4e3c3960ae557beec12f36b0e647df9295626ca56bf080fa812a8eb2c8d",
       "bytes": 755
     },
     "assets/cli-review/.agents/hooks.json": {
-      "sha256": "a8dcd7f06c3594494eda7918e9372150f26fa162a243f470288e618ca7b3d163",
-      "bytes": 295
+      "sha256": "3b453bc7da2e7fd0073473581f5171413d9eb696308cc23860d0cb699ee92234",
+      "bytes": 301
     },
     "assets/cli-review/.agents/agents/preflight-inline.md": {
       "sha256": "a02ae60b431dd7c8ef19f7d24a552dc27c528eda4a31753a08708975f7d11569",

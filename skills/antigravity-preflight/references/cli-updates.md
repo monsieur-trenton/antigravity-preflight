@@ -17,4 +17,4 @@ The helper's source-free process tests are in `runtime/flash-high/scripts/test_c
 
 ## Argon route
 
-The optional Argon package uses its own seven-file pins and explicit profile. Its metadata helper accepts `argon-high` as the third positional argument; follow the [Argon runbook](https://github.com/monsieur-trenton/antigravity-preflight/blob/v0.2.0/docs/argon-high.md). Metadata capture is unsandboxed, inherits the real environment/home and may contact the provider. Review sandboxing does not apply to that capture step.
+The optional Argon package uses its own seven-file pins and explicit profile. Its metadata helper accepts `argon-high` as the third positional argument; follow the [Argon runbook](https://github.com/monsieur-trenton/antigravity-preflight/blob/v0.3.0/docs/argon-high.md). Metadata capture is unsandboxed, inherits the real environment/home and may contact the provider. Review sandboxing does not apply to that capture step.

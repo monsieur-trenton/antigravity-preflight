@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.0 — 2026-10-19
+
+- Publish the exact owner-activated r15 Argon / High runtime and its updated qualification envelope.
+- Add deterministic source assembly, workspace/mode integrity checks, init-catalogue telemetry, registered cleanup/timing evidence and native citation recursion handling.
+- Add portable 732-case suites run twice plus 40 saved-envelope controls, current activation provenance and r15 review reconciliation.
+- Clarify available PLAN/DIFF support; preserve the original Flash runtime and manual default.
+
 ## 0.2.0 — 2026-10-18
 
 - Add the exact qualified and owner-activated Argon / High native runtime, explicit profile binding and credit selection.
@@ -7,7 +14,7 @@
 - Add portable Argon offline checks, provenance, source-host summaries and review reconciliation.
 
 
-## Unreleased
+## Earlier additions included in 0.2.0
 
 - Publish a sanitized historical four-case plan-audit case study, preserving original responses/scores and documenting the unqualified execution route and flawed oracle/control.
 - Add strict retrospective label extraction and offline regression tests; keyword hints supply no semantic credit.

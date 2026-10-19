@@ -48,17 +48,19 @@ def main(output):
             ('parser',[scripts/'cli_review.py','controls',scripts/'CLI-OFFLINE-CONTROLS.json'],scripts/'CLI-OFFLINE-CONTROLS.json',24),
             ('overflow',[scripts/'test_ledger.py'],scripts/'POST-OVERFLOW-CONTROLS.json',42),
             ('completion',[scripts/'test_completion.py'],scripts/'COMPLETION-CONTROLS.json',76),
-            ('profiles',[scripts/'test_profiles.py',run/'profiles'],run/'profiles/RESULT.json',96)):
+            ('profiles',[scripts/'test_profiles.py',run/'profiles'],run/'profiles/RESULT.json',96),
+            ('tier2',[scripts/'test_tier2.py',run/'tier2'],run/'tier2/RESULT.json',107),
+            ('timing',[scripts/'test_timing.py',run/'timing'],run/'timing/RESULT.json',7)):
             execute(name,args,doc,count)
-        require(sum(j['cases'] for j in jobs)==618 and custody(),'RUN_CUSTODY_OR_COUNT')
-        save(run/'RESULT.json',dict(status='PASS',caseCount=618,jobs=jobs))
-        runs.append(dict(id=f'run-{number}',status='PASS',cases=618,result=pin(run/'RESULT.json'),suites=jobs))
-        print(json.dumps(dict(run=number,status='PASS',cases=618)),flush=True)
+        require(sum(j['cases'] for j in jobs)==732 and custody(),'RUN_CUSTODY_OR_COUNT')
+        save(run/'RESULT.json',dict(status='PASS',caseCount=732,jobs=jobs))
+        runs.append(dict(id=f'run-{number}',status='PASS',cases=732,result=pin(run/'RESULT.json'),suites=jobs))
+        print(json.dumps(dict(run=number,status='PASS',cases=732)),flush=True)
     spec=importlib.util.spec_from_file_location('published_argon',package/'scripts/cli_review.py')
     module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
     envelope=output/'DUAL-OFFLINE-QUALIFICATION.json'
     save(envelope,dict(status='PASS',scope='OFFLINE_ONLY',twoFreshRuns=True,packageFiles=pins,
-        runtimeProfiles=module.profile_bindings(),casesPerRun=618,totalCases=1236,runs=runs,
+        runtimeProfiles=module.profile_bindings(),casesPerRun=732,totalCases=1464,runs=runs,
         nativeCalls=0,proxyCalls=0,providerCalls=0,qualificationCredit=0,
         sharedImplementationAndHost=True,limits='Synthetic normal/profile subset; excludes historical denial drivers. No native qualification or owner authorization.'))
     gate=output/'actual-envelope-controls'
@@ -67,7 +69,7 @@ def main(output):
     require(process.returncode==0,'ACTUAL_ENVELOPE_CONTROLS')
     result=json.loads((gate/'RESULT.json').read_bytes())
     require(result['status']=='PASS' and result['caseCount']==40 and custody(),'ACTUAL_ENVELOPE_RESULT')
-    print(json.dumps(dict(status='PASS',totalCases=1236,actualEnvelopeControls=40,nativeCalls=0,providerCalls=0)))
+    print(json.dumps(dict(status='PASS',totalCases=1464,actualEnvelopeControls=40,nativeCalls=0,providerCalls=0)))
 if __name__=='__main__':
     if len(sys.argv)!=2: raise SystemExit('Usage: qualify_argon_offline.py <new-output-directory>')
     main(Path(sys.argv[1]))

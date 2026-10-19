@@ -11,10 +11,10 @@
       },
       "publication": "DOCUMENTATION_PORTABILITY_EDIT",
       "publishedPin": {
-        "sha256": "1fe36f842c68223235365ee08ea61a584ea8d549b7fffcec260b0e0b5e932252",
-        "bytes": 5273
+        "sha256": "c165f8aaf78f290f14f1be15ca90c311fe5ed19da18a3c55885c97204ac20683",
+        "bytes": 5272
       },
-      "publicationNote": "v0.2.0 portable documentation: explicit Argon option, generic project reviewer, installed citation path and retained limitations; sourcePin preserved."
+      "publicationNote": "v0.3.0: current owner-activated r15 route, portable instructions and authority limits; historical sourcePin preserved."
     },
     {
       "path": "skills/antigravity-preflight/references/review-contract.md",
@@ -88,10 +88,10 @@
       },
       "publication": "DOCUMENTATION_PORTABILITY_EDIT",
       "publishedPin": {
-        "sha256": "b3703b3577f2e8310c168ee43585976a283a544ebedf40879e3581dee5373e9e",
+        "sha256": "4b0b09ca13773707f87646842b6902dfbf8e0362d4cecc6c733c65e1a919c6e2",
         "bytes": 3909
       },
-      "publicationNote": "v0.2.0 portable documentation: explicit Argon option, generic project reviewer, installed citation path and retained limitations; sourcePin preserved."
+      "publicationNote": "v0.3.0: current owner-activated r15 route, portable instructions and authority limits; historical sourcePin preserved."
     },
     {
       "path": "skills/antigravity-preflight/agents/openai.yaml",

@@ -35,6 +35,10 @@ Run the offline command in the README to reproduce the included controls on your
 
 The publication harness changes only the synthetic proxy fixture to create a plain readiness file instead of binding a Unix socket. The fake native child never connects to that endpoint; the marker exercises the same existence/liveness gate in the unchanged runner. This allows offline transport controls in environments that forbid socket creation. It supplies no Unix-socket or Secret Service qualification. The original unmodified harness stopped here at AUTH_PROXY_START because socket creation was denied; that stopped result is retained locally, rather than relabelled as a pass. The six runtime files remain unchanged.
 
-## v0.2.0 Argon addition
+## Current Argon qualification — v0.3.0 / r15
 
-The separately pinned seven-file Argon runtime completed source-host qualification and Gate E owner activation. See [Argon qualification and use](argon-high.md). The original Flash evidence above remains scoped to its six-file package. Portable Argon repeatability covers 618 controls per run twice plus 40 saved-envelope controls; the historical 1,714-case source-host envelope has additional private denial-driver scope. No new native execution is claimed by this publication.
+The exact seven-file r15 Argon runtime completed offline qualification, acceptance, independent Claude review, r15 native denial (2/2), known-bad/known-good review, owner ratification and activation on October 19, 2026. See [Argon qualification and use](argon-high.md) and [the sanitized source-host summary](../qualification/argon-source-host-summary.json).
+
+Historical r15 offline qualification covered 1,828 controls per run plus 64 actual-document controls. The portable normal/profile/integrity/timing subset covers 732 controls twice plus 40 saved-envelope controls; private denial drivers are excluded. The exact installed seven-file package and envelope are authenticated against the sealed owner-activation inventory. This bounded publication check does not recursively replay the entire historical evidence tree or reissue native credit.
+
+The original v0.2.0 Argon package and its 618-control portable suite remain preserved under the v0.2.0 tag. They are superseded for the current Argon route; original Flash pins remain unchanged. Current records intentionally preserve historical staging labels and stops; only later sealed decisions close their applicable scope. No live execution is claimed by this publication.

@@ -4,7 +4,15 @@ Catch blockers and incomplete evidence before independent review.
 
 Antigravity Preflight is a Codex skill for preparing a bounded Gemini advisory review, checking source coverage and exact citations, and recording a disposition for every finding. It supports **PLAN** reviews of proposed work and **DIFF** reviews of implemented changes.
 
-**v0.2.0 adds Gemini 4 Argon / High (`gemini-4-argon-high`, effort `high`) as an explicitly selected native CLI option. Gemini 3.8 Flash / High remains the manual default.** Manual handoff is the default. A byte-preserved Linux native CLI runner is included for separately commissioned, qualified use. No automatic model calls, fallback, remediation loop, or independent-review launch is configured.
+**Full Gemini 4 Argon / High native support is now available in v0.3.0.** The owner-activated r15 runtime supports PLAN and DIFF reviews with deterministic source assembly, workspace integrity checks and recorded cleanup observations. Manual Gemini 3.8 Flash / High remains the default.
+
+| Review route | Model | Status | Selection |
+| --- | --- | --- | --- |
+| Manual handoff | Gemini 3.8 Flash / High | Available; default | Manual packet and adjudication workflow |
+| Native Flash | `gemini-3.8-flash-high` | Available; original runtime preserved | Six-file Flash package |
+| Native Argon | `gemini-4-argon-high` | Available; qualified r15 runtime | `--runtime-profile argon-high`, effort `high`, `useG1Credits=true` |
+
+Both native routes require applicable host qualification and task authorization. No automatic model calls, fallback, remediation loop or independent-review launch is configured.
 
 ## What it does
 
@@ -29,6 +37,12 @@ The command refuses to overwrite an existing skill. Start a new Codex session an
 
 > Use $antigravity-preflight to prepare a PLAN review of these named artifacts. Use Gemini 3.8 Flash / High, include source and question coverage, and prepare an adjudication record. Prepare the packet first; submit it only within my authorization.
 
+For a native Argon review, retain the full repository checkout and request:
+
+> Use $antigravity-preflight for a PLAN review with the qualified native Gemini 4 Argon / High route (`argon-high`, effort `high`, `useG1Credits=true`). Prepare the bounded packet and fresh seed first. Use the native route only within my task authorization and the host's qualification; adjudicate every finding before independent review.
+
+The same route supports DIFF review of implemented changes. Follow the [Argon setup and execution runbook](docs/argon-high.md). Copying only the manual skill does not install the native runtimes.
+
 Use the [packet template](skills/antigravity-preflight/references/packet-template.md), [manual handoff](skills/antigravity-preflight/references/manual-handoff.md), and [project profile template](skills/antigravity-preflight/references/project-profile.md). Keep your project's policy in its own repository.
 
 ## Try the local citation example
@@ -46,7 +60,7 @@ These commands call no provider. The example report is explicitly synthetic. See
 
 Read [the runtime runbook](skills/antigravity-preflight/references/runtime.md) before attempting native use. It targets Linux, Bubblewrap, `xdg-dbus-proxy`, an authenticated Secret Service session, and the exact separately obtained Antigravity binary and metadata. The vendor binary and credentials are **not distributed**.
 
-The source-host Flash qualification reached P1–P5 and owner activation. That record is scoped to frozen agy **1.3.6**, the exact six-file runner/profile package and finite fixtures. Installing this repository does not transfer that host qualification or authorize a live run. The exact seven-file Argon runtime also completed source-host qualification and owner activation. Argon requires `useG1Credits=true`; observer development remains PARKED. See [Argon qualification and use](docs/argon-high.md).
+The source-host Flash qualification reached P1–P5 and owner activation. That record is scoped to frozen agy **1.3.6**, the exact six-file runner/profile package and finite fixtures. Installing this repository does not transfer that host qualification or authorize a live run. The exact seven-file r15 Argon runtime completed source-host qualification, independent Claude review and owner activation on October 19, 2026. Argon requires `useG1Credits=true`; observer development remains PARKED. See [Argon qualification and use](docs/argon-high.md).
 
 See [qualification status and limits](docs/qualification.md), [runtime pins](qualification/runtime-pins.json), and [publication provenance](qualification/publication-provenance.json). The qualification summary reports retained source-host evidence; this publication does not claim a new independent native audit.
 
@@ -68,7 +82,7 @@ Use a new output directory outside the repository. The launcher controls use syn
 python3 -B -I tools/qualify_argon_offline.py /tmp/antigravity-argon-two-fresh-runs
 ```
 
-This runs 618 synthetic normal/profile controls twice, followed by 40 controls against the saved envelope. Historical source-host suites included private denial-driver controls and have a different count. See the [v0.2.0 release notes](docs/release-v0.2.0.md) and [review reconciliation](docs/reviews/2026-10-17-reconciliation.md).
+This runs 732 synthetic normal/profile, integrity and timing controls twice, followed by 40 controls against the saved envelope. The historical 1,828-case source-host suite included private denial-driver controls excluded from this portable subset. See the [v0.3.0 release notes](docs/release-v0.3.0.md) and [review reconciliation](docs/reviews/2026-10-17-reconciliation.md).
 
 ## Project
 

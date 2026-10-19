@@ -1,3 +1,5 @@
+import sys
+sys.dont_write_bytecode = True
 """Source-free process tests for update compatibility; no real CLI/provider."""
 import hashlib
 import importlib.util

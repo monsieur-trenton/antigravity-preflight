@@ -1,3 +1,5 @@
+import sys
+sys.dont_write_bytecode = True
 """Source-free parser behavior after diagnostic storage fills; no native calls."""
 import ast,hashlib,importlib.util,json
 from pathlib import Path

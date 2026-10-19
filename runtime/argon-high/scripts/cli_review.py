@@ -1,3 +1,6 @@
+import sys
+sys.dont_write_bytecode = True
+import base64,stat
 """Reusable bounded Flash review launcher. Live use needs explicit authorization.
 
 prepare and check-citations are local operations; run is the only live command.
@@ -114,6 +117,91 @@ def row_bytes(root,row,limit):
     need(type(row.get('sha256')) is str and re.fullmatch('[0-9a-f]{64}',row['sha256']),'INPUT_HASH_SHAPE')
     path=local_file(root,row.get('path'));need(path.stat().st_size==row['bytes'],'INPUT_BYTES')
     body=path.read_bytes();need(sha(body)==row['sha256'],'INPUT_HASH');body.decode('utf-8');return body
+
+def workspace_inventory(root):
+    # Do not follow symlinks, including symlinked ancestors inside this tree.
+    root=Path(root);need(root.is_dir() and not root.is_symlink(),'WORKSPACE_TREE')
+    st=root.lstat();mode=stat.S_IMODE(st.st_mode)
+    need((mode & 0o7000) == 0, 'WORKSPACE_SPECIAL_BITS')
+    result={'.':dict(kind='DIR',mode=mode)}
+    stack=[root]
+    while stack:
+        directory=stack.pop()
+        for path in sorted(directory.iterdir()):
+            need(not path.is_symlink(),'WORKSPACE_SYMLINK')
+            key=path.relative_to(root).as_posix();workspace_key(key)
+            st=path.lstat();mode=stat.S_IMODE(st.st_mode)
+            need((mode & 0o7000) == 0, 'WORKSPACE_SPECIAL_BITS')
+            info=st
+            if stat.S_ISDIR(info.st_mode):
+                result[key]=dict(kind='DIR',mode=mode);stack.append(path)
+            else:
+                need(stat.S_ISREG(info.st_mode),'WORKSPACE_ENTRY_TYPE')
+                result[key]=dict(kind='FILE',mode=mode,**pin(path))
+    return result
+
+def workspace_key(key):
+    need(type(key) is str and key and not key.startswith('/') and '\\' not in key and all(x not in ('','..','.') for x in key.split('/')),'WORKSPACE_PATH')
+
+def verify_workspace(root,plan):
+    need(plan.get('schemaVersion')==2 and type(plan.get('workspaceInventory')) is dict,'WORKSPACE_CONTRACT_VERSION')
+    for key in plan['workspaceInventory']:
+        if key!='.':workspace_key(key)
+    need(plan['workspaceInventory']==workspace_inventory(PACKAGE/'assets/cli-review'),'WORKSPACE_DECLARATION')
+    need(workspace_inventory(root/'review-workspace')==plan['workspaceInventory'],'WORKSPACE_INVENTORY')
+
+def assemble_packet(descriptor,request,bodies):
+    need(len(descriptor['sources'])==len(bodies),'PACKET_PARITY')
+    sources=[]
+    for row,body in zip(descriptor['sources'],bodies):
+        need(pin_bytes(body)=={k:row[k] for k in ('sha256','bytes')},'PACKET_PARITY')
+        text=body.decode('utf-8')
+        sources.append(dict(id=row['id'],path=row['path'],**pin_bytes(body),LF=body.count(b'\n'),rawBase64=base64.b64encode(body).decode('ascii'),lfRows=[dict(line=i,text=line) for i,line in enumerate(text.split('\n'),1)]))
+    # JSON string framing makes fences, delimiters, CRs and Unicode source data.
+    payload=dict(schemaVersion=2,mode=descriptor['mode'],questions=descriptor['questions'],instructions=request.decode('utf-8'),requestSha256=sha(request),sources=sources)
+    return json.dumps(payload,ensure_ascii=False,sort_keys=True,separators=(',',':')).encode('utf-8')+b'\n'
+
+def pin_bytes(body):return dict(sha256=sha(body),bytes=len(body))
+
+def verify_packet_assembly(root,plan):
+    need(plan.get('schemaVersion')==2 and plan.get('promptAssemblyVersion')==2,'PACKET_ASSEMBLY_VERSION')
+    descriptor=decode(local_file(root,'packet/PACKET.json').read_bytes())
+    request=local_file(root,'packet/PROMPT-REQUEST.bin').read_bytes()
+    need(pin_bytes(request)=={k:descriptor['prompt'][k] for k in ('sha256','bytes')},'PACKET_REQUEST_PIN')
+    bodies=[local_file(root,'packet/'+row['path']).read_bytes() for row in descriptor['sources']]
+    expected=assemble_packet(descriptor,request,bodies)
+    need(descriptor['questions']==plan['questions'] and [r['id'] for r in descriptor['sources']]==plan['sources'],'PACKET_IDENTITIES')
+    need(local_file(root,plan['prompt']).read_bytes()==expected and len(expected)<=131072,'PACKET_PROMPT_PARITY')
+
+def tool_catalogue(init):
+    tools=init['tools']
+    vetted={'finish','write_to_file','run_command','invoke_subagent','read_file','list_directory','search','grep_search','find_by_name','view_file','view_file_outline','view_code_item','replace_file_content','multi_replace_file_content'}
+    return dict(source='ADMITTED_INIT_TOOLS_NOT_MODEL_CATALOGUE',count=len(tools),vettedIdentifiers=[x for x in tools if x in vetted],unrecognisedCount=sum(x not in vetted for x in tools),orderedListSha256=sha(json.dumps(tools,ensure_ascii=False,separators=(',',':')).encode()),scope='Sanitised evidence only; no strict tool-set equality or provider attestation')
+
+def register_child(child,kind):
+    registered_at=time.time_ns();registered_mono=time.monotonic_ns()
+    observed={}
+    for name,query in [('pgid',os.getpgid),('sid',os.getsid)]:
+        try:observed[name]=query(child.pid)
+        except ProcessLookupError:observed[name]=None
+    need(all(v is None or v==child.pid for v in observed.values()),'CHILD_SESSION_IDENTITY')
+    return dict(kind=kind,pid=child.pid,registeredPgid=child.pid,startNewSession=True,observed=observed,scope='Only this runner-owned direct child; no escaped-process or provider containment claim',registeredAtNs=registered_at,registeredMonotonicNs=registered_mono,registrationCompletedMonotonicNs=time.monotonic_ns(),clockBasis=dict(wall='unix_epoch_ns_observation_only',monotonic='host_monotonic_ns'))
+
+def settle_registered(child,record):
+    need(record['pid']==child.pid and record['registeredPgid']==child.pid,'REGISTERED_CHILD_PIN')
+    started_at=time.time_ns();started_mono=time.monotonic_ns()
+    probes=[];observations=[];deadline=time.monotonic()+2.0
+    for _ in range(41):
+        try:os.killpg(record['registeredPgid'],0);outcome='PRESENT'
+        except ProcessLookupError:outcome='ABSENT_PROCESS_LOOKUP'
+        probes.append(outcome)
+        observations.append(dict(outcome=outcome,observedAtNs=time.time_ns(),observedMonotonicNs=time.monotonic_ns()))
+        if outcome=='ABSENT_PROCESS_LOOKUP':
+            return dict(reaped=child.poll() is not None,groupAbsent=True,probes=probes,scope='Numeric registered group at bounded observation time',settlementStartedAtNs=started_at,settlementStartedMonotonicNs=started_mono,settlementCompletedMonotonicNs=time.monotonic_ns(),probeObservations=observations,clockBasis=record['clockBasis'])
+        if time.monotonic()>=deadline:break
+        time.sleep(min(.05,max(0,deadline-time.monotonic())))
+    raise ValueError('REGISTERED_GROUP_REMAINS')
+
 def prepare(packet_path,capability,root, runtime_profile_id):
     packet_path=Path(packet_path).absolute();capability=Path(capability).absolute();root=Path(root).absolute()
     need(not packet_path.is_symlink(),'SYMLINK_REFUSED')
@@ -160,8 +248,11 @@ def prepare(packet_path,capability,root, runtime_profile_id):
         (root/'runtime').mkdir();shutil.copyfile(runtime,root/'runtime/agy');(root/'runtime/agy').chmod(0o555)
         shutil.copytree(PACKAGE/'assets/cli-review',root/'review-workspace')
         save(root/'CITATION-INVENTORY.json',{'sources':[dict(id=row['id'],path='packet/'+row['path'],sha256=row['sha256']) for row in rows]})
+        (packet/'PROMPT-REQUEST.bin').write_bytes(prompt)
+        assembled=assemble_packet(descriptor,prompt,bodies);need(len(assembled)<=131072,'ASSEMBLED_PROMPT_CAP')
+        (packet/descriptor['prompt']['path']).write_bytes(assembled)
         inputs={str(p.relative_to(root)):pin(p) for p in sorted(root.rglob('*')) if p.is_file() and p!=root/'runtime/agy'}
-        plan=dict(schemaVersion=1,mode=descriptor['mode'],prompt='packet/'+descriptor['prompt']['path'],questions=questions,
+        plan=dict(schemaVersion=2,promptAssemblyVersion=2,workspaceInventory=workspace_inventory(root/'review-workspace'),mode=descriptor['mode'],prompt='packet/'+descriptor['prompt']['path'],questions=questions,
                   sources=source_ids,inputs=inputs,native=native,packageFiles=package_identity(),runtimeProfile=selected,model=selected['model'],effort=selected['effort'],
                   observedVersion=observed['observedVersion'],nativeInvocations=1,proxyInvocations=1,turns=1,hostRetries=0,
                   hostDeadlineSeconds=HOST_SECONDS,initDeadlineSeconds=INIT_SECONDS,perStreamCapBytes=CAP,
@@ -181,7 +272,7 @@ def run(root,qualification):
     need(not (root/'CLI-GATE.json').exists(),'ATTEMPT_ALREADY_CONSUMED')
     save(root/'CLI-GATE.json',dict(status='CONSUMED',nativeInvocationLimit=1,proxyInvocationLimit=1,turnLimit=1,retries=0,qualificationCredit=0))
     started=time.monotonic();process=proxy=None;selector=None;s=Stream();outputs={'stdout':bytearray(),'stderr':bytearray()};buffer=bytearray()
-    failure=None;closing=[];counts={'proxy':0,'native':0};sent=False;socketroot=None;plan=None;plan_pin=None;qualification_pin=None;report_pin=None;prompt_frame=None;prompt_offset=0
+    failure=None;closing=[];registered={};settlement={};catalogue=None;counts={'proxy':0,'native':0};sent=False;socketroot=None;plan=None;plan_pin=None;qualification_pin=None;report_pin=None;prompt_frame=None;prompt_offset=0
     try:
         prepared=decode((root/'PREPARE-RESULT.json').read_bytes());need(prepared.get('status')=='PREPARED_NOT_LAUNCHED','PREPARATION_REQUIRED')
         plan_pin=pin(root/'CLI-PLAN.json');need(plan_pin==prepared.get('plan'),'PLAN_PIN');plan=decode((root/'CLI-PLAN.json').read_bytes())
@@ -190,6 +281,7 @@ def run(root,qualification):
         need(plan['packageFiles']==package_identity(),'PACKAGE_PIN')
         for name,row in plan['inputs'].items():need(pin(local_file(root,name))==row,'INPUT_PIN')
         need(pin(local_file(root,'runtime/agy'))==plan['native'],'NATIVE_PIN')
+        verify_workspace(root,plan);verify_packet_assembly(root,plan)
         qualification=Path(qualification);qualification_pin=pin(qualification);q=decode(qualification.read_bytes())
         need(q.get('status')=='PASS' and q.get('scope')=='OFFLINE_ONLY' and q.get('packageFiles')==plan['packageFiles'],'OFFLINE_QUALIFICATION_REQUIRED')
         need(q.get('twoFreshRuns') is True,'DUAL_OFFLINE_REQUIRED')
@@ -200,7 +292,7 @@ def run(root,qualification):
         config=home/'.gemini/config';config.mkdir(parents=True);shutil.copyfile(root/'review-workspace/.agents/hooks.json',config/'hooks.json')
         socketroot=Path(tempfile.mkdtemp(prefix='agy-preflight-',dir='/tmp'));bus=socketroot/'bus'
         address=os.environ.get('DBUS_SESSION_BUS_ADDRESS',f'unix:path=/run/user/{os.getuid()}/bus')
-        proxy=subprocess.Popen(['/usr/bin/xdg-dbus-proxy',address,str(bus),'--filter','--talk=org.freedesktop.secrets'],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,start_new_session=True);counts['proxy']+=1
+        proxy=subprocess.Popen(['/usr/bin/xdg-dbus-proxy',address,str(bus),'--filter','--talk=org.freedesktop.secrets'],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,start_new_session=True);counts['proxy']+=1;registered['proxy']=register_child(proxy,'proxy')
         while not bus.exists() and time.monotonic()-started<3:time.sleep(.02)
         need(bus.exists() and proxy.poll() is None,'AUTH_PROXY_START')
         args=['--input-format','stream-json','--output-format','stream-json','--agent','preflight-inline','--model',selected['model'],'--effort',selected['effort'],'--disable-slash-commands','--print-timeout','10m','--new-project']
@@ -211,7 +303,7 @@ def run(root,qualification):
         if not str(resolver).startswith('/etc/'):command+=['--ro-bind',str(resolver),str(resolver)]
         command+=['--proc','/proc','--dev','/dev','--tmpfs','/tmp','--bind',str(home),'/home/john','--ro-bind',str(root/'review-workspace'),'/review','--ro-bind',str(root/'runtime/agy'),'/runtime/agy','--ro-bind',str(bus),'/runtime/secret-service','--setenv','DBUS_SESSION_BUS_ADDRESS','unix:path=/runtime/secret-service','--setenv','AGY_PREFLIGHT_AUDIT','/home/john/preflight-hook-events.jsonl','--setenv','AGY_CLI_DISABLE_AUTO_UPDATE','true','--setenv','HOME','/home/john','--setenv','PATH','/usr/bin:/bin','--chdir','/review','/runtime/agy',*args]
         env=dict(HOME='/home/john',PATH='/usr/bin:/bin',USER='john',LOGNAME='john',LANG='C.UTF-8')
-        process=subprocess.Popen(command,stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,env=env,start_new_session=True,bufsize=0);counts['native']+=1
+        process=subprocess.Popen(command,stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,env=env,start_new_session=True,bufsize=0);counts['native']+=1;registered['native']=register_child(process,'native')
         os.set_blocking(process.stdin.fileno(),False)
         selector=selectors.DefaultSelector()
         for name,pipe in [('stdout',process.stdout),('stderr',process.stderr)]:os.set_blocking(pipe.fileno(),False);selector.register(pipe,selectors.EVENT_READ,name)
@@ -236,6 +328,7 @@ def run(root,qualification):
                         raw,_,tail=buffer.partition(b'\n');buffer=bytearray(tail);need(bool(raw.strip()),'EMPTY_STREAM_LINE');s.line(bytes(raw))
                         need(s.result is None or sent,'RESULT_BEFORE_PROMPT_COMPLETE')
                         if s.init is not None and prompt_frame is None:
+                            catalogue=tool_catalogue(s.init)
                             save(root/'CLI-INIT.json',{k:s.init.get(k) for k in ('model','agent','cwd','permission_mode')})
                             prompt_frame=json.dumps(dict(event='user',message=dict(content=(root/plan['prompt']).read_bytes().decode('utf-8')))).encode()+b'\n'
                             selector.register(process.stdin,selectors.EVENT_WRITE,'stdin')
@@ -255,6 +348,9 @@ def run(root,qualification):
         for kind,p in [('native',process),('proxy',proxy)]:
             if p is not None:
                 close(kind+'_terminate',lambda p=p:terminate(p))
+                if kind in registered:
+                    def settle(p=p,kind=kind):settlement[kind]=settle_registered(p,registered[kind])
+                    close(kind+'_registered_settlement',settle)
                 for pipe in (p.stdin,p.stdout,p.stderr):
                     if pipe is not None:close(kind+'_pipe',pipe.close)
         if selector is not None:close('selector',selector.close)
@@ -269,6 +365,7 @@ def run(root,qualification):
             def custody():
                 need(pin(root/'CLI-PLAN.json')==plan_pin and package_identity()==plan['packageFiles'],'FINAL_PLAN_OR_PACKAGE_CUSTODY')
                 need(all(pin(local_file(root,name))==row for name,row in plan['inputs'].items()) and pin(root/'runtime/agy')==plan['native'],'FINAL_CUSTODY')
+                verify_workspace(root,plan);verify_packet_assembly(root,plan)
                 if qualification_pin is not None:need(pin(qualification)==qualification_pin,'FINAL_QUALIFICATION_CUSTODY')
                 if report_pin is not None:need(pin(local_file(root,'GEMINI-REVIEW.md'))==report_pin,'FINAL_REPORT_CUSTODY')
             close('input_custody',custody)
@@ -279,6 +376,7 @@ def run(root,qualification):
                      eventLedger=s.ledger,eventLedgerStorage=dict(entryCap=256,storedRows=len(s.ledger),omittedRows=s.ledger_omitted,scope='Storage only; every event is validated'),
                      transport={k:dict(bytes=len(v),sha256=sha(v)) for k,v in outputs.items()},
                      processes={kind:dict(spawned=p is not None,reaped=p.poll() is not None if p is not None else None) for kind,p in [('native',process),('proxy',proxy)]},
+                     initialToolCatalogue=catalogue,registeredChildren=registered,registeredSettlement=settlement,
                      report=report_pin,privateHomeAbsent=not (root/'private-home').exists(),socketDirectoryAbsent=socketroot is None or not socketroot.exists(),qualificationCredit=0)
         if plan is not None:receipt['native']=plan['native']
         save(root/'CLI-RECEIPT.json',receipt)

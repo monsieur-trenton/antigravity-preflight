@@ -1,89 +1,112 @@
 {
   "schemaVersion": 1,
   "kind": "SANITIZED_DOCUMENTARY_SUMMARY_NOT_HOST_AUTHORIZATION",
+  "release": "0.3.0",
+  "qualifiedRevision": "r15",
   "model": "gemini-4-argon-high",
   "effort": "high",
   "useG1Credits": true,
   "profile": "argon-high",
   "nativeVersion": "1.3.6",
   "sourceRecords": {
-    "acceptanceResult": {
-      "sha256": "1c78d02c8cd4d4f2cf20e019138cc4e851163aaae157882d65be40c8edc277f5",
-      "bytes": 22863
+    "RESULT.json": {
+      "sha256": "1d32189f016f00565f888036b650346562f75f3237904fb9e336f53f206b1ffd",
+      "bytes": 1626
     },
-    "activationResult": {
-      "sha256": "4d216ddcbd7ee2932ca9c3042ebb3d51f9c7831290ba2b5b69af954042e58089",
-      "bytes": 6130
+    "OWNER-RULING.json": {
+      "sha256": "1faa9c71b997d03faf4b7e52568a20e6bb5dc0b4af5263cc6312204a0a0d90f5",
+      "bytes": 1749
     },
-    "ownerRuling": {
-      "sha256": "8183ab375fca7db39ac817f05d4ac89d9fd59bf0ad6e91a64eb514fc6ec52231",
-      "bytes": 5968
+    "INSTALLED-BASELINE.json": {
+      "sha256": "c0db759652b05a0d84fa4c3487c6a03f127a4b2e5015dd8dd325e61d06fa7ab5",
+      "bytes": 11902
     },
-    "runtimeCopyCheck": {
-      "sha256": "d31c0b7b8c38d15fb057da2b3cae3a406b478892bac97a06d73a50efbfa56667",
-      "bytes": 3274
+    "MANIFEST.json": {
+      "sha256": "953e0ea08a03af794c34e9c2ad6efe4484e74ed6a10192d1bf5090c812163bc3",
+      "bytes": 5566
+    },
+    "evidence/E008-QUALIFICATION-CARRY-FORWARD.json": {
+      "sha256": "9e2871838efb015d5811b061b1072148a6c58801b1c8a8551432250980f5f566",
+      "bytes": 3151
     }
   },
+  "activationReceipt": {
+    "sha256": "61ac3ceef3fc4144c75f2854a68203869c158f60399b939a85e09bb150c0518c",
+    "bytes": 291
+  },
+  "authenticatedActivationManifestFiles": 26,
+  "authenticatedInstalledFiles": 26,
+  "activation": "ACTIVE_R15_ARGON",
   "qualification": {
-    "acceptance": "ACCEPT_WITH_RISKS_COMPLETE",
-    "activation": "SOURCE_HOST_COMMISSIONED_NATIVE_CLI_TASKS",
-    "lanes": 7,
-    "packetAQuotes": 77,
-    "packetBQuotes": 93,
-    "packetBFalseBlockers": 0,
-    "denialCredit": "2/2",
-    "historicalOfflineCasesPerRun": 1714,
-    "historicalOfflineScope": "1714 includes private denial-driver controls; public normal/profile suite is 618 cases per run"
+    "ownerRatification": "ACCEPTED_BY_OWNER",
+    "historicalOfflineCasesPerRun": 1828,
+    "historicalActualDocumentControls": 64,
+    "publicOfflineCasesPerRun": 732,
+    "publicActualEnvelopeControls": 40,
+    "acceptanceSourceCoverage": "125/125 COMPLETE as recorded",
+    "independentClaudeVerdict": "NO_NEW_BLOCKERS_WITH_DISCLOSED_RISKS as recorded",
+    "denialCredit": "2/2 r15 native",
+    "packetA": {
+      "verdict": "BLOCKERS_FOUND",
+      "exactQuotes": 95,
+      "coordinates": 99,
+      "readiness": "WITHHELD"
+    },
+    "packetB": {
+      "verdict": "NO_BLOCKERS_FOUND",
+      "falseBlockers": 0,
+      "acceptedNonblockingNotes": 5,
+      "exactQuotes": 79,
+      "coordinates": 128
+    }
   },
   "risks": [
     {
-      "id": "D4R2-R01",
-      "text": "In-session documentary verification on the same host and helper lineage; no separately attested reviewer identity or independent provider service was invoked."
+      "id": "P5-R01",
+      "topic": "Serving and effort attestation",
+      "detail": "Owner-selected models/effort and admitted session metadata are recorded; independent serving/effort attestation and backend request counts remain unavailable.",
+      "ownerRatification": "ACCEPTED_BY_OWNER"
     },
     {
-      "id": "D4R2-R02",
-      "text": "Native model/effort settings and CLI initialization are host evidence; independent serving/runtime/effort attestation remains unavailable."
+      "id": "P5-R02",
+      "topic": "Shared-host/helper and numeric group scope; F02",
+      "detail": "Registered child reaping, directory removal and bounded numeric-group observations are local evidence, not universal containment, escaped-descendant exclusion, identity-reuse protection or general host inspection.",
+      "ownerRatification": "ACCEPTED_BY_OWNER"
     },
     {
-      "id": "D4R2-R03",
-      "text": "Backend request counts, internal provider retries and prior live spend are unmeasured. This documentary commission made zero new calls and incurred $0.00 live spend."
+      "id": "P5-R03",
+      "topic": "QD04 specific limits retained",
+      "detail": "Four archived real settlement records cover early-exit and signal-resistant modes in two runs. Each has a single ABSENT_PROCESS_LOOKUP probe and non-null observed identities. Successful multi-probe history and real nullable identities are not shown; nullable timing coverage is separately mocked. Handler installation is not independently acknowledged.",
+      "ownerRatification": "ACCEPTED_BY_OWNER"
     },
     {
-      "id": "D4R2-R04",
-      "text": "Finite synthetic fixtures and seven direct hook controls do not establish universal sandboxing, exhaustive input rejection, production acceptance or universal review accuracy. Shared network/read-only system exposure remains."
+      "id": "P5-R04",
+      "topic": "Finite synthetic/static review and F12 residuals",
+      "detail": "Packet A/B validate finite declared source contracts. Their source assertions remain UNRUN runtime obligations. Runtime support, product/database behavior and general review accuracy receive no qualification from this handoff.",
+      "ownerRatification": "ACCEPTED_BY_OWNER"
     },
     {
-      "id": "D4R2-R05",
-      "text": "Cleanup proves saved observations of registered numeric groups and direct-child reaping only; no escaped-descendant, hidden backend child, whole-host or provider-containment guarantee. Gate C metadata-group coverage is not inferred. No live probes were performed here."
+      "id": "P5-R05",
+      "topic": "Historical labels and optional hook telemetry",
+      "detail": "Immutable request text retains historical Flash wording while explicit bound r15 profile/init metadata select Argon. No unobserved optional normal finish-hook audit credit is granted. Required denial hook evidence is separate and carries 2/2 r15 credit.",
+      "ownerRatification": "ACCEPTED_BY_OWNER"
     },
     {
-      "id": "D4R2-R06",
-      "text": "Optional normal-runner hook audits were absent in D2/D3; no unobserved finish-hook coverage credited. P2 native denial audits are separately present and verified. H06/H07 direct hook refusals have no named-tool audit row."
+      "id": "P5-R06",
+      "topic": "Negative controls and teardown derivation",
+      "detail": "Injected home-removal failures preserve false receipt flags and later harness cleanup evidence; scripted group doubles and real transport observations are distinguished. No new OS probes or teardown tests were performed here.",
+      "ownerRatification": "ACCEPTED_BY_OWNER"
     },
     {
-      "id": "D4R2-R07",
-      "text": "Frozen advisory prompts retain the historical Flash label. Authenticated plans and CLI init records bind Argon High, and reports disclose the distinction. No prompt edit or silent fallback."
-    },
-    {
-      "id": "D4R2-R08",
-      "text": "D2 raw report uses BLOCKERS_FOUND / CHANGES_RECOMMENDED; its four substantiated blockers and explicit rejection support preserved BLOCKERS_FOUND and WITHHELD readiness."
-    },
-    {
-      "id": "D4R2-R09",
-      "text": "D3 preserved three local checker diagnostics and four local checker executions before admission, while its native review ran once. This r2 independently rechecked all 93 quoted passages and retained the inline property-name literal classification without changing report text or coordinates."
-    },
-    {
-      "id": "D4R2-R10",
-      "text": "Custody uses all 27 bounded exterior receipt/manifest/count bindings, direct consumed/source/runtime/seed/installed hashing, and seven full governing-package payload readbacks. Giant historical payload trees were not recursively replayed."
-    },
-    {
-      "id": "D4R2-R11",
-      "text": "Unrun JavaScript assertions remain runtime/product obligations outside the finite static review gate; no test execution credit granted. No new native qualification credit is issued by documentary synthesis."
+      "id": "P5-R07",
+      "topic": "Prior stops and Packet B admission supplement",
+      "detail": "All historical stops remain sealed. Packet A named-column admission supersedes only its reviewer gate. Packet B complete admission binds the five bullet-style notes; its preliminary heading-only record remains preserved. Original reports were not repaired.",
+      "ownerRatification": "ACCEPTED_BY_OWNER"
     }
   ],
   "manualDefault": "Gemini 3.8 Flash High",
   "flashRuntime": "PRESERVED_UNCHANGED",
   "nativeObserver": "PARKED",
   "independentServingRuntimeEffortAttestation": "UNAVAILABLE",
-  "limits": "Documentary source-host records; same host/helper and prior context. Not an independent service certification or transferable host qualification. Publication launches no real native/model/proxy calls."
+  "limits": "Bounded source-host documentary verification. Shared host/helper and numeric group observations; finite fixtures, no universal accuracy or containment. Historical staging UNRUN labels preserved in sealed source records and superseded only by the later activation. Public offline reruns do not reissue native credit or activate another host."
 }

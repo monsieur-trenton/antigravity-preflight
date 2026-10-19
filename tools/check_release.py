@@ -40,6 +40,11 @@ def main():
     for row in argon_provenance["files"]:
         if pin(ROOT / row["path"]) != row.get("publishedPin", row["sourcePin"]):
             raise ValueError("ARGON_PUBLICATION_PIN:" + row["path"])
+    for name in ("argon-source-host-offline-qualification.json", "argon-offline-repeatability.json"):
+        envelope = json.loads((ROOT / "qualification" / name).read_bytes())
+        if (envelope.get("packageFiles") != argon["packageFiles"] or envelope.get("status") != "PASS"
+                or envelope.get("scope") != "OFFLINE_ONLY" or envelope.get("twoFreshRuns") is not True):
+            raise ValueError("ARGON_ENVELOPE_PIN_OR_SCOPE:" + name)
     for record in (pins, argon):
         validate_asset_tree(ROOT / record["runtimeRoot"], record["packageFiles"])
     paths = [p for p in ROOT.rglob("*") if p.is_file() and ".git" not in p.parts

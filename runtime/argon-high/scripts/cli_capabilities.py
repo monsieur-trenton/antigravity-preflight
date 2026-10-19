@@ -1,3 +1,5 @@
+import sys
+sys.dont_write_bytecode = True
 """Capture metadata and freeze one CLI candidate; never launches a review.
 
 Version strings are observations, not admission pins. A PASS checks only the

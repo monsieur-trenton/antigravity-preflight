@@ -1,10 +1,10 @@
 # Native runtime routes
 
-Manual Gemini 3.8 Flash / High remains the default. Use the native CLI route only for a specifically authorized task after applicable local qualification. Production code still requires the project's independent review . Native observer development remains PARKED.
+Manual Gemini 3.8 Flash / High remains the default. Use the native CLI route only for a specifically authorized task after applicable local qualification. Production code still requires the project's independent review. Native observer development remains PARKED.
 
-## Package and configuration
+## Original Flash package and configuration
 
-The repository's `runtime/flash-high` directory contains the exact six qualified normal-runtime files plus their offline harness. The six runtime bytes are unchanged from the source-host qualification. [Runtime pins](https://github.com/monsieur-trenton/antigravity-preflight/blob/v0.2.0/qualification/runtime-pins.json) enumerate every file; authenticate all six, not just the runner. [Qualification notes](https://github.com/monsieur-trenton/antigravity-preflight/blob/v0.2.0/docs/qualification.md) state the source-host evidence and accepted limits.
+The repository's `runtime/flash-high` directory contains the exact six qualified normal-runtime files plus their offline harness. The six runtime bytes are unchanged from the source-host qualification. [Runtime pins](https://github.com/monsieur-trenton/antigravity-preflight/blob/v0.3.0/qualification/runtime-pins.json) enumerate every file; authenticate all six, not just the runner. [Qualification notes](https://github.com/monsieur-trenton/antigravity-preflight/blob/v0.3.0/docs/qualification.md) state the source-host evidence and accepted limits.
 
 - Runner, from repository root: `runtime/flash-high/scripts/cli_review.py`.
 - Model: `gemini-3.8-flash-high`; effort: `high`. No silent substitution.
@@ -20,7 +20,7 @@ Read [CLI update checks](cli-updates.md). Capture the exact binary and bounded v
 
 Run `tools/qualify_offline.py`, which performs two fresh runs internally, into one fresh output root. Its `DUAL-OFFLINE-QUALIFICATION.json` binds this exact six-file package for the runner's offline admission predicate. That predicate does not establish native qualification, technical independence or owner authorization. Another host still needs applicable native boundary and known-bad/known-good qualification, risk disposition and an owner decision. The published source-host record does not activate your machine.
 
-## Commissioned task workflow
+## Commissioned Flash task workflow
 
 1. Prepare a sanitized PLAN or DIFF packet under the packet and review contracts. Use task snapshots; do not expose owner-only qualification oracles.
 2. `PACKET.json` has `schemaVersion: 1`, `mode`, unique `Qnn` questions, a pinned prompt row (`path`, `sha256`, `bytes`), and unique `Snn` source rows with those fields plus `id`. Paths are regular relative files without symlinks or traversal. Up to 99 sources/questions; prompt and combined source caps are each 131,072 bytes. The prompt must contain the actual reviewable evidence, coordinates, questions and coverage requirements; file binding alone does not establish semantic completeness.
@@ -45,8 +45,10 @@ Default-deny hooks, filesystem isolation, stream validation and closing custody 
 
 Binary, model, effort, profile, runtime, contract or validator changes invalidate affected proof. Require a fresh candidate, applicable offline/native qualification and owner decision. Preserve stopped attempts. Native observer work remains outside this release; no automatic independent-review launch or changed-runtime installation follows.
 
-## Optional Argon / High
+## Available r15 Argon / High route
 
-The seven-file owner-activated Argon package is available separately in a full repository checkout. Select `argon-high` explicitly, with model `gemini-4-argon-high`, effort `high` and `useG1Credits=true`. Its prepare command requires `--runtime-profile argon-high`; its metadata helper takes positional `argon-high`. Use the [Argon runbook and pins](https://github.com/monsieur-trenton/antigravity-preflight/blob/v0.2.0/docs/argon-high.md). The Flash instructions above continue to describe the original six-file Flash route. Copying only this manual skill does not install either native package.
+The seven-file owner-activated Argon package is available separately in a full repository checkout. Select `argon-high` explicitly, with model `gemini-4-argon-high`, effort `high` and `useG1Credits=true`. Its prepare command requires `--runtime-profile argon-high`; its metadata helper takes positional `argon-high`. Use the [Argon runbook and pins](https://github.com/monsieur-trenton/antigravity-preflight/blob/v0.3.0/docs/argon-high.md). The Flash instructions above continue to describe the original six-file Flash route. Copying only this manual skill does not install either native package.
 
 Metadata helpers run outside the review sandbox and inherit the real environment/home. Secret Service permissions are service-level, and the review retains shared network access. Offline envelopes validate supplied shape and pins, not external authority. Per-directory one-shot enforcement does not prevent copying a seed for another attempt; honor the commissioned zero-retry procedure.
+
+The current Argon route is the r15 tree activated on October 19, 2026. Its schema-v2 plan assembles the raw request with all declared source bytes, checks workspace inventories/modes before launch and at closing, and records sanitized init-catalogue evidence and bounded registered-group observations. Follow the Argon runbook for fresh packet/seed preparation: the Flash instruction above requiring the prompt to carry all evidence manually does not apply to r15 assembly. Caller inventory checks remain useful defense in depth. The assembled 131,072-byte cap includes representation overhead and is distinct from the escaped NDJSON wire size. Numeric-group receipts do not establish universal containment, process identity across reuse, delivered-wire hashes or provider consumption.

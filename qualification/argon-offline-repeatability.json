@@ -4,24 +4,24 @@
   "twoFreshRuns": true,
   "packageFiles": {
     "scripts/cli_review.py": {
-      "sha256": "741e4753f169521e2ae1da3e424283cc881c33279b96108c34b249ddefb22ed7",
-      "bytes": 28563
+      "sha256": "83b06b60d924a84c691515c3ee00a7dd2f1118ee4af3a9072fef1df345241d89",
+      "bytes": 35570
     },
     "scripts/cli_capabilities.py": {
-      "sha256": "a8c933bf55dccdc2f6dda03346e88e5e8d757ce289733ef30bb27b7ebf319ef3",
-      "bytes": 8447
+      "sha256": "6824b61d8b0b0ec1f200ad58fe2f27310409d6518c537b4b83b07e6e565644e7",
+      "bytes": 8489
     },
     "scripts/manual_citations.py": {
-      "sha256": "9bf9b723381f3615e1874599b4efc7b4386ecd98cf0ceda4dc64f26dba0983dd",
-      "bytes": 5511
+      "sha256": "bb3b0c137ff7e1694d1958781036f524ce6821f4d679833c991f062e77b01cd9",
+      "bytes": 5569
     },
     "assets/cli-review/deny_tools.py": {
       "sha256": "f514b4e3c3960ae557beec12f36b0e647df9295626ca56bf080fa812a8eb2c8d",
       "bytes": 755
     },
     "assets/cli-review/.agents/hooks.json": {
-      "sha256": "a8dcd7f06c3594494eda7918e9372150f26fa162a243f470288e618ca7b3d163",
-      "bytes": 295
+      "sha256": "3b453bc7da2e7fd0073473581f5171413d9eb696308cc23860d0cb699ee92234",
+      "bytes": 301
     },
     "assets/cli-review/.agents/agents/preflight-inline.md": {
       "sha256": "a02ae60b431dd7c8ef19f7d24a552dc27c528eda4a31753a08708975f7d11569",
@@ -54,16 +54,16 @@
       }
     }
   },
-  "casesPerRun": 618,
-  "totalCases": 1236,
+  "casesPerRun": 732,
+  "totalCases": 1464,
   "runs": [
     {
       "id": "run-1",
       "status": "PASS",
-      "cases": 618,
+      "cases": 732,
       "result": {
-        "sha256": "1f75c23c7fc8478fb06dc85dc0116b22912b724229e70ee1f26cca8d0340d473",
-        "bytes": 1646
+        "sha256": "c2080f6194c02f17d6087d079a851d8b683e05d1924ca5d62102f3ba627cd82a",
+        "bytes": 2028
       },
       "suites": [
         {
@@ -126,8 +126,24 @@
           "suite": "profiles",
           "cases": 96,
           "result": {
-            "sha256": "2a3a8b76bff4154a6e1a44576ca732cdf239e8f9a609be1b1ba8ea92eaaed485",
+            "sha256": "d995404f5c9dec9391771b550c5537dbadaacd2bed1c3a0076e956f9cd084299",
             "bytes": 18007
+          }
+        },
+        {
+          "suite": "tier2",
+          "cases": 107,
+          "result": {
+            "sha256": "fbcf28779499dce09aa50564a24c7ee2188ddb35528d0787a9fe870c101a774c",
+            "bytes": 14191
+          }
+        },
+        {
+          "suite": "timing",
+          "cases": 7,
+          "result": {
+            "sha256": "4b9431d71d8d7b12f6ce34e3ffc00273f7b7ce4ce5a4fb852287d764ba62700b",
+            "bytes": 1191
           }
         }
       ]
@@ -135,10 +151,10 @@
     {
       "id": "run-2",
       "status": "PASS",
-      "cases": 618,
+      "cases": 732,
       "result": {
-        "sha256": "4618dc395b42293b9bd1b2ab72a3619f0b93438d4ce469dc0c37578f9df7bb73",
-        "bytes": 1646
+        "sha256": "1124f38db1392ee6dc16f4202c38673a411760d809c65d2b9e31b7757f5b5e53",
+        "bytes": 2028
       },
       "suites": [
         {
@@ -201,8 +217,24 @@
           "suite": "profiles",
           "cases": 96,
           "result": {
-            "sha256": "bbcff93374119376311c5cdddcbacd02b27d14b08571c776ae6b396d992a61d4",
+            "sha256": "3de0ce6a5147758855509da9bbb9c16001f88fb352b49af058b876fb09f5f2e0",
             "bytes": 18007
+          }
+        },
+        {
+          "suite": "tier2",
+          "cases": 107,
+          "result": {
+            "sha256": "fbcf28779499dce09aa50564a24c7ee2188ddb35528d0787a9fe870c101a774c",
+            "bytes": 14191
+          }
+        },
+        {
+          "suite": "timing",
+          "cases": 7,
+          "result": {
+            "sha256": "4b9431d71d8d7b12f6ce34e3ffc00273f7b7ce4ce5a4fb852287d764ba62700b",
+            "bytes": 1191
           }
         }
       ]
@@ -214,11 +246,13 @@
   "qualificationCredit": 0,
   "sharedImplementationAndHost": true,
   "limits": "Synthetic normal/profile subset; excludes historical denial drivers. No native qualification or owner authorization.",
+  "release": "0.3.0",
+  "qualifiedRevision": "r15",
   "actualSavedEnvelopeControls": {
     "cases": 40,
     "status": "PASS",
     "result": {
-      "sha256": "52daf39783a44c71fc581fa6f24c0f21963c9492abc58343a625594c4102706f",
+      "sha256": "174dd9aba13a69d2e34298e81cbea24571bd1a45b6bc161554aa0bd07c543023",
       "bytes": 10682
     }
   }

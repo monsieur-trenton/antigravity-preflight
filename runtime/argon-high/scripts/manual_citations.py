@@ -1,3 +1,5 @@
+import sys
+sys.dont_write_bytecode = True
 #!/usr/bin/env python3
 """Local snapshot views and quotation checks; no model calls or review admission."""
 
@@ -131,7 +133,7 @@ def main(argv=None):
             count = check(sources, load_json(args.ledger))
             result = {'status': 'CITATIONS_MATCHED', 'citations': count,
                       'scope': 'SUPPLIED_LEDGER_ONLY_NOT_REVIEW_ADMISSION'}
-    except (Invalid, OSError, UnicodeError, json.JSONDecodeError) as error:
+    except (Invalid, OSError, UnicodeError, json.JSONDecodeError, RecursionError) as error:
         # No raw source, quote or host path is echoed in a failure receipt.
         reason = str(error) if isinstance(error, Invalid) else type(error).__name__
         print(json.dumps({'status': 'STOPPED', 'reason': reason,

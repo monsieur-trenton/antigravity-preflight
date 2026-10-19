@@ -1,3 +1,5 @@
+import sys
+sys.dont_write_bytecode = True
 """Exercise the saved launcher main with source-free process transport doubles.
 
 No real agy, bwrap, Secret Service, provider or model is invoked. The doubles
@@ -78,7 +80,7 @@ def main(output,metadata_root):
             if expected:require(result['failure']==expected,('PREPARE_REASON',mode,result))
             else:
                 plan=json.loads((evidence/'CLI-PLAN.json').read_bytes());require(plan['packageFiles']==package_before and plan['questions']==['Q01'],'PREPARE_BINDING')
-                require((evidence/'packet/PROMPT.txt').read_bytes()==(root/'PROMPT.txt').read_bytes(),'PROMPT_EXACT')
+                require((evidence/'packet/PROMPT-REQUEST.bin').read_bytes()==(root/'PROMPT.txt').read_bytes() and (evidence/'packet/PROMPT.txt').read_bytes()==m.assemble_packet(d,(root/'PROMPT.txt').read_bytes(),[(root/row['path']).read_bytes() for row in d['sources']]),'PROMPT_EXACT')
                 require(not (evidence/'private-home').exists() and not (evidence/'CLI-GATE.json').exists(),'PREPARE_NO_LAUNCH')
             if mode=='existing_output':require((evidence/'marker').read_bytes()==b'untouched','EXISTING_OUTPUT_PRESERVED')
             cases.append(dict(family=family,stage='prepare',case=mode,status='PASS'))
@@ -102,8 +104,8 @@ def main(output,metadata_root):
             case=output/(family+'-run-'+mode);case.mkdir();root,d=packet(case,family);evidence=case/'evidence'
             if mode.startswith('prompt_'):
                 ending=b'\n' if family=='ASCII_LF' else b'\r\n';unit=b'P' if family=='ASCII_LF' else '条件λ'.encode()
-                size=131072-len(ending);prompt=unit*(size//len(unit))+b'x'*(size%len(unit))+ending
-                require(len(prompt)==131072,'MAXIMUM_ALLOWED_PROMPT');prompt.decode('utf-8')
+                size=131072-len(m.assemble_packet(d,ending,[(root/'snapshots/source.txt').read_bytes()]));prompt=unit*(size//len(unit))+b'x'*(size%len(unit))+ending
+                require(len(m.assemble_packet(d,prompt,[(root/'snapshots/source.txt').read_bytes()]))==131072,'MAXIMUM_ALLOWED_PROMPT');prompt.decode('utf-8')
                 (root/'PROMPT.txt').write_bytes(prompt);d['prompt'].update(sha256=m.sha(prompt),bytes=len(prompt));(root/'PACKET.json').write_text(json.dumps(d))
             require(invoke(['prepare',str(root/'PACKET.json'),str(metadata),str(evidence)],case/'PREPARE-COMMAND.json')[0]==0,'RUN_PREPARE')
             qualification=case/'MOCK-QUALIFICATION.json'
@@ -170,7 +172,7 @@ def main(output,metadata_root):
                 if mode.startswith('prompt_'):
                     fcntl.fcntl(child.stdin.fileno(),fcntl.F_SETPIPE_SZ,4096)
                     capacity=fcntl.fcntl(child.stdin.fileno(),fcntl.F_GETPIPE_SZ)
-                    save(case/'PIPE-CAPACITY.json',dict(stdinBytes=capacity,sourcePromptBytes=131072,watchdogSeconds=5))
+                    save(case/'PIPE-CAPACITY.json',dict(stdinBytes=capacity,sourcePromptBytes=len(prompt),assembledPromptBytes=131072,watchdogSeconds=5))
                     require(capacity<131072,'PROMPT_LARGER_THAN_PIPE')
                 return child
             if mode=='stale_input':(evidence/'packet/PROMPT.txt').write_bytes(b'changed')
@@ -217,13 +219,13 @@ def main(output,metadata_root):
                 if mode in ('valid','one_shot'):
                     require((evidence/'GEMINI-REVIEW.md').read_bytes()==report.encode(),'REPORT_EXACT')
                     require(receipt['report']==dict(sha256=hashlib.sha256(report.encode()).hexdigest(),bytes=len(report.encode())),'RECEIPT_BINDS_EXACT_REPORT_BYTES')
-                    wire=json.loads((evidence/'PROMPT-RECEIVED.bin').read_bytes());require(wire['message']['content'].encode()==(root/'PROMPT.txt').read_bytes(),'EXACT_SINGLE_PROMPT')
+                    wire=json.loads((evidence/'PROMPT-RECEIVED.bin').read_bytes());require((evidence/'packet/PROMPT-REQUEST.bin').read_bytes()==(root/'PROMPT.txt').read_bytes() and wire['message']['content'].encode()==(evidence/'packet/PROMPT.txt').read_bytes()==m.assemble_packet(d,(root/'PROMPT.txt').read_bytes(),[(root/row['path']).read_bytes() for row in d['sources']]),'EXACT_SINGLE_PROMPT')
                     successful=evidence
                 if mode.startswith('prompt_'):
                     delivery=receipt['promptDelivery'];require(delivery['wireBytes']>131072,'FULL_JSON_FRAME_ACCOUNTED')
                     if expected is None:
                         require(receipt['promptSent'] and delivery['status']=='COMPLETE' and delivery['bytesWritten']==delivery['wireBytes'],'PROMPT_COMPLETE_ONCE')
-                        wire=json.loads((evidence/'PROMPT-RECEIVED.bin').read_bytes());require(wire['message']['content'].encode()==(root/'PROMPT.txt').read_bytes(),'MAX_PROMPT_EXACT_DELIVERY')
+                        wire=json.loads((evidence/'PROMPT-RECEIVED.bin').read_bytes());require((evidence/'packet/PROMPT-REQUEST.bin').read_bytes()==(root/'PROMPT.txt').read_bytes() and wire['message']['content'].encode()==(evidence/'packet/PROMPT.txt').read_bytes()==m.assemble_packet(d,(root/'PROMPT.txt').read_bytes(),[(root/row['path']).read_bytes() for row in d['sources']]),'MAX_PROMPT_EXACT_DELIVERY')
                         require((evidence/'GEMINI-REVIEW.md').read_bytes()==report.encode(),'PROMPT_CONTROL_REPORT_EXACT')
                         if mode=='prompt_stdout_backpressure':require(receipt['transport']['stdout']['bytes']>262144,'STDOUT_DRAINED_DURING_WRITE')
                         if mode=='prompt_stderr_backpressure':require(receipt['transport']['stderr']['bytes']==262144,'STDERR_DRAINED_DURING_WRITE')

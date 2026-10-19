@@ -1,3 +1,5 @@
+import sys
+sys.dont_write_bytecode = True
 """Exact completion-transition controls before/after ledger overflow; no native calls."""
 import hashlib,importlib.util,json
 from pathlib import Path

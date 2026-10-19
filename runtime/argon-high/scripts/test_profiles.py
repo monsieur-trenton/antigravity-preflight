@@ -1,3 +1,5 @@
+import sys
+sys.dont_write_bytecode = True
 import sys, os, json, hashlib, pathlib, shutil, subprocess, time
 """Synthetic profile binding and actual saved-document controls; no real CLI."""
 from pathlib import Path

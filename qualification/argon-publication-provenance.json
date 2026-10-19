@@ -1,37 +1,38 @@
 {
   "schemaVersion": 1,
-  "release": "0.2.0",
+  "release": "0.3.0",
+  "qualifiedRevision": "r15",
   "files": [
     {
       "path": "runtime/argon-high/scripts/cli_review.py",
-      "source": "Gate E activated normal runtime",
+      "source": "Owner-activated r15 runtime",
       "sourcePin": {
-        "sha256": "741e4753f169521e2ae1da3e424283cc881c33279b96108c34b249ddefb22ed7",
-        "bytes": 28563
+        "sha256": "83b06b60d924a84c691515c3ee00a7dd2f1118ee4af3a9072fef1df345241d89",
+        "bytes": 35570
       },
       "publication": "BYTE_IDENTICAL"
     },
     {
       "path": "runtime/argon-high/scripts/cli_capabilities.py",
-      "source": "Gate E activated normal runtime",
+      "source": "Owner-activated r15 runtime",
       "sourcePin": {
-        "sha256": "a8c933bf55dccdc2f6dda03346e88e5e8d757ce289733ef30bb27b7ebf319ef3",
-        "bytes": 8447
+        "sha256": "6824b61d8b0b0ec1f200ad58fe2f27310409d6518c537b4b83b07e6e565644e7",
+        "bytes": 8489
       },
       "publication": "BYTE_IDENTICAL"
     },
     {
       "path": "runtime/argon-high/scripts/manual_citations.py",
-      "source": "Gate E activated normal runtime",
+      "source": "Owner-activated r15 runtime",
       "sourcePin": {
-        "sha256": "9bf9b723381f3615e1874599b4efc7b4386ecd98cf0ceda4dc64f26dba0983dd",
-        "bytes": 5511
+        "sha256": "bb3b0c137ff7e1694d1958781036f524ce6821f4d679833c991f062e77b01cd9",
+        "bytes": 5569
       },
       "publication": "BYTE_IDENTICAL"
     },
     {
       "path": "runtime/argon-high/assets/cli-review/deny_tools.py",
-      "source": "Gate E activated normal runtime",
+      "source": "Owner-activated r15 runtime",
       "sourcePin": {
         "sha256": "f514b4e3c3960ae557beec12f36b0e647df9295626ca56bf080fa812a8eb2c8d",
         "bytes": 755
@@ -40,16 +41,16 @@
     },
     {
       "path": "runtime/argon-high/assets/cli-review/.agents/hooks.json",
-      "source": "Gate E activated normal runtime",
+      "source": "Owner-activated r15 runtime",
       "sourcePin": {
-        "sha256": "a8dcd7f06c3594494eda7918e9372150f26fa162a243f470288e618ca7b3d163",
-        "bytes": 295
+        "sha256": "3b453bc7da2e7fd0073473581f5171413d9eb696308cc23860d0cb699ee92234",
+        "bytes": 301
       },
       "publication": "BYTE_IDENTICAL"
     },
     {
       "path": "runtime/argon-high/assets/cli-review/.agents/agents/preflight-inline.md",
-      "source": "Gate E activated normal runtime",
+      "source": "Owner-activated r15 runtime",
       "sourcePin": {
         "sha256": "a02ae60b431dd7c8ef19f7d24a552dc27c528eda4a31753a08708975f7d11569",
         "bytes": 397
@@ -58,7 +59,7 @@
     },
     {
       "path": "runtime/argon-high/RUNTIME-PROFILES.json",
-      "source": "Gate E activated normal runtime",
+      "source": "Owner-activated r15 runtime",
       "sourcePin": {
         "sha256": "45d5399356241ffd1f66c476c85ab66ba5598fbc6606b3bedab85d397d82f2c6",
         "bytes": 362
@@ -66,96 +67,123 @@
       "publication": "BYTE_IDENTICAL"
     },
     {
-      "path": "runtime/argon-high/scripts/test_cli_capabilities.py",
-      "source": "Accepted r5c normal-runtime harness",
-      "sourcePin": {
-        "sha256": "e8491343e6ddc5e7fa1287213cec868187eb93c8311b4849efa091803c4a2135",
-        "bytes": 7392
-      },
-      "publication": "BYTE_IDENTICAL"
-    },
-    {
-      "path": "runtime/argon-high/scripts/test_cli_launcher.py",
-      "source": "Accepted r5c normal-runtime harness",
-      "sourcePin": {
-        "sha256": "4be351964f766721e087a891481494bb48bda808151475d6bc8ef1aff1677396",
-        "bytes": 27490
-      },
-      "publication": "TEST_HARNESS_PORTABILITY_EDIT",
-      "publishedPin": {
-        "sha256": "61e82ef54c0bc0e31f41aa5a5f2e0aeb28f4162a36940db1e087f8fd31e560c7",
-        "bytes": 27496
-      },
-      "change": "Synthetic proxy readiness file replaces unused socket. Profile harness locates public runtime at its containing package root. No native/auth/socket qualification credit."
-    },
-    {
-      "path": "runtime/argon-high/scripts/test_ledger.py",
-      "source": "Accepted r5c normal-runtime harness",
-      "sourcePin": {
-        "sha256": "9acec2ce2543f8e23c885d736cbebe0b3537e534d9f0ebe01a6dd2c763d31619",
-        "bytes": 6556
-      },
-      "publication": "BYTE_IDENTICAL"
-    },
-    {
-      "path": "runtime/argon-high/scripts/test_completion.py",
-      "source": "Accepted r5c normal-runtime harness",
-      "sourcePin": {
-        "sha256": "55cc0fe98c48b0f379929eba40fee8376847c986f7d34b9cabeeb17c67658895",
-        "bytes": 5373
-      },
-      "publication": "BYTE_IDENTICAL"
-    },
-    {
-      "path": "runtime/argon-high/scripts/test_profiles.py",
-      "source": "Accepted r5c profile/gate harness",
-      "sourcePin": {
-        "sha256": "c03592f716bb5966074f832d8be55eae6402debde028d1569b3861a6e8aa1459",
-        "bytes": 12219
-      },
-      "publication": "TEST_HARNESS_PORTABILITY_EDIT",
-      "publishedPin": {
-        "sha256": "1195a25b5e529c254cf1d9398da5d2ce7ffcf50f581791cc6faec867bf14baf9",
-        "bytes": 12196
-      },
-      "change": "Synthetic proxy readiness file replaces unused socket. Profile harness locates public runtime at its containing package root. No native/auth/socket qualification credit."
-    },
-    {
       "path": "qualification/argon-source-host-offline-qualification.json",
-      "source": "Gate E exact saved historical offline envelope; not host activation authority",
+      "source": "Owner-activated r15 runtime",
       "sourcePin": {
-        "sha256": "d768cc19d81a268ef476034999b21db9055caeef37a58a5902913175fc2e2199",
+        "sha256": "e617ac86a07c5462891f33e0e771c7fc9d403e61b8b170feff310d38df48d7ba",
         "bytes": 3000
       },
       "publication": "BYTE_IDENTICAL"
     },
     {
-      "path": "qualification/argon-runtime-pins.json",
-      "source": "Derived sanitized publication record",
+      "path": "runtime/argon-high/scripts/test_cli_capabilities.py",
+      "source": "Frozen r15 qualification test with publication-only portability edit",
       "sourcePin": {
-        "sha256": "bc9b20cfb875be44c444e98a7bc562387b8e5ccaf076537c604a067a80c6cc43",
-        "bytes": 1267
+        "sha256": "77c1648ca5bfc9125b7c25815d4757c34fbedee3e9f0e56bbdae4a28360cd7b9",
+        "bytes": 7434
+      },
+      "publication": "BYTE_IDENTICAL"
+    },
+    {
+      "path": "runtime/argon-high/scripts/test_cli_launcher.py",
+      "source": "Frozen r15 qualification test with publication-only portability edit",
+      "sourcePin": {
+        "sha256": "4366ce04d1b4171fe64db2a0e561ae6a632e3c0f106e29819b3edcf7289047e4",
+        "bytes": 28294
+      },
+      "publication": "TEST_ONLY_PORTABILITY_EDIT",
+      "publishedPin": {
+        "sha256": "bc90c1abb6bf9113a767b73f4a2fbe9935b93c546c1e33b5aa735e4be3396caf",
+        "bytes": 28300
+      },
+      "publicationNote": "Use repository-relative fixture imports and a plain readiness marker instead of the unused synthetic proxy socket. Qualified runtime unchanged."
+    },
+    {
+      "path": "runtime/argon-high/scripts/test_ledger.py",
+      "source": "Frozen r15 qualification test with publication-only portability edit",
+      "sourcePin": {
+        "sha256": "c785a91cf4d8ea019601a64779a923d9cde1a5db2cc8bde57160ee7b16c2c764",
+        "bytes": 6598
+      },
+      "publication": "BYTE_IDENTICAL"
+    },
+    {
+      "path": "runtime/argon-high/scripts/test_completion.py",
+      "source": "Frozen r15 qualification test with publication-only portability edit",
+      "sourcePin": {
+        "sha256": "324804a0b3364232debe408ffe3d411a9fa180456d5a7a50a374e2ce334a5d7d",
+        "bytes": 5415
+      },
+      "publication": "BYTE_IDENTICAL"
+    },
+    {
+      "path": "runtime/argon-high/scripts/test_profiles.py",
+      "source": "Frozen r15 qualification test with publication-only portability edit",
+      "sourcePin": {
+        "sha256": "c5f36d15f24bf0abb1c5d48e18b1668d80f468d130c2aab14082c1487dde97af",
+        "bytes": 12261
+      },
+      "publication": "TEST_ONLY_PORTABILITY_EDIT",
+      "publishedPin": {
+        "sha256": "af5bf92532faa0581c104cb9671fb8aeeb8ad9b8336135c27e41131469637ed5",
+        "bytes": 12238
+      },
+      "publicationNote": "Use repository-relative fixture imports and a plain readiness marker instead of the unused synthetic proxy socket. Qualified runtime unchanged."
+    },
+    {
+      "path": "runtime/argon-high/scripts/test_tier2.py",
+      "source": "Frozen r15 qualification test with publication-only portability edit",
+      "sourcePin": {
+        "sha256": "b51de51615f451e6600afe9b8deec5db25d32d879fb72c52b773c1e426dbaf21",
+        "bytes": 11107
+      },
+      "publication": "TEST_ONLY_PORTABILITY_EDIT",
+      "publishedPin": {
+        "sha256": "63d15ccaf269a733342465e36de1508cea0a8093be8c2d9f4842799594edaf7a",
+        "bytes": 11017
+      },
+      "publicationNote": "Use repository-relative fixture imports and a plain readiness marker instead of the unused synthetic proxy socket. Qualified runtime unchanged."
+    },
+    {
+      "path": "runtime/argon-high/scripts/test_timing.py",
+      "source": "Frozen r15 qualification test with publication-only portability edit",
+      "sourcePin": {
+        "sha256": "02ea509a7e6dbcf1077217134f740228c67d10ab8317f3e7421c7eebafbc3963",
+        "bytes": 6798
+      },
+      "publication": "TEST_ONLY_PORTABILITY_EDIT",
+      "publishedPin": {
+        "sha256": "ad216f1ace34f966fcfecd6b307592694cf721f0930cdbd24204166a0a1658b3",
+        "bytes": 6764
+      },
+      "publicationNote": "Use repository-relative fixture imports and a plain readiness marker instead of the unused synthetic proxy socket. Qualified runtime unchanged."
+    },
+    {
+      "path": "qualification/argon-source-host-summary.json",
+      "source": "Sanitized summary derived from authenticated r15 activation and carried qualification",
+      "sourcePin": {
+        "sha256": "4b73c1eda5203a438a6ca3b8f5ebb2f3a2e15dc6410dd21fd9a14e99556b784c",
+        "bytes": 5365
       },
       "publication": "DERIVED_NOT_ORIGINAL_HOST_RECORD"
     },
     {
-      "path": "qualification/argon-source-host-summary.json",
-      "source": "Derived sanitized publication record",
+      "path": "qualification/argon-runtime-pins.json",
+      "source": "Runtime identity from the authenticated installed r15 envelope",
       "sourcePin": {
-        "sha256": "e681d0bb942e445d11c49895f5e9960b885262f191ad7b12a31d88cdcbefe1b5",
-        "bytes": 4495
+        "sha256": "8449316282ca789011739a000a9eed7facd01500d85d6042f27117a8a1e7ec8e",
+        "bytes": 1319
       },
-      "publication": "DERIVED_NOT_ORIGINAL_HOST_RECORD"
+      "publication": "DERIVED_PIN_MAP"
+    },
+    {
+      "path": "qualification/argon-offline-repeatability.json",
+      "source": "Newly executed public r15 portable synthetic subset",
+      "sourcePin": {
+        "sha256": "942ce75da28f166bf51bad5ae7cda9454852709ceb4423066c63935254808a22",
+        "bytes": 7375
+      },
+      "publication": "DERIVED_OFFLINE_EVIDENCE_NOT_NATIVE_CREDIT"
     }
-  ],
-  "runtimeBehaviorChanges": "NONE: seven accepted runtime files byte-identical",
-  "excluded": [
-    "Vendor binary",
-    "Credentials",
-    "Private qualification packets/oracles",
-    "Raw native streams",
-    "P2 challenge drivers"
-  ],
-  "publicationNativeCalls": 0,
-  "publicationProviderCalls": 0
+  ]
 }

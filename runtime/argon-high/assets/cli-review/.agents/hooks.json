@@ -7,7 +7,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/usr/bin/python3 /review/deny_tools.py",
+            "command": "/usr/bin/python3 -I -B /review/deny_tools.py",
             "timeout": 3
           }
         ]
