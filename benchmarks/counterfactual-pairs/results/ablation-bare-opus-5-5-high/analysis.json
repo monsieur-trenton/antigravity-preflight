@@ -1,0 +1,1556 @@
+{
+  "kind": "ABLATION_ARM_COMPARISON_NOT_A_GENERAL_ACCURACY_RATE",
+  "corpusManifestSha256": "79facc8afe49f243009a813e63f9f77adfa284567982af2282daf9948eb6316b",
+  "arms": {
+    "skill": {
+      "arm": "skill",
+      "observations": 80,
+      "technicalStops": {},
+      "unparseableOrMissingVerdict": 0,
+      "stamps": [
+        [
+          "claude-opus-5-5",
+          "high",
+          "2.1.306 (Claude Code)"
+        ]
+      ],
+      "servedModels": [
+        "claude-opus-5-5"
+      ],
+      "costUsd": 2.1374,
+      "perTrial": {
+        "1": {
+          "verdictOnly": {
+            "soundClean": {
+              "count": 13,
+              "of": 20,
+              "wilson95": [
+                0.433,
+                0.819
+              ]
+            },
+            "soundBlocked": {
+              "count": 0,
+              "of": 20,
+              "wilson95": [
+                0.0,
+                0.161
+              ]
+            },
+            "soundHedged": {
+              "count": 7,
+              "of": 20,
+              "wilson95": [
+                0.181,
+                0.567
+              ]
+            },
+            "changedVerdictCorrect": {
+              "count": 20,
+              "of": 20,
+              "wilson95": [
+                0.839,
+                1.0
+              ]
+            },
+            "pairStrictVerdictOnly": {
+              "count": 13,
+              "of": 20,
+              "wilson95": [
+                0.433,
+                0.819
+              ]
+            },
+            "pairOrderedVerdictOnly": {
+              "count": 20,
+              "of": 20,
+              "wilson95": [
+                0.839,
+                1.0
+              ]
+            },
+            "note": "Verdict-only definitions identical for every arm: defect twin = BLOCKERS_FOUND, uncertainty twin = CHANGES_RECOMMENDED."
+          }
+        },
+        "2": {
+          "verdictOnly": {
+            "soundClean": {
+              "count": 11,
+              "of": 20,
+              "wilson95": [
+                0.342,
+                0.742
+              ]
+            },
+            "soundBlocked": {
+              "count": 0,
+              "of": 20,
+              "wilson95": [
+                0.0,
+                0.161
+              ]
+            },
+            "soundHedged": {
+              "count": 9,
+              "of": 20,
+              "wilson95": [
+                0.258,
+                0.658
+              ]
+            },
+            "changedVerdictCorrect": {
+              "count": 20,
+              "of": 20,
+              "wilson95": [
+                0.839,
+                1.0
+              ]
+            },
+            "pairStrictVerdictOnly": {
+              "count": 11,
+              "of": 20,
+              "wilson95": [
+                0.342,
+                0.742
+              ]
+            },
+            "pairOrderedVerdictOnly": {
+              "count": 20,
+              "of": 20,
+              "wilson95": [
+                0.839,
+                1.0
+              ]
+            },
+            "note": "Verdict-only definitions identical for every arm: defect twin = BLOCKERS_FOUND, uncertainty twin = CHANGES_RECOMMENDED."
+          }
+        }
+      },
+      "adjustedPerTrial": {
+        "1": {
+          "verdictOnly": {
+            "soundClean": {
+              "count": 13,
+              "of": 18,
+              "wilson95": [
+                0.491,
+                0.875
+              ]
+            },
+            "soundBlocked": {
+              "count": 0,
+              "of": 18,
+              "wilson95": [
+                0.0,
+                0.176
+              ]
+            },
+            "soundHedged": {
+              "count": 5,
+              "of": 18,
+              "wilson95": [
+                0.125,
+                0.509
+              ]
+            },
+            "changedVerdictCorrect": {
+              "count": 18,
+              "of": 18,
+              "wilson95": [
+                0.824,
+                1.0
+              ]
+            },
+            "pairStrictVerdictOnly": {
+              "count": 13,
+              "of": 18,
+              "wilson95": [
+                0.491,
+                0.875
+              ]
+            },
+            "pairOrderedVerdictOnly": {
+              "count": 18,
+              "of": 18,
+              "wilson95": [
+                0.824,
+                1.0
+              ]
+            },
+            "note": "Verdict-only definitions identical for every arm: defect twin = BLOCKERS_FOUND, uncertainty twin = CHANGES_RECOMMENDED."
+          }
+        },
+        "2": {
+          "verdictOnly": {
+            "soundClean": {
+              "count": 11,
+              "of": 18,
+              "wilson95": [
+                0.386,
+                0.797
+              ]
+            },
+            "soundBlocked": {
+              "count": 0,
+              "of": 18,
+              "wilson95": [
+                0.0,
+                0.176
+              ]
+            },
+            "soundHedged": {
+              "count": 7,
+              "of": 18,
+              "wilson95": [
+                0.203,
+                0.614
+              ]
+            },
+            "changedVerdictCorrect": {
+              "count": 18,
+              "of": 18,
+              "wilson95": [
+                0.824,
+                1.0
+              ]
+            },
+            "pairStrictVerdictOnly": {
+              "count": 11,
+              "of": 18,
+              "wilson95": [
+                0.386,
+                0.797
+              ]
+            },
+            "pairOrderedVerdictOnly": {
+              "count": 18,
+              "of": 18,
+              "wilson95": [
+                0.824,
+                1.0
+              ]
+            },
+            "note": "Verdict-only definitions identical for every arm: defect twin = BLOCKERS_FOUND, uncertainty twin = CHANGES_RECOMMENDED."
+          }
+        }
+      },
+      "repeatability": {
+        "count": 38,
+        "of": 40,
+        "wilson95": [
+          0.835,
+          0.986
+        ]
+      },
+      "mechanismMentionedAmongBlockedDefectTwins": {
+        "count": 36,
+        "of": 36,
+        "wilson95": [
+          0.904,
+          1.0
+        ]
+      }
+    },
+    "bare": {
+      "arm": "bare",
+      "observations": 80,
+      "technicalStops": {
+        "UNPARSEABLE_REPORT": 3
+      },
+      "unparseableOrMissingVerdict": 3,
+      "stamps": [
+        [
+          "claude-opus-5-5",
+          "high",
+          "2.1.306 (Claude Code)"
+        ]
+      ],
+      "servedModels": [
+        "claude-opus-4-8",
+        "claude-opus-5-5"
+      ],
+      "costUsd": 2.7829,
+      "perTrial": {
+        "1": {
+          "verdictOnly": {
+            "soundClean": {
+              "count": 3,
+              "of": 19,
+              "wilson95": [
+                0.055,
+                0.376
+              ]
+            },
+            "soundBlocked": {
+              "count": 0,
+              "of": 19,
+              "wilson95": [
+                0.0,
+                0.168
+              ]
+            },
+            "soundHedged": {
+              "count": 16,
+              "of": 19,
+              "wilson95": [
+                0.624,
+                0.945
+              ]
+            },
+            "changedVerdictCorrect": {
+              "count": 11,
+              "of": 19,
+              "wilson95": [
+                0.363,
+                0.769
+              ]
+            },
+            "pairStrictVerdictOnly": {
+              "count": 1,
+              "of": 18,
+              "wilson95": [
+                0.01,
+                0.258
+              ]
+            },
+            "pairOrderedVerdictOnly": {
+              "count": 9,
+              "of": 18,
+              "wilson95": [
+                0.29,
+                0.71
+              ]
+            },
+            "note": "Verdict-only definitions identical for every arm: defect twin = BLOCKERS_FOUND, uncertainty twin = CHANGES_RECOMMENDED."
+          }
+        },
+        "2": {
+          "verdictOnly": {
+            "soundClean": {
+              "count": 4,
+              "of": 20,
+              "wilson95": [
+                0.081,
+                0.416
+              ]
+            },
+            "soundBlocked": {
+              "count": 0,
+              "of": 20,
+              "wilson95": [
+                0.0,
+                0.161
+              ]
+            },
+            "soundHedged": {
+              "count": 16,
+              "of": 20,
+              "wilson95": [
+                0.584,
+                0.919
+              ]
+            },
+            "changedVerdictCorrect": {
+              "count": 12,
+              "of": 19,
+              "wilson95": [
+                0.41,
+                0.809
+              ]
+            },
+            "pairStrictVerdictOnly": {
+              "count": 1,
+              "of": 19,
+              "wilson95": [
+                0.009,
+                0.246
+              ]
+            },
+            "pairOrderedVerdictOnly": {
+              "count": 12,
+              "of": 19,
+              "wilson95": [
+                0.41,
+                0.809
+              ]
+            },
+            "note": "Verdict-only definitions identical for every arm: defect twin = BLOCKERS_FOUND, uncertainty twin = CHANGES_RECOMMENDED."
+          }
+        }
+      },
+      "adjustedPerTrial": {
+        "1": {
+          "verdictOnly": {
+            "soundClean": {
+              "count": 3,
+              "of": 17,
+              "wilson95": [
+                0.062,
+                0.41
+              ]
+            },
+            "soundBlocked": {
+              "count": 0,
+              "of": 17,
+              "wilson95": [
+                0.0,
+                0.184
+              ]
+            },
+            "soundHedged": {
+              "count": 14,
+              "of": 17,
+              "wilson95": [
+                0.59,
+                0.938
+              ]
+            },
+            "changedVerdictCorrect": {
+              "count": 11,
+              "of": 17,
+              "wilson95": [
+                0.413,
+                0.827
+              ]
+            },
+            "pairStrictVerdictOnly": {
+              "count": 1,
+              "of": 16,
+              "wilson95": [
+                0.011,
+                0.283
+              ]
+            },
+            "pairOrderedVerdictOnly": {
+              "count": 9,
+              "of": 16,
+              "wilson95": [
+                0.332,
+                0.769
+              ]
+            },
+            "note": "Verdict-only definitions identical for every arm: defect twin = BLOCKERS_FOUND, uncertainty twin = CHANGES_RECOMMENDED."
+          }
+        },
+        "2": {
+          "verdictOnly": {
+            "soundClean": {
+              "count": 4,
+              "of": 18,
+              "wilson95": [
+                0.09,
+                0.452
+              ]
+            },
+            "soundBlocked": {
+              "count": 0,
+              "of": 18,
+              "wilson95": [
+                0.0,
+                0.176
+              ]
+            },
+            "soundHedged": {
+              "count": 14,
+              "of": 18,
+              "wilson95": [
+                0.548,
+                0.91
+              ]
+            },
+            "changedVerdictCorrect": {
+              "count": 12,
+              "of": 17,
+              "wilson95": [
+                0.469,
+                0.867
+              ]
+            },
+            "pairStrictVerdictOnly": {
+              "count": 1,
+              "of": 17,
+              "wilson95": [
+                0.01,
+                0.27
+              ]
+            },
+            "pairOrderedVerdictOnly": {
+              "count": 12,
+              "of": 17,
+              "wilson95": [
+                0.469,
+                0.867
+              ]
+            },
+            "note": "Verdict-only definitions identical for every arm: defect twin = BLOCKERS_FOUND, uncertainty twin = CHANGES_RECOMMENDED."
+          }
+        }
+      },
+      "repeatability": {
+        "count": 29,
+        "of": 40,
+        "wilson95": [
+          0.572,
+          0.839
+        ]
+      },
+      "mechanismMentionedAmongBlockedDefectTwins": {
+        "count": 19,
+        "of": 19,
+        "wilson95": [
+          0.832,
+          1.0
+        ]
+      }
+    }
+  },
+  "comparability": {
+    "sameModelEffortAndCliVersion": true,
+    "note": "A mismatch means the arms differ in more than the prompt bundle; say so wherever the comparison is quoted."
+  },
+  "excludedFamilies": [
+    "caller_callee"
+  ],
+  "providerCalls": 0,
+  "allPairs": {
+    "primaryOrdinalPairDiscrimination": {
+      "skill": {
+        "count": 40,
+        "of": 40,
+        "wilson95": [
+          0.912,
+          1.0
+        ]
+      },
+      "bare": {
+        "count": 21,
+        "of": 37,
+        "wilson95": [
+          0.409,
+          0.713
+        ]
+      }
+    },
+    "primaryPaired": {
+      "first": "skill",
+      "second": "bare",
+      "matchedUnits": 37,
+      "bothCount": 21,
+      "onlyFirst": 16,
+      "onlySecond": 0,
+      "exactTwoSidedSignTestP": 0.0
+    },
+    "soundPlansBlocked": {
+      "skill": {
+        "count": 0,
+        "of": 40,
+        "wilson95": [
+          0.0,
+          0.088
+        ]
+      },
+      "bare": {
+        "count": 0,
+        "of": 39,
+        "wilson95": [
+          0.0,
+          0.09
+        ]
+      }
+    },
+    "soundPlansClean": {
+      "skill": {
+        "count": 24,
+        "of": 40,
+        "wilson95": [
+          0.446,
+          0.737
+        ]
+      },
+      "bare": {
+        "count": 7,
+        "of": 39,
+        "wilson95": [
+          0.09,
+          0.327
+        ]
+      }
+    },
+    "soundPlansHedged": {
+      "skill": {
+        "count": 16,
+        "of": 40,
+        "wilson95": [
+          0.263,
+          0.554
+        ]
+      },
+      "bare": {
+        "count": 32,
+        "of": 39,
+        "wilson95": [
+          0.673,
+          0.91
+        ]
+      }
+    },
+    "soundNotBlockedPaired": {
+      "first": "skill",
+      "second": "bare",
+      "matchedUnits": 39,
+      "bothCount": 39,
+      "onlyFirst": 0,
+      "onlySecond": 0,
+      "exactTwoSidedSignTestP": 1.0
+    },
+    "soundCleanPaired": {
+      "first": "skill",
+      "second": "bare",
+      "matchedUnits": 39,
+      "bothCount": 7,
+      "onlyFirst": 16,
+      "onlySecond": 0,
+      "exactTwoSidedSignTestP": 0.0
+    },
+    "changedTwinVerdictCorrect": {
+      "skill": {
+        "count": 40,
+        "of": 40,
+        "wilson95": [
+          0.912,
+          1.0
+        ]
+      },
+      "bare": {
+        "count": 23,
+        "of": 38,
+        "wilson95": [
+          0.447,
+          0.744
+        ]
+      }
+    },
+    "changedTwinCorrectPaired": {
+      "first": "skill",
+      "second": "bare",
+      "matchedUnits": 38,
+      "bothCount": 23,
+      "onlyFirst": 15,
+      "onlySecond": 0,
+      "exactTwoSidedSignTestP": 0.0001
+    }
+  },
+  "adjusted": {
+    "primaryOrdinalPairDiscrimination": {
+      "skill": {
+        "count": 36,
+        "of": 36,
+        "wilson95": [
+          0.904,
+          1.0
+        ]
+      },
+      "bare": {
+        "count": 21,
+        "of": 33,
+        "wilson95": [
+          0.466,
+          0.778
+        ]
+      }
+    },
+    "primaryPaired": {
+      "first": "skill",
+      "second": "bare",
+      "matchedUnits": 33,
+      "bothCount": 21,
+      "onlyFirst": 12,
+      "onlySecond": 0,
+      "exactTwoSidedSignTestP": 0.0005
+    },
+    "soundPlansBlocked": {
+      "skill": {
+        "count": 0,
+        "of": 36,
+        "wilson95": [
+          0.0,
+          0.096
+        ]
+      },
+      "bare": {
+        "count": 0,
+        "of": 35,
+        "wilson95": [
+          0.0,
+          0.099
+        ]
+      }
+    },
+    "soundPlansClean": {
+      "skill": {
+        "count": 24,
+        "of": 36,
+        "wilson95": [
+          0.503,
+          0.798
+        ]
+      },
+      "bare": {
+        "count": 7,
+        "of": 35,
+        "wilson95": [
+          0.1,
+          0.359
+        ]
+      }
+    },
+    "soundPlansHedged": {
+      "skill": {
+        "count": 12,
+        "of": 36,
+        "wilson95": [
+          0.202,
+          0.497
+        ]
+      },
+      "bare": {
+        "count": 28,
+        "of": 35,
+        "wilson95": [
+          0.641,
+          0.9
+        ]
+      }
+    },
+    "soundNotBlockedPaired": {
+      "first": "skill",
+      "second": "bare",
+      "matchedUnits": 35,
+      "bothCount": 35,
+      "onlyFirst": 0,
+      "onlySecond": 0,
+      "exactTwoSidedSignTestP": 1.0
+    },
+    "soundCleanPaired": {
+      "first": "skill",
+      "second": "bare",
+      "matchedUnits": 35,
+      "bothCount": 7,
+      "onlyFirst": 16,
+      "onlySecond": 0,
+      "exactTwoSidedSignTestP": 0.0
+    },
+    "changedTwinVerdictCorrect": {
+      "skill": {
+        "count": 36,
+        "of": 36,
+        "wilson95": [
+          0.904,
+          1.0
+        ]
+      },
+      "bare": {
+        "count": 23,
+        "of": 34,
+        "wilson95": [
+          0.508,
+          0.809
+        ]
+      }
+    },
+    "changedTwinCorrectPaired": {
+      "first": "skill",
+      "second": "bare",
+      "matchedUnits": 34,
+      "bothCount": 23,
+      "onlyFirst": 11,
+      "onlySecond": 0,
+      "exactTwoSidedSignTestP": 0.001
+    }
+  },
+  "documentedRuleView": {
+    "kind": "ABLATION_ARM_COMPARISON_NOT_A_GENERAL_ACCURACY_RATE",
+    "corpusManifestSha256": "79facc8afe49f243009a813e63f9f77adfa284567982af2282daf9948eb6316b",
+    "arms": {
+      "skill": {
+        "arm": "skill",
+        "observations": 80,
+        "technicalStops": {},
+        "unparseableOrMissingVerdict": 0,
+        "stamps": [
+          [
+            "claude-opus-5-5",
+            "high",
+            "2.1.306 (Claude Code)"
+          ]
+        ],
+        "servedModels": [
+          "claude-opus-5-5"
+        ],
+        "costUsd": 2.1374,
+        "perTrial": {
+          "1": {
+            "verdictOnly": {
+              "soundClean": {
+                "count": 13,
+                "of": 20,
+                "wilson95": [
+                  0.433,
+                  0.819
+                ]
+              },
+              "soundBlocked": {
+                "count": 0,
+                "of": 20,
+                "wilson95": [
+                  0.0,
+                  0.161
+                ]
+              },
+              "soundHedged": {
+                "count": 7,
+                "of": 20,
+                "wilson95": [
+                  0.181,
+                  0.567
+                ]
+              },
+              "changedVerdictCorrect": {
+                "count": 20,
+                "of": 20,
+                "wilson95": [
+                  0.839,
+                  1.0
+                ]
+              },
+              "pairStrictVerdictOnly": {
+                "count": 13,
+                "of": 20,
+                "wilson95": [
+                  0.433,
+                  0.819
+                ]
+              },
+              "pairOrderedVerdictOnly": {
+                "count": 20,
+                "of": 20,
+                "wilson95": [
+                  0.839,
+                  1.0
+                ]
+              },
+              "note": "Verdict-only definitions identical for every arm: defect twin = BLOCKERS_FOUND, uncertainty twin = CHANGES_RECOMMENDED."
+            }
+          },
+          "2": {
+            "verdictOnly": {
+              "soundClean": {
+                "count": 11,
+                "of": 20,
+                "wilson95": [
+                  0.342,
+                  0.742
+                ]
+              },
+              "soundBlocked": {
+                "count": 0,
+                "of": 20,
+                "wilson95": [
+                  0.0,
+                  0.161
+                ]
+              },
+              "soundHedged": {
+                "count": 9,
+                "of": 20,
+                "wilson95": [
+                  0.258,
+                  0.658
+                ]
+              },
+              "changedVerdictCorrect": {
+                "count": 20,
+                "of": 20,
+                "wilson95": [
+                  0.839,
+                  1.0
+                ]
+              },
+              "pairStrictVerdictOnly": {
+                "count": 11,
+                "of": 20,
+                "wilson95": [
+                  0.342,
+                  0.742
+                ]
+              },
+              "pairOrderedVerdictOnly": {
+                "count": 20,
+                "of": 20,
+                "wilson95": [
+                  0.839,
+                  1.0
+                ]
+              },
+              "note": "Verdict-only definitions identical for every arm: defect twin = BLOCKERS_FOUND, uncertainty twin = CHANGES_RECOMMENDED."
+            }
+          }
+        },
+        "adjustedPerTrial": {
+          "1": {
+            "verdictOnly": {
+              "soundClean": {
+                "count": 13,
+                "of": 18,
+                "wilson95": [
+                  0.491,
+                  0.875
+                ]
+              },
+              "soundBlocked": {
+                "count": 0,
+                "of": 18,
+                "wilson95": [
+                  0.0,
+                  0.176
+                ]
+              },
+              "soundHedged": {
+                "count": 5,
+                "of": 18,
+                "wilson95": [
+                  0.125,
+                  0.509
+                ]
+              },
+              "changedVerdictCorrect": {
+                "count": 18,
+                "of": 18,
+                "wilson95": [
+                  0.824,
+                  1.0
+                ]
+              },
+              "pairStrictVerdictOnly": {
+                "count": 13,
+                "of": 18,
+                "wilson95": [
+                  0.491,
+                  0.875
+                ]
+              },
+              "pairOrderedVerdictOnly": {
+                "count": 18,
+                "of": 18,
+                "wilson95": [
+                  0.824,
+                  1.0
+                ]
+              },
+              "note": "Verdict-only definitions identical for every arm: defect twin = BLOCKERS_FOUND, uncertainty twin = CHANGES_RECOMMENDED."
+            }
+          },
+          "2": {
+            "verdictOnly": {
+              "soundClean": {
+                "count": 11,
+                "of": 18,
+                "wilson95": [
+                  0.386,
+                  0.797
+                ]
+              },
+              "soundBlocked": {
+                "count": 0,
+                "of": 18,
+                "wilson95": [
+                  0.0,
+                  0.176
+                ]
+              },
+              "soundHedged": {
+                "count": 7,
+                "of": 18,
+                "wilson95": [
+                  0.203,
+                  0.614
+                ]
+              },
+              "changedVerdictCorrect": {
+                "count": 18,
+                "of": 18,
+                "wilson95": [
+                  0.824,
+                  1.0
+                ]
+              },
+              "pairStrictVerdictOnly": {
+                "count": 11,
+                "of": 18,
+                "wilson95": [
+                  0.386,
+                  0.797
+                ]
+              },
+              "pairOrderedVerdictOnly": {
+                "count": 18,
+                "of": 18,
+                "wilson95": [
+                  0.824,
+                  1.0
+                ]
+              },
+              "note": "Verdict-only definitions identical for every arm: defect twin = BLOCKERS_FOUND, uncertainty twin = CHANGES_RECOMMENDED."
+            }
+          }
+        },
+        "repeatability": {
+          "count": 38,
+          "of": 40,
+          "wilson95": [
+            0.835,
+            0.986
+          ]
+        },
+        "mechanismMentionedAmongBlockedDefectTwins": {
+          "count": 36,
+          "of": 36,
+          "wilson95": [
+            0.904,
+            1.0
+          ]
+        }
+      },
+      "bare": {
+        "arm": "bare",
+        "observations": 80,
+        "technicalStops": {
+          "UNPARSEABLE_REPORT": 3,
+          "RECLASSIFIED": 1
+        },
+        "unparseableOrMissingVerdict": 3,
+        "stamps": [
+          [
+            "claude-opus-5-5",
+            "high",
+            "2.1.306 (Claude Code)"
+          ],
+          [
+            "claude-opus-5-5",
+            "high",
+            "None"
+          ]
+        ],
+        "servedModels": [
+          "claude-opus-4-8",
+          "claude-opus-5-5"
+        ],
+        "costUsd": 2.7829,
+        "perTrial": {
+          "1": {
+            "verdictOnly": {
+              "soundClean": {
+                "count": 3,
+                "of": 19,
+                "wilson95": [
+                  0.055,
+                  0.376
+                ]
+              },
+              "soundBlocked": {
+                "count": 0,
+                "of": 19,
+                "wilson95": [
+                  0.0,
+                  0.168
+                ]
+              },
+              "soundHedged": {
+                "count": 16,
+                "of": 19,
+                "wilson95": [
+                  0.624,
+                  0.945
+                ]
+              },
+              "changedVerdictCorrect": {
+                "count": 11,
+                "of": 19,
+                "wilson95": [
+                  0.363,
+                  0.769
+                ]
+              },
+              "pairStrictVerdictOnly": {
+                "count": 1,
+                "of": 18,
+                "wilson95": [
+                  0.01,
+                  0.258
+                ]
+              },
+              "pairOrderedVerdictOnly": {
+                "count": 9,
+                "of": 18,
+                "wilson95": [
+                  0.29,
+                  0.71
+                ]
+              },
+              "note": "Verdict-only definitions identical for every arm: defect twin = BLOCKERS_FOUND, uncertainty twin = CHANGES_RECOMMENDED."
+            }
+          },
+          "2": {
+            "verdictOnly": {
+              "soundClean": {
+                "count": 4,
+                "of": 20,
+                "wilson95": [
+                  0.081,
+                  0.416
+                ]
+              },
+              "soundBlocked": {
+                "count": 0,
+                "of": 20,
+                "wilson95": [
+                  0.0,
+                  0.161
+                ]
+              },
+              "soundHedged": {
+                "count": 16,
+                "of": 20,
+                "wilson95": [
+                  0.584,
+                  0.919
+                ]
+              },
+              "changedVerdictCorrect": {
+                "count": 12,
+                "of": 18,
+                "wilson95": [
+                  0.437,
+                  0.837
+                ]
+              },
+              "pairStrictVerdictOnly": {
+                "count": 1,
+                "of": 18,
+                "wilson95": [
+                  0.01,
+                  0.258
+                ]
+              },
+              "pairOrderedVerdictOnly": {
+                "count": 11,
+                "of": 18,
+                "wilson95": [
+                  0.386,
+                  0.797
+                ]
+              },
+              "note": "Verdict-only definitions identical for every arm: defect twin = BLOCKERS_FOUND, uncertainty twin = CHANGES_RECOMMENDED."
+            }
+          }
+        },
+        "adjustedPerTrial": {
+          "1": {
+            "verdictOnly": {
+              "soundClean": {
+                "count": 3,
+                "of": 17,
+                "wilson95": [
+                  0.062,
+                  0.41
+                ]
+              },
+              "soundBlocked": {
+                "count": 0,
+                "of": 17,
+                "wilson95": [
+                  0.0,
+                  0.184
+                ]
+              },
+              "soundHedged": {
+                "count": 14,
+                "of": 17,
+                "wilson95": [
+                  0.59,
+                  0.938
+                ]
+              },
+              "changedVerdictCorrect": {
+                "count": 11,
+                "of": 17,
+                "wilson95": [
+                  0.413,
+                  0.827
+                ]
+              },
+              "pairStrictVerdictOnly": {
+                "count": 1,
+                "of": 16,
+                "wilson95": [
+                  0.011,
+                  0.283
+                ]
+              },
+              "pairOrderedVerdictOnly": {
+                "count": 9,
+                "of": 16,
+                "wilson95": [
+                  0.332,
+                  0.769
+                ]
+              },
+              "note": "Verdict-only definitions identical for every arm: defect twin = BLOCKERS_FOUND, uncertainty twin = CHANGES_RECOMMENDED."
+            }
+          },
+          "2": {
+            "verdictOnly": {
+              "soundClean": {
+                "count": 4,
+                "of": 18,
+                "wilson95": [
+                  0.09,
+                  0.452
+                ]
+              },
+              "soundBlocked": {
+                "count": 0,
+                "of": 18,
+                "wilson95": [
+                  0.0,
+                  0.176
+                ]
+              },
+              "soundHedged": {
+                "count": 14,
+                "of": 18,
+                "wilson95": [
+                  0.548,
+                  0.91
+                ]
+              },
+              "changedVerdictCorrect": {
+                "count": 12,
+                "of": 16,
+                "wilson95": [
+                  0.505,
+                  0.898
+                ]
+              },
+              "pairStrictVerdictOnly": {
+                "count": 1,
+                "of": 16,
+                "wilson95": [
+                  0.011,
+                  0.283
+                ]
+              },
+              "pairOrderedVerdictOnly": {
+                "count": 11,
+                "of": 16,
+                "wilson95": [
+                  0.444,
+                  0.858
+                ]
+              },
+              "note": "Verdict-only definitions identical for every arm: defect twin = BLOCKERS_FOUND, uncertainty twin = CHANGES_RECOMMENDED."
+            }
+          }
+        },
+        "repeatability": {
+          "count": 30,
+          "of": 40,
+          "wilson95": [
+            0.598,
+            0.858
+          ]
+        },
+        "mechanismMentionedAmongBlockedDefectTwins": {
+          "count": 19,
+          "of": 19,
+          "wilson95": [
+            0.832,
+            1.0
+          ]
+        }
+      }
+    },
+    "comparability": {
+      "sameModelEffortAndCliVersion": false,
+      "note": "A mismatch means the arms differ in more than the prompt bundle; say so wherever the comparison is quoted."
+    },
+    "excludedFamilies": [
+      "caller_callee"
+    ],
+    "providerCalls": 0,
+    "allPairs": {
+      "primaryOrdinalPairDiscrimination": {
+        "skill": {
+          "count": 40,
+          "of": 40,
+          "wilson95": [
+            0.912,
+            1.0
+          ]
+        },
+        "bare": {
+          "count": 20,
+          "of": 36,
+          "wilson95": [
+            0.396,
+            0.705
+          ]
+        }
+      },
+      "primaryPaired": {
+        "first": "skill",
+        "second": "bare",
+        "matchedUnits": 36,
+        "bothCount": 20,
+        "onlyFirst": 16,
+        "onlySecond": 0,
+        "exactTwoSidedSignTestP": 0.0
+      },
+      "soundPlansBlocked": {
+        "skill": {
+          "count": 0,
+          "of": 40,
+          "wilson95": [
+            0.0,
+            0.088
+          ]
+        },
+        "bare": {
+          "count": 0,
+          "of": 39,
+          "wilson95": [
+            0.0,
+            0.09
+          ]
+        }
+      },
+      "soundPlansClean": {
+        "skill": {
+          "count": 24,
+          "of": 40,
+          "wilson95": [
+            0.446,
+            0.737
+          ]
+        },
+        "bare": {
+          "count": 7,
+          "of": 39,
+          "wilson95": [
+            0.09,
+            0.327
+          ]
+        }
+      },
+      "soundPlansHedged": {
+        "skill": {
+          "count": 16,
+          "of": 40,
+          "wilson95": [
+            0.263,
+            0.554
+          ]
+        },
+        "bare": {
+          "count": 32,
+          "of": 39,
+          "wilson95": [
+            0.673,
+            0.91
+          ]
+        }
+      },
+      "soundNotBlockedPaired": {
+        "first": "skill",
+        "second": "bare",
+        "matchedUnits": 39,
+        "bothCount": 39,
+        "onlyFirst": 0,
+        "onlySecond": 0,
+        "exactTwoSidedSignTestP": 1.0
+      },
+      "soundCleanPaired": {
+        "first": "skill",
+        "second": "bare",
+        "matchedUnits": 39,
+        "bothCount": 7,
+        "onlyFirst": 16,
+        "onlySecond": 0,
+        "exactTwoSidedSignTestP": 0.0
+      },
+      "changedTwinVerdictCorrect": {
+        "skill": {
+          "count": 40,
+          "of": 40,
+          "wilson95": [
+            0.912,
+            1.0
+          ]
+        },
+        "bare": {
+          "count": 23,
+          "of": 37,
+          "wilson95": [
+            0.461,
+            0.759
+          ]
+        }
+      },
+      "changedTwinCorrectPaired": {
+        "first": "skill",
+        "second": "bare",
+        "matchedUnits": 37,
+        "bothCount": 23,
+        "onlyFirst": 14,
+        "onlySecond": 0,
+        "exactTwoSidedSignTestP": 0.0001
+      }
+    },
+    "adjusted": {
+      "primaryOrdinalPairDiscrimination": {
+        "skill": {
+          "count": 36,
+          "of": 36,
+          "wilson95": [
+            0.904,
+            1.0
+          ]
+        },
+        "bare": {
+          "count": 20,
+          "of": 32,
+          "wilson95": [
+            0.453,
+            0.771
+          ]
+        }
+      },
+      "primaryPaired": {
+        "first": "skill",
+        "second": "bare",
+        "matchedUnits": 32,
+        "bothCount": 20,
+        "onlyFirst": 12,
+        "onlySecond": 0,
+        "exactTwoSidedSignTestP": 0.0005
+      },
+      "soundPlansBlocked": {
+        "skill": {
+          "count": 0,
+          "of": 36,
+          "wilson95": [
+            0.0,
+            0.096
+          ]
+        },
+        "bare": {
+          "count": 0,
+          "of": 35,
+          "wilson95": [
+            0.0,
+            0.099
+          ]
+        }
+      },
+      "soundPlansClean": {
+        "skill": {
+          "count": 24,
+          "of": 36,
+          "wilson95": [
+            0.503,
+            0.798
+          ]
+        },
+        "bare": {
+          "count": 7,
+          "of": 35,
+          "wilson95": [
+            0.1,
+            0.359
+          ]
+        }
+      },
+      "soundPlansHedged": {
+        "skill": {
+          "count": 12,
+          "of": 36,
+          "wilson95": [
+            0.202,
+            0.497
+          ]
+        },
+        "bare": {
+          "count": 28,
+          "of": 35,
+          "wilson95": [
+            0.641,
+            0.9
+          ]
+        }
+      },
+      "soundNotBlockedPaired": {
+        "first": "skill",
+        "second": "bare",
+        "matchedUnits": 35,
+        "bothCount": 35,
+        "onlyFirst": 0,
+        "onlySecond": 0,
+        "exactTwoSidedSignTestP": 1.0
+      },
+      "soundCleanPaired": {
+        "first": "skill",
+        "second": "bare",
+        "matchedUnits": 35,
+        "bothCount": 7,
+        "onlyFirst": 16,
+        "onlySecond": 0,
+        "exactTwoSidedSignTestP": 0.0
+      },
+      "changedTwinVerdictCorrect": {
+        "skill": {
+          "count": 36,
+          "of": 36,
+          "wilson95": [
+            0.904,
+            1.0
+          ]
+        },
+        "bare": {
+          "count": 23,
+          "of": 33,
+          "wilson95": [
+            0.527,
+            0.826
+          ]
+        }
+      },
+      "changedTwinCorrectPaired": {
+        "first": "skill",
+        "second": "bare",
+        "matchedUnits": 33,
+        "bothCount": 23,
+        "onlyFirst": 10,
+        "onlySecond": 0,
+        "exactTwoSidedSignTestP": 0.002
+      }
+    },
+    "reclassified": [
+      {
+        "arm": "bare",
+        "trial": 2,
+        "case": "P-704166",
+        "code": "MODEL_MISMATCH"
+      }
+    ]
+  }
+}

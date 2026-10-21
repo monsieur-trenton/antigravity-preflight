@@ -1,0 +1,579 @@
+{
+  "kind": "COUNTERFACTUAL_PAIR_PILOT_SCORE_NOT_A_GENERAL_ACCURACY_RATE",
+  "corpusManifestSha256": "79facc8afe49f243009a813e63f9f77adfa284567982af2282daf9948eb6316b",
+  "casesInCorpus": 40,
+  "trials": {
+    "1": {
+      "observations": 40,
+      "technicalStops": 2,
+      "perFamily": {
+        "absent_vs_null": {
+          "outcomes": {
+            "A/changed": "CORRECT",
+            "A/sound": "HEDGED",
+            "B/changed": "MISSED",
+            "B/sound": "HEDGED"
+          },
+          "pairsDiscriminated": "0/2",
+          "pairsOrderedCalibrated": "1/2",
+          "wordingConsistent": {
+            "changed": false,
+            "sound": true
+          }
+        },
+        "caller_callee": {
+          "outcomes": {
+            "A/changed": "MISSED",
+            "A/sound": "HEDGED",
+            "B/changed": "MISSED",
+            "B/sound": "HEDGED"
+          },
+          "pairsDiscriminated": "0/2",
+          "pairsOrderedCalibrated": "0/2",
+          "wordingConsistent": {
+            "changed": true,
+            "sound": true
+          }
+        },
+        "deadline_arithmetic": {
+          "outcomes": {
+            "A/changed": "CORRECT",
+            "A/sound": "HEDGED",
+            "B/changed": "CORRECT",
+            "B/sound": "HEDGED"
+          },
+          "pairsDiscriminated": "0/2",
+          "pairsOrderedCalibrated": "2/2",
+          "wordingConsistent": {
+            "changed": true,
+            "sound": true
+          }
+        },
+        "migration_order": {
+          "outcomes": {
+            "A/changed": "MISSED",
+            "A/sound": "HEDGED",
+            "B/changed": "MISSED",
+            "B/sound": "HEDGED"
+          },
+          "pairsDiscriminated": "0/2",
+          "pairsOrderedCalibrated": "0/2",
+          "wordingConsistent": {
+            "changed": true,
+            "sound": true
+          }
+        },
+        "output_bytes": {
+          "outcomes": {
+            "A/changed": "STOPPED",
+            "A/sound": "CORRECT",
+            "B/changed": "CORRECT",
+            "B/sound": "STOPPED"
+          },
+          "pairsDiscriminated": "0/0",
+          "pairsOrderedCalibrated": "0/0",
+          "wordingConsistent": {
+            "changed": false,
+            "sound": false
+          }
+        },
+        "ownership_authorization": {
+          "outcomes": {
+            "A/changed": "CORRECT",
+            "A/sound": "HEDGED",
+            "B/changed": "CORRECT",
+            "B/sound": "HEDGED"
+          },
+          "pairsDiscriminated": "0/2",
+          "pairsOrderedCalibrated": "2/2",
+          "wordingConsistent": {
+            "changed": true,
+            "sound": true
+          }
+        },
+        "permission_chain": {
+          "outcomes": {
+            "A/changed": "CORRECT",
+            "A/sound": "HEDGED",
+            "B/changed": "CORRECT",
+            "B/sound": "HEDGED"
+          },
+          "pairsDiscriminated": "0/2",
+          "pairsOrderedCalibrated": "2/2",
+          "wordingConsistent": {
+            "changed": true,
+            "sound": true
+          }
+        },
+        "required_coverage": {
+          "outcomes": {
+            "A/changed": "MISSED",
+            "A/sound": "CORRECT",
+            "B/changed": "CORRECT",
+            "B/sound": "CORRECT"
+          },
+          "pairsDiscriminated": "1/2",
+          "pairsOrderedCalibrated": "2/2",
+          "wordingConsistent": {
+            "changed": false,
+            "sound": true
+          }
+        },
+        "runtime_budget": {
+          "outcomes": {
+            "A/changed": "CORRECT",
+            "A/sound": "HEDGED",
+            "B/changed": "CORRECT",
+            "B/sound": "HEDGED"
+          },
+          "pairsDiscriminated": "0/2",
+          "pairsOrderedCalibrated": "0/2",
+          "wordingConsistent": {
+            "changed": true,
+            "sound": true
+          }
+        },
+        "unit_mismatch": {
+          "outcomes": {
+            "A/changed": "MISSED",
+            "A/sound": "HEDGED",
+            "B/changed": "MISSED",
+            "B/sound": "HEDGED"
+          },
+          "pairsDiscriminated": "0/2",
+          "pairsOrderedCalibrated": "0/2",
+          "wordingConsistent": {
+            "changed": true,
+            "sound": true
+          }
+        }
+      },
+      "pairDiscrimination": {
+        "count": 1,
+        "of": 18,
+        "wilson95": [
+          0.01,
+          0.258
+        ]
+      },
+      "pairOrderedCalibrated": {
+        "count": 9,
+        "of": 18,
+        "wilson95": [
+          0.29,
+          0.71
+        ]
+      },
+      "hedgedOnSoundPlans": {
+        "count": 16,
+        "of": 19,
+        "wilson95": [
+          0.624,
+          0.945
+        ]
+      },
+      "pairOrderedCalibratedByDifficulty": {
+        "direct": {
+          "count": 3,
+          "of": 4,
+          "wilson95": [
+            0.301,
+            0.954
+          ]
+        },
+        "evidence_gap": {
+          "count": 0,
+          "of": 2,
+          "wilson95": [
+            0.0,
+            0.658
+          ]
+        },
+        "inference": {
+          "count": 6,
+          "of": 12,
+          "wilson95": [
+            0.254,
+            0.746
+          ]
+        }
+      },
+      "verdictOnly": {
+        "soundClean": {
+          "count": 3,
+          "of": 19,
+          "wilson95": [
+            0.055,
+            0.376
+          ]
+        },
+        "soundBlocked": {
+          "count": 0,
+          "of": 19,
+          "wilson95": [
+            0.0,
+            0.168
+          ]
+        },
+        "soundHedged": {
+          "count": 16,
+          "of": 19,
+          "wilson95": [
+            0.624,
+            0.945
+          ]
+        },
+        "changedVerdictCorrect": {
+          "count": 11,
+          "of": 19,
+          "wilson95": [
+            0.363,
+            0.769
+          ]
+        },
+        "pairStrictVerdictOnly": {
+          "count": 1,
+          "of": 18,
+          "wilson95": [
+            0.01,
+            0.258
+          ]
+        },
+        "pairOrderedVerdictOnly": {
+          "count": 9,
+          "of": 18,
+          "wilson95": [
+            0.29,
+            0.71
+          ]
+        },
+        "note": "Verdict-only definitions identical for every arm: defect twin = BLOCKERS_FOUND, uncertainty twin = CHANGES_RECOMMENDED."
+      },
+      "falseBlockersOnSoundPlans": {
+        "count": 0,
+        "of": 19,
+        "wilson95": [
+          0.0,
+          0.168
+        ]
+      },
+      "changedPlansJudgedCorrectly": {
+        "count": 11,
+        "of": 19,
+        "wilson95": [
+          0.363,
+          0.769
+        ]
+      },
+      "unsupportedVerifiedFindings": 0,
+      "pilotGate": {
+        "unsupportedVerifiedIsZero": true,
+        "note": "Also requires complete source/question coverage and human adjudication of every mechanism."
+      },
+      "arms": [
+        "bare"
+      ],
+      "routes": [
+        "claude-cli"
+      ],
+      "requestedModels": [
+        "claude-opus-5-5"
+      ],
+      "servedModelsReported": [
+        "claude-opus-5-5"
+      ],
+      "casesNotObserved": []
+    },
+    "2": {
+      "observations": 40,
+      "technicalStops": 2,
+      "perFamily": {
+        "absent_vs_null": {
+          "outcomes": {
+            "A/changed": "MISSED",
+            "A/sound": "HEDGED",
+            "B/changed": "MISSED",
+            "B/sound": "CORRECT"
+          },
+          "pairsDiscriminated": "0/2",
+          "pairsOrderedCalibrated": "1/2",
+          "wordingConsistent": {
+            "changed": true,
+            "sound": false
+          }
+        },
+        "caller_callee": {
+          "outcomes": {
+            "A/changed": "MISSED",
+            "A/sound": "HEDGED",
+            "B/changed": "MISSED",
+            "B/sound": "HEDGED"
+          },
+          "pairsDiscriminated": "0/2",
+          "pairsOrderedCalibrated": "0/2",
+          "wordingConsistent": {
+            "changed": true,
+            "sound": true
+          }
+        },
+        "deadline_arithmetic": {
+          "outcomes": {
+            "A/changed": "CORRECT",
+            "A/sound": "HEDGED",
+            "B/changed": "CORRECT",
+            "B/sound": "HEDGED"
+          },
+          "pairsDiscriminated": "0/2",
+          "pairsOrderedCalibrated": "2/2",
+          "wordingConsistent": {
+            "changed": true,
+            "sound": true
+          }
+        },
+        "migration_order": {
+          "outcomes": {
+            "A/changed": "MISSED",
+            "A/sound": "HEDGED",
+            "B/changed": "CORRECT",
+            "B/sound": "HEDGED"
+          },
+          "pairsDiscriminated": "0/2",
+          "pairsOrderedCalibrated": "1/2",
+          "wordingConsistent": {
+            "changed": false,
+            "sound": true
+          }
+        },
+        "output_bytes": {
+          "outcomes": {
+            "A/changed": "STOPPED",
+            "A/sound": "CORRECT",
+            "B/changed": "STOPPED",
+            "B/sound": "CORRECT"
+          },
+          "pairsDiscriminated": "0/0",
+          "pairsOrderedCalibrated": "0/0",
+          "wordingConsistent": {
+            "changed": true,
+            "sound": true
+          }
+        },
+        "ownership_authorization": {
+          "outcomes": {
+            "A/changed": "CORRECT",
+            "A/sound": "HEDGED",
+            "B/changed": "CORRECT",
+            "B/sound": "HEDGED"
+          },
+          "pairsDiscriminated": "0/2",
+          "pairsOrderedCalibrated": "2/2",
+          "wordingConsistent": {
+            "changed": true,
+            "sound": true
+          }
+        },
+        "permission_chain": {
+          "outcomes": {
+            "A/changed": "CORRECT",
+            "A/sound": "HEDGED",
+            "B/changed": "CORRECT",
+            "B/sound": "HEDGED"
+          },
+          "pairsDiscriminated": "0/2",
+          "pairsOrderedCalibrated": "2/2",
+          "wordingConsistent": {
+            "changed": true,
+            "sound": true
+          }
+        },
+        "required_coverage": {
+          "outcomes": {
+            "A/changed": "CORRECT",
+            "A/sound": "CORRECT",
+            "B/changed": "MISSED",
+            "B/sound": "HEDGED"
+          },
+          "pairsDiscriminated": "1/2",
+          "pairsOrderedCalibrated": "1/2",
+          "wordingConsistent": {
+            "changed": false,
+            "sound": false
+          }
+        },
+        "runtime_budget": {
+          "outcomes": {
+            "A/changed": "CORRECT",
+            "A/sound": "HEDGED",
+            "B/changed": "CORRECT",
+            "B/sound": "HEDGED"
+          },
+          "pairsDiscriminated": "0/2",
+          "pairsOrderedCalibrated": "0/2",
+          "wordingConsistent": {
+            "changed": true,
+            "sound": true
+          }
+        },
+        "unit_mismatch": {
+          "outcomes": {
+            "A/changed": "CORRECT",
+            "A/sound": "HEDGED",
+            "B/changed": "CORRECT",
+            "B/sound": "HEDGED"
+          },
+          "pairsDiscriminated": "0/2",
+          "pairsOrderedCalibrated": "2/2",
+          "wordingConsistent": {
+            "changed": true,
+            "sound": true
+          }
+        }
+      },
+      "pairDiscrimination": {
+        "count": 1,
+        "of": 18,
+        "wilson95": [
+          0.01,
+          0.258
+        ]
+      },
+      "pairOrderedCalibrated": {
+        "count": 11,
+        "of": 18,
+        "wilson95": [
+          0.386,
+          0.797
+        ]
+      },
+      "hedgedOnSoundPlans": {
+        "count": 16,
+        "of": 20,
+        "wilson95": [
+          0.584,
+          0.919
+        ]
+      },
+      "pairOrderedCalibratedByDifficulty": {
+        "direct": {
+          "count": 2,
+          "of": 4,
+          "wilson95": [
+            0.15,
+            0.85
+          ]
+        },
+        "evidence_gap": {
+          "count": 0,
+          "of": 2,
+          "wilson95": [
+            0.0,
+            0.658
+          ]
+        },
+        "inference": {
+          "count": 9,
+          "of": 12,
+          "wilson95": [
+            0.468,
+            0.911
+          ]
+        }
+      },
+      "verdictOnly": {
+        "soundClean": {
+          "count": 4,
+          "of": 20,
+          "wilson95": [
+            0.081,
+            0.416
+          ]
+        },
+        "soundBlocked": {
+          "count": 0,
+          "of": 20,
+          "wilson95": [
+            0.0,
+            0.161
+          ]
+        },
+        "soundHedged": {
+          "count": 16,
+          "of": 20,
+          "wilson95": [
+            0.584,
+            0.919
+          ]
+        },
+        "changedVerdictCorrect": {
+          "count": 12,
+          "of": 18,
+          "wilson95": [
+            0.437,
+            0.837
+          ]
+        },
+        "pairStrictVerdictOnly": {
+          "count": 1,
+          "of": 18,
+          "wilson95": [
+            0.01,
+            0.258
+          ]
+        },
+        "pairOrderedVerdictOnly": {
+          "count": 11,
+          "of": 18,
+          "wilson95": [
+            0.386,
+            0.797
+          ]
+        },
+        "note": "Verdict-only definitions identical for every arm: defect twin = BLOCKERS_FOUND, uncertainty twin = CHANGES_RECOMMENDED."
+      },
+      "falseBlockersOnSoundPlans": {
+        "count": 0,
+        "of": 20,
+        "wilson95": [
+          0.0,
+          0.161
+        ]
+      },
+      "changedPlansJudgedCorrectly": {
+        "count": 12,
+        "of": 18,
+        "wilson95": [
+          0.437,
+          0.837
+        ]
+      },
+      "unsupportedVerifiedFindings": 0,
+      "pilotGate": {
+        "unsupportedVerifiedIsZero": true,
+        "note": "Also requires complete source/question coverage and human adjudication of every mechanism."
+      },
+      "arms": [
+        "bare"
+      ],
+      "routes": [
+        "claude-cli"
+      ],
+      "requestedModels": [
+        "claude-opus-5-5"
+      ],
+      "servedModelsReported": [
+        "claude-opus-4-8",
+        "claude-opus-5-5"
+      ],
+      "casesNotObserved": []
+    }
+  },
+  "providerCalls": 0,
+  "repeatability": {
+    "count": 30,
+    "of": 40,
+    "wilson95": [
+      0.598,
+      0.858
+    ]
+  }
+}

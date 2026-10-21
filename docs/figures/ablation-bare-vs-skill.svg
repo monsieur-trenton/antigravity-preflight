@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 832" width="900" height="832" role="img" aria-labelledby="t d">
+<title id="t">Bare prompt against skill-style prompt on corpus v2</title><desc id="d">Verdict mix and per-family pair discrimination for the skill-style and bare arms: 40 of 40 against 21 of 37 pairs ordered.</desc>
+<style>
+svg { --surface:#fcfcfb; --ink:#0b0b0b; --ink2:#52514e; --grid:#dcdbd6; --accent:#2a78d6;
+  --on-accent:#ffffff; --warn:#fab219; --on-warn:#0b0b0b; --neutral:#ecebe7; --tile:#f3f2ee; }
+@media (prefers-color-scheme: dark) {
+  svg { --surface:#1a1a19; --ink:#f0efec; --ink2:#c3c2b7; --grid:#3a3a37; --accent:#3987e5;
+    --on-accent:#0b0b0b; --warn:#fab219; --on-warn:#0b0b0b; --neutral:#2a2a28; --tile:#232321; }
+}
+text { font-family:-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif; fill:var(--ink); }
+.mono { font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+.muted { fill:var(--ink2); }
+.title { font-size:20px; font-weight:600; }
+.sub { font-size:13px; }
+.lab { font-size:13px; }
+.small { font-size:11.5px; }
+.big { font-size:30px; font-weight:650; }
+.head { font-size:12px; font-weight:600; }
+
+svg { --skill:#2a78d6; --bare:#eb6834; }
+@media (prefers-color-scheme: dark) { svg { --skill:#3987e5; --bare:#d95926; } }
+</style>
+<rect width="900" height="832" rx="10" fill="var(--surface)"/>
+<text x="24" y="36" class="title" text-anchor="start">Bare prompt against skill-style prompt: same model, same 40 plans</text>
+<text x="24" y="58" class="sub muted" text-anchor="start">claude-opus-5-5 through the Claude CLI, 2 trials per arm. The skill-style arm is pilot 2, run earlier, not concurrently.</text>
+<text x="24" y="78" class="sub muted" text-anchor="start">Preregistered ablation: a bundle of prompt and packet changes, not any single component.</text>
+<text x="24" y="116" class="lab" text-anchor="start" font-weight="600">A. Verdicts given</text>
+<text x="24" y="149" class="head" text-anchor="start">Sound plans</text>
+<text x="36" y="173" class="small" text-anchor="start">Skill-style (n=40)</text>
+<rect x="210.0" y="156" width="312.0" height="24" fill="#cde2fb" stroke="var(--surface)" stroke-width="2"/>
+<text x="366.0" y="172" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean 24</text>
+<rect x="522.0" y="156" width="208.0" height="24" fill="#6da7ec" stroke="var(--surface)" stroke-width="2"/>
+<text x="626.0" y="172" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes 16</text>
+<text x="36" y="205" class="small" text-anchor="start">Bare (n=39)</text>
+<rect x="210.0" y="188" width="93.3" height="24" fill="#cde2fb" stroke="var(--surface)" stroke-width="2"/>
+<text x="256.7" y="204" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean 7</text>
+<rect x="303.3" y="188" width="426.7" height="24" fill="#6da7ec" stroke="var(--surface)" stroke-width="2"/>
+<text x="516.7" y="204" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes 32</text>
+<text x="24" y="241" class="head" text-anchor="start">Defect twins</text>
+<text x="36" y="265" class="small" text-anchor="start">Skill-style (n=36)</text>
+<rect x="210.0" y="248" width="520.0" height="24" fill="#184f95" stroke="var(--surface)" stroke-width="2"/>
+<text x="470.0" y="264" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">Blockers 36</text>
+<text x="36" y="297" class="small" text-anchor="start">Bare (n=34)</text>
+<rect x="210.0" y="280" width="229.4" height="24" fill="#6da7ec" stroke="var(--surface)" stroke-width="2"/>
+<text x="324.7" y="296" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes 15</text>
+<rect x="439.4" y="280" width="290.6" height="24" fill="#184f95" stroke="var(--surface)" stroke-width="2"/>
+<text x="584.7" y="296" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">Blockers 19</text>
+<rect x="210" y="318" width="22" height="14" rx="3" fill="#cde2fb"/>
+<text x="240" y="329" class="small" text-anchor="start">Clean (GO)</text>
+<rect x="330.0" y="318" width="22" height="14" rx="3" fill="#6da7ec"/>
+<text x="360.0" y="329" class="small" text-anchor="start">Changes (GO_WITH_CHANGES)</text>
+<rect x="549.0" y="318" width="22" height="14" rx="3" fill="#184f95"/>
+<text x="579.0" y="329" class="small" text-anchor="start">Blockers (NO_GO)</text>
+<text x="24" y="362" class="lab" text-anchor="start" font-weight="600">B. Pairs where the changed twin was judged more severely than its sound twin</text>
+<text x="24" y="380" class="small muted" text-anchor="start">Out of 4 per family (2 wordings x 2 trials). A dashed line spans pairs that a stop removed. Sorted by the best-case gap.</text>
+<line x1="250" y1="408" x2="250" y2="652" stroke="var(--grid)" stroke-opacity="0.7"/>
+<text x="250" y="402" class="small muted" text-anchor="middle">0</text>
+<line x1="334" y1="408" x2="334" y2="652" stroke="var(--grid)" stroke-opacity="0.7"/>
+<text x="334" y="402" class="small muted" text-anchor="middle">1</text>
+<line x1="418" y1="408" x2="418" y2="652" stroke="var(--grid)" stroke-opacity="0.7"/>
+<text x="418" y="402" class="small muted" text-anchor="middle">2</text>
+<line x1="502" y1="408" x2="502" y2="652" stroke="var(--grid)" stroke-opacity="0.7"/>
+<text x="502" y="402" class="small muted" text-anchor="middle">3</text>
+<line x1="586" y1="408" x2="586" y2="652" stroke="var(--grid)" stroke-opacity="0.7"/>
+<text x="586" y="402" class="small muted" text-anchor="middle">4</text>
+<text x="24" y="428" class="lab" text-anchor="start">Caller / callee</text>
+<line x1="250" y1="424" x2="586" y2="424" stroke="var(--ink2)" stroke-width="2"/>
+<polygon points="250,417 257,424 250,431 243,424" fill="var(--bare)" stroke="var(--surface)" stroke-width="1.5"/>
+<circle cx="586" cy="424" r="6.5" fill="var(--skill)" stroke="var(--surface)" stroke-width="1.5"/>
+<text x="606" y="428" class="small muted" text-anchor="start">sound plan's tests omit main()</text>
+<text x="24" y="452" class="lab" text-anchor="start">Runtime budget evidence</text>
+<line x1="250" y1="448" x2="586" y2="448" stroke="var(--ink2)" stroke-width="2"/>
+<polygon points="250,441 257,448 250,455 243,448" fill="var(--bare)" stroke="var(--surface)" stroke-width="1.5"/>
+<circle cx="586" cy="448" r="6.5" fill="var(--skill)" stroke="var(--surface)" stroke-width="1.5"/>
+<text x="606" y="452" class="small muted" text-anchor="start">hedged sound plan: nothing to order</text>
+<text x="24" y="476" class="lab" text-anchor="start">Migration order</text>
+<line x1="334" y1="472" x2="586" y2="472" stroke="var(--ink2)" stroke-width="2"/>
+<polygon points="334,465 341,472 334,479 327,472" fill="var(--bare)" stroke="var(--surface)" stroke-width="1.5"/>
+<circle cx="586" cy="472" r="6.5" fill="var(--skill)" stroke="var(--surface)" stroke-width="1.5"/>
+<text x="24" y="500" class="lab" text-anchor="start">Absent vs null</text>
+<line x1="418" y1="496" x2="586" y2="496" stroke="var(--ink2)" stroke-width="2"/>
+<polygon points="418,489 425,496 418,503 411,496" fill="var(--bare)" stroke="var(--surface)" stroke-width="1.5"/>
+<circle cx="586" cy="496" r="6.5" fill="var(--skill)" stroke="var(--surface)" stroke-width="1.5"/>
+<text x="24" y="524" class="lab" text-anchor="start">Unit mismatch</text>
+<line x1="418" y1="520" x2="586" y2="520" stroke="var(--ink2)" stroke-width="2"/>
+<polygon points="418,513 425,520 418,527 411,520" fill="var(--bare)" stroke="var(--surface)" stroke-width="1.5"/>
+<circle cx="586" cy="520" r="6.5" fill="var(--skill)" stroke="var(--surface)" stroke-width="1.5"/>
+<text x="24" y="548" class="lab" text-anchor="start">Required coverage</text>
+<line x1="502" y1="544" x2="586" y2="544" stroke="var(--ink2)" stroke-width="2"/>
+<polygon points="502,537 509,544 502,551 495,544" fill="var(--bare)" stroke="var(--surface)" stroke-width="1.5"/>
+<circle cx="586" cy="544" r="6.5" fill="var(--skill)" stroke="var(--surface)" stroke-width="1.5"/>
+<text x="24" y="572" class="lab" text-anchor="start">Deadline arithmetic</text>
+<polygon points="586,561 593,568 586,575 579,568" fill="var(--bare)" stroke="var(--surface)" stroke-width="1.5"/>
+<circle cx="586" cy="568" r="6.5" fill="var(--skill)" stroke="var(--surface)" stroke-width="1.5"/>
+<text x="24" y="596" class="lab" text-anchor="start">Output byte limit</text>
+<line x1="334" y1="592" x2="586" y2="592" stroke="var(--ink2)" stroke-width="2" stroke-dasharray="4 4"/>
+<polygon points="334,585 341,592 334,599 327,592" fill="var(--bare)" stroke="var(--surface)" stroke-width="1.5"/>
+<circle cx="586" cy="592" r="6.5" fill="var(--skill)" stroke="var(--surface)" stroke-width="1.5"/>
+<text x="606" y="596" class="small muted" text-anchor="start">3 bare pairs lost to platform interruptions</text>
+<text x="24" y="620" class="lab" text-anchor="start">Ownership / authorization</text>
+<polygon points="586,609 593,616 586,623 579,616" fill="var(--bare)" stroke="var(--surface)" stroke-width="1.5"/>
+<circle cx="586" cy="616" r="6.5" fill="var(--skill)" stroke="var(--surface)" stroke-width="1.5"/>
+<text x="24" y="644" class="lab" text-anchor="start">Permission chain</text>
+<polygon points="586,633 593,640 586,647 579,640" fill="var(--bare)" stroke="var(--surface)" stroke-width="1.5"/>
+<circle cx="586" cy="640" r="6.5" fill="var(--skill)" stroke="var(--surface)" stroke-width="1.5"/>
+<circle cx="32" cy="672" r="6.5" fill="var(--skill)"/>
+<text x="46" y="676" class="small" text-anchor="start">Skill-style</text>
+<polygon points="154,665 161,672 154,679 147,672" fill="var(--bare)"/>
+<text x="170" y="676" class="small" text-anchor="start">Bare</text>
+<text x="24" y="706" class="small" text-anchor="start">Primary (preregistered): skill 40/40 pairs, bare 21/37; 16 units favour skill, 0 favour bare (p &lt; 0.0001).</text>
+<text x="24" y="724" class="small" text-anchor="start">Sound plans blocked: 0 of 39 (bare), 0 of 40 (skill-style).</text>
+<text x="24" y="742" class="small" text-anchor="start">Bare reviewer said GO_WITH_CHANGES for 32 of 39 sound plans and 15 of 34 defect twins.</text>
+<text x="24" y="760" class="small" text-anchor="start">Human reading: all 15 of 15 missed bare twins named the planted mechanism; 13 called it blocking or critical.</text>
+<text x="24" y="778" class="small muted" text-anchor="start">The verdict line did not separate them; the findings did. Skill-style verdicts follow from labelled findings; bare ones do not.</text>
+<text x="24" y="796" class="small muted" text-anchor="start">3 bare observations were interrupted by the platform: stops, not verdicts (see the write-up).</text>
+</svg>

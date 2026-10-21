@@ -93,6 +93,31 @@ class FigureTests(unittest.TestCase):
         self.assertIn("stroke-dasharray", svg)  # the flagged family is dashed
         self.assertEqual(svg.count("4/4 judged stricter"), 2)
 
+    def test_ablation_figure_is_built_from_committed_data_and_labels_every_state(self):
+        data = mf.load_ablation()
+        svg = mf.ablation_figure(data)
+        ET.fromstring(svg)
+        self.assertEqual(data["mix"]["bare"]["sound"], {"NO_BLOCKERS_FOUND": 7, "CHANGES_RECOMMENDED": 32, "BLOCKERS_FOUND": 0})
+        self.assertEqual(data["perFamily"]["output_bytes"]["bareLost"], 3)
+        for text in ("Bare prompt against skill-style prompt", "Blockers 36", "Changes 32", "Clean 24", "bare 21/37", "skill 40/40",
+                     "3 bare pairs lost to platform interruptions", "Human reading", "stroke-dasharray"):
+            self.assertIn(text, svg)
+        self.assertIn("<polygon", svg)  # bare marks are diamonds, skill marks circles: not colour alone
+        self.assertIn("<circle", svg)
+
+    def test_ablation_figure_refuses_a_stale_analysis(self):
+        import json, shutil
+        results = mf.ROOT / "benchmarks/counterfactual-pairs/results/ablation-bare-opus-5-5-high"
+        original = (results / "analysis.json").read_bytes()
+        try:
+            stale = json.loads(original)
+            stale["allPairs"]["primaryOrdinalPairDiscrimination"]["bare"]["count"] += 1
+            (results / "analysis.json").write_text(json.dumps(stale), encoding="utf-8")
+            with self.assertRaises(SystemExit):
+                mf.load_ablation()
+        finally:
+            (results / "analysis.json").write_bytes(original)
+
     def test_stale_figure_is_detected(self):
         figures = mf.build(INPUTS)
         with tempfile.TemporaryDirectory() as raw:

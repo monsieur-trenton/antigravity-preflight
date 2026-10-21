@@ -61,11 +61,11 @@ def wrap(text, limit):
     return lines + ([line] if line else [])
 
 
-def document(width, height, title, description, body):
+def document(width, height, title, description, body, extra=""):
     return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {width} {height}" '
             f'width="{width}" height="{height}" role="img" aria-labelledby="t d">\n'
             f'<title id="t">{escape(title)}</title><desc id="d">{escape(description)}</desc>\n'
-            f'<style>{STYLE}</style>\n'
+            f'<style>{STYLE}{extra}</style>\n'
             f'<rect width="{width}" height="{height}" rx="10" fill="var(--surface)"/>\n'
             + "\n".join(body) + "\n</svg>\n")
 
@@ -309,6 +309,7 @@ def collect_inputs():
         "argonSuites": [(s["suite"], s["cases"]) for s in argon["runs"][0]["suites"]],
         "pilot": load_pilot(),
         "pilot2": load_pilot2(),
+        "ablation": load_ablation(),
     }
 
 
@@ -402,6 +403,146 @@ def load_pilot2():
     }
 
 
+ABLATION_CSS = """
+svg { --skill:#2a78d6; --bare:#eb6834; }
+@media (prefers-color-scheme: dark) { svg { --skill:#3987e5; --bare:#d95926; } }
+"""
+VERDICT_ORDER = ("NO_BLOCKERS_FOUND", "CHANGES_RECOMMENDED", "BLOCKERS_FOUND")
+
+
+def load_ablation():
+    """Both arms' verdicts, recomputed from committed ledgers and checked against the committed analysis."""
+    base = ROOT / "benchmarks/counterfactual-pairs"
+    results = base / "results/ablation-bare-opus-5-5-high"
+    if not results.is_dir():
+        return None
+    oracle = {c["case"]: c for c in json.loads((base / "v2/oracle/oracle.json").read_bytes())["cases"]}
+    analysis = json.loads((results / "analysis.json").read_bytes())
+    human = json.loads((results / "human-reading.json").read_bytes())
+    arms = {"skill": base / "results/pilot2-v2-claude-opus-5-5-high", "bare": results}
+    mix, units = {}, {}
+    for arm, directory in arms.items():
+        severity, mix[arm] = {}, {"sound": dict.fromkeys(VERDICT_ORDER, 0), "defect": dict.fromkeys(VERDICT_ORDER, 0), "stops": 0}
+        for trial in (1, 2):
+            for line in (directory / f"trial{trial}/responses.jsonl").read_text(encoding="utf-8").splitlines():
+                row = json.loads(line)
+                if row.get("technicalStop"):
+                    mix[arm]["stops"] += 1
+                    continue
+                truth = oracle[row["case"]]
+                severity[(truth["family"], truth["wording"], trial, truth["role"])] = (VERDICT_ORDER.index(row["assessment"]), truth["expectedClass"])
+                group = "sound" if truth["role"] == "sound" else "defect" if truth["expectedClass"] == "DEFECT" else None
+                if group:
+                    mix[arm][group][row["assessment"]] += 1
+        counted = {}
+        for (family, wording, trial, role), (value, klass) in severity.items():
+            if role == "sound" and (family, wording, trial, "changed") in severity:
+                twin, twin_class = severity[(family, wording, trial, "changed")]
+                counted[(family, wording, trial)] = twin > value and not (twin_class == "UNCERTAIN" and twin == 2)
+        units[arm] = counted
+    for arm in arms:
+        expected = analysis["allPairs"]["primaryOrdinalPairDiscrimination"][arm]
+        if (sum(units[arm].values()), len(units[arm])) != (expected["count"], expected["of"]):
+            raise SystemExit("ABLATION_ANALYSIS_STALE:" + arm)
+    families = sorted({f for f, _, _ in units["skill"]})
+    per_family = {f: {arm: sum(v for (fam, _, _), v in units[arm].items() if fam == f) for arm in arms} for f in families}
+    for f in families:  # pairs a stop removed: four are expected per family (2 wordings x 2 trials)
+        for arm in arms:
+            per_family[f][arm + "Lost"] = 4 - sum(1 for (fam, _, _) in units[arm] if fam == f)
+    rows = human["missedDefectTwins"]["classification"]
+    paired = analysis["allPairs"]["primaryPaired"]
+    return {"mix": mix, "perFamily": per_family, "primary": analysis["allPairs"]["primaryOrdinalPairDiscrimination"],
+            "paired": paired, "named": sum(r["namesPlantedMechanism"] for r in rows), "missed": len(rows),
+            "blockingWording": sum(r["blockingOrCriticalWording"] for r in rows),
+            "model": analysis["arms"]["bare"]["stamps"][0][0], "cost": analysis["arms"]["bare"]["costUsd"]}
+
+
+def ablation_figure(data):
+    width, left = 900, 24
+    mix, per_family, paired = data["mix"], data["perFamily"], data["paired"]
+    p_text = "p < 0.0001" if paired["exactTwoSidedSignTestP"] < 0.0001 else f"p = {paired['exactTwoSidedSignTestP']}"
+    sound_bare, defect_bare = mix["bare"]["sound"], mix["bare"]["defect"]
+    n_sound, n_defect = sum(sound_bare.values()), sum(defect_bare.values())
+    body = [t(left, 36, "Bare prompt against skill-style prompt: same model, same 40 plans", "title"),
+            t(left, 58, f"{data['model']} through the Claude CLI, 2 trials per arm. The skill-style arm is pilot 2, run earlier, not concurrently.", "sub muted"),
+            t(left, 78, "Preregistered ablation: a bundle of prompt and packet changes, not any single component.", "sub muted"),
+            t(left, 116, "A. Verdicts given", "lab", extra=' font-weight="600"')]
+    bar_x, bar_w, row_y = 210, 520, 134
+    for group, label in (("sound", "Sound plans"), ("defect", "Defect twins")):
+        body.append(t(left, row_y + 15, label, "head"))
+        row_y += 22
+        for arm, name in (("skill", "Skill-style"), ("bare", "Bare")):
+            counts = mix[arm][group]
+            n = sum(counts.values())
+            body.append(t(left + 12, row_y + 17, f"{name} (n={n})", "small"))
+            x = bar_x
+            for verdict in VERDICT_ORDER:
+                value = counts[verdict]
+                if not value:
+                    continue
+                seg = bar_w * value / n
+                label, fill, ink = VERDICT[verdict]
+                body.append(f'<rect x="{x:.1f}" y="{row_y}" width="{seg:.1f}" height="24" fill="{fill}" stroke="var(--surface)" stroke-width="2"/>')
+                if seg >= 46:
+                    body.append(f'<text x="{x + seg / 2:.1f}" y="{row_y + 16}" class="small" text-anchor="middle" fill="{ink}" style="fill:{ink}">{label} {value}</text>')
+                x += seg
+            row_y += 32
+        row_y += 6
+    lx = bar_x
+    for i, verdict in enumerate(VERDICT_ORDER):
+        label, fill, ink = VERDICT[verdict]
+        text = {"NO_BLOCKERS_FOUND": "Clean (GO)", "CHANGES_RECOMMENDED": "Changes (GO_WITH_CHANGES)", "BLOCKERS_FOUND": "Blockers (NO_GO)"}[verdict]
+        body.append(f'<rect x="{lx}" y="{row_y}" width="22" height="14" rx="3" fill="{fill}"/>')
+        body.append(t(lx + 30, row_y + 11, text, "small"))
+        lx += 30 + len(text) * 6.6 + 24
+    row_y += 44
+    body.append(t(left, row_y, "B. Pairs where the changed twin was judged more severely than its sound twin", "lab", extra=' font-weight="600"'))
+    body.append(t(left, row_y + 18, "Out of 4 per family (2 wordings x 2 trials). A dashed line spans pairs that a stop removed. Sorted by the best-case gap.", "small muted"))
+    track_x, unit = 250, 84
+    order = sorted(per_family, key=lambda f: (per_family[f]["bare"] + per_family[f]["bareLost"] - per_family[f]["skill"], V2_LABEL.get(f, f)))
+    top = row_y + 56
+    for k in range(5):
+        x = track_x + k * unit
+        body.append(f'<line x1="{x}" y1="{top - 10}" x2="{x}" y2="{top + 24 * len(order) - 6}" stroke="var(--grid)" stroke-opacity="0.7"/>')
+        body.append(t(x, top - 16, str(k), "small muted", "middle"))
+    notes = {"runtime_budget": "hedged sound plan: nothing to order",
+             "caller_callee": "sound plan's tests omit main()"}
+    for i, family in enumerate(order):
+        y = top + 24 * i + 6
+        fits(V2_LABEL[family], 13, track_x - left - 24, family)
+        body.append(t(left, y + 4, V2_LABEL[family], "lab"))
+        a, b, lost = per_family[family]["skill"], per_family[family]["bare"], per_family[family]["bareLost"]
+        if a != b:
+            body.append(f'<line x1="{track_x + b * unit}" y1="{y}" x2="{track_x + a * unit}" y2="{y}" stroke="var(--ink2)" stroke-width="2"' + (' stroke-dasharray="4 4"' if lost else "") + '/>')
+        body.append(f'<polygon points="{track_x + b * unit},{y - 7} {track_x + b * unit + 7},{y} {track_x + b * unit},{y + 7} {track_x + b * unit - 7},{y}" fill="var(--bare)" stroke="var(--surface)" stroke-width="1.5"/>')
+        body.append(f'<circle cx="{track_x + a * unit}" cy="{y}" r="6.5" fill="var(--skill)" stroke="var(--surface)" stroke-width="1.5"/>')
+        if lost:
+            body.append(t(track_x + 4 * unit + 20, y + 4, f"{lost} bare pair{'s' if lost > 1 else ''} lost to platform interruptions", "small muted"))
+        elif family in notes and a != b:
+            body.append(t(track_x + 4 * unit + 20, y + 4, notes[family], "small muted"))
+    ly = top + 24 * len(order) + 14
+    body.append(f'<circle cx="{left + 8}" cy="{ly}" r="6.5" fill="var(--skill)"/>')
+    body.append(t(left + 22, ly + 4, "Skill-style", "small"))
+    body.append(f'<polygon points="{left + 130},{ly - 7} {left + 137},{ly} {left + 130},{ly + 7} {left + 123},{ly}" fill="var(--bare)"/>')
+    body.append(t(left + 146, ly + 4, "Bare", "small"))
+    footer = [
+        (f"Primary (preregistered): skill {data['primary']['skill']['count']}/{data['primary']['skill']['of']} pairs, bare {data['primary']['bare']['count']}/{data['primary']['bare']['of']}; "
+         f"{paired['onlyFirst']} units favour skill, {paired['onlySecond']} favour bare ({p_text}).", "small"),
+        (f"Sound plans blocked: {sound_bare['BLOCKERS_FOUND']} of {n_sound} (bare), {mix['skill']['sound']['BLOCKERS_FOUND']} of {sum(mix['skill']['sound'].values())} (skill-style).", "small"),
+        (f"Bare reviewer said GO_WITH_CHANGES for {sound_bare['CHANGES_RECOMMENDED']} of {n_sound} sound plans and {defect_bare['CHANGES_RECOMMENDED']} of {n_defect} defect twins.", "small"),
+        (f"Human reading: all {data['named']} of {data['missed']} missed bare twins named the planted mechanism; {data['blockingWording']} called it blocking or critical.", "small"),
+        ("The verdict line did not separate them; the findings did. Skill-style verdicts follow from labelled findings; bare ones do not.", "small muted"),
+        (f"{mix['bare']['stops']} bare observations were interrupted by the platform: stops, not verdicts (see the write-up).", "small muted")]
+    y0 = ly + 34
+    for i, (text, css) in enumerate(footer):
+        body.append(t(left, y0 + 18 * i, text, css))
+    height = y0 + 18 * len(footer) + 18
+    return document(width, height, "Bare prompt against skill-style prompt on corpus v2",
+                    f"Verdict mix and per-family pair discrimination for the skill-style and bare arms: "
+                    f"{data['primary']['skill']['count']} of {data['primary']['skill']['of']} against {data['primary']['bare']['count']} of {data['primary']['bare']['of']} pairs ordered.",
+                    body, ABLATION_CSS)
+
+
 def build(inputs):
     figures = {"fault-gate-matrix.svg": fault_matrix(inputs["results"]),
                "offline-evidence.svg": evidence_overview(inputs)}
@@ -409,6 +550,8 @@ def build(inputs):
         figures["pilot1-verdict-matrix.svg"] = pair_matrix(inputs["pilot"])
     if inputs.get("pilot2"):
         figures["pilot2-verdict-matrix.svg"] = pair_matrix(inputs["pilot2"])
+    if inputs.get("ablation"):
+        figures["ablation-bare-vs-skill.svg"] = ablation_figure(inputs["ablation"])
     return figures
 
 

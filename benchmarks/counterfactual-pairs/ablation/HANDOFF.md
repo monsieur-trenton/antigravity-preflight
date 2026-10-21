@@ -106,6 +106,8 @@ Run it in the background and poll the ledger's line count.
 | `WORKDIR_INSIDE_REPOSITORY` | `--workdir` is inside the checkout | Choose a path outside |
 | `WRAPPER_TIMEOUT`, `NO_JSON_OUTPUT:exitK`, `CLAUDE_ERROR:<reason>`, `MODEL_MISMATCH` | As in the [v2 brief](../v2/HANDOFF.md) | Recorded stop; report |
 | `UNPARSEABLE_REPORT:NO_VERDICT_LINE` | The last line is not a verdict line | Recorded technical stop; keep the report |
+| `SAFETY_INTERRUPTED:<n>` | The platform interrupted a reply; the saved report may be an apology | Recorded stop; report; do not rerun. In the first bare run, 4 of the 8 `output_bytes` observations were interrupted; a bare-arm stop is not necessarily a missing verdict line |
+| `MODEL_MISMATCH` | Any served model differs from the request, including a second model beside it | Recorded stop; report `servedModels` |
 | `INTERRUPTED_UNKNOWN_STATE`, `HALTED_CONSECUTIVE_STOPS` | As above | Do not rerun; report |
 
 ## 7. Stage E: verify the run (no model call, after every trial)

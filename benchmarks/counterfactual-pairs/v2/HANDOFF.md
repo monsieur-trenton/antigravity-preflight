@@ -106,7 +106,8 @@ Run it in the background and poll the ledger's line count.
 | `WRAPPER_TIMEOUT` | No result within 600 s | Recorded stop; report |
 | `NO_JSON_OUTPUT:exitK` | CLI did not print JSON (for example not authenticated) | Recorded stop; report stderr; do not log in |
 | `CLAUDE_ERROR:<reason>` | The CLI reported an error, such as `api_error` or a spend cap | Recorded stop; report |
-| `MODEL_MISMATCH` | Served model differs from the request | Recorded stop; report `servedModels` |
+| `MODEL_MISMATCH` | Any served model differs from the request, including a second model beside the requested one | Recorded stop; report `servedModels` |
+| `SAFETY_INTERRUPTED:<n>` | The platform interrupted a reply (`safety_stops` above 0); the saved report may be an apology or a continuation, never a clean review | Recorded stop; report; do not rerun |
 | `UNPARSEABLE_REPORT:<reason>` | No valid machine summary | Recorded technical stop; keep the report |
 | `INTERRUPTED_UNKNOWN_STATE` | Attempt directory with no record | Recorded stop; report |
 | `HALTED_CONSECUTIVE_STOPS` | Three stops in a row | Do not rerun; report |
