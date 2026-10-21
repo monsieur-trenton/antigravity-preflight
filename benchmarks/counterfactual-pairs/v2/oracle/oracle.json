@@ -1,0 +1,599 @@
+{
+  "kind": "COUNTERFACTUAL_ORACLE_NEVER_SEND_TO_REVIEWER",
+  "corpus": "v2",
+  "seed": 20261022,
+  "cases": [
+    {
+      "case": "P-110c8d",
+      "family": "absent_vs_null",
+      "wording": "A",
+      "role": "changed",
+      "expectedClass": "DEFECT",
+      "difficulty": "direct",
+      "decisiveLine": 3,
+      "citeAnyOf": [
+        3
+      ],
+      "mechanism": "Collapses an absent discount (none) and an explicit null (unknown) into 0, losing the distinction the schema defines and defeating the downstream review flag."
+    },
+    {
+      "case": "P-9e0309",
+      "family": "absent_vs_null",
+      "wording": "A",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "difficulty": "direct",
+      "decisiveLine": 3,
+      "citeAnyOf": [
+        3
+      ],
+      "mechanism": null
+    },
+    {
+      "case": "P-88acbb",
+      "family": "absent_vs_null",
+      "wording": "B",
+      "role": "changed",
+      "expectedClass": "DEFECT",
+      "difficulty": "direct",
+      "decisiveLine": 3,
+      "citeAnyOf": [
+        3
+      ],
+      "mechanism": "Collapses an absent discount (none) and an explicit null (unknown) into 0, losing the distinction the schema defines and defeating the downstream review flag."
+    },
+    {
+      "case": "P-0ea6af",
+      "family": "absent_vs_null",
+      "wording": "B",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "difficulty": "direct",
+      "decisiveLine": 3,
+      "citeAnyOf": [
+        3
+      ],
+      "mechanism": null
+    },
+    {
+      "case": "P-401e87",
+      "family": "caller_callee",
+      "wording": "A",
+      "role": "changed",
+      "expectedClass": "DEFECT",
+      "difficulty": "inference",
+      "decisiveLine": 4,
+      "citeAnyOf": [
+        1,
+        2,
+        4
+      ],
+      "mechanism": "load_config now raises instead of returning None, and main(), one of its three callers, is left checking for None, so a missing file produces an uncaught exception instead of exit status 2."
+    },
+    {
+      "case": "P-544e9e",
+      "family": "caller_callee",
+      "wording": "A",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "difficulty": "inference",
+      "decisiveLine": 4,
+      "citeAnyOf": [
+        1,
+        2,
+        4
+      ],
+      "mechanism": null
+    },
+    {
+      "case": "P-70db25",
+      "family": "caller_callee",
+      "wording": "B",
+      "role": "changed",
+      "expectedClass": "DEFECT",
+      "difficulty": "inference",
+      "decisiveLine": 4,
+      "citeAnyOf": [
+        1,
+        2,
+        4
+      ],
+      "mechanism": "load_config now raises instead of returning None, and main(), one of its three callers, is left checking for None, so a missing file produces an uncaught exception instead of exit status 2."
+    },
+    {
+      "case": "P-3fd44f",
+      "family": "caller_callee",
+      "wording": "B",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "difficulty": "inference",
+      "decisiveLine": 4,
+      "citeAnyOf": [
+        1,
+        2,
+        4
+      ],
+      "mechanism": null
+    },
+    {
+      "case": "P-9113e7",
+      "family": "deadline_arithmetic",
+      "wording": "A",
+      "role": "changed",
+      "expectedClass": "DEFECT",
+      "difficulty": "inference",
+      "decisiveLine": 1,
+      "citeAnyOf": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "mechanism": "The three sequential stages take about 22 + 18 + 12 = 52 minutes, which exceeds the 45 minute hard deadline, so a typical run is killed and the day's data is lost."
+    },
+    {
+      "case": "P-cdb5ca",
+      "family": "deadline_arithmetic",
+      "wording": "A",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "difficulty": "inference",
+      "decisiveLine": 1,
+      "citeAnyOf": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "mechanism": null
+    },
+    {
+      "case": "P-fdbca1",
+      "family": "deadline_arithmetic",
+      "wording": "B",
+      "role": "changed",
+      "expectedClass": "DEFECT",
+      "difficulty": "inference",
+      "decisiveLine": 1,
+      "citeAnyOf": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "mechanism": "The three sequential stages take about 22 + 18 + 12 = 52 minutes, which exceeds the 45 minute hard deadline, so a typical run is killed and the day's data is lost."
+    },
+    {
+      "case": "P-f4195f",
+      "family": "deadline_arithmetic",
+      "wording": "B",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "difficulty": "inference",
+      "decisiveLine": 1,
+      "citeAnyOf": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "mechanism": null
+    },
+    {
+      "case": "P-c2522e",
+      "family": "migration_order",
+      "wording": "A",
+      "role": "changed",
+      "expectedClass": "DEFECT",
+      "difficulty": "inference",
+      "decisiveLine": 1,
+      "citeAnyOf": [
+        1,
+        3,
+        4
+      ],
+      "mechanism": "The NOT NULL constraint (step 3) runs before the backfill (step 2), so it fails on the existing rows whose shipped_at is still null."
+    },
+    {
+      "case": "P-747ce2",
+      "family": "migration_order",
+      "wording": "A",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "difficulty": "inference",
+      "decisiveLine": 1,
+      "citeAnyOf": [
+        1,
+        3,
+        4
+      ],
+      "mechanism": null
+    },
+    {
+      "case": "P-58b118",
+      "family": "migration_order",
+      "wording": "B",
+      "role": "changed",
+      "expectedClass": "DEFECT",
+      "difficulty": "inference",
+      "decisiveLine": 1,
+      "citeAnyOf": [
+        1,
+        3,
+        4
+      ],
+      "mechanism": "The NOT NULL constraint (step 3) runs before the backfill (step 2), so it fails on the existing rows whose shipped_at is still null."
+    },
+    {
+      "case": "P-1795a8",
+      "family": "migration_order",
+      "wording": "B",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "difficulty": "inference",
+      "decisiveLine": 1,
+      "citeAnyOf": [
+        1,
+        3,
+        4
+      ],
+      "mechanism": null
+    },
+    {
+      "case": "P-704166",
+      "family": "output_bytes",
+      "wording": "A",
+      "role": "changed",
+      "expectedClass": "DEFECT",
+      "difficulty": "inference",
+      "decisiveLine": 4,
+      "citeAnyOf": [
+        2,
+        3,
+        4
+      ],
+      "mechanism": "Values are written whole and three of about 700 bytes appear in one summary: over 2,000 bytes, above the 1,500-byte cap, and an overrun aborts the release with no retry."
+    },
+    {
+      "case": "P-b95177",
+      "family": "output_bytes",
+      "wording": "A",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "difficulty": "inference",
+      "decisiveLine": 4,
+      "citeAnyOf": [
+        2,
+        3,
+        4
+      ],
+      "mechanism": null
+    },
+    {
+      "case": "P-e03b4b",
+      "family": "output_bytes",
+      "wording": "B",
+      "role": "changed",
+      "expectedClass": "DEFECT",
+      "difficulty": "inference",
+      "decisiveLine": 4,
+      "citeAnyOf": [
+        2,
+        3,
+        4
+      ],
+      "mechanism": "Values are written whole and three of about 700 bytes appear in one summary: over 2,000 bytes, above the 1,500-byte cap, and an overrun aborts the release with no retry."
+    },
+    {
+      "case": "P-936436",
+      "family": "output_bytes",
+      "wording": "B",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "difficulty": "inference",
+      "decisiveLine": 4,
+      "citeAnyOf": [
+        2,
+        3,
+        4
+      ],
+      "mechanism": null
+    },
+    {
+      "case": "P-c7ff21",
+      "family": "ownership_authorization",
+      "wording": "A",
+      "role": "changed",
+      "expectedClass": "DEFECT",
+      "difficulty": "inference",
+      "decisiveLine": 4,
+      "citeAnyOf": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "mechanism": "Every run tags its scratch directories with the same fixed string, so one run's cleanup deletes the live directories of concurrent runs, which the project rules forbid."
+    },
+    {
+      "case": "P-396032",
+      "family": "ownership_authorization",
+      "wording": "A",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "difficulty": "inference",
+      "decisiveLine": 4,
+      "citeAnyOf": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "mechanism": null
+    },
+    {
+      "case": "P-7059b1",
+      "family": "ownership_authorization",
+      "wording": "B",
+      "role": "changed",
+      "expectedClass": "DEFECT",
+      "difficulty": "inference",
+      "decisiveLine": 4,
+      "citeAnyOf": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "mechanism": "Every run tags its scratch directories with the same fixed string, so one run's cleanup deletes the live directories of concurrent runs, which the project rules forbid."
+    },
+    {
+      "case": "P-b1c0f1",
+      "family": "ownership_authorization",
+      "wording": "B",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "difficulty": "inference",
+      "decisiveLine": 4,
+      "citeAnyOf": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "mechanism": null
+    },
+    {
+      "case": "P-2b3ff0",
+      "family": "permission_chain",
+      "wording": "A",
+      "role": "changed",
+      "expectedClass": "DEFECT",
+      "difficulty": "inference",
+      "decisiveLine": 3,
+      "citeAnyOf": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "mechanism": "The endpoint trusts the scope and checks nothing else, and the scope is also issued to support-lead, so support-lead can approve refunds that only finance-admin may approve."
+    },
+    {
+      "case": "P-b4a68f",
+      "family": "permission_chain",
+      "wording": "A",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "difficulty": "inference",
+      "decisiveLine": 3,
+      "citeAnyOf": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "mechanism": null
+    },
+    {
+      "case": "P-dc8193",
+      "family": "permission_chain",
+      "wording": "B",
+      "role": "changed",
+      "expectedClass": "DEFECT",
+      "difficulty": "inference",
+      "decisiveLine": 3,
+      "citeAnyOf": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "mechanism": "The endpoint trusts the scope and checks nothing else, and the scope is also issued to support-lead, so support-lead can approve refunds that only finance-admin may approve."
+    },
+    {
+      "case": "P-993a80",
+      "family": "permission_chain",
+      "wording": "B",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "difficulty": "inference",
+      "decisiveLine": 3,
+      "citeAnyOf": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "mechanism": null
+    },
+    {
+      "case": "P-237a35",
+      "family": "required_coverage",
+      "wording": "A",
+      "role": "changed",
+      "expectedClass": "DEFECT",
+      "difficulty": "direct",
+      "decisiveLine": 3,
+      "citeAnyOf": [
+        3
+      ],
+      "mechanism": "The report iterates only over changed sources, while a typical diff changes one or two of the four required sources."
+    },
+    {
+      "case": "P-f1144e",
+      "family": "required_coverage",
+      "wording": "A",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "difficulty": "direct",
+      "decisiveLine": 3,
+      "citeAnyOf": [
+        3
+      ],
+      "mechanism": null
+    },
+    {
+      "case": "P-4c612b",
+      "family": "required_coverage",
+      "wording": "B",
+      "role": "changed",
+      "expectedClass": "DEFECT",
+      "difficulty": "direct",
+      "decisiveLine": 3,
+      "citeAnyOf": [
+        3
+      ],
+      "mechanism": "The report iterates only over changed sources, while a typical diff changes one or two of the four required sources."
+    },
+    {
+      "case": "P-dd2de1",
+      "family": "required_coverage",
+      "wording": "B",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "difficulty": "direct",
+      "decisiveLine": 3,
+      "citeAnyOf": [
+        3
+      ],
+      "mechanism": null
+    },
+    {
+      "case": "P-08bce2",
+      "family": "runtime_budget",
+      "wording": "A",
+      "role": "changed",
+      "expectedClass": "UNCERTAIN",
+      "difficulty": "evidence_gap",
+      "decisiveLine": 2,
+      "citeAnyOf": [
+        2
+      ],
+      "mechanism": "Feasibility is unmeasured, not disproved: no throughput evidence exists, so the right judgment is uncertainty, not a verified timeout."
+    },
+    {
+      "case": "P-ca1a36",
+      "family": "runtime_budget",
+      "wording": "A",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "difficulty": "evidence_gap",
+      "decisiveLine": 2,
+      "citeAnyOf": [
+        2
+      ],
+      "mechanism": null
+    },
+    {
+      "case": "P-236f74",
+      "family": "runtime_budget",
+      "wording": "B",
+      "role": "changed",
+      "expectedClass": "UNCERTAIN",
+      "difficulty": "evidence_gap",
+      "decisiveLine": 2,
+      "citeAnyOf": [
+        2
+      ],
+      "mechanism": "Feasibility is unmeasured, not disproved: no throughput evidence exists, so the right judgment is uncertainty, not a verified timeout."
+    },
+    {
+      "case": "P-047f6c",
+      "family": "runtime_budget",
+      "wording": "B",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "difficulty": "evidence_gap",
+      "decisiveLine": 2,
+      "citeAnyOf": [
+        2
+      ],
+      "mechanism": null
+    },
+    {
+      "case": "P-244d59",
+      "family": "unit_mismatch",
+      "wording": "A",
+      "role": "changed",
+      "expectedClass": "DEFECT",
+      "difficulty": "inference",
+      "decisiveLine": 3,
+      "citeAnyOf": [
+        1,
+        2,
+        3
+      ],
+      "mechanism": "The timeout parameter is in milliseconds, so timeout=5 is 5 ms against an 800 ms p99 latency: nearly every call times out, contrary to the stated 5 second intent."
+    },
+    {
+      "case": "P-7949bb",
+      "family": "unit_mismatch",
+      "wording": "A",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "difficulty": "inference",
+      "decisiveLine": 3,
+      "citeAnyOf": [
+        1,
+        2,
+        3
+      ],
+      "mechanism": null
+    },
+    {
+      "case": "P-63bcbf",
+      "family": "unit_mismatch",
+      "wording": "B",
+      "role": "changed",
+      "expectedClass": "DEFECT",
+      "difficulty": "inference",
+      "decisiveLine": 3,
+      "citeAnyOf": [
+        1,
+        2,
+        3
+      ],
+      "mechanism": "The timeout parameter is in milliseconds, so timeout=5 is 5 ms against an 800 ms p99 latency: nearly every call times out, contrary to the stated 5 second intent."
+    },
+    {
+      "case": "P-eac661",
+      "family": "unit_mismatch",
+      "wording": "B",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "difficulty": "inference",
+      "decisiveLine": 3,
+      "citeAnyOf": [
+        1,
+        2,
+        3
+      ],
+      "mechanism": null
+    }
+  ]
+}

@@ -17,6 +17,8 @@ Six families, each a sound plan and a defective counterpart that differs in **on
 
 The runtime-budget twin is deliberately not a defect. It lacks measured throughput, so the correct judgment is uncertainty (no VERIFIED blocker, and not a clean verdict). A reviewer that claims an inevitable timeout is scored `OVERCLAIMED`.
 
+> **Corpus v2** ([40 cases, harder, preregistered](v2/README.md)) supersedes this corpus for new runs. This v1 corpus is frozen because its pilot results are recorded against it, including one family later found to be defective.
+
 ## Why the design resists gaming
 
 - A reviewer that rejects everything flags all 12 sound plans and earns zero pair discrimination.

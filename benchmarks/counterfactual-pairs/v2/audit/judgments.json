@@ -1,0 +1,740 @@
+{
+ "note": "Condensed per-plan judgments transcribed from four blind model audits; full model text was not retained verbatim. Cases are keyed to the oracle after the fact: the auditors never saw it.",
+ "rounds": {
+  "round1": [
+   {
+    "case": "P-08bce2",
+    "family": "runtime_budget",
+    "wording": "A",
+    "role": "changed",
+    "expectedClass": "UNCERTAIN",
+    "gapCount": 2,
+    "blockerFlagged": false,
+    "fullySound": false
+   },
+   {
+    "case": "P-c7ff21",
+    "family": "ownership_authorization",
+    "wording": "A",
+    "role": "changed",
+    "expectedClass": "DEFECT",
+    "gapCount": 1,
+    "blockerFlagged": true,
+    "fullySound": false
+   },
+   {
+    "case": "P-1795a8",
+    "family": "migration_order",
+    "wording": "B",
+    "role": "sound",
+    "expectedClass": "SOUND",
+    "gapCount": 0,
+    "blockerFlagged": false,
+    "fullySound": true
+   },
+   {
+    "case": "P-396032",
+    "family": "ownership_authorization",
+    "wording": "A",
+    "role": "sound",
+    "expectedClass": "SOUND",
+    "gapCount": 0,
+    "blockerFlagged": false,
+    "fullySound": true
+   },
+   {
+    "case": "P-fdbca1",
+    "family": "deadline_arithmetic",
+    "wording": "B",
+    "role": "changed",
+    "expectedClass": "DEFECT",
+    "gapCount": 0,
+    "blockerFlagged": true,
+    "fullySound": false
+   },
+   {
+    "case": "P-936436",
+    "family": "output_bytes",
+    "wording": "B",
+    "role": "sound",
+    "expectedClass": "SOUND",
+    "gapCount": 1,
+    "blockerFlagged": false,
+    "fullySound": false
+   },
+   {
+    "case": "P-747ce2",
+    "family": "migration_order",
+    "wording": "A",
+    "role": "sound",
+    "expectedClass": "SOUND",
+    "gapCount": 0,
+    "blockerFlagged": false,
+    "fullySound": true
+   },
+   {
+    "case": "P-58b118",
+    "family": "migration_order",
+    "wording": "B",
+    "role": "changed",
+    "expectedClass": "DEFECT",
+    "gapCount": 0,
+    "blockerFlagged": true,
+    "fullySound": false
+   },
+   {
+    "case": "P-237a35",
+    "family": "required_coverage",
+    "wording": "A",
+    "role": "changed",
+    "expectedClass": "DEFECT",
+    "gapCount": 0,
+    "blockerFlagged": true,
+    "fullySound": false
+   },
+   {
+    "case": "P-993a80",
+    "family": "permission_chain",
+    "wording": "B",
+    "role": "sound",
+    "expectedClass": "SOUND",
+    "gapCount": 0,
+    "blockerFlagged": false,
+    "fullySound": true
+   },
+   {
+    "case": "P-88acbb",
+    "family": "absent_vs_null",
+    "wording": "B",
+    "role": "changed",
+    "expectedClass": "DEFECT",
+    "gapCount": 0,
+    "blockerFlagged": true,
+    "fullySound": false
+   },
+   {
+    "case": "P-401e87",
+    "family": "caller_callee",
+    "wording": "A",
+    "role": "changed",
+    "expectedClass": "DEFECT",
+    "gapCount": 1,
+    "blockerFlagged": true,
+    "fullySound": false
+   },
+   {
+    "case": "P-3fd44f",
+    "family": "caller_callee",
+    "wording": "B",
+    "role": "sound",
+    "expectedClass": "SOUND",
+    "gapCount": 0,
+    "blockerFlagged": false,
+    "fullySound": true
+   },
+   {
+    "case": "P-704166",
+    "family": "output_bytes",
+    "wording": "A",
+    "role": "changed",
+    "expectedClass": "DEFECT",
+    "gapCount": 0,
+    "blockerFlagged": true,
+    "fullySound": false
+   },
+   {
+    "case": "P-f1144e",
+    "family": "required_coverage",
+    "wording": "A",
+    "role": "sound",
+    "expectedClass": "SOUND",
+    "gapCount": 0,
+    "blockerFlagged": false,
+    "fullySound": true
+   },
+   {
+    "case": "P-9e0309",
+    "family": "absent_vs_null",
+    "wording": "A",
+    "role": "sound",
+    "expectedClass": "SOUND",
+    "gapCount": 0,
+    "blockerFlagged": false,
+    "fullySound": true
+   },
+   {
+    "case": "P-2b3ff0",
+    "family": "permission_chain",
+    "wording": "A",
+    "role": "changed",
+    "expectedClass": "DEFECT",
+    "gapCount": 0,
+    "blockerFlagged": true,
+    "fullySound": false
+   },
+   {
+    "case": "P-4c612b",
+    "family": "required_coverage",
+    "wording": "B",
+    "role": "changed",
+    "expectedClass": "DEFECT",
+    "gapCount": 0,
+    "blockerFlagged": true,
+    "fullySound": false
+   },
+   {
+    "case": "P-f4195f",
+    "family": "deadline_arithmetic",
+    "wording": "B",
+    "role": "sound",
+    "expectedClass": "SOUND",
+    "gapCount": 0,
+    "blockerFlagged": false,
+    "fullySound": true
+   },
+   {
+    "case": "P-110c8d",
+    "family": "absent_vs_null",
+    "wording": "A",
+    "role": "changed",
+    "expectedClass": "DEFECT",
+    "gapCount": 0,
+    "blockerFlagged": true,
+    "fullySound": false
+   },
+   {
+    "case": "P-c2522e",
+    "family": "migration_order",
+    "wording": "A",
+    "role": "changed",
+    "expectedClass": "DEFECT",
+    "gapCount": 0,
+    "blockerFlagged": true,
+    "fullySound": false
+   },
+   {
+    "case": "P-7949bb",
+    "family": "unit_mismatch",
+    "wording": "A",
+    "role": "sound",
+    "expectedClass": "SOUND",
+    "gapCount": 0,
+    "blockerFlagged": false,
+    "fullySound": true
+   },
+   {
+    "case": "P-b4a68f",
+    "family": "permission_chain",
+    "wording": "A",
+    "role": "sound",
+    "expectedClass": "SOUND",
+    "gapCount": 0,
+    "blockerFlagged": false,
+    "fullySound": true
+   },
+   {
+    "case": "P-544e9e",
+    "family": "caller_callee",
+    "wording": "A",
+    "role": "sound",
+    "expectedClass": "SOUND",
+    "gapCount": 0,
+    "blockerFlagged": false,
+    "fullySound": true
+   },
+   {
+    "case": "P-dc8193",
+    "family": "permission_chain",
+    "wording": "B",
+    "role": "changed",
+    "expectedClass": "DEFECT",
+    "gapCount": 0,
+    "blockerFlagged": true,
+    "fullySound": false
+   },
+   {
+    "case": "P-dd2de1",
+    "family": "required_coverage",
+    "wording": "B",
+    "role": "sound",
+    "expectedClass": "SOUND",
+    "gapCount": 0,
+    "blockerFlagged": false,
+    "fullySound": true
+   },
+   {
+    "case": "P-e03b4b",
+    "family": "output_bytes",
+    "wording": "B",
+    "role": "changed",
+    "expectedClass": "DEFECT",
+    "gapCount": 0,
+    "blockerFlagged": true,
+    "fullySound": false
+   },
+   {
+    "case": "P-b1c0f1",
+    "family": "ownership_authorization",
+    "wording": "B",
+    "role": "sound",
+    "expectedClass": "SOUND",
+    "gapCount": 0,
+    "blockerFlagged": false,
+    "fullySound": true
+   },
+   {
+    "case": "P-047f6c",
+    "family": "runtime_budget",
+    "wording": "B",
+    "role": "sound",
+    "expectedClass": "SOUND",
+    "gapCount": 0,
+    "blockerFlagged": false,
+    "fullySound": true
+   },
+   {
+    "case": "P-244d59",
+    "family": "unit_mismatch",
+    "wording": "A",
+    "role": "changed",
+    "expectedClass": "DEFECT",
+    "gapCount": 0,
+    "blockerFlagged": true,
+    "fullySound": false
+   },
+   {
+    "case": "P-63bcbf",
+    "family": "unit_mismatch",
+    "wording": "B",
+    "role": "changed",
+    "expectedClass": "DEFECT",
+    "gapCount": 0,
+    "blockerFlagged": true,
+    "fullySound": false
+   },
+   {
+    "case": "P-b95177",
+    "family": "output_bytes",
+    "wording": "A",
+    "role": "sound",
+    "expectedClass": "SOUND",
+    "gapCount": 1,
+    "blockerFlagged": false,
+    "fullySound": false
+   },
+   {
+    "case": "P-7059b1",
+    "family": "ownership_authorization",
+    "wording": "B",
+    "role": "changed",
+    "expectedClass": "DEFECT",
+    "gapCount": 1,
+    "blockerFlagged": true,
+    "fullySound": false
+   },
+   {
+    "case": "P-0ea6af",
+    "family": "absent_vs_null",
+    "wording": "B",
+    "role": "sound",
+    "expectedClass": "SOUND",
+    "gapCount": 0,
+    "blockerFlagged": false,
+    "fullySound": true
+   },
+   {
+    "case": "P-70db25",
+    "family": "caller_callee",
+    "wording": "B",
+    "role": "changed",
+    "expectedClass": "DEFECT",
+    "gapCount": 1,
+    "blockerFlagged": true,
+    "fullySound": false
+   },
+   {
+    "case": "P-eac661",
+    "family": "unit_mismatch",
+    "wording": "B",
+    "role": "sound",
+    "expectedClass": "SOUND",
+    "gapCount": 0,
+    "blockerFlagged": false,
+    "fullySound": true
+   },
+   {
+    "case": "P-9113e7",
+    "family": "deadline_arithmetic",
+    "wording": "A",
+    "role": "changed",
+    "expectedClass": "DEFECT",
+    "gapCount": 0,
+    "blockerFlagged": true,
+    "fullySound": false
+   },
+   {
+    "case": "P-236f74",
+    "family": "runtime_budget",
+    "wording": "B",
+    "role": "changed",
+    "expectedClass": "UNCERTAIN",
+    "gapCount": 2,
+    "blockerFlagged": false,
+    "fullySound": false
+   },
+   {
+    "case": "P-ca1a36",
+    "family": "runtime_budget",
+    "wording": "A",
+    "role": "sound",
+    "expectedClass": "SOUND",
+    "gapCount": 0,
+    "blockerFlagged": false,
+    "fullySound": true
+   },
+   {
+    "case": "P-cdb5ca",
+    "family": "deadline_arithmetic",
+    "wording": "A",
+    "role": "sound",
+    "expectedClass": "SOUND",
+    "gapCount": 0,
+    "blockerFlagged": false,
+    "fullySound": true
+   }
+  ],
+  "round2": [
+   {
+    "case": "P-1795a8",
+    "family": "migration_order",
+    "wording": "B",
+    "role": "sound",
+    "expectedClass": "SOUND",
+    "gapCount": 6,
+    "blockerFlagged": false,
+    "fullySound": false
+   },
+   {
+    "case": "P-eac661",
+    "family": "unit_mismatch",
+    "wording": "B",
+    "role": "sound",
+    "expectedClass": "SOUND",
+    "gapCount": 4,
+    "blockerFlagged": false,
+    "fullySound": false
+   },
+   {
+    "case": "P-e03b4b",
+    "family": "output_bytes",
+    "wording": "B",
+    "role": "changed",
+    "expectedClass": "DEFECT",
+    "gapCount": 3,
+    "blockerFlagged": true,
+    "fullySound": false
+   },
+   {
+    "case": "P-396032",
+    "family": "ownership_authorization",
+    "wording": "A",
+    "role": "sound",
+    "expectedClass": "SOUND",
+    "gapCount": 0,
+    "blockerFlagged": false,
+    "fullySound": true
+   },
+   {
+    "case": "P-704166",
+    "family": "output_bytes",
+    "wording": "A",
+    "role": "changed",
+    "expectedClass": "DEFECT",
+    "gapCount": 3,
+    "blockerFlagged": true,
+    "fullySound": false
+   },
+   {
+    "case": "P-936436",
+    "family": "output_bytes",
+    "wording": "B",
+    "role": "sound",
+    "expectedClass": "SOUND",
+    "gapCount": 0,
+    "blockerFlagged": false,
+    "fullySound": true
+   },
+   {
+    "case": "P-b95177",
+    "family": "output_bytes",
+    "wording": "A",
+    "role": "sound",
+    "expectedClass": "SOUND",
+    "gapCount": 0,
+    "blockerFlagged": false,
+    "fullySound": true
+   },
+   {
+    "case": "P-b4a68f",
+    "family": "permission_chain",
+    "wording": "A",
+    "role": "sound",
+    "expectedClass": "SOUND",
+    "gapCount": 3,
+    "blockerFlagged": false,
+    "fullySound": false
+   }
+  ],
+  "round3": [
+   {
+    "case": "P-63bcbf",
+    "family": "unit_mismatch",
+    "wording": "B",
+    "role": "changed",
+    "expectedClass": "DEFECT",
+    "gapCount": 3,
+    "blockerFlagged": true,
+    "fullySound": false
+   },
+   {
+    "case": "P-b4a68f",
+    "family": "permission_chain",
+    "wording": "A",
+    "role": "sound",
+    "expectedClass": "SOUND",
+    "gapCount": 1,
+    "blockerFlagged": false,
+    "fullySound": true
+   },
+   {
+    "case": "P-c2522e",
+    "family": "migration_order",
+    "wording": "A",
+    "role": "changed",
+    "expectedClass": "DEFECT",
+    "gapCount": 3,
+    "blockerFlagged": true,
+    "fullySound": false
+   },
+   {
+    "case": "P-747ce2",
+    "family": "migration_order",
+    "wording": "A",
+    "role": "sound",
+    "expectedClass": "SOUND",
+    "gapCount": 2,
+    "blockerFlagged": false,
+    "fullySound": true
+   },
+   {
+    "case": "P-7949bb",
+    "family": "unit_mismatch",
+    "wording": "A",
+    "role": "sound",
+    "expectedClass": "SOUND",
+    "gapCount": 1,
+    "blockerFlagged": false,
+    "fullySound": true
+   },
+   {
+    "case": "P-2b3ff0",
+    "family": "permission_chain",
+    "wording": "A",
+    "role": "changed",
+    "expectedClass": "DEFECT",
+    "gapCount": 2,
+    "blockerFlagged": true,
+    "fullySound": false
+   },
+   {
+    "case": "P-dc8193",
+    "family": "permission_chain",
+    "wording": "B",
+    "role": "changed",
+    "expectedClass": "DEFECT",
+    "gapCount": 2,
+    "blockerFlagged": true,
+    "fullySound": false
+   },
+   {
+    "case": "P-58b118",
+    "family": "migration_order",
+    "wording": "B",
+    "role": "changed",
+    "expectedClass": "DEFECT",
+    "gapCount": 3,
+    "blockerFlagged": true,
+    "fullySound": false
+   },
+   {
+    "case": "P-1795a8",
+    "family": "migration_order",
+    "wording": "B",
+    "role": "sound",
+    "expectedClass": "SOUND",
+    "gapCount": 2,
+    "blockerFlagged": false,
+    "fullySound": true
+   },
+   {
+    "case": "P-3fd44f",
+    "family": "caller_callee",
+    "wording": "B",
+    "role": "sound",
+    "expectedClass": "SOUND",
+    "gapCount": 4,
+    "blockerFlagged": false,
+    "fullySound": false
+   },
+   {
+    "case": "P-eac661",
+    "family": "unit_mismatch",
+    "wording": "B",
+    "role": "sound",
+    "expectedClass": "SOUND",
+    "gapCount": 1,
+    "blockerFlagged": false,
+    "fullySound": true
+   },
+   {
+    "case": "P-396032",
+    "family": "ownership_authorization",
+    "wording": "A",
+    "role": "sound",
+    "expectedClass": "SOUND",
+    "gapCount": 3,
+    "blockerFlagged": false,
+    "fullySound": true
+   },
+   {
+    "case": "P-244d59",
+    "family": "unit_mismatch",
+    "wording": "A",
+    "role": "changed",
+    "expectedClass": "DEFECT",
+    "gapCount": 2,
+    "blockerFlagged": true,
+    "fullySound": false
+   },
+   {
+    "case": "P-993a80",
+    "family": "permission_chain",
+    "wording": "B",
+    "role": "sound",
+    "expectedClass": "SOUND",
+    "gapCount": 1,
+    "blockerFlagged": false,
+    "fullySound": true
+   }
+  ],
+  "round4": [
+   {
+    "case": "P-544e9e",
+    "family": "caller_callee",
+    "wording": "A",
+    "role": "sound",
+    "expectedClass": "SOUND",
+    "gapCount": 5,
+    "blockerFlagged": false,
+    "fullySound": false
+   },
+   {
+    "case": "P-401e87",
+    "family": "caller_callee",
+    "wording": "A",
+    "role": "changed",
+    "expectedClass": "DEFECT",
+    "gapCount": 4,
+    "blockerFlagged": true,
+    "fullySound": false
+   },
+   {
+    "case": "P-3fd44f",
+    "family": "caller_callee",
+    "wording": "B",
+    "role": "sound",
+    "expectedClass": "SOUND",
+    "gapCount": 5,
+    "blockerFlagged": false,
+    "fullySound": false
+   },
+   {
+    "case": "P-dd2de1",
+    "family": "required_coverage",
+    "wording": "B",
+    "role": "sound",
+    "expectedClass": "SOUND",
+    "gapCount": 6,
+    "blockerFlagged": false,
+    "fullySound": false
+   },
+   {
+    "case": "P-70db25",
+    "family": "caller_callee",
+    "wording": "B",
+    "role": "changed",
+    "expectedClass": "DEFECT",
+    "gapCount": 4,
+    "blockerFlagged": true,
+    "fullySound": false
+   },
+   {
+    "case": "P-0ea6af",
+    "family": "absent_vs_null",
+    "wording": "B",
+    "role": "sound",
+    "expectedClass": "SOUND",
+    "gapCount": 5,
+    "blockerFlagged": false,
+    "fullySound": false
+   }
+  ]
+ },
+ "summary": {
+  "round1": {
+   "audited": 40,
+   "soundPlans": 20,
+   "soundWithBlocker": 0,
+   "defectTwins": 18,
+   "defectTwinsWithBlocker": 18,
+   "uncertainTwins": 2,
+   "uncertainTwinsWithBlocker": 0
+  },
+  "round2": {
+   "audited": 8,
+   "soundPlans": 6,
+   "soundWithBlocker": 0,
+   "defectTwins": 2,
+   "defectTwinsWithBlocker": 2,
+   "uncertainTwins": 0,
+   "uncertainTwinsWithBlocker": 0
+  },
+  "round3": {
+   "audited": 14,
+   "soundPlans": 8,
+   "soundWithBlocker": 0,
+   "defectTwins": 6,
+   "defectTwinsWithBlocker": 6,
+   "uncertainTwins": 0,
+   "uncertainTwinsWithBlocker": 0
+  },
+  "round4": {
+   "audited": 6,
+   "soundPlans": 4,
+   "soundWithBlocker": 0,
+   "defectTwins": 2,
+   "defectTwinsWithBlocker": 2,
+   "uncertainTwins": 0,
+   "uncertainTwinsWithBlocker": 0
+  }
+ },
+ "total": {
+  "audited": 68,
+  "soundPlans": 38,
+  "soundWithBlocker": 0,
+  "defectTwins": 28,
+  "defectTwinsWithBlocker": 28,
+  "uncertainTwins": 2,
+  "uncertainTwinsWithBlocker": 0
+ }
+}

@@ -2,6 +2,8 @@
 
 This brief is for an orchestrating agent (for example Claude Code) running on the host that owns the authenticated `agy` binary. Read all of it before running anything. The owner, not you, decides whether live model calls happen.
 
+> **Corpus v2.** To run the preregistered [v2 corpus](v2/README.md) instead, add `--corpus benchmarks/counterfactual-pairs/v2` to every `run_pilot*.py` and `score.py` command below, use a fresh working directory, run `python3 -B -I benchmarks/counterfactual-pairs/v2/build_corpus.py --check` and `python3 -B -I benchmarks/counterfactual-pairs/v2/test_corpus.py` in Stage A, and read every "24" as "40" (cases, prepared, executed and ledger lines). Nothing else changes. Read the [preregistration](v2/PREREGISTRATION.md) first.
+
 ## 1. Purpose and your role
 
 The pilot gives one reviewer model, through the repository's native runtime, 24 plan snapshots. Twelve are sound plans, and twelve are one-line-changed defective counterparts (five defective, one uncertain-evidence case, in two wordings each). The goal is to find out whether the reviewer's judgments follow the changed fact rather than keywords or a tendency to reject everything. The design is in [README.md](README.md) and [testing-next.md](../../docs/testing-next.md).

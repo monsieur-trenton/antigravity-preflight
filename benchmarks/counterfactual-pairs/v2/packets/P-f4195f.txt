@@ -1,0 +1,6 @@
+A hard 75 minute deadline applies to the nightly batch: if a run overruns it is killed and that day's data is lost.
+The import stage, stage 1, takes around 22 minutes (measured over the last 30 runs, never more than 25).
+The transform stage, stage 2, takes around 18 minutes (measured, never more than 21).
+The export stage, stage 3, takes around 12 minutes (measured, never more than 14).
+Stages follow one another in sequence and do not overlap.
+When the batch ends, a summary email is sent to the on-call alias.

@@ -107,7 +107,8 @@ This runs 732 synthetic normal/profile, integrity and timing controls twice, fol
 - [Exploratory four-case plan audit](benchmarks/exploratory-plan-audit/README.md) — saved responses with corrected scoring and retrospective limitations
 - [Benchmark plan](docs/benchmark-plan.md) — eight benchmarks, with the figure each one produces
 - [Pilot 1 results](benchmarks/counterfactual-pairs/results/pilot1-claude-opus-5-5-high/README.md) — Claude Opus 5.5 via the Claude CLI, two trials, with adjudication and a corpus defect found
-- [Counterfactual-pair corpus](benchmarks/counterfactual-pairs/README.md) — frozen blind pilot inputs and scorer; no model run yet
+- [Counterfactual-pair corpus v2](benchmarks/counterfactual-pairs/v2/README.md) — 40 harder cases, preregistered metrics, audited sound plans; no model run yet
+- [Counterfactual-pair corpus v1](benchmarks/counterfactual-pairs/README.md) — frozen blind pilot inputs and scorer; no model run yet
 - [Fault-injection harness](benchmarks/fault-injection/README.md) — 19 single-fault variants against the citation checker
 - [Two proposed skill tests](docs/testing-next.md)
 - [Architecture](docs/architecture.md)

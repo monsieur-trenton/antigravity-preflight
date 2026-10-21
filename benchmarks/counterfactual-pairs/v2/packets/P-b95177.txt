@@ -1,0 +1,6 @@
+The build step prints a metadata summary to standard output and also writes a debug log to a temp file that is deleted on exit.
+The harness contract caps standard output at 1500 bytes per command; a step that exceeds the cap fails and aborts the release with no retry.
+The summary is compact JSON with exactly 6 fixed keys, each at most 12 bytes long.
+Each value is ASCII-escaped, and a value whose escaped form is longer than 64 bytes is replaced by the string "too long", so the whole summary is at most 600 bytes.
+Before writing, the step asserts that the encoded byte length of the output is at most 1500.
+The debug log is not part of standard output and is outside the cap.

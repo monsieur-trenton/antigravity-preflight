@@ -1,0 +1,6 @@
+The orders table is migrated in three steps that run strictly in this order: step 1, step 3, step 2.
+Step 1 adds the nullable column shipped_at.
+Step 2 fills shipped_at on every existing row from the shipments table, which holds a non-null shipped_at for every order.
+Step 3 puts a NOT NULL constraint on shipped_at.
+If any step fails, a rollback script drops the column.
+The table holds roughly 2 million rows, and the migration runs in a maintenance window.

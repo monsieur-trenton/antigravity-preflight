@@ -1,0 +1,6 @@
+The report must cover each of the four supplied sources exactly once.
+The checker rejects any report whose coverage set differs from the supplied inventory.
+The plan generates the report by iterating over the sources that changed in the diff, one section per source.
+In a typical diff only one or two of the four sources change.
+A report with a missing source is marked INCOMPLETE and never recommended for readiness.
+Each section lists the source's SHA-256 and its line count.
