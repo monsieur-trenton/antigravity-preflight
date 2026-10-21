@@ -109,15 +109,18 @@ def run_case(args, case, prompt, snapshot, trial_dir, empty_mcp, arm):
     except (ValueError, rp.Stop):
         return {"technicalStop": f"NO_JSON_OUTPUT:exit{done.returncode}", "wallSeconds": wall}
     row = {"wallSeconds": wall, "costUsd": payload.get("total_cost_usd"), "numTurns": payload.get("num_turns"),
-           "servedModels": served_models(payload), "route": ROUTE}
+           "safetyStops": payload.get("safety_stops"), "servedModels": served_models(payload), "route": ROUTE}
     if done.returncode != 0 or payload.get("is_error") or not isinstance(payload.get("result"), str):
         row["technicalStop"] = "CLAUDE_ERROR:" + str(payload.get("terminal_reason") or payload.get("subtype") or done.returncode)[:60]
         return row
     report = payload["result"].encode("utf-8")
     (attempt / "REVIEW.md").write_bytes(report)
     row["reportSha256"] = rp.sha(report)
-    if not any(m.startswith(args.model) for m in row["servedModels"]):
-        row["technicalStop"] = "MODEL_MISMATCH"  # report kept; never scored as the requested model
+    if payload.get("safety_stops"):  # the platform interrupted a reply; a continuation is not one clean review
+        row["technicalStop"] = f"SAFETY_INTERRUPTED:{payload.get('safety_stops')}"
+        return row
+    if not row["servedModels"] or not all(m.startswith(args.model) for m in row["servedModels"]):
+        row["technicalStop"] = "MODEL_MISMATCH"  # any other served model, even beside the requested one; report kept
         return row
     try:
         row.update(arm["parse"](payload["result"]))

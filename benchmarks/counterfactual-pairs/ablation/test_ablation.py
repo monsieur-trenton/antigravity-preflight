@@ -139,6 +139,23 @@ class DriverTests(unittest.TestCase):
             self.assertEqual(len(rows), 40)
             self.assertTrue(all(r["technicalStop"] == "UNPARSEABLE_REPORT:NO_VERDICT_LINE" and "assessment" not in r for r in rows))
 
+    def test_a_second_served_model_beside_the_requested_one_is_a_stop(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            h = claude_tests.Harness(tmp, "twomodels")
+            h.run("--arm", "bare", "--corpus", str(V2), "--execute", "--max-consecutive-stops", "99")
+            rows = h.ledger()
+            self.assertTrue(all(r["technicalStop"] == "MODEL_MISMATCH" and r["reportSha256"] and "assessment" not in r for r in rows))
+            self.assertEqual(rows[0]["servedModels"], sorted([MODEL, "claude-other"]))
+
+    def test_a_safety_interruption_is_named_and_never_scored(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            h = claude_tests.Harness(tmp, "safety")
+            h.run("--arm", "bare", "--corpus", str(V2), "--execute", "--max-consecutive-stops", "99")
+            rows = h.ledger()
+            self.assertTrue(all(r["technicalStop"] == "SAFETY_INTERRUPTED:1" and "assessment" not in r for r in rows))
+            report = vr.verify(V2, h.work, MODEL, "high", [1], "bare")
+            self.assertEqual(report["failures"], [])  # recorded as a stop, so the verifier accepts it
+
     def test_default_arm_is_unchanged(self):
         with tempfile.TemporaryDirectory() as tmp:
             h = claude_tests.Harness(tmp)
@@ -243,6 +260,26 @@ class AnalysisTests(unittest.TestCase):
         self.assertEqual(r["allPairs"]["primaryOrdinalPairDiscrimination"]["skill"], {"count": 40, "of": 40, "wilson95": [0.912, 1.0]})
         self.assertEqual(r["allPairs"]["primaryPaired"]["onlyFirst"], 0)
         self.assertEqual(r["arms"]["skill"]["technicalStops"], {})
+
+    def test_documented_rule_view_reclassifies_one_arm_only_and_sits_beside_the_as_run_view(self):
+        case = next(c for c, t in ORACLE.items() if t["family"] == "output_bytes" and t["role"] == "changed")
+        adjudication = {"technicalStops": [{"arm": "bare", "trial": 2, "case": case, "code": "MODEL_MISMATCH", "reason": "mixed model"}]}
+        with tempfile.TemporaryDirectory() as tmp:
+            a, b = Path(tmp) / "a", Path(tmp) / "b"
+            write_arm(a, ideal)
+            write_arm(b, ideal)
+            for directory in (a, b):  # stamp each ledger with its arm, as the driver does
+                for trial in (1, 2):
+                    ledger = directory / f"trial{trial}/responses.jsonl"
+                    arm = "skill" if directory is a else "bare"
+                    ledger.write_text("\n".join(json.dumps(dict(json.loads(line), arm=arm)) for line in ledger.read_text().splitlines()) + "\n")
+            result = an.analyze(V2, {"skill": a, "bare": b}, (), adjudication)
+        self.assertEqual(result["arms"]["bare"]["technicalStops"], {})                      # as run: nothing excluded
+        view = result["documentedRuleView"]
+        self.assertEqual(view["arms"]["bare"]["technicalStops"], {"RECLASSIFIED": 1})
+        self.assertEqual(view["arms"]["skill"]["technicalStops"], {})                       # the same case id in the other arm is untouched
+        self.assertEqual(view["allPairs"]["primaryPaired"]["matchedUnits"], 39)
+        self.assertEqual(result["allPairs"]["primaryPaired"]["matchedUnits"], 40)
 
     def test_analysis_never_reads_a_ledger_it_was_not_given(self):
         self.assertNotIn("results/pilot", (HERE / "analyze.py").read_text())

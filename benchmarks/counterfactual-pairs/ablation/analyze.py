@@ -5,7 +5,7 @@ comparison is verdict-only ordinal pair discrimination on matched (pair, trial) 
 test; the secondary comparisons, the keyword rubric on defect twins and the comparability check follow
 ablation/PREREGISTRATION.md. It reads the oracle only to map cases to families and roles.
 
-Usage: analyze.py --corpus DIR --arm skill=DIR --arm bare=DIR [--exclude FAMILY ...] [--out FILE]
+Usage: analyze.py --corpus DIR --arm skill=DIR --arm bare=DIR [--exclude FAMILY ...] [--adjudication FILE] [--out FILE]
 """
 import argparse
 from math import comb
@@ -135,11 +135,24 @@ def arm_summary(name, trials, oracle, corpus, rubric, excluded):
     }, severity
 
 
-def analyze(corpus, arms, excluded=()):
+def analyze(corpus, arms, excluded=(), adjudication=None):
+    """As-run analysis at the top level; if an adjudication names technical-stop reclassifications, a second view with
+    them applied is added beside it as documentedRuleView, never instead of it."""
     corpus = Path(corpus)
+    loaded = {name: load_arm(directory) for name, directory in arms.items()}
+    result = _analyze(corpus, arms, loaded, excluded)
+    if adjudication and adjudication.get("technicalStops"):
+        reclassified = {name: {t: sc.apply_reclassification(rows, adjudication) for t, rows in trials.items()}
+                        for name, trials in loaded.items()}
+        view = _analyze(corpus, arms, reclassified, excluded)
+        view["reclassified"] = [{k: e[k] for k in ("arm", "trial", "case", "code")} for e in adjudication["technicalStops"]]
+        result["documentedRuleView"] = view
+    return result
+
+
+def _analyze(corpus, arms, loaded, excluded):
     manifest, oracle = sc.load_frozen(corpus)
     rubric = json.loads((HERE / "rubric.json").read_bytes())["families"]
-    loaded = {name: load_arm(directory) for name, directory in arms.items()}
     summaries, severities = {}, {}
     for name, trials in loaded.items():
         summaries[name], severities[name] = arm_summary(name, trials, oracle, corpus, rubric, set(excluded))
@@ -185,12 +198,14 @@ def main(argv=None):
     parser.add_argument("--corpus", required=True)
     parser.add_argument("--arm", action="append", required=True, metavar="NAME=DIR")
     parser.add_argument("--exclude", action="append", default=[], help="family to exclude in the adjusted view (repeatable)")
+    parser.add_argument("--adjudication", help="adjudication JSON; its technicalStops add a documented-rule view beside the as-run one")
     parser.add_argument("--out")
     args = parser.parse_args(argv)
     try:
         arms = dict(item.split("=", 1) for item in args.arm)
         sc.require(len(arms) == 2, "TWO_ARMS_REQUIRED")
-        result = analyze(args.corpus, arms, args.exclude)
+        adjudication = json.loads(Path(args.adjudication).read_text(encoding="utf-8")) if args.adjudication else None
+        result = analyze(args.corpus, arms, args.exclude, adjudication)
     except (sc.Invalid, OSError, ValueError) as error:
         print(json.dumps({"status": "STOPPED", "reason": str(error) if isinstance(error, sc.Invalid) else type(error).__name__}))
         return 1

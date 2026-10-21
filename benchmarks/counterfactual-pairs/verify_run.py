@@ -94,8 +94,13 @@ def verify(corpus, workdir, model, effort, trials, arm_name="skill"):
                     failures.append(f"REPORT_NOT_CLI_RESULT:{tag}")
             except (OSError, ValueError):
                 failures.append(f"EVIDENCE_MISSING:{tag}")
-            if not any(m.startswith(model) for m in row.get("servedModels", [])):
+            if not row.get("servedModels") or not all(m.startswith(model) for m in row["servedModels"]):
                 failures.append(f"SERVED_MODEL_MISMATCH:{tag}")
+            try:
+                if json.loads((attempt / "claude-output.json").read_text(encoding="utf-8")).get("safety_stops"):
+                    failures.append(f"SAFETY_INTERRUPTED_NOT_RECORDED_AS_STOP:{tag}")
+            except (OSError, ValueError):
+                pass
         report["trials"][str(trial)] = {"observations": len(rows), "technicalStops": stops,
                                         "meanWallSeconds": round(sum(walls) / len(walls), 1) if walls else None}
     report.update({"claudeVersions": sorted(str(v) for v in versions), "servedModelsReported": sorted(served),

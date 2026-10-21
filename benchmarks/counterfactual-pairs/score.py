@@ -228,11 +228,32 @@ def score_trial(rows, oracle, corpus=HERE):
     }
 
 
+def apply_reclassification(rows, adjudication):
+    """Turn the observations an adjudication names into technical stops; each entry names its arm, trial and case."""
+    entries = (adjudication or {}).get("technicalStops", [])
+    require(isinstance(entries, list), "INVALID_ADJUDICATION")
+    named = {}
+    for entry in entries:
+        require(isinstance(entry.get("arm"), str) and type(entry.get("trial")) is int and isinstance(entry.get("case"), str)
+                and isinstance(entry.get("reason"), str) and entry["reason"].strip(), "INVALID_ADJUDICATION")
+        named[(entry["arm"], entry["trial"], entry["case"])] = entry.get("code", "RECLASSIFIED")
+    if not named:
+        return rows
+    out = []
+    for row in rows:
+        code = named.get((row.get("arm", "skill"), row.get("trial", 1), row.get("case")))
+        if code:
+            keep = {k: row[k] for k in ("case", "trial", "arm", "route", "requestedModel", "effort", "servedModels", "costUsd") if k in row}
+            row = dict(keep, technicalStop="RECLASSIFIED:" + code)
+        out.append(row)
+    return out
+
+
 def invalid_pairs(adjudication):
     """(family, wording) pairs an adjudication file marks invalid under the preregistered rule."""
-    require(isinstance(adjudication, dict) and isinstance(adjudication.get("invalidPairs"), list), "INVALID_ADJUDICATION")
+    require(isinstance(adjudication, dict) and isinstance(adjudication.get("invalidPairs", []), list), "INVALID_ADJUDICATION")
     pairs = set()
-    for entry in adjudication["invalidPairs"]:
+    for entry in adjudication.get("invalidPairs", []):
         require(isinstance(entry.get("family"), str) and isinstance(entry.get("wordings"), list)
                 and isinstance(entry.get("reason"), str) and entry["reason"].strip(), "INVALID_ADJUDICATION")
         pairs.update((entry["family"], w) for w in entry["wordings"])
@@ -242,6 +263,7 @@ def invalid_pairs(adjudication):
 def score(responses, corpus=HERE, adjudication=None):
     manifest, oracle = load_frozen(corpus)
     require(isinstance(responses, list), "INVALID_RESPONSES")
+    responses = apply_reclassification(responses, adjudication)
     trials = {}
     for row in responses:
         validate(row, oracle)
@@ -261,7 +283,7 @@ def score(responses, corpus=HERE, adjudication=None):
         result["trials"][str(t)]["requestedModels"] = sorted({str(r.get("requestedModel", "unrecorded")) for r in rows})
         result["trials"][str(t)]["servedModelsReported"] = sorted({m for r in rows for m in r.get("servedModels", [])})
         result["trials"][str(t)]["casesNotObserved"] = sorted(set(oracle) - {r["case"] for r in rows})
-    if adjudication is not None:
+    if adjudication is not None and adjudication.get("invalidPairs"):
         excluded = invalid_pairs(adjudication)
         keep = lambda r: (oracle[r["case"]]["family"], oracle[r["case"]]["wording"]) not in excluded
         result["adjusted"] = {

@@ -50,10 +50,13 @@ if mode == "error":
     print(json.dumps({"type": "result", "subtype": "success", "terminal_reason": "api_error", "is_error": True, "modelUsage": {}})); sys.exit(1)
 if mode == "wrongmodel":
     served = {"some-other-model": {}}
+if mode == "twomodels":
+    served = {config["model"]: {}, "claude-other": {}}
 if mode == "noformat":
     summary = "Looks fine to me."
 print(json.dumps({"type": "result", "subtype": "success", "is_error": False, "result": summary,
-                  "total_cost_usd": 0.01, "num_turns": 1, "modelUsage": served}))
+                  "total_cost_usd": 0.01, "num_turns": 2 if mode == "safety" else 1, "modelUsage": served,
+                  "safety_stops": 1 if mode == "safety" else 0}))
 '''
 
 
