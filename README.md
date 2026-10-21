@@ -70,6 +70,7 @@ On Linux, run the release checks, 50 citation scenarios, and two fresh 332-case 
 
 ```bash
 python3 -B -I tools/check_release.py
+python3 -B -I tools/test_demonstrated_utility.py
 python3 -B -I skills/antigravity-preflight/scripts/test_manual_citations.py
 python3 -B -I tools/qualify_offline.py /tmp/antigravity-two-fresh-runs
 ```
@@ -86,6 +87,7 @@ This runs 732 synthetic normal/profile, integrity and timing controls twice, fol
 
 ## Project
 
+- [Demonstrated utility](docs/demonstrated-utility.md) — four LLM review failure modes deterministically stopped by preflight
 - [Exploratory four-case plan audit](benchmarks/exploratory-plan-audit/README.md) — saved responses with corrected scoring and retrospective limitations
 - [Two proposed skill tests](docs/testing-next.md)
 - [Architecture](docs/architecture.md)
