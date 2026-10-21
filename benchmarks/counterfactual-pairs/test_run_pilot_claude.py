@@ -41,6 +41,8 @@ stdin = sys.stdin.read()
 log({"cmd": "call", "argv": sys.argv[1:], "cwd": os.getcwd(), "cwdEntries": sorted(os.listdir(os.getcwd())), "stdin": stdin})
 mode = config["mode"]
 summary = "Fine.\nMACHINE SUMMARY\nCOMPLETENESS: COMPLETE\nASSESSMENT: NO_BLOCKERS_FOUND\n"
+if "exactly one of:" in stdin:  # a bare-arm request: the only machine hook is a final VERDICT line
+    summary = "Fine.\nVERDICT: " + config.get("verdict", "GO")
 served = {config["model"]: {}}
 if mode == "garbage":
     print("not json"); sys.exit(0)

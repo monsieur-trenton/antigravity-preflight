@@ -38,15 +38,16 @@ def check_pins(corpus):
     return manifest, bad
 
 
-def verify(corpus, workdir, model, effort, trials):
+def verify(corpus, workdir, model, effort, trials, arm_name="skill"):
     rc = load("run_pilot_claude")
     rp = rc.rp
+    arm = rc.load_arm(arm_name)
     manifest, bad_pins = check_pins(corpus)
     failures = [f"CORPUS_PIN_MISMATCH:{name}" for name in bad_pins]
     prompt = (corpus / "prompt.txt").read_text(encoding="utf-8")
-    expected_system = sha(rc.SYSTEM_PROMPT.encode("utf-8"))
+    expected_system = sha(arm["system"].encode("utf-8"))
     order = manifest["submissionOrder"]
-    report = {"corpus": str(corpus), "manifestSha256": sha((corpus / "manifest.json").read_bytes()),
+    report = {"corpus": str(corpus), "arm": arm_name, "manifestSha256": sha((corpus / "manifest.json").read_bytes()),
               "casesInCorpus": manifest["cases"], "trials": {}}
     versions, served, cost_total = set(), set(), 0.0
     for trial in trials:
@@ -70,7 +71,9 @@ def verify(corpus, workdir, model, effort, trials):
             versions.add(row.get("claudeVersion"))
             served.update(row.get("servedModels", []))
             stamp_ok = (row.get("route") == rc.ROUTE and row.get("requestedModel") == model and row.get("effort") == effort
-                        and row.get("systemPromptSha256") == expected_system and row.get("trial") == trial)
+                        and row.get("systemPromptSha256") == expected_system and row.get("trial") == trial
+                        and row.get("arm", "skill") == arm_name
+                        and (arm["manifestSha256"] is None or row.get("armManifestSha256") == arm["manifestSha256"]))
             if not stamp_ok:
                 failures.append(f"STAMP_MISMATCH:{tag}")
             if row.get("technicalStop"):
@@ -80,7 +83,7 @@ def verify(corpus, workdir, model, effort, trials):
             attempt = workdir / f"trial{trial}" / "attempts" / row["case"]
             packet = corpus / "packets" / (row["case"] + ".txt")
             try:
-                expected_request = rp.request_text(prompt, packet.read_text(encoding="utf-8").split("\n")[:-1], True)
+                expected_request = arm["build"](prompt, packet.read_text(encoding="utf-8").split("\n")[:-1])
                 if (attempt / "request.txt").read_bytes() != expected_request:
                     failures.append(f"REQUEST_MISMATCH:{tag}")
                 review = (attempt / "REVIEW.md").read_bytes()
@@ -107,9 +110,10 @@ def main(argv=None):
     parser.add_argument("--model", required=True)
     parser.add_argument("--effort", required=True)
     parser.add_argument("--trials", default="1,2")
+    parser.add_argument("--arm", choices=("skill", "bare"), default="skill")
     args = parser.parse_args(argv)
     report = verify(Path(args.corpus).resolve(), Path(args.workdir).resolve(), args.model, args.effort,
-                    [int(t) for t in args.trials.split(",")])
+                    [int(t) for t in args.trials.split(",")], args.arm)
     print(json.dumps(report, indent=2))
     return 1 if report["failures"] else 0
 

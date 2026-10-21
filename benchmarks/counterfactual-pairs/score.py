@@ -90,6 +90,16 @@ def grade(row, truth, corpus=HERE):
     """Return (outcome, detail) for one observation."""
     if row.get("technicalStop"):
         return "STOPPED", {}
+    if row.get("arm") == "bare":  # verdict only: no findings or quotations exist to check
+        severity = SEVERITY_RANK[row["assessment"]]
+        detail = {"unsupportedVerified": 0, "mechanismCited": None, "incomplete": False, "severity": severity,
+                  "verifiedBlocker": severity == 2, "verdictOnly": True}
+        expected = truth["expectedClass"]
+        if expected == "SOUND":
+            return ("FALSE_BLOCKER" if severity == 2 else "CORRECT" if severity == 0 else "HEDGED"), detail
+        if expected == "DEFECT":
+            return ("CORRECT" if severity == 2 else "MISSED"), detail
+        return ("OVERCLAIMED" if severity == 2 else "MISSED" if severity == 0 else "CORRECT"), detail
     findings = row["findings"]
     blockers = [f for f in findings if f["severity"] == "BLOCKER"]
     verified_blockers = [f for f in blockers if f["evidence"] == "VERIFIED"]
@@ -111,6 +121,40 @@ def grade(row, truth, corpus=HERE):
     if verified_blockers:  # UNCERTAIN: evidence is absent, not contradictory
         return "OVERCLAIMED", detail
     return ("MISSED" if assessment == "NO_BLOCKERS_FOUND" else "CORRECT"), detail
+
+
+def verdict_only(rows, oracle):
+    """Metrics computed from the verdict alone, so they mean the same for every arm."""
+    verdicts = {}
+    for row in rows:
+        if not row.get("technicalStop"):
+            verdicts[row["case"]] = SEVERITY_RANK[row["assessment"]]
+    sound = {"n": 0, "clean": 0, "blocked": 0, "hedged": 0}
+    changed = {"n": 0, "correct": 0}
+    by_pair = {}
+    for case, severity in verdicts.items():
+        truth = oracle[case]
+        by_pair.setdefault((truth["family"], truth["wording"]), {})[truth["role"]] = (severity, truth["expectedClass"])
+        if truth["role"] == "sound":
+            sound["n"] += 1
+            sound["clean"] += severity == 0
+            sound["blocked"] += severity == 2
+            sound["hedged"] += severity == 1
+        else:
+            changed["n"] += 1
+            changed["correct"] += severity == (2 if truth["expectedClass"] == "DEFECT" else 1)
+    strict = ordinal = pairs = 0
+    for pair in by_pair.values():
+        if "sound" in pair and "changed" in pair:
+            pairs += 1
+            (s_sev, _), (c_sev, c_class) = pair["sound"], pair["changed"]
+            ok_twin = c_sev == (2 if c_class == "DEFECT" else 1)
+            strict += s_sev == 0 and ok_twin
+            ordinal += c_sev > s_sev and not (c_class == "UNCERTAIN" and c_sev == 2)
+    return {"soundClean": rate(sound["clean"], sound["n"]), "soundBlocked": rate(sound["blocked"], sound["n"]),
+            "soundHedged": rate(sound["hedged"], sound["n"]), "changedVerdictCorrect": rate(changed["correct"], changed["n"]),
+            "pairStrictVerdictOnly": rate(strict, pairs), "pairOrderedVerdictOnly": rate(ordinal, pairs),
+            "note": "Verdict-only definitions identical for every arm: defect twin = BLOCKERS_FOUND, uncertainty twin = CHANGES_RECOMMENDED."}
 
 
 def score_trial(rows, oracle, corpus=HERE):
@@ -175,6 +219,7 @@ def score_trial(rows, oracle, corpus=HERE):
         "pairOrderedCalibrated": rate(ordinal_ok, ordinal_n),
         "hedgedOnSoundPlans": rate(sound_hedged, sound_total),
         "pairOrderedCalibratedByDifficulty": {k: rate(v[0], v[1]) for k, v in sorted(by_difficulty.items())},
+        "verdictOnly": verdict_only(rows, oracle),
         "falseBlockersOnSoundPlans": rate(sound_false, sound_total),
         "changedPlansJudgedCorrectly": rate(changed_correct, changed_total),
         "unsupportedVerifiedFindings": unsupported,
@@ -211,6 +256,7 @@ def score(responses, corpus=HERE, adjudication=None):
         "providerCalls": 0,
     }
     for t, rows in trials.items():
+        result["trials"][str(t)]["arms"] = sorted({str(r.get("arm", "skill")) for r in rows})
         result["trials"][str(t)]["routes"] = sorted({str(r.get("route", "unspecified")) for r in rows})
         result["trials"][str(t)]["requestedModels"] = sorted({str(r.get("requestedModel", "unrecorded")) for r in rows})
         result["trials"][str(t)]["servedModelsReported"] = sorted({m for r in rows for m in r.get("servedModels", [])})
