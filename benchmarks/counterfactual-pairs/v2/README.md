@@ -17,7 +17,9 @@ Files: `packets/` and `prompt.txt` are the only reviewer-visible files (the prom
 
 ## Running it
 
-The drivers and scorer take `--corpus`. Everything else in [HANDOFF.md](../HANDOFF.md) or [HANDOFF-ANTIGRAVITY-CLAUDE.md](../HANDOFF-ANTIGRAVITY-CLAUDE.md) applies, with 40 cases instead of 24:
+The complete, gated runbook for the Claude CLI route is the [v2 handoff brief](HANDOFF.md). It covers the owner's decisions, rules, staged commands with expected output, verification and hand-back. Its appendix covers a Gemini route. The summary:
+
+The drivers, scorer and [verifier](../verify_run.py) take `--corpus`, with 40 cases instead of 24:
 
 ```bash
 python3 -B -I benchmarks/counterfactual-pairs/v2/build_corpus.py --check

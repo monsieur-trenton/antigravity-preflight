@@ -16,7 +16,7 @@ Two trials of the frozen 24-case corpus ([../../README.md](../../README.md)), ru
 | Technical stops | 0 of 48 |
 | Evidence | [trial1](trial1/), [trial2](trial2/), each with the ledger and the unmodified reports; [score.json](score.json) |
 
-**Integrity checks, run on receipt.** For all 48 observations the saved request is byte-identical to what the frozen corpus and the committed driver produce, the ledger's report hash matches the saved report, the report equals the CLI's `result` field, and the system-prompt hash matches. The run's commit was not recorded; it is inferred (95a4fcd) from those matches, which would not detect a driver change that leaves the request and system prompt unchanged.
+**Integrity checks, run on receipt** (now reproducible with [verify_run.py](../../verify_run.py), which passes on this run's original working directory and reports the same $1.14 total and mean wall times). For all 48 observations the saved request is byte-identical to what the frozen corpus and the committed driver produce, the ledger's report hash matches the saved report, the report equals the CLI's `result` field, and the system-prompt hash matches. The run's commit was not recorded; it is inferred (95a4fcd) from those matches, which would not detect a driver change that leaves the request and system prompt unchanged.
 
 ## Pre-registered score, unchanged
 

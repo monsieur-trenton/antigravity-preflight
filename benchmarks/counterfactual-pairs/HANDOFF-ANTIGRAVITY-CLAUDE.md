@@ -2,7 +2,7 @@
 
 This brief is for an **Antigravity agent** acting as orchestrator. It runs the counterfactual-pairs pilot by driving the **Claude CLI** as the reviewer. Read all of it before running anything. The owner, not you, decides whether live model calls happen or any money is spent.
 
-> **Corpus v2.** To run the preregistered [v2 corpus](v2/README.md) instead, add `--corpus benchmarks/counterfactual-pairs/v2` to every `run_pilot*.py` and `score.py` command below, use a fresh working directory, run `python3 -B -I benchmarks/counterfactual-pairs/v2/build_corpus.py --check` and `python3 -B -I benchmarks/counterfactual-pairs/v2/test_corpus.py` in Stage A, and read every "24" as "40" (cases, prepared, executed and ledger lines). Nothing else changes. Read the [preregistration](v2/PREREGISTRATION.md) first.
+> **Corpus v2.** The self-contained brief for the preregistered v2 corpus is [v2/HANDOFF.md](v2/HANDOFF.md); prefer it. In short, to run the [v2 corpus](v2/README.md) with this brief instead, add `--corpus benchmarks/counterfactual-pairs/v2` to every `run_pilot*.py` and `score.py` command below, use a fresh working directory, run `python3 -B -I benchmarks/counterfactual-pairs/v2/build_corpus.py --check` and `python3 -B -I benchmarks/counterfactual-pairs/v2/test_corpus.py` in Stage A, and read every "24" as "40" (cases, prepared, executed and ledger lines). Nothing else changes. Read the [preregistration](v2/PREREGISTRATION.md) first.
 
 ## 1. What this is, and what its results can claim
 
