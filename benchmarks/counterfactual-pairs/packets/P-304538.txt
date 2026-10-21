@@ -1,0 +1,4 @@
+The nightly compaction step is allowed a 30 minute work window.
+The input is roughly 40 GB. Throughput on the target host has not been measured.
+If the window runs out, the step is cancelled and the cancellation is reported.
+Compaction runs on a single thread.

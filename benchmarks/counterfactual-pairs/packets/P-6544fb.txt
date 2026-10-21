@@ -1,0 +1,4 @@
+The export reads the optional field discount from each order record.
+The record schema says an absent discount means no discount and an explicit null means the discount is unknown.
+The export treats an absent discount as 0 and passes an explicit null through as null.
+Downstream totals skip records whose discount is null and flag them for review.

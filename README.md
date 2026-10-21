@@ -102,6 +102,7 @@ This runs 732 synthetic normal/profile, integrity and timing controls twice, fol
 - [Demonstrated utility](docs/demonstrated-utility.md) — eight LLM review failure modes and boundary invariants deterministically verified by preflight
 - [Exploratory four-case plan audit](benchmarks/exploratory-plan-audit/README.md) — saved responses with corrected scoring and retrospective limitations
 - [Benchmark plan](docs/benchmark-plan.md) — eight benchmarks, with the figure each one produces
+- [Counterfactual-pair corpus](benchmarks/counterfactual-pairs/README.md) — frozen blind pilot inputs and scorer; no model run yet
 - [Fault-injection harness](benchmarks/fault-injection/README.md) — 19 single-fault variants against the citation checker
 - [Two proposed skill tests](docs/testing-next.md)
 - [Architecture](docs/architecture.md)

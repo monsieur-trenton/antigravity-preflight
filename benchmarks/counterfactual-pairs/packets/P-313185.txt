@@ -1,0 +1,4 @@
+The report must cover each of the four supplied sources exactly once.
+The checker rejects any report whose coverage set differs from the supplied inventory.
+The plan generates the report by iterating over the full inventory, one section per source.
+A report with a missing source is marked INCOMPLETE and never recommended for readiness.

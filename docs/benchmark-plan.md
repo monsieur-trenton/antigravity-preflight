@@ -10,7 +10,7 @@ Four claims need separate evidence. Only the first is covered today.
 | | Benchmark | Claim | Model calls | Figure |
 | --- | --- | --- | --- | --- |
 | A | Ablation: no preflight, raw Gemini prompt, full skill, on one seeded-defect corpus | 3 | Yes | Grouped bars by arm |
-| B | Blind counterfactual pairs, six families ([design](testing-next.md)) | 2 | Yes | Paired slope chart and confusion tile |
+| B | Blind counterfactual pairs, six families ([design](testing-next.md)); [frozen corpus and scorer ready](../benchmarks/counterfactual-pairs/README.md), awaiting authorized live runs | 2 | Yes | Paired slope chart and confusion tile |
 | C | Replay raw responses through the citation checker | 1, 3 | No | Finding funnel |
 | D | Evidence-integrity fault injection | 1 | No | Fault × gate matrix (done for the citation checker) |
 | E | Hostile source text, scored apart from the gates | 2 | Yes | Per-family result tiles |

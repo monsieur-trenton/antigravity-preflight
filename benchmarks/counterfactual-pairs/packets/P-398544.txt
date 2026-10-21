@@ -1,0 +1,5 @@
+After building, the step writes a metadata summary to stdout.
+Per the harness contract, stdout may not exceed 1500 bytes for a single command.
+The summary uses compact JSON and never has more than 12 fields.
+Values are emitted unmodified; the longest value observed in testing was 900 bytes.
+Before writing, the step asserts len(output) <= 1500.

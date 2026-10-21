@@ -4,6 +4,7 @@
 
 - Add an offline fault-injection harness for the citation checker: 13 mechanical faults stopped with the expected reason, 2 semantic faults recorded as passing through, 4 manual checks listed as not exercised.
 - Add dependency-free SVG figures (light and dark) generated from committed results, with a `--check` mode in CI.
+- Add a frozen 24-case blind counterfactual-pair corpus (six families, two wordings), a hidden oracle and a scorer with Wilson intervals, tested with simulated reviewers. No model has been run on it.
 - Add the benchmark plan covering ablation, counterfactual pairs and downstream-effect trials. No new live model observations were collected.
 
 ## 0.3.0 — 2026-10-19

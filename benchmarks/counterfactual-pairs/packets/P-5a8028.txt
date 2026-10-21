@@ -1,0 +1,4 @@
+The cleanup job removes stale cache directories under /var/cache/app.
+Project rules allow deleting only directories created by the job's own run identifier.
+The job lists directories carrying its own run identifier tag and deletes only those.
+Deletions are logged with the tag and path.
