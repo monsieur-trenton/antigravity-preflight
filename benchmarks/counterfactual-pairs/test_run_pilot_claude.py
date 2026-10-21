@@ -45,7 +45,7 @@ served = {config["model"]: {}}
 if mode == "garbage":
     print("not json"); sys.exit(0)
 if mode == "error":
-    print(json.dumps({"type": "result", "subtype": "error_during_execution", "is_error": True, "modelUsage": served})); sys.exit(1)
+    print(json.dumps({"type": "result", "subtype": "success", "terminal_reason": "api_error", "is_error": True, "modelUsage": {}})); sys.exit(1)
 if mode == "wrongmodel":
     served = {"some-other-model": {}}
 if mode == "noformat":
@@ -153,7 +153,7 @@ class ClaudeDriverTests(unittest.TestCase):
             code, out = h.run("--execute")
             self.assertEqual((code, out["status"]), (1, "HALTED_CONSECUTIVE_STOPS"))
             self.assertEqual(len(h.calls()), 3)
-            self.assertTrue(all(r["technicalStop"].startswith("CLAUDE_ERROR") for r in h.ledger()))
+            self.assertTrue(all(r["technicalStop"] == "CLAUDE_ERROR:api_error" for r in h.ledger()))
 
     def test_model_mismatch_is_a_stop_that_keeps_the_report(self):
         with tempfile.TemporaryDirectory() as tmp:

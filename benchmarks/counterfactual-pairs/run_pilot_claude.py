@@ -80,7 +80,7 @@ def run_case(args, case, prompt, snapshot, trial_dir, empty_mcp):
     row = {"wallSeconds": wall, "costUsd": payload.get("total_cost_usd"), "numTurns": payload.get("num_turns"),
            "servedModels": served_models(payload), "route": ROUTE}
     if done.returncode != 0 or payload.get("is_error") or not isinstance(payload.get("result"), str):
-        row["technicalStop"] = "CLAUDE_ERROR:" + str(payload.get("subtype") or done.returncode)[:60]
+        row["technicalStop"] = "CLAUDE_ERROR:" + str(payload.get("terminal_reason") or payload.get("subtype") or done.returncode)[:60]
         return row
     report = payload["result"].encode("utf-8")
     (attempt / "REVIEW.md").write_bytes(report)
