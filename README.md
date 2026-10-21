@@ -87,7 +87,7 @@ This runs 732 synthetic normal/profile, integrity and timing controls twice, fol
 
 ## Project
 
-- [Demonstrated utility](docs/demonstrated-utility.md) — four LLM review failure modes deterministically stopped by preflight
+- [Demonstrated utility](docs/demonstrated-utility.md) — eight LLM review failure modes and boundary invariants deterministically verified by preflight
 - [Exploratory four-case plan audit](benchmarks/exploratory-plan-audit/README.md) — saved responses with corrected scoring and retrospective limitations
 - [Two proposed skill tests](docs/testing-next.md)
 - [Architecture](docs/architecture.md)
