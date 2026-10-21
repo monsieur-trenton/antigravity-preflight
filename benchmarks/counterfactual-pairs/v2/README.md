@@ -1,6 +1,6 @@
 # Counterfactual pairs, corpus v2
 
-A rebuilt, harder successor to the [v1 corpus](../README.md), prepared after [pilot 1](../results/pilot1-claude-opus-5-5-high/README.md) showed one v1 family was defective and the rest were mostly easy. **No model has been run on v2.** Its metrics, exclusion rule and limits are fixed in the [preregistration](PREREGISTRATION.md), which is pinned by the manifest.
+A rebuilt, harder successor to the [v1 corpus](../README.md), prepared after [pilot 1](../results/pilot1-claude-opus-5-5-high/README.md) showed one v1 family was defective and the rest were mostly easy. **Pilot 2 has run on it once, with Claude Opus 5.5 through the Claude CLI: the preregistered primary metric was 20/20 in both trials, which is a ceiling for that reviewer. See the [results](../results/pilot2-v2-claude-opus-5-5-high/README.md).** Its metrics, exclusion rule and limits are fixed in the [preregistration](PREREGISTRATION.md), which is pinned by the manifest.
 
 | | v1 | v2 |
 | --- | --- | --- |
