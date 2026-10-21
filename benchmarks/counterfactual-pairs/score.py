@@ -9,7 +9,9 @@ Responses JSON: a list of observations
 The mechanical outcome is a proxy: a human must still adjudicate each mechanism and any extra claim.
 This pilot reports counts with intervals, not a general accuracy rate.
 
-Usage: score.py RESPONSES_JSON [OUTPUT_JSON]
+RESPONSES may be a JSON list or the .jsonl ledger written by run_pilot.py (extra keys are ignored).
+
+Usage: score.py RESPONSES_JSON_OR_JSONL [OUTPUT_JSON]
 """
 import hashlib
 import json
@@ -185,7 +187,9 @@ def main(argv):
         print("usage: score.py RESPONSES_JSON [OUTPUT_JSON]", file=sys.stderr)
         return 2
     try:
-        result = score(json.loads(Path(argv[0]).read_bytes()))
+        raw = Path(argv[0]).read_text(encoding="utf-8")
+        rows = [json.loads(line) for line in raw.splitlines() if line.strip()] if argv[0].endswith(".jsonl") else json.loads(raw)
+        result = score(rows)
     except (Invalid, OSError, json.JSONDecodeError) as error:
         print(json.dumps({"status": "STOPPED", "reason": str(error) if isinstance(error, Invalid) else type(error).__name__}))
         return 1

@@ -25,15 +25,26 @@ The runtime-budget twin is deliberately not a defect. It lacks measured throughp
 - Titles, family names and roles never appear in a packet; a test fails if they do.
 - Credit for finding a defect requires a VERIFIED BLOCKER citing the decisive line with a quotation that actually appears on it.
 
-## Running the pilot (requires owner authorization)
+## Running the pilot on a qualified host
 
-1. Confirm `python3 -B -I benchmarks/counterfactual-pairs/build_corpus.py --check` passes, and record `manifest.json`'s hash.
-2. Send **only** `prompt.txt` and one `packets/*.txt` per submission, in `submissionOrder`. One turn each, no automatic retries or repairs. Use two separately authorized observations per case (`"trial": 1` and `2`). Pin and record model, effort and runtime; record unavailable attestation.
-3. Save each returned report unmodified. Write the parsed observations to a responses file in the shape documented at the top of `score.py`. Preserve the original reports.
-4. `python3 -B -I benchmarks/counterfactual-pairs/score.py responses.json results.json`
-5. Adjudicate by hand every verdict, decisive quotation and mechanism, plus any extra claim the mechanical score cannot judge. Preserve all failures.
+Prerequisites, all supplied by you for a host and runtime you are authorized to use: the exact agy binary, a frozen capabilities directory produced by `cli_capabilities.py`, and the offline qualification envelope for the chosen runtime. This repository does not distribute the binary or credentials, and host qualification does not transfer. Follow [runtime.md](../../skills/antigravity-preflight/references/runtime.md) or [argon-high.md](../../docs/argon-high.md) for setup. The route is never implied: choose the runtime directory explicitly. Argon additionally needs `--runtime-profile argon-high`, effort `high` and `useG1Credits=true`.
 
-The scorer refuses to run if any frozen file has changed, and refuses unknown cases, duplicate observations and malformed fields.
+1. Confirm `build_corpus.py --check` and `test_run_pilot.py` pass, and record `manifest.json`'s hash and the repository commit.
+2. **Dry run.** Prepares all 24 packets and calls no model. Use a fresh `--workdir` outside the repository, because prepare refuses to reuse an existing seed.
+
+   ```bash
+   python3 -B -I benchmarks/counterfactual-pairs/run_pilot.py \
+     --runtime-dir runtime/flash-high --capabilities /frozen/capabilities \
+     --qualification /path/DUAL-OFFLINE-QUALIFICATION.json --workdir /fresh/dry-run
+   ```
+
+3. **Live trial.** Add `--execute` with a new workdir, and `--trial 1`. Each case runs exactly one native turn: prepare, copy the seed once, verify the copy byte-for-byte, then `run --authorize-live`. There are no retries, repairs or fallbacks. A recorded case, including a stop, is never run again; an attempt directory with no record is logged as `INTERRUPTED_UNKNOWN_STATE`. The driver halts after three consecutive stops. Run `--trial 2` separately, in its own authorized invocation.
+4. Score: `python3 -B -I benchmarks/counterfactual-pairs/score.py /workdir/responses-trial1.jsonl results-trial1.json`. Pass both trial ledgers as one JSON list to get repeatability.
+5. Keep the original `GEMINI-REVIEW.md` in each `attempts/<case>/` unchanged, with its hash in the ledger. Record the retained cleanup and settlement fields from each `CLI-RECEIPT.json`. Adjudicate by hand every verdict, decisive quotation, mechanism and extra claim; preserve all failures.
+
+The driver appends a fixed question and a machine-readable summary block to the frozen prompt (see `FORMAT_SUFFIX` in `run_pilot.py`). A report that does not follow it is recorded as `UNPARSEABLE_REPORT`, a technical stop kept apart from wrong semantic judgments, and still needs a human reading. For the original Flash route the numbered snapshot is placed inside the prompt, as its runbook requires; Argon assembles it from the declared source.
+
+**Validation status.** The driver is tested against a stub runtime, and all 24 packets are accepted by the real Flash and Argon packet code (`row_bytes`, `assemble_packet`). It has not been run against a real agy binary. Expect to check the first dry run and the first live case by hand.
 
 ## What the result will and will not show
 
