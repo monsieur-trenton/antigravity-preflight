@@ -27,6 +27,8 @@ The runtime-budget twin is deliberately not a defect. It lacks measured throughp
 
 ## Running the pilot on a qualified host
 
+To have an orchestrating agent such as Claude Code run it, give it the staged, gated [handoff brief](HANDOFF.md).
+
 Prerequisites, all supplied by you for a host and runtime you are authorized to use: the exact agy binary, a frozen capabilities directory produced by `cli_capabilities.py`, and the offline qualification envelope for the chosen runtime. This repository does not distribute the binary or credentials, and host qualification does not transfer. Follow [runtime.md](../../skills/antigravity-preflight/references/runtime.md) or [argon-high.md](../../docs/argon-high.md) for setup. The route is never implied: choose the runtime directory explicitly. Argon additionally needs `--runtime-profile argon-high`, effort `high` and `useG1Credits=true`.
 
 1. Confirm `build_corpus.py --check` and `test_run_pilot.py` pass, and record `manifest.json`'s hash and the repository commit.
