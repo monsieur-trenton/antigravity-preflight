@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 552" width="900" height="552" role="img" aria-labelledby="t d">
+<title id="t">Offline evidence overview</title><desc id="d">45 utility checks, 50 citation scenarios, 13 of 13 injected faults stopped, 1464 Argon controls, 0 provider calls.</desc>
+<style>
+svg { --surface:#fcfcfb; --ink:#0b0b0b; --ink2:#52514e; --grid:#dcdbd6; --accent:#2a78d6;
+  --on-accent:#ffffff; --warn:#fab219; --on-warn:#0b0b0b; --neutral:#ecebe7; --tile:#f3f2ee; }
+@media (prefers-color-scheme: dark) {
+  svg { --surface:#1a1a19; --ink:#f0efec; --ink2:#c3c2b7; --grid:#3a3a37; --accent:#3987e5;
+    --on-accent:#0b0b0b; --warn:#fab219; --on-warn:#0b0b0b; --neutral:#2a2a28; --tile:#232321; }
+}
+text { font-family:-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif; fill:var(--ink); }
+.mono { font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+.muted { fill:var(--ink2); }
+.title { font-size:20px; font-weight:600; }
+.sub { font-size:13px; }
+.lab { font-size:13px; }
+.small { font-size:11.5px; }
+.big { font-size:30px; font-weight:650; }
+.head { font-size:12px; font-weight:600; }
+</style>
+<rect width="900" height="552" rx="10" fill="var(--surface)"/>
+<text x="24" y="36" class="title" text-anchor="start">Offline evidence: deterministic checks, zero model calls</text>
+<text x="24" y="58" class="sub muted" text-anchor="start">Synthetic fixtures and process doubles. This is repeatability evidence for the gates, not native containment or model-quality evidence.</text>
+<rect x="24.0" y="82" width="160.8" height="92" rx="8" fill="var(--tile)" stroke="var(--grid)"/>
+<text x="38.0" y="122" class="big" text-anchor="start">45</text>
+<text x="38.0" y="143" class="small muted" text-anchor="start">checks across 8</text>
+<text x="38.0" y="158" class="small muted" text-anchor="start">failure modes</text>
+<rect x="196.8" y="82" width="160.8" height="92" rx="8" fill="var(--tile)" stroke="var(--grid)"/>
+<text x="210.8" y="122" class="big" text-anchor="start">50</text>
+<text x="210.8" y="143" class="small muted" text-anchor="start">citation scenarios, LF</text>
+<text x="210.8" y="158" class="small muted" text-anchor="start">and Unicode CRLF</text>
+<rect x="369.6" y="82" width="160.8" height="92" rx="8" fill="var(--tile)" stroke="var(--grid)"/>
+<text x="383.6" y="122" class="big" text-anchor="start">13/13</text>
+<text x="383.6" y="143" class="small muted" text-anchor="start">injected faults</text>
+<text x="383.6" y="158" class="small muted" text-anchor="start">stopped by the checker</text>
+<rect x="542.4" y="82" width="160.8" height="92" rx="8" fill="var(--tile)" stroke="var(--grid)"/>
+<text x="556.4" y="122" class="big" text-anchor="start">1,464</text>
+<text x="556.4" y="143" class="small muted" text-anchor="start">Argon controls: 2</text>
+<text x="556.4" y="158" class="small muted" text-anchor="start">fresh runs of 732</text>
+<rect x="715.2" y="82" width="160.8" height="92" rx="8" fill="var(--tile)" stroke="var(--grid)"/>
+<text x="729.2" y="122" class="big" text-anchor="start">0</text>
+<text x="729.2" y="143" class="small muted" text-anchor="start">provider calls, 0</text>
+<text x="729.2" y="158" class="small muted" text-anchor="start">qualification credit</text>
+<text x="24" y="208" class="lab" text-anchor="start" font-weight="600">Argon offline controls by suite (732 per run, 2 fresh runs)</text>
+<text x="24" y="241" class="small mono" text-anchor="start">launcher-argon-high</text>
+<path d="M204,228 h598.0 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-598.0 z" fill="var(--accent)"/>
+<text x="814.0" y="241" class="small" text-anchor="start">142</text>
+<text x="24" y="271" class="small mono" text-anchor="start">launcher-flash-high</text>
+<path d="M204,258 h598.0 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-598.0 z" fill="var(--accent)"/>
+<text x="814.0" y="271" class="small" text-anchor="start">142</text>
+<text x="24" y="301" class="small mono" text-anchor="start">tier2</text>
+<path d="M204,288 h449.6 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-449.6 z" fill="var(--accent)"/>
+<text x="665.6" y="301" class="small" text-anchor="start">107</text>
+<text x="24" y="331" class="small mono" text-anchor="start">profiles</text>
+<path d="M204,318 h403.0 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-403.0 z" fill="var(--accent)"/>
+<text x="619.0" y="331" class="small" text-anchor="start">96</text>
+<text x="24" y="361" class="small mono" text-anchor="start">completion</text>
+<path d="M204,348 h318.2 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-318.2 z" fill="var(--accent)"/>
+<text x="534.2" y="361" class="small" text-anchor="start">76</text>
+<text x="24" y="391" class="small mono" text-anchor="start">caps-argon-high</text>
+<path d="M204,378 h199.5 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-199.5 z" fill="var(--accent)"/>
+<text x="415.5" y="391" class="small" text-anchor="start">48</text>
+<text x="24" y="421" class="small mono" text-anchor="start">caps-flash-high</text>
+<path d="M204,408 h199.5 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-199.5 z" fill="var(--accent)"/>
+<text x="415.5" y="421" class="small" text-anchor="start">48</text>
+<text x="24" y="451" class="small mono" text-anchor="start">overflow</text>
+<path d="M204,438 h174.1 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-174.1 z" fill="var(--accent)"/>
+<text x="390.1" y="451" class="small" text-anchor="start">42</text>
+<text x="24" y="481" class="small mono" text-anchor="start">parser</text>
+<path d="M204,468 h97.7 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-97.7 z" fill="var(--accent)"/>
+<text x="313.7" y="481" class="small" text-anchor="start">24</text>
+<text x="24" y="511" class="small mono" text-anchor="start">timing</text>
+<path d="M204,498 h25.7 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-25.7 z" fill="var(--accent)"/>
+<text x="241.7" y="511" class="small" text-anchor="start">7</text>
+</svg>

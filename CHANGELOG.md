@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- Add an offline fault-injection harness for the citation checker: 13 mechanical faults stopped with the expected reason, 2 semantic faults recorded as passing through, 4 manual checks listed as not exercised.
+- Add dependency-free SVG figures (light and dark) generated from committed results, with a `--check` mode in CI.
+- Add the benchmark plan covering ablation, counterfactual pairs and downstream-effect trials. No new live model observations were collected.
+
 ## 0.3.0 — 2026-10-19
 
 - Publish the exact owner-activated r15 Argon / High runtime and its updated qualification envelope.

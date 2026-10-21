@@ -1,0 +1,249 @@
+"""Render README figures as dependency-free SVG from committed result data; no model calls.
+
+Inputs: benchmarks/fault-injection/results.json, qualification/argon-offline-repeatability.json,
+and the live JSON receipts of the two offline test suites. Outputs go to docs/figures/.
+
+Usage: make_figures.py [--check] [OUTPUT_DIR]
+  --check  regenerate in memory and fail if any committed figure differs (no files written)
+"""
+import json
+from pathlib import Path
+import subprocess
+import sys
+from xml.sax.saxutils import escape
+
+sys.dont_write_bytecode = True
+
+ROOT = Path(__file__).resolve().parent.parent.parent
+DEFAULT_OUTPUT = ROOT / "docs/figures"
+FONT = "-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif"
+MONO = "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace"
+
+# Roles for the reference palette: blue = slot 1, amber = fixed warning status colour.
+STYLE = f"""
+svg {{ --surface:#fcfcfb; --ink:#0b0b0b; --ink2:#52514e; --grid:#dcdbd6; --accent:#2a78d6;
+  --on-accent:#ffffff; --warn:#fab219; --on-warn:#0b0b0b; --neutral:#ecebe7; --tile:#f3f2ee; }}
+@media (prefers-color-scheme: dark) {{
+  svg {{ --surface:#1a1a19; --ink:#f0efec; --ink2:#c3c2b7; --grid:#3a3a37; --accent:#3987e5;
+    --on-accent:#0b0b0b; --warn:#fab219; --on-warn:#0b0b0b; --neutral:#2a2a28; --tile:#232321; }}
+}}
+text {{ font-family:{FONT}; fill:var(--ink); }}
+.mono {{ font-family:{MONO}; }}
+.muted {{ fill:var(--ink2); }}
+.title {{ font-size:20px; font-weight:600; }}
+.sub {{ font-size:13px; }}
+.lab {{ font-size:13px; }}
+.small {{ font-size:11.5px; }}
+.big {{ font-size:30px; font-weight:650; }}
+.head {{ font-size:12px; font-weight:600; }}
+"""
+
+
+def t(x, y, text, cls="lab", anchor="start", extra=""):
+    return (f'<text x="{x}" y="{y}" class="{cls}" text-anchor="{anchor}"{extra}>'
+            f'{escape(str(text))}</text>')
+
+
+def fits(text, size, width, label):
+    """Fail loudly instead of drawing clipped or overlapping labels."""
+    if len(str(text)) * size * 0.58 > width:
+        raise ValueError(f"LABEL_TOO_WIDE:{label}:{text}")
+
+
+def wrap(text, limit):
+    lines, line = [], ""
+    for word in str(text).split():
+        if line and len(line) + 1 + len(word) > limit:
+            lines.append(line)
+            line = word
+        else:
+            line = (line + " " + word).strip()
+    return lines + ([line] if line else [])
+
+
+def document(width, height, title, description, body):
+    return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {width} {height}" '
+            f'width="{width}" height="{height}" role="img" aria-labelledby="t d">\n'
+            f'<title id="t">{escape(title)}</title><desc id="d">{escape(description)}</desc>\n'
+            f'<style>{STYLE}</style>\n'
+            f'<rect width="{width}" height="{height}" rx="10" fill="var(--surface)"/>\n'
+            + "\n".join(body) + "\n</svg>\n")
+
+
+def check_mark(cx, cy):
+    return (f'<polyline points="{cx-7},{cy} {cx-2},{cy+5} {cx+8},{cy-6}" fill="none" '
+            f'stroke="var(--on-accent)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>')
+
+
+def bang_mark(cx, cy):
+    return (f'<line x1="{cx}" y1="{cy-7}" x2="{cx}" y2="{cy+1}" stroke="var(--on-warn)" '
+            f'stroke-width="2.8" stroke-linecap="round"/>'
+            f'<circle cx="{cx}" cy="{cy+6}" r="1.8" fill="var(--on-warn)"/>')
+
+
+def dash_mark(cx, cy):
+    return (f'<line x1="{cx-6}" y1="{cy}" x2="{cx+6}" y2="{cy}" stroke="var(--ink2)" '
+            f'stroke-width="2.2" stroke-linecap="round"/>')
+
+
+GATES = [("PIN_AND_PATH", "Pin &", "path"), ("STRICT_PARSING", "Strict", "parsing"),
+         ("LEDGER_SCHEMA", "Ledger", "schema"), ("LINE_AND_QUOTE", "Line &", "quote")]
+
+
+def fault_matrix(results):
+    faults = results["faults"]
+    summary = results["summary"]
+    width, left, row_h, label_w, col_w = 900, 24, 38, 420, 64
+    escape_x = left + label_w + col_w * len(GATES)
+    manual_x = escape_x + 88
+    top = 118
+    height = top + 56 + row_h * len(faults) + 66
+    body = [t(left, 36, "Fault injection: what the citation checker catches, and what it cannot", "title"),
+            t(left, 58, f"{summary['mechanicalStopped']} of {summary['mechanicalFaults']} mechanical faults stopped with the expected reason · "
+                        f"{summary['semanticPassedThroughToManualCheck']} of {summary['semanticFaults']} semantic faults pass through · "
+                        f"{summary['notExercised']} checks not exercised", "sub muted"),
+            t(left, 78, "Each row is a single fault applied to a valid baseline, run through the real manual_citations.py. "
+                        "No model or provider is called.", "sub muted")]
+    head_y = top + 8
+    for i, (_, a, b) in enumerate(GATES):
+        cx = left + label_w + col_w * i + col_w / 2
+        body += [t(cx, head_y, a, "head", "middle"), t(cx, head_y + 15, b, "head", "middle")]
+    body += [t(escape_x + 44, head_y, "Passes", "head", "middle"), t(escape_x + 44, head_y + 15, "script", "head", "middle"),
+             t(manual_x + 44, head_y, "Not", "head", "middle"), t(manual_x + 44, head_y + 15, "exercised", "head", "middle")]
+    y = top + 30
+    body.append(f'<line x1="{left}" y1="{y}" x2="{width-left}" y2="{y}" stroke="var(--grid)"/>')
+    for fault in faults:
+        y0 = y
+        fits(fault["description"], 13, label_w - 12, fault["id"])
+        second = (fault["observedReason"] or
+                  ("CITATIONS_MATCHED, so the script accepts it" if fault["kind"] == "SEMANTIC" else fault["owner"]))
+        fits(second, 11.5, label_w - 12, fault["id"] + ":second")
+        body.append(t(left, y0 + 17, fault["description"], "lab"))
+        body.append(t(left, y0 + 32, second, "small muted mono" if fault["observedReason"] else "small muted"))
+        cy = y0 + row_h / 2
+        if fault["kind"] == "MECHANICAL":
+            for i, (layer, _, _) in enumerate(GATES):
+                if fault["layer"] == layer:
+                    cx = left + label_w + col_w * i + col_w / 2
+                    body.append(f'<rect x="{cx-20}" y="{cy-12}" width="40" height="24" rx="4" fill="var(--accent)"/>')
+                    body.append(check_mark(cx, cy))
+        elif fault["kind"] == "SEMANTIC":
+            cx = escape_x + 44
+            body.append(f'<rect x="{cx-20}" y="{cy-12}" width="40" height="24" rx="4" fill="var(--warn)" '
+                        f'stroke="var(--ink2)" stroke-width="1.2"/>')
+            body.append(bang_mark(cx, cy))
+        else:
+            cx = manual_x + 44
+            body.append(f'<rect x="{cx-20}" y="{cy-12}" width="40" height="24" rx="4" fill="var(--neutral)" '
+                        f'stroke="var(--ink2)" stroke-width="1" stroke-dasharray="3 3"/>')
+            body.append(dash_mark(cx, cy))
+        y += row_h
+        body.append(f'<line x1="{left}" y1="{y}" x2="{width-left}" y2="{y}" stroke="var(--grid)" stroke-opacity="0.6"/>')
+    ly = y + 30
+    body += [f'<rect x="{left}" y="{ly-13}" width="30" height="20" rx="4" fill="var(--accent)"/>', check_mark(left + 15, ly - 3),
+             t(left + 40, ly + 2, "Stopped by this gate", "small"),
+             f'<rect x="{left+190}" y="{ly-13}" width="30" height="20" rx="4" fill="var(--warn)" stroke="var(--ink2)" stroke-width="1.2"/>',
+             bang_mark(left + 205, ly - 3),
+             t(left + 230, ly + 2, "Script accepts it; Codex must check the premise", "small"),
+             f'<rect x="{left+535}" y="{ly-13}" width="30" height="20" rx="4" fill="var(--neutral)" stroke="var(--ink2)" stroke-dasharray="3 3"/>',
+             dash_mark(left + 550, ly - 3),
+             t(left + 575, ly + 2, "Not scored: no script in the manual route", "small"),
+             t(left, ly + 26, "A matching quotation proves text placement, not that a claim is true. Rows marked ! are documented limits, not failures.", "small muted")]
+    return document(width, height, "Fault injection against the citation checker",
+                    f"{summary['mechanicalStopped']} of {summary['mechanicalFaults']} mechanical faults stopped; "
+                    f"{summary['semanticPassedThroughToManualCheck']} semantic faults pass through to manual review; "
+                    f"{summary['notExercised']} checks not exercised.", body)
+
+
+def evidence_overview(inputs):
+    width, left = 900, 24
+    tiles = [
+        (str(inputs["utilityChecks"]), f"checks across {inputs['utilityCases']} failure modes"),
+        (str(inputs["citationScenarios"]), "citation scenarios, LF and Unicode CRLF"),
+        (f"{inputs['mechanicalStopped']}/{inputs['mechanicalFaults']}", "injected faults stopped by the checker"),
+        (f"{inputs['argonTotal']:,}", f"Argon controls: {inputs['argonRuns']} fresh runs of {inputs['argonPerRun']}"),
+        ("0", "provider calls, 0 qualification credit"),
+    ]
+    gap = 12
+    tile_w = (width - 2 * left - gap * (len(tiles) - 1)) / len(tiles)
+    body = [t(left, 36, "Offline evidence: deterministic checks, zero model calls", "title"),
+            t(left, 58, "Synthetic fixtures and process doubles. This is repeatability evidence for the gates, "
+                        "not native containment or model-quality evidence.", "sub muted")]
+    for i, (value, label) in enumerate(tiles):
+        x = left + i * (tile_w + gap)
+        body.append(f'<rect x="{x:.1f}" y="82" width="{tile_w:.1f}" height="92" rx="8" fill="var(--tile)" stroke="var(--grid)"/>')
+        body.append(t(f"{x + 14:.1f}", 122, value, "big"))
+        for j, line in enumerate(wrap(label, 22)[:2]):
+            body.append(t(f"{x + 14:.1f}", 143 + 15 * j, line, "small muted"))
+    suites = sorted(inputs["argonSuites"], key=lambda s: (-s[1], s[0]))
+    top, bar_h, pitch, label_w = 228, 18, 30, 180
+    body.append(t(left, 208, f"Argon offline controls by suite ({inputs['argonPerRun']} per run, 2 fresh runs)", "lab", extra=' font-weight="600"'))
+    scale = (width - 2 * left - label_w - 70) / max(c for _, c in suites)
+    for i, (name, count) in enumerate(suites):
+        y = top + i * pitch
+        body.append(t(left, y + 13, name, "small mono"))
+        w = max(count * scale, 3)
+        body.append(f'<path d="M{left+label_w},{y} h{w-4:.1f} a4,4 0 0 1 4,4 v{bar_h-8} a4,4 0 0 1 -4,4 h-{w-4:.1f} z" fill="var(--accent)"/>')
+        body.append(t(f"{left + label_w + w + 8:.1f}", y + 13, count, "small"))
+    height = top + len(suites) * pitch + 24
+    return document(width, height, "Offline evidence overview",
+                    f"{inputs['utilityChecks']} utility checks, {inputs['citationScenarios']} citation scenarios, "
+                    f"{inputs['mechanicalStopped']} of {inputs['mechanicalFaults']} injected faults stopped, "
+                    f"{inputs['argonTotal']} Argon controls, 0 provider calls.", body)
+
+
+def run_receipt(script):
+    done = subprocess.run([sys.executable, "-B", "-I", str(ROOT / script)], capture_output=True, text=True,
+                          timeout=300, check=False)
+    lines = [ln for ln in done.stdout.splitlines() if ln.strip()]
+    if done.returncode != 0 or not lines:
+        raise SystemExit("TEST_FAILED:" + script)
+    return json.loads(lines[-1])
+
+
+def collect_inputs():
+    results = json.loads((ROOT / "benchmarks/fault-injection/results.json").read_bytes())
+    argon = json.loads((ROOT / "qualification/argon-offline-repeatability.json").read_bytes())
+    utility = run_receipt("tools/test_demonstrated_utility.py")
+    citations = run_receipt("skills/antigravity-preflight/scripts/test_manual_citations.py")
+    if utility.get("status") != "PASS" or utility.get("providerCalls") != 0 or citations.get("providerCalls") != 0:
+        raise SystemExit("UNEXPECTED_RECEIPT")
+    if argon["status"] != "PASS" or argon["providerCalls"] != 0:
+        raise SystemExit("UNEXPECTED_QUALIFICATION")
+    summary = results["summary"]
+    return {
+        "results": results,
+        "utilityChecks": utility["checks"], "utilityCases": utility["cases"],
+        "citationScenarios": citations["scenarios"],
+        "mechanicalStopped": summary["mechanicalStopped"], "mechanicalFaults": summary["mechanicalFaults"],
+        "argonTotal": argon["totalCases"], "argonRuns": len(argon["runs"]), "argonPerRun": argon["casesPerRun"],
+        "argonSuites": [(s["suite"], s["cases"]) for s in argon["runs"][0]["suites"]],
+    }
+
+
+def build(inputs):
+    return {"fault-gate-matrix.svg": fault_matrix(inputs["results"]),
+            "offline-evidence.svg": evidence_overview(inputs)}
+
+
+def main(argv):
+    check = "--check" in argv
+    paths = [a for a in argv if not a.startswith("--")]
+    output = Path(paths[0]) if paths else DEFAULT_OUTPUT
+    figures = build(collect_inputs())
+    if check:
+        stale = [n for n, svg in figures.items()
+                 if not (output / n).is_file() or (output / n).read_text(encoding="utf-8") != svg]
+        if stale:
+            print(json.dumps({"status": "STALE_FIGURES", "files": stale}))
+            return 1
+    else:
+        output.mkdir(parents=True, exist_ok=True)
+        for name, svg in figures.items():
+            (output / name).write_text(svg, encoding="utf-8")
+    print(json.dumps({"status": "PASS", "figures": sorted(figures), "providerCalls": 0}))
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv[1:]))

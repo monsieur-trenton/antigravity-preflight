@@ -1,0 +1,142 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 962" width="900" height="962" role="img" aria-labelledby="t d">
+<title id="t">Fault injection against the citation checker</title><desc id="d">13 of 13 mechanical faults stopped; 2 semantic faults pass through to manual review; 4 checks not exercised.</desc>
+<style>
+svg { --surface:#fcfcfb; --ink:#0b0b0b; --ink2:#52514e; --grid:#dcdbd6; --accent:#2a78d6;
+  --on-accent:#ffffff; --warn:#fab219; --on-warn:#0b0b0b; --neutral:#ecebe7; --tile:#f3f2ee; }
+@media (prefers-color-scheme: dark) {
+  svg { --surface:#1a1a19; --ink:#f0efec; --ink2:#c3c2b7; --grid:#3a3a37; --accent:#3987e5;
+    --on-accent:#0b0b0b; --warn:#fab219; --on-warn:#0b0b0b; --neutral:#2a2a28; --tile:#232321; }
+}
+text { font-family:-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif; fill:var(--ink); }
+.mono { font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+.muted { fill:var(--ink2); }
+.title { font-size:20px; font-weight:600; }
+.sub { font-size:13px; }
+.lab { font-size:13px; }
+.small { font-size:11.5px; }
+.big { font-size:30px; font-weight:650; }
+.head { font-size:12px; font-weight:600; }
+</style>
+<rect width="900" height="962" rx="10" fill="var(--surface)"/>
+<text x="24" y="36" class="title" text-anchor="start">Fault injection: what the citation checker catches, and what it cannot</text>
+<text x="24" y="58" class="sub muted" text-anchor="start">13 of 13 mechanical faults stopped with the expected reason · 2 of 2 semantic faults pass through · 4 checks not exercised</text>
+<text x="24" y="78" class="sub muted" text-anchor="start">Each row is a single fault applied to a valid baseline, run through the real manual_citations.py. No model or provider is called.</text>
+<text x="476.0" y="126" class="head" text-anchor="middle">Pin &amp;</text>
+<text x="476.0" y="141" class="head" text-anchor="middle">path</text>
+<text x="540.0" y="126" class="head" text-anchor="middle">Strict</text>
+<text x="540.0" y="141" class="head" text-anchor="middle">parsing</text>
+<text x="604.0" y="126" class="head" text-anchor="middle">Ledger</text>
+<text x="604.0" y="141" class="head" text-anchor="middle">schema</text>
+<text x="668.0" y="126" class="head" text-anchor="middle">Line &amp;</text>
+<text x="668.0" y="141" class="head" text-anchor="middle">quote</text>
+<text x="744" y="126" class="head" text-anchor="middle">Passes</text>
+<text x="744" y="141" class="head" text-anchor="middle">script</text>
+<text x="832" y="126" class="head" text-anchor="middle">Not</text>
+<text x="832" y="141" class="head" text-anchor="middle">exercised</text>
+<line x1="24" y1="148" x2="876" y2="148" stroke="var(--grid)"/>
+<text x="24" y="165" class="lab" text-anchor="start">Snapshot edited after its hash was pinned</text>
+<text x="24" y="180" class="small muted mono" text-anchor="start">SOURCE_HASH_MISMATCH</text>
+<rect x="456.0" y="155.0" width="40" height="24" rx="4" fill="var(--accent)"/>
+<polyline points="469.0,167.0 474.0,172.0 484.0,161.0" fill="none" stroke="var(--on-accent)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="24" y1="186" x2="876" y2="186" stroke="var(--grid)" stroke-opacity="0.6"/>
+<text x="24" y="203" class="lab" text-anchor="start">Required source file is absent</text>
+<text x="24" y="218" class="small muted mono" text-anchor="start">SOURCE_NOT_REGULAR</text>
+<rect x="456.0" y="193.0" width="40" height="24" rx="4" fill="var(--accent)"/>
+<polyline points="469.0,205.0 474.0,210.0 484.0,199.0" fill="none" stroke="var(--on-accent)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="24" y1="224" x2="876" y2="224" stroke="var(--grid)" stroke-opacity="0.6"/>
+<text x="24" y="241" class="lab" text-anchor="start">Inventory path points outside the packet</text>
+<text x="24" y="256" class="small muted mono" text-anchor="start">SOURCE_PATH_ESCAPE</text>
+<rect x="456.0" y="231.0" width="40" height="24" rx="4" fill="var(--accent)"/>
+<polyline points="469.0,243.0 474.0,248.0 484.0,237.0" fill="none" stroke="var(--on-accent)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="24" y1="262" x2="876" y2="262" stroke="var(--grid)" stroke-opacity="0.6"/>
+<text x="24" y="279" class="lab" text-anchor="start">Snapshot replaced by a symlink with identical bytes</text>
+<text x="24" y="294" class="small muted mono" text-anchor="start">SOURCE_SYMLINK</text>
+<rect x="456.0" y="269.0" width="40" height="24" rx="4" fill="var(--accent)"/>
+<polyline points="469.0,281.0 474.0,286.0 484.0,275.0" fill="none" stroke="var(--on-accent)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="24" y1="300" x2="876" y2="300" stroke="var(--grid)" stroke-opacity="0.6"/>
+<text x="24" y="317" class="lab" text-anchor="start">Ledger repeats a key to hide a value</text>
+<text x="24" y="332" class="small muted mono" text-anchor="start">DUPLICATE_JSON_KEY</text>
+<rect x="520.0" y="307.0" width="40" height="24" rx="4" fill="var(--accent)"/>
+<polyline points="533.0,319.0 538.0,324.0 548.0,313.0" fill="none" stroke="var(--on-accent)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="24" y1="338" x2="876" y2="338" stroke="var(--grid)" stroke-opacity="0.6"/>
+<text x="24" y="355" class="lab" text-anchor="start">Report supplies no citations at all</text>
+<text x="24" y="370" class="small muted mono" text-anchor="start">EMPTY_LEDGER</text>
+<rect x="584.0" y="345.0" width="40" height="24" rx="4" fill="var(--accent)"/>
+<polyline points="597.0,357.0 602.0,362.0 612.0,351.0" fill="none" stroke="var(--on-accent)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="24" y1="376" x2="876" y2="376" stroke="var(--grid)" stroke-opacity="0.6"/>
+<text x="24" y="393" class="lab" text-anchor="start">Two citations share one identifier</text>
+<text x="24" y="408" class="small muted mono" text-anchor="start">DUPLICATE_CITATION_ID</text>
+<rect x="584.0" y="383.0" width="40" height="24" rx="4" fill="var(--accent)"/>
+<polyline points="597.0,395.0 602.0,400.0 612.0,389.0" fill="none" stroke="var(--on-accent)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="24" y1="414" x2="876" y2="414" stroke="var(--grid)" stroke-opacity="0.6"/>
+<text x="24" y="431" class="lab" text-anchor="start">Citation names a source that was never supplied</text>
+<text x="24" y="446" class="small muted mono" text-anchor="start">UNKNOWN_SOURCE</text>
+<rect x="584.0" y="421.0" width="40" height="24" rx="4" fill="var(--accent)"/>
+<polyline points="597.0,433.0 602.0,438.0 612.0,427.0" fill="none" stroke="var(--on-accent)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="24" y1="452" x2="876" y2="452" stroke="var(--grid)" stroke-opacity="0.6"/>
+<text x="24" y="469" class="lab" text-anchor="start">Quotation spans several lines</text>
+<text x="24" y="484" class="small muted mono" text-anchor="start">INVALID_QUOTE</text>
+<rect x="584.0" y="459.0" width="40" height="24" rx="4" fill="var(--accent)"/>
+<polyline points="597.0,471.0 602.0,476.0 612.0,465.0" fill="none" stroke="var(--on-accent)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="24" y1="490" x2="876" y2="490" stroke="var(--grid)" stroke-opacity="0.6"/>
+<text x="24" y="507" class="lab" text-anchor="start">Right text, wrong line coordinate</text>
+<text x="24" y="522" class="small muted mono" text-anchor="start">QUOTE_MISMATCH</text>
+<rect x="648.0" y="497.0" width="40" height="24" rx="4" fill="var(--accent)"/>
+<polyline points="661.0,509.0 666.0,514.0 676.0,503.0" fill="none" stroke="var(--on-accent)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="24" y1="528" x2="876" y2="528" stroke="var(--grid)" stroke-opacity="0.6"/>
+<text x="24" y="545" class="lab" text-anchor="start">Right text attributed to the wrong source</text>
+<text x="24" y="560" class="small muted mono" text-anchor="start">QUOTE_MISMATCH</text>
+<rect x="648.0" y="535.0" width="40" height="24" rx="4" fill="var(--accent)"/>
+<polyline points="661.0,547.0 666.0,552.0 676.0,541.0" fill="none" stroke="var(--on-accent)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="24" y1="566" x2="876" y2="566" stroke="var(--grid)" stroke-opacity="0.6"/>
+<text x="24" y="583" class="lab" text-anchor="start">Paraphrase presented as a verbatim quote</text>
+<text x="24" y="598" class="small muted mono" text-anchor="start">QUOTE_MISMATCH</text>
+<rect x="648.0" y="573.0" width="40" height="24" rx="4" fill="var(--accent)"/>
+<polyline points="661.0,585.0 666.0,590.0 676.0,579.0" fill="none" stroke="var(--on-accent)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="24" y1="604" x2="876" y2="604" stroke="var(--grid)" stroke-opacity="0.6"/>
+<text x="24" y="621" class="lab" text-anchor="start">Citation beyond the end of the file</text>
+<text x="24" y="636" class="small muted mono" text-anchor="start">LINE_OUT_OF_RANGE</text>
+<rect x="648.0" y="611.0" width="40" height="24" rx="4" fill="var(--accent)"/>
+<polyline points="661.0,623.0 666.0,628.0 676.0,617.0" fill="none" stroke="var(--on-accent)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="24" y1="642" x2="876" y2="642" stroke="var(--grid)" stroke-opacity="0.6"/>
+<text x="24" y="659" class="lab" text-anchor="start">Substring drops "Do not", reversing the source</text>
+<text x="24" y="674" class="small muted" text-anchor="start">CITATIONS_MATCHED, so the script accepts it</text>
+<rect x="724" y="649.0" width="40" height="24" rx="4" fill="var(--warn)" stroke="var(--ink2)" stroke-width="1.2"/>
+<line x1="744" y1="654.0" x2="744" y2="662.0" stroke="var(--on-warn)" stroke-width="2.8" stroke-linecap="round"/><circle cx="744" cy="667.0" r="1.8" fill="var(--on-warn)"/>
+<line x1="24" y1="680" x2="876" y2="680" stroke="var(--grid)" stroke-opacity="0.6"/>
+<text x="24" y="697" class="lab" text-anchor="start">One-word quotation that proves almost nothing</text>
+<text x="24" y="712" class="small muted" text-anchor="start">CITATIONS_MATCHED, so the script accepts it</text>
+<rect x="724" y="687.0" width="40" height="24" rx="4" fill="var(--warn)" stroke="var(--ink2)" stroke-width="1.2"/>
+<line x1="744" y1="692.0" x2="744" y2="700.0" stroke="var(--on-warn)" stroke-width="2.8" stroke-linecap="round"/><circle cx="744" cy="705.0" r="1.8" fill="var(--on-warn)"/>
+<line x1="24" y1="718" x2="876" y2="718" stroke="var(--grid)" stroke-opacity="0.6"/>
+<text x="24" y="735" class="lab" text-anchor="start">Report never mentions a required source</text>
+<text x="24" y="750" class="small muted" text-anchor="start">Codex coverage check (SKILL.md step 3)</text>
+<rect x="812" y="725.0" width="40" height="24" rx="4" fill="var(--neutral)" stroke="var(--ink2)" stroke-width="1" stroke-dasharray="3 3"/>
+<line x1="826" y1="737.0" x2="838" y2="737.0" stroke="var(--ink2)" stroke-width="2.2" stroke-linecap="round"/>
+<line x1="24" y1="756" x2="876" y2="756" stroke="var(--grid)" stroke-opacity="0.6"/>
+<text x="24" y="773" class="lab" text-anchor="start">A required review question gets no answer</text>
+<text x="24" y="788" class="small muted" text-anchor="start">Codex coverage check (SKILL.md step 3)</text>
+<rect x="812" y="763.0" width="40" height="24" rx="4" fill="var(--neutral)" stroke="var(--ink2)" stroke-width="1" stroke-dasharray="3 3"/>
+<line x1="826" y1="775.0" x2="838" y2="775.0" stroke="var(--ink2)" stroke-width="2.2" stroke-linecap="round"/>
+<line x1="24" y1="794" x2="876" y2="794" stroke="var(--grid)" stroke-opacity="0.6"/>
+<text x="24" y="811" class="lab" text-anchor="start">Report bytes change after they were received</text>
+<text x="24" y="826" class="small muted" text-anchor="start">Record and compare the report hash</text>
+<rect x="812" y="801.0" width="40" height="24" rx="4" fill="var(--neutral)" stroke="var(--ink2)" stroke-width="1" stroke-dasharray="3 3"/>
+<line x1="826" y1="813.0" x2="838" y2="813.0" stroke="var(--ink2)" stroke-width="2.2" stroke-linecap="round"/>
+<line x1="24" y1="832" x2="876" y2="832" stroke="var(--grid)" stroke-opacity="0.6"/>
+<text x="24" y="849" class="lab" text-anchor="start">Reviewer obeys an instruction hidden in source text</text>
+<text x="24" y="864" class="small muted" text-anchor="start">Needs live model trials (docs/testing-next.md, test 2)</text>
+<rect x="812" y="839.0" width="40" height="24" rx="4" fill="var(--neutral)" stroke="var(--ink2)" stroke-width="1" stroke-dasharray="3 3"/>
+<line x1="826" y1="851.0" x2="838" y2="851.0" stroke="var(--ink2)" stroke-width="2.2" stroke-linecap="round"/>
+<line x1="24" y1="870" x2="876" y2="870" stroke="var(--grid)" stroke-opacity="0.6"/>
+<rect x="24" y="887" width="30" height="20" rx="4" fill="var(--accent)"/>
+<polyline points="32,897 37,902 47,891" fill="none" stroke="var(--on-accent)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="64" y="902" class="small" text-anchor="start">Stopped by this gate</text>
+<rect x="214" y="887" width="30" height="20" rx="4" fill="var(--warn)" stroke="var(--ink2)" stroke-width="1.2"/>
+<line x1="229" y1="890" x2="229" y2="898" stroke="var(--on-warn)" stroke-width="2.8" stroke-linecap="round"/><circle cx="229" cy="903" r="1.8" fill="var(--on-warn)"/>
+<text x="254" y="902" class="small" text-anchor="start">Script accepts it; Codex must check the premise</text>
+<rect x="559" y="887" width="30" height="20" rx="4" fill="var(--neutral)" stroke="var(--ink2)" stroke-dasharray="3 3"/>
+<line x1="568" y1="897" x2="580" y2="897" stroke="var(--ink2)" stroke-width="2.2" stroke-linecap="round"/>
+<text x="599" y="902" class="small" text-anchor="start">Not scored: no script in the manual route</text>
+<text x="24" y="926" class="small muted" text-anchor="start">A matching quotation proves text placement, not that a claim is true. Rows marked ! are documented limits, not failures.</text>
+</svg>
