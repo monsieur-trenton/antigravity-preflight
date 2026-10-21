@@ -84,13 +84,14 @@ def supported(case, finding, corpus=HERE):
 
 
 SEVERITY_RANK = {"NO_BLOCKERS_FOUND": 0, "CHANGES_RECOMMENDED": 1, "BLOCKERS_FOUND": 2}
+VERDICT_ONLY_ARMS = ("bare", "defined")  # arms whose reports carry a verdict line and no checkable findings
 
 
 def grade(row, truth, corpus=HERE):
     """Return (outcome, detail) for one observation."""
     if row.get("technicalStop"):
         return "STOPPED", {}
-    if row.get("arm") == "bare":  # verdict only: no findings or quotations exist to check
+    if row.get("arm") in VERDICT_ONLY_ARMS:  # verdict only: no findings or quotations exist to check
         severity = SEVERITY_RANK[row["assessment"]]
         detail = {"unsupportedVerified": 0, "mechanismCited": None, "incomplete": False, "severity": severity,
                   "verifiedBlocker": severity == 2, "verdictOnly": True}

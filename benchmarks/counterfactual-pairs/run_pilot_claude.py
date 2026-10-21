@@ -40,6 +40,7 @@ SYSTEM_PROMPT = (
 )
 EFFORTS = ("low", "medium", "high", "xhigh", "max")
 ABLATION = HERE / "ablation"
+DEFINED = ABLATION / "defined"
 BARE_VERDICTS = {"GO": "NO_BLOCKERS_FOUND", "GO_WITH_CHANGES": "CHANGES_RECOMMENDED", "NO_GO": "BLOCKERS_FOUND"}
 
 
@@ -58,15 +59,20 @@ def load_arm(name):
     if name == "skill":
         return {"name": "skill", "system": SYSTEM_PROMPT, "manifestSha256": None,
                 "build": lambda prompt, lines: rp.request_text(prompt, lines, True), "parse": rp.parse_report}
-    rp.need(name == "bare", "UNKNOWN_ARM")
-    manifest_bytes = (ABLATION / "manifest.json").read_bytes()
-    for filename, expected in json.loads(manifest_bytes)["pins"].items():
+    rp.need(name in ("bare", "defined"), "UNKNOWN_ARM")
+    directory = ABLATION if name == "bare" else DEFINED
+    manifest_bytes = (directory / "manifest.json").read_bytes()
+    manifest = json.loads(manifest_bytes)
+    for filename, expected in manifest["pins"].items():
+        path = directory / filename
+        rp.need(path.is_file() and rp.sha(path.read_bytes()) == expected, "ABLATION_PIN_MISMATCH:" + filename)
+    for filename, expected in manifest.get("borrowed", {}).items():  # files this arm shares with the bare arm
         path = ABLATION / filename
         rp.need(path.is_file() and rp.sha(path.read_bytes()) == expected, "ABLATION_PIN_MISMATCH:" + filename)
     system = (ABLATION / "bare-system.txt").read_text(encoding="utf-8").rstrip("\n")
-    template = (ABLATION / "bare-request.txt").read_text(encoding="utf-8")
+    template = (directory / ("bare-request.txt" if name == "bare" else "defined-request.txt")).read_text(encoding="utf-8")
     rp.need("{plan}" in template, "ABLATION_TEMPLATE")
-    return {"name": "bare", "system": system, "manifestSha256": rp.sha(manifest_bytes),
+    return {"name": name, "system": system, "manifestSha256": rp.sha(manifest_bytes),
             "corpusManifestSha256": json.loads(manifest_bytes)["corpus"]["manifestSha256"],
             "build": lambda prompt, lines: template.replace("{plan}", "\n".join(lines)).encode("utf-8"), "parse": parse_bare}
 
@@ -137,8 +143,9 @@ def main(argv=None):
     parser.add_argument("--workdir", required=True)
     parser.add_argument("--trial", type=int, default=1)
     parser.add_argument("--corpus", help="corpus directory (default: this directory, corpus v1)")
-    parser.add_argument("--arm", choices=("skill", "bare"), default="skill",
-                        help="skill: the pilot 1 and 2 prompt and packet (default); bare: a plain request, see ablation/")
+    parser.add_argument("--arm", choices=("skill", "bare", "defined"), default="skill",
+                        help="skill: the pilot 1 and 2 prompt and packet (default); bare: a plain request; defined: the plain request "
+                             "plus verdict definitions; see ablation/")
     parser.add_argument("--execute", action="store_true", help="make live model calls; without it only prepare")
     parser.add_argument("--max-budget-usd", type=float, default=1.0, help="per-case spend cap passed to the CLI")
     parser.add_argument("--max-consecutive-stops", type=int, default=3)
@@ -153,7 +160,7 @@ def main(argv=None):
         manifest, _ = score.load_frozen(corpus)
         prompt = (corpus / "prompt.txt").read_bytes().decode("utf-8")
         arm = load_arm(args.arm)
-        if arm["name"] == "bare":  # the preregistration binds the bare arm to one frozen corpus
+        if arm["name"] in ("bare", "defined"):  # the preregistrations bind these arms to one frozen corpus
             rp.need(rp.sha((corpus / "manifest.json").read_bytes()) == arm["corpusManifestSha256"], "ABLATION_CORPUS_MISMATCH")
         version = subprocess.run([str(binary), "--version"], capture_output=True, text=True, timeout=60, check=False)
         rp.need(version.returncode == 0 and version.stdout.strip(), "CLAUDE_VERSION_FAILED")

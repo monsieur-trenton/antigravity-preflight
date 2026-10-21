@@ -4,6 +4,7 @@ import importlib.util
 import io
 import json
 from pathlib import Path
+import re
 import shutil
 import sys
 import tempfile
@@ -80,6 +81,101 @@ class FrozenFilesTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             h = claude_tests.Harness(tmp)
             code, out = h.run("--arm", "bare")  # default corpus is v1, which the bare arm is not pinned to
+            self.assertEqual((code, out["reason"]), (1, "ABLATION_CORPUS_MISMATCH"))
+
+
+DEFINED = HERE / "defined"
+DEFINITION_BLOCK = ["Verdicts mean this:",
+                    "GO: the plan needs no changes.",
+                    "GO_WITH_CHANGES: the plan works as written but should be improved.",
+                    "NO_GO: the plan as written will fail or break a rule it states.",
+                    ""]
+
+
+class DefinedArmFrozenFilesTests(unittest.TestCase):
+    def test_defined_request_differs_from_bare_by_exactly_the_definition_block(self):
+        import difflib
+        case = next(iter(ORACLE))
+        lines = (V2 / "packets" / (case + ".txt")).read_text().splitlines()
+        bare = rc.load_arm("bare")["build"]("x", lines).decode("utf-8").splitlines()
+        defined = rc.load_arm("defined")["build"]("x", lines).decode("utf-8").splitlines()
+        added = [l[2:] for l in difflib.ndiff(bare, defined) if l.startswith("+ ")]
+        removed = [l for l in difflib.ndiff(bare, defined) if l.startswith("- ")]
+        self.assertEqual((added, removed), (DEFINITION_BLOCK[:-1] + [""] if added[-1:] == [""] else DEFINITION_BLOCK[:-1], []))
+        for word in ("evidence", "snapshot", "BLOCKER", "VERIFIED", "[S01:", "citation", "quote"):
+            self.assertNotIn(word, "\n".join(defined), word)
+
+    def test_system_prompt_is_identical_to_the_bare_arm(self):
+        self.assertEqual(rc.load_arm("defined")["system"], rc.load_arm("bare")["system"])
+        self.assertEqual(rc.load_arm("defined")["system"], "You are a helpful assistant.")
+
+    def test_manifest_is_current_tied_to_the_corpus_and_borrows_the_bare_files_by_hash(self):
+        build = load("abl_defined_build", DEFINED / "build_manifest.py")
+        self.assertEqual((DEFINED / "manifest.json").read_bytes(), build.build())
+        manifest = json.loads((DEFINED / "manifest.json").read_bytes())
+        bare_pins = json.loads((HERE / "manifest.json").read_bytes())["pins"]
+        self.assertEqual(manifest["corpus"]["manifestSha256"], rc.rp.sha((V2 / "manifest.json").read_bytes()))
+        self.assertEqual(manifest["borrowed"], {k: bare_pins[k] for k in ("bare-system.txt", "rubric.json")})
+        self.assertEqual(sorted(manifest["pins"]), ["PREREGISTRATION.md", "defined-request.txt"])
+
+    def test_the_bare_arms_own_manifest_is_untouched_so_its_evidence_still_verifies(self):
+        manifest = json.loads((HERE / "manifest.json").read_bytes())
+        self.assertEqual(manifest["pins"]["bare-request.txt"], "13e4760dcb101c98f67879e2dee6e42c39fbfa42acd11c10d1be2e67f00d5fc7")
+        self.assertEqual(rc.rp.sha((HERE / "manifest.json").read_bytes()), "35d7ea8dd779078b95b3c854da645f3039f91bec2cec068c8f9355fab4c4dcbb")
+
+    def test_tampering_with_the_request_or_a_borrowed_file_is_refused(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            copy = Path(tmp) / "ablation"
+            shutil.copytree(HERE, copy, ignore=shutil.ignore_patterns("__pycache__"))
+            originals = (rc.ABLATION, rc.DEFINED)
+            try:
+                rc.ABLATION, rc.DEFINED = copy, copy / "defined"
+                (copy / "defined" / "defined-request.txt").write_text("{plan}\nVERDICT: GO\n", encoding="utf-8")
+                with self.assertRaises(rc.rp.Stop) as raised:
+                    rc.load_arm("defined")
+                self.assertEqual(str(raised.exception), "ABLATION_PIN_MISMATCH:defined-request.txt")
+                shutil.copy(DEFINED / "defined-request.txt", copy / "defined" / "defined-request.txt")
+                (copy / "bare-system.txt").write_text("You are an expert reviewer.\n", encoding="utf-8")
+                with self.assertRaises(rc.rp.Stop) as raised:
+                    rc.load_arm("defined")
+                self.assertEqual(str(raised.exception), "ABLATION_PIN_MISMATCH:bare-system.txt")
+            finally:
+                rc.ABLATION, rc.DEFINED = originals
+
+
+class DefinedArmDriverTests(unittest.TestCase):
+    def run_defined(self, tmp, verdict="GO_WITH_CHANGES", *extra):
+        h = claude_tests.Harness(tmp)
+        (h.bin.parent / "stub-config.json").write_text(json.dumps({"mode": "ok", "log": str(h.log), "model": MODEL, "verdict": verdict}))
+        code, out = h.run("--arm", "defined", "--corpus", str(V2), "--execute", *extra)
+        return h, code, out
+
+    def test_defined_run_uses_the_defined_prompt_and_the_bare_isolation(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            h, code, out = self.run_defined(tmp, "NO_GO")
+            self.assertEqual((code, out["executed"], out["arm"]), (0, 40, "defined"))
+            for call in h.calls():
+                argv = call["argv"]
+                self.assertEqual(argv[argv.index("--system-prompt") + 1], "You are a helpful assistant.")
+                self.assertEqual(argv[argv.index("--tools") + 1], "")
+                self.assertIn("NO_GO: the plan as written will fail or break a rule it states.", call["stdin"])
+                self.assertNotIn("[S01:", call["stdin"])
+            manifest_sha = rc.rp.sha((DEFINED / "manifest.json").read_bytes())
+            self.assertTrue(all(r["arm"] == "defined" and r["armManifestSha256"] == manifest_sha for r in h.ledger()))
+
+    def test_defined_ledger_scores_verifies_and_the_wrong_arm_is_caught(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            h, _, _ = self.run_defined(tmp, "NO_GO")
+            result = sc.score(h.ledger(), V2)["trials"]["1"]
+            self.assertEqual(result["arms"], ["defined"])
+            self.assertEqual(result["verdictOnly"]["soundBlocked"]["count"], 20)
+            self.assertEqual(vr.verify(V2, h.work, MODEL, "high", [1], "defined")["failures"], [])
+            self.assertTrue(vr.verify(V2, h.work, MODEL, "high", [1], "bare")["failures"])  # same prompt family, different arm
+
+    def test_defined_arm_refuses_another_corpus(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            h = claude_tests.Harness(tmp)
+            code, out = h.run("--arm", "defined")
             self.assertEqual((code, out["reason"]), (1, "ABLATION_CORPUS_MISMATCH"))
 
 
@@ -200,6 +296,28 @@ def blocks_everything(truth):
     return "BLOCKERS_FOUND"
 
 
+SAMPLE_REPORTS = {
+    "output_bytes": "three values of 700 bytes exceed 1500",
+    "required_coverage": "only changed sources, not the inventory",
+    "ownership_authorization": "the fixed nightly tag matches concurrent runs",
+    "absent_vs_null": "null and absent both become 0",
+    "caller_callee": "main still checks None but ConfigError is raised",
+    "deadline_arithmetic": "22 + 18 + 12 = 52 minutes against 45",
+    "migration_order": "NOT NULL in step 3 runs before the step 2 backfill",
+    "unit_mismatch": "the timeout is in milliseconds so timeout=5 is 5 ms",
+    "permission_chain": "support-lead also gets the scope finance-admin should hold",
+    "runtime_budget": "throughput is not measured; 22 MB/s is needed",
+}
+
+
+class SampleReportTests(unittest.TestCase):
+    def test_every_sample_report_satisfies_its_own_rubric_so_the_helper_cannot_rot(self):
+        rubric = json.loads((HERE / "rubric.json").read_bytes())["families"]
+        self.assertEqual(set(SAMPLE_REPORTS), set(rubric))
+        for family, text in SAMPLE_REPORTS.items():
+            self.assertTrue(all(any(re.search(p, text, re.I) for p in group) for group in rubric[family]), family)
+
+
 class AnalysisTests(unittest.TestCase):
     def analyze(self, first, second, excluded=(), **kw):
         with tempfile.TemporaryDirectory() as tmp:
@@ -247,8 +365,7 @@ class AnalysisTests(unittest.TestCase):
         self.assertFalse(r["comparability"]["sameModelEffortAndCliVersion"])
 
     def test_mechanism_rubric_counts_only_blocked_defect_twins(self):
-        rubric = json.loads((HERE / "rubric.json").read_bytes())["families"]
-        keyword_report = lambda truth: " ".join(p.replace("\\b", "").replace("\\", "") for g in rubric[truth["family"]] for p in g[:1])
+        keyword_report = lambda truth: SAMPLE_REPORTS[truth["family"]]
         hit = self.analyze(ideal, ideal, report=keyword_report)["arms"]["bare"]["mechanismMentionedAmongBlockedDefectTwins"]
         self.assertEqual((hit["of"], hit["count"] > 0), (36, True))
         miss = self.analyze(ideal, ideal, report=lambda truth: "nothing relevant")["arms"]["bare"]["mechanismMentionedAmongBlockedDefectTwins"]
@@ -280,6 +397,16 @@ class AnalysisTests(unittest.TestCase):
         self.assertEqual(view["arms"]["skill"]["technicalStops"], {})                       # the same case id in the other arm is untouched
         self.assertEqual(view["allPairs"]["primaryPaired"]["matchedUnits"], 39)
         self.assertEqual(result["allPairs"]["primaryPaired"]["matchedUnits"], 40)
+
+    def test_verdict_follows_finding_measures_the_gap_the_bare_arm_showed(self):
+        keyword_report = lambda truth: SAMPLE_REPORTS[truth["family"]]
+        soft_defects = lambda truth: "CHANGES_RECOMMENDED" if truth["expectedClass"] == "DEFECT" else ideal(truth)
+        found_but_soft = self.analyze(ideal, soft_defects, report=keyword_report)["arms"]["bare"]["verdictFollowsFinding"]
+        self.assertEqual((found_but_soft["count"], found_but_soft["of"]), (0, 36))     # named in prose, verdict soft
+        followed = self.analyze(ideal, ideal, report=keyword_report)["arms"]["bare"]["verdictFollowsFinding"]
+        self.assertEqual((followed["count"], followed["of"]), (36, 36))
+        nothing_found = self.analyze(ideal, soft_defects, report=lambda truth: "nothing relevant")["arms"]["bare"]["verdictFollowsFinding"]
+        self.assertEqual(nothing_found["of"], 0)                                        # no finding, nothing to follow
 
     def test_analysis_never_reads_a_ledger_it_was_not_given(self):
         self.assertNotIn("results/pilot", (HERE / "analyze.py").read_text())

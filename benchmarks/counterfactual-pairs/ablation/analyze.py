@@ -107,6 +107,21 @@ def mechanism_mentions(trials, oracle, rubric, severity):
     return rate(hit, n)
 
 
+def verdict_follows_finding(trials, oracle, rubric, severity):
+    """Among defect twins with a verdict whose report matches the family rubric, the share that got BLOCKERS_FOUND."""
+    n = hit = 0
+    for trial, rows in trials.items():
+        for r in rows:
+            truth = oracle[r["case"]]
+            if r.get("technicalStop") or truth["role"] != "changed" or truth["expectedClass"] != "DEFECT":
+                continue
+            text = r["_report"].split("MACHINE SUMMARY")[0]
+            if all(any(re.search(p, text, re.I) for p in group) for group in rubric[truth["family"]]):
+                n += 1
+                hit += severity.get((r["case"], trial)) == 2
+    return rate(hit, n)
+
+
 def arm_summary(name, trials, oracle, corpus, rubric, excluded):
     severity = verdicts(trials, oracle)
     stamps = {(r.get("requestedModel"), r.get("effort"), r.get("claudeVersion")) for rows in trials.values() for r in rows}
@@ -132,6 +147,7 @@ def arm_summary(name, trials, oracle, corpus, rubric, excluded):
                              if adjusted else None),
         "repeatability": scored.get("repeatability"),
         "mechanismMentionedAmongBlockedDefectTwins": mechanism_mentions(trials, oracle, rubric, severity),
+        "verdictFollowsFinding": verdict_follows_finding(trials, oracle, rubric, severity),
     }, severity
 
 
