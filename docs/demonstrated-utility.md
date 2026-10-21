@@ -1,8 +1,8 @@
-# Demonstrated Utility: Four Failure Modes Prevented by Antigravity Preflight
+# Demonstrated Utility: Eight Failure Modes & Boundary Invariants Verified by Antigravity Preflight
 
 `antigravity-preflight` provides deterministic quality and containment guarantees for AI-assisted code plan and diff reviews. Instead of treating large language model (LLM) outputs as authoritative decisions, the preflight architecture subjects all reviewer claims and streams to strict local verification.
 
-This document outlines the four primary failure modes of LLM code reviews and demonstrates how `antigravity-preflight` deterministically stops them with zero live spend ($0.00) and zero provider calls.
+This document outlines eight failure modes and boundary invariants of LLM code reviews and demonstrates how `antigravity-preflight` deterministically verifies and enforces them with zero live spend ($0.00) and zero provider calls.
 
 ---
 
@@ -117,40 +117,43 @@ There is a critical distinction between **syntactic encapsulation** and **semant
 ## 6. Process Group Lifecycle & Zombie Process Reaping
 
 ### The Failure Mode
-Long-running AI CLI subprocesses may hang, ignore termination signals (`SIGTERM`), or orphan detached child worker processes that pollute host system resources.
+Long-running AI CLI subprocesses may hang, trap termination signals, or detach child worker processes that outlive the parent and leak host system resources.
 
 ### How Antigravity Preflight Stops It
-The runner process lifecycle ([`cli_review.py register_child / settle_registered`](../runtime/argon-high/scripts/cli_review.py)) tracks every child process by its distinct process group session ID (`registeredPgid`). When terminating:
-- It issues `SIGTERM` to the process group (`os.killpg`).
-- If the child ignores `SIGTERM` (signal-resistant), the reaper escalates to `SIGKILL`.
-- The reaper polls until `settled['groupAbsent']` and `settled['reaped']` are confirmed, guaranteeing zero zombie processes escape.
+The runner process lifecycle ([`cli_review.py register_child / settle_registered`](../runtime/argon-high/scripts/cli_review.py)) tracks every subprocess session by its distinct process group ID (`registeredPgid = pid`). When terminating:
+- The runner immediately issues `SIGKILL` to the entire process group session (`os.killpg(process.pid, signal.SIGKILL)`).
+- Because `SIGKILL` cannot be caught, ignored, or blocked by child processes (such as processes installing `signal.signal(signal.SIGTERM, signal.SIG_IGN)`), worker processes cannot resist termination or hang indefinitely.
+- The settlement monitor polls `os.killpg(registeredPgid, 0)` up to 41 times over a 2.0-second deadline until `groupAbsent` (`ProcessLookupError`) and `reaped` (`child.poll() is not None`) are confirmed, guaranteeing zero detached child processes escape.
 
 ---
 
-## 7. Blind Counterfactual Discrimination Pairs
+## 7. Counterfactual Citation Isolation & Evidence Binding
 
-### The Failure Mode
-An overzealous reviewer might reject every proposal regardless of code quality (false blockers), while an indiscriminate reviewer might overlook material contract violations (false positives).
+### The Failure Mode & Offline Boundary Distinction
+A review system may suffer from citation drift or false consensus: findings citing a defect in one revision might be incorrectly accepted against a sound baseline, or an evaluation harness might misinterpret contradictory or ambiguous reviewer verdicts.
 
 ### How Antigravity Preflight Stops It
-The evaluation harness tests counterfactual pairs where only a single material fact diverges:
-- **Sound Plan**: Bounded buffer allocation ($\le 1024$ bytes) correctly produces `### Verdict: GO`.
-- **Defective Plan**: Minimal divergence relaxing the bound ($8192$ bytes) produces `### Verdict: NO-GO`.
-- **Conflicting Declarations**: Reports emitting multiple contradictory verdicts parse as `UNCLEAR`.
-- **Citation Coordinate Isolation**: The defect citation (`assert n <= 8192`) validates against the defective snapshot but fails against the sound snapshot with `QUOTE_MISMATCH`, proving findings are anchored strictly to the defective code coordinate.
+1. **Deterministic Coordinate Isolation (Verified Offline)**:
+   The citation engine strictly binds evidence to the exact content of each snapshot variant:
+   - When given a sound plan (`assert n <= 1024`) and a defective counterfactual where an allocation bound was relaxed (`assert n <= 8192`), the defective finding verifies against the defective variant and halts with `QUOTE_MISMATCH` against the sound variant.
+   - Conversely, the sound finding verifies against the sound variant and halts with `QUOTE_MISMATCH` against the defective variant.
+   - Offline verification proves coordinate isolation; it does not simulate live LLM semantic reasoning or claim model-level discrimination without live trials.
+
+2. **Verdict Parsing & Ambiguity Detection**:
+   The retrospective evaluation parser ([`evaluate.py extract_verdict`](../benchmarks/exploratory-plan-audit/evaluate.py)) extracts unambiguous single declarations (`### Verdict: GO` or `### Verdict: NO-GO`) and classifies contradictory declarations (e.g. emitting both `GO` and `NO-GO`) as `UNCLEAR` rather than inferring consensus.
 
 ---
 
 ## 8. Line Delimiter & Unicode Property Invariants
 
 ### The Failure Mode
-Multi-platform repositories often combine Windows CRLF, Linux LF, missing trailing newlines, and multi-byte Unicode characters (e.g., Chinese or emojis). Off-by-one errors during coordinate mapping cause authentic citations to be falsely rejected.
+Multi-platform repositories often combine Windows CRLF (`\r\n`), Linux LF (`\n`), missing trailing newlines, bare carriage returns, and multi-byte UTF-8 Unicode characters (e.g., CJK ideographs or emojis). Off-by-one errors during coordinate mapping cause authentic citations to be falsely rejected.
 
 ### How Antigravity Preflight Solves It
-The line parser ([`manual_citations.py source_lines`](../skills/antigravity-preflight/scripts/manual_citations.py)) enforces uniform property invariants across all inputs:
-- Zero lines retain trailing `\r` carriage returns.
-- LF and CRLF sequences produce identical line lists.
-- Multi-byte UTF-8 character offsets are preserved without corruption.
+The line parser ([`manual_citations.py source_lines`](../skills/antigravity-preflight/scripts/manual_citations.py)) enforces uniform property invariants under the byte-exact specification: *"LF is the line delimiter; CRLF loses only its line-ending CR"*:
+- For CRLF sequences, trailing `\r` carriage returns are stripped, producing line lists identical to Unix LF across mixed-delimiter files.
+- For final unterminated lines without a trailing `\n`, bare carriage returns (e.g., `b"alpha\r"`) are preserved as part of the line content rather than stripped or split, upholding strict byte-exact delimiter semantics.
+- Multi-byte UTF-8 character byte-to-line boundaries are decoded and indexed without offset drift or corruption.
 
 ---
 
@@ -163,5 +166,5 @@ python3 -B -I tools/test_demonstrated_utility.py
 ```
 Expected output:
 ```json
-{"status": "PASS", "cases": 8, "checks": 42, "providerCalls": 0, "spend": 0.0}
+{"status": "PASS", "cases": 8, "checks": 45, "providerCalls": 0, "spend": 0.0}
 ```

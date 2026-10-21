@@ -422,7 +422,7 @@ def test_syntactic_packet_framing_and_serialization() -> int:
 
 
 def test_process_group_lifecycle_and_zombie_reaping() -> int:
-    """Utility 6: Proves process group settlement reaps clean and signal-resistant child processes."""
+    """Utility 6: Proves process group settlement reaps child processes via immediate group-wide SIGKILL."""
     checks = 0
 
     # 1. Clean-exit child process settlement
@@ -437,7 +437,8 @@ def test_process_group_lifecycle_and_zombie_reaping() -> int:
     assert settled_clean["groupAbsent"] is True
     checks += 1
 
-    # 2. Signal-resistant child process (ignores SIGTERM)
+    # 2. Child process trapping SIGTERM: cr.terminate immediately sends SIGKILL to the registered process group,
+    # guaranteeing that processes cannot resist termination by ignoring SIGTERM.
     child_res = subprocess.Popen(
         ["/usr/bin/python3", "-B", "-I", "-c", "import signal, time\nsignal.signal(signal.SIGTERM, signal.SIG_IGN)\ntime.sleep(10)"],
         start_new_session=True
@@ -456,28 +457,33 @@ def test_process_group_lifecycle_and_zombie_reaping() -> int:
     return checks
 
 
-def test_blind_counterfactual_discrimination() -> int:
-    """Utility 7: Verifies discrimination between sound plans and minimally altered defective counterparts."""
+def test_counterfactual_citation_isolation() -> int:
+    """Utility 7: Verifies citation coordinate isolation across counterfactual source pairs.
+
+    NOTE: Offline testing demonstrates that the deterministic citation check binds evidence strictly to
+    its matching variant (e.g. relaxing an allocation threshold from 1024 to 8192 bytes causes citation verification
+    to pass on the defective variant and fail with QUOTE_MISMATCH on the sound variant, and vice versa).
+    It does NOT evaluate live model judgment or claim model-level counterfactual reasoning without live trials.
+    """
     checks = 0
 
-    # Plan A: Sound plan (assertion threshold <= 1024)
-    sound_source = "def allocate(n):\n    assert n <= 1024, 'buffer limit'\n    return bytearray(n)\n"
+    # Evaluator verdict syntax parsing (from retrospective evaluation harness)
     sound_report = "### Verdict: GO (Safe to proceed)\nAll allocations are bounded within the 1024-byte limit."
     assert ev.extract_verdict(sound_report) == "GO"
     checks += 1
 
-    # Plan B: Defective counterfactual (single factual divergence: threshold relaxed to 8192)
-    defective_source = "def allocate(n):\n    assert n <= 8192, 'buffer limit'\n    return bytearray(n)\n"
     defective_report = "### Verdict: NO-GO (Fatal tripwire detected)\nBuffer allocation assertion relaxed to 8192 bytes, violating boundary."
     assert ev.extract_verdict(defective_report) == "NO-GO"
     checks += 1
 
-    # Conflicting declarations produce UNCLEAR rather than false consensus
     conflicting_report = "### Verdict: GO\n### Verdict: NO-GO"
     assert ev.extract_verdict(conflicting_report) == "UNCLEAR"
     checks += 1
 
-    # Citation coordinate divergence test: finding against Plan B cannot cross-verify against Plan A
+    # Citation coordinate divergence test: sound and defective findings bind strictly to their respective snapshots
+    sound_source = "def allocate(n):\n    assert n <= 1024, 'buffer limit'\n    return bytearray(n)\n"
+    defective_source = "def allocate(n):\n    assert n <= 8192, 'buffer limit'\n    return bytearray(n)\n"
+
     with tempfile.TemporaryDirectory() as td:
         root = Path(td)
         (root / "sound.py").write_text(sound_source, encoding="utf-8")
@@ -499,15 +505,31 @@ def test_blind_counterfactual_discrimination() -> int:
                 "quote": "assert n <= 8192"
             }]
         }
+        sound_finding = {
+            "citations": [{
+                "id": "F02",
+                "source": "P01",
+                "line": 2,
+                "quote": "assert n <= 1024"
+            }]
+        }
 
-        # Matches against defective plan
+        # Defective finding matches against defective plan, fails against sound plan
         assert mc.check(sources_defective, defective_finding) == 1
         checks += 1
-
-        # Rejects against sound plan with QUOTE_MISMATCH
         try:
             mc.check(sources_sound, defective_finding)
             raise AssertionError("Expected QUOTE_MISMATCH when verifying defective finding against sound plan")
+        except mc.Invalid as err:
+            assert str(err) == "QUOTE_MISMATCH"
+            checks += 1
+
+        # Sound finding matches against sound plan, fails against defective plan
+        assert mc.check(sources_sound, sound_finding) == 1
+        checks += 1
+        try:
+            mc.check(sources_defective, sound_finding)
+            raise AssertionError("Expected QUOTE_MISMATCH when verifying sound finding against defective plan")
         except mc.Invalid as err:
             assert str(err) == "QUOTE_MISMATCH"
             checks += 1
@@ -516,24 +538,27 @@ def test_blind_counterfactual_discrimination() -> int:
 
 
 def test_line_delimiter_and_unicode_invariants() -> int:
-    """Utility 8: Verifies delimiter splitting consistency and zero trailing CR across encodings."""
+    """Utility 8: Verifies delimiter splitting consistency across encodings per the LF delimiter contract."""
     checks = 0
 
     cases = [
-        (b"alpha\nbeta\ngamma\n", ["alpha", "beta", "gamma"]),
-        (b"alpha\r\nbeta\r\ngamma\r\n", ["alpha", "beta", "gamma"]),
-        (b"alpha\r\nbeta\ngamma\r\n", ["alpha", "beta", "gamma"]),
-        (b"alpha\nb\nc", ["alpha", "b", "c"]),
-        (b"", []),
-        (b"\n", [""]),
-        (b"\xe6\x9d\xa1\xe4\xbb\xb6\n\xe7\xac\xac\xe4\xba\x8c\xe8\xa1\x8c\n", ["\u6761\u4ef6", "\u7b2c\u4e8c\u884c"]),
+        (b"alpha\nbeta\ngamma\n", ["alpha", "beta", "gamma"], True),
+        (b"alpha\r\nbeta\r\ngamma\r\n", ["alpha", "beta", "gamma"], True),
+        (b"alpha\r\nbeta\ngamma\r\n", ["alpha", "beta", "gamma"], True),
+        (b"alpha\nb\nc", ["alpha", "b", "c"], True),
+        (b"", [], True),
+        (b"\n", [""], True),
+        (b"\xe6\x9d\xa1\xe4\xbb\xb6\n\xe7\xac\xac\xe4\xba\x8c\xe8\xa1\x8c\n", ["\u6761\u4ef6", "\u7b2c\u4e8c\u884c"], True),
+        # Final unterminated line with bare \r retains content per the LF delimiter contract
+        (b"alpha\r", ["alpha\r"], False),
     ]
 
-    for raw_bytes, expected in cases:
+    for raw_bytes, expected, check_no_cr in cases:
         lines = mc.source_lines(raw_bytes)
         assert lines == expected, f"Failed for {raw_bytes!r}: got {lines}, expected {expected}"
-        for line in lines:
-            assert not line.endswith("\r"), f"Line retains CR: {line!r}"
+        if check_no_cr:
+            for line in lines:
+                assert not line.endswith("\r"), f"Line retains CR: {line!r}"
         checks += 1
 
     return checks
@@ -547,7 +572,7 @@ def main():
     total_checks += test_deterministic_reading_view_rendering()
     total_checks += test_syntactic_packet_framing_and_serialization()
     total_checks += test_process_group_lifecycle_and_zombie_reaping()
-    total_checks += test_blind_counterfactual_discrimination()
+    total_checks += test_counterfactual_citation_isolation()
     total_checks += test_line_delimiter_and_unicode_invariants()
 
     summary = {
