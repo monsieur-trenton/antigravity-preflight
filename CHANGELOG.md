@@ -6,6 +6,7 @@
 - Add dependency-free SVG figures (light and dark) generated from committed results, with a `--check` mode in CI.
 - Add a frozen 24-case blind counterfactual-pair corpus (six families, two wordings), a hidden oracle and a scorer with Wilson intervals, tested with simulated reviewers. No model has been run on it.
 - Add a one-turn, zero-retry pilot driver for qualified Flash or Argon hosts (dry run by default, resume-safe, halts on repeated stops) and a ledger-reading scorer; tested with a stub runtime and the real packet functions.
+- Add a separate `claude-cli` route for the counterfactual-pair pilot (tool-free, isolated `claude -p` turns, served-model check, per-case spend cap) with an Antigravity orchestrator brief. It is not a qualified Gemini runtime; results are labelled by route and model.
 - Add the benchmark plan covering ablation, counterfactual pairs and downstream-effect trials. No new live model observations were collected.
 
 ## 0.3.0 — 2026-10-19

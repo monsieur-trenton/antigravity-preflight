@@ -173,6 +173,9 @@ def score(responses):
         "providerCalls": 0,
     }
     for t, rows in trials.items():
+        result["trials"][str(t)]["routes"] = sorted({str(r.get("route", "unspecified")) for r in rows})
+        result["trials"][str(t)]["requestedModels"] = sorted({str(r.get("requestedModel", "unrecorded")) for r in rows})
+        result["trials"][str(t)]["servedModelsReported"] = sorted({m for r in rows for m in r.get("servedModels", [])})
         result["trials"][str(t)]["casesNotObserved"] = sorted(set(oracle) - {r["case"] for r in rows})
     if len(trials) > 1:
         outcomes = {t: {r["case"]: grade(r, oracle[r["case"]])[0] for r in rows} for t, rows in trials.items()}

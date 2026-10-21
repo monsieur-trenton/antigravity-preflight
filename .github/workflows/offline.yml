@@ -24,5 +24,6 @@ jobs:
       - run: python3 -B -I benchmarks/counterfactual-pairs/build_corpus.py --check
       - run: python3 -B -I benchmarks/counterfactual-pairs/test_score.py
       - run: python3 -B -I benchmarks/counterfactual-pairs/test_run_pilot.py
+      - run: python3 -B -I benchmarks/counterfactual-pairs/test_run_pilot_claude.py
       - run: python3 -B -I tools/qualify_offline.py "$RUNNER_TEMP/antigravity-offline"
       - run: python3 -B -I tools/qualify_argon_offline.py "$RUNNER_TEMP/antigravity-argon-offline"

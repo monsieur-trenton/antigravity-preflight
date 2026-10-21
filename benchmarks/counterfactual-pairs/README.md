@@ -48,6 +48,12 @@ The driver appends a fixed question and a machine-readable summary block to the 
 
 **Validation status.** The driver is tested against a stub runtime, and all 24 packets are accepted by the real Flash and Argon packet code (`row_bytes`, `assemble_packet`). It has not been run against a real agy binary. Expect to check the first dry run and the first live case by hand.
 
+## Alternative route: Claude CLI as the reviewer
+
+`run_pilot_claude.py` runs the same corpus with a Claude model as the reviewer, through `claude -p`, one turn per case. It is a **different route**, labelled `claude-cli` in every ledger row. It is not covered by the skill's qualified runtimes and says nothing about Gemini 3.8 Flash / High. Isolation is CLI configuration (tools disabled, `--safe-mode`, no session persistence, empty working directory, fixed read-only system prompt), not Bubblewrap containment, so make no containment claim. Unlike the Gemini routes, the CLI reports the serving model; a mismatch with the requested model is recorded as a stop and never scored. The same rules apply: dry run by default, zero retries, recorded cases never rerun.
+
+To have an Antigravity agent orchestrate it, give it the [Antigravity handoff brief](HANDOFF-ANTIGRAVITY-CLAUDE.md). Costs are the owner's, capped per case with `--max-budget-usd`. Score the ledger with the same `score.py`, which reports the route, requested model and served models in its output.
+
 ## What the result will and will not show
 
 Counts are reported with Wilson 95% intervals. Twelve pairs cannot support a general accuracy rate, and two trials of one case are not independent observations. The proposed pilot gate is zero unsupported VERIFIED findings, complete source and question coverage, and every mandatory oracle check satisfied before any readiness claim. Technical stops are counted apart from wrong semantic judgments.
