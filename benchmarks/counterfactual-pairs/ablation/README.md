@@ -35,3 +35,7 @@ python3 -B -I benchmarks/counterfactual-pairs/ablation/analyze.py --corpus bench
 ```
 
 Add `--execute --trial N` for a live trial, only with the owner's go. Read the [handoff brief](HANDOFF.md) first.
+
+## Third arm: bare plus defined verdicts
+
+The bare arm's verdicts did not separate defective plans from sound ones, although its reports had found every defect. The [`defined` arm](defined/README.md) is identical to the bare arm except for a five-line block saying what `GO`, `GO_WITH_CHANGES` and `NO_GO` mean, and tests whether that closes the gap. It has its own [preregistration](defined/PREREGISTRATION.md) and manifest, which borrows the bare system prompt and the rubric by hash, so the bare arm's own manifest and evidence are untouched. **It has not been run yet.** Run it with `--arm defined` using the [handoff brief](defined/HANDOFF.md).

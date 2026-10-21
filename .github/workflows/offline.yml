@@ -29,6 +29,7 @@ jobs:
       - run: python3 -B -I benchmarks/counterfactual-pairs/v2/test_corpus.py
       - run: python3 -B -I benchmarks/counterfactual-pairs/test_verify_run.py
       - run: python3 -B -I benchmarks/counterfactual-pairs/ablation/build_manifest.py --check
+      - run: python3 -B -I benchmarks/counterfactual-pairs/ablation/defined/build_manifest.py --check
       - run: python3 -B -I benchmarks/counterfactual-pairs/ablation/test_ablation.py
       - run: python3 -B -I tools/qualify_offline.py "$RUNNER_TEMP/antigravity-offline"
       - run: python3 -B -I tools/qualify_argon_offline.py "$RUNNER_TEMP/antigravity-argon-offline"

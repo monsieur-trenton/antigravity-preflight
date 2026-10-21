@@ -1,0 +1,16 @@
+{
+  "kind": "ABLATION_DEFINED_VERDICTS_ARM_FROZEN",
+  "corpus": {
+    "path": "benchmarks/counterfactual-pairs/v2",
+    "manifestSha256": "79facc8afe49f243009a813e63f9f77adfa284567982af2282daf9948eb6316b"
+  },
+  "pins": {
+    "PREREGISTRATION.md": "243b0de63b3c8bf0b0cc96a41dbe106636b74f4266f7b5ff04e45286d70ff8fc",
+    "defined-request.txt": "02d0b09d4fc3a2981385a01312592de3cf3d67ebe886d95b5e89a134c44b768d"
+  },
+  "borrowed": {
+    "bare-system.txt": "9db26da266bd05448800db1d986281ad1a92645dba943c208cd421b97e87fb06",
+    "rubric.json": "46baeae69381ebd06dd58c6b30218b68ebad7e9cbc0b547413e3520dcfc0c461"
+  },
+  "providerCalls": 0
+}
