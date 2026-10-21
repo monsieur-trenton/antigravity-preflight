@@ -192,6 +192,81 @@ def evidence_overview(inputs):
                     f"{inputs['argonTotal']} Argon controls, 0 provider calls.", body)
 
 
+VERDICT = {"NO_BLOCKERS_FOUND": ("Clean", "#cde2fb", "#0b0b0b"),
+           "CHANGES_RECOMMENDED": ("Changes", "#6da7ec", "#0b0b0b"),
+           "BLOCKERS_FOUND": ("Blockers", "#184f95", "#ffffff")}
+SEVERITY = {"NO_BLOCKERS_FOUND": 0, "CHANGES_RECOMMENDED": 1, "BLOCKERS_FOUND": 2}
+FAMILY_LABEL = {"absent_vs_null": "Absent vs null", "caller_callee": "Caller / callee",
+                "output_bytes": "Output byte limit", "ownership_authorization": "Ownership / authorization",
+                "required_coverage": "Required coverage", "runtime_budget": "Runtime budget evidence"}
+
+
+def pair_matrix(pilot):
+    """Reviewer verdict per case: sound plan beside its changed twin, for every family, wording and trial."""
+    rows = pilot["rows"]
+    invalid = set(pilot.get("invalidFamilies", []))
+    cells = {}
+    for family in FAMILY_LABEL:
+        for wording in ("A", "B"):
+            for role in ("sound", "changed"):
+                for trial in (1, 2):
+                    cells[(family, wording, role, trial)] = rows[(family, wording, role, trial)]
+    width, left, row_h, label_w, cell_w, gap = 900, 24, 32, 230, 76, 8
+    cols = [("sound", 1), ("sound", 2), ("changed", 1), ("changed", 2)]
+    col_x = [left + label_w + i * (cell_w + gap) + (24 if i >= 2 else 0) for i in range(4)]
+    note_x = col_x[3] + cell_w + 22
+    top = 132
+    families = list(FAMILY_LABEL)
+    height = top + len(families) * (row_h * 2 + 14) + 118
+    ordinal_ok = sum(SEVERITY[cells[(f, w, "changed", t)]] > SEVERITY[cells[(f, w, "sound", t)]]
+                     for f in families if f not in invalid for w in ("A", "B") for t in (1, 2))
+    ordinal_n = sum(1 for f in families if f not in invalid for _ in range(4))
+    body = [t(left, 36, "Sound plans and their changed twins: reviewer verdicts", "title"),
+            t(left, 58, f"Route claude-cli, model {pilot['model']}, effort {pilot['effort']}; 24 cases, 2 trials, 0 technical stops, 0 unsupported VERIFIED findings.", "sub muted"),
+            t(left, 78, f"Pre-registered strict score, pairs discriminated: {pilot['strict'][0]}/12 and {pilot['strict'][1]}/12. Post-hoc adjudication in the write-up.", "sub muted")]
+    for group, first in (("Sound plan", 0), ("Changed twin", 2)):
+        centre = (col_x[first] + col_x[first + 1] + cell_w) / 2
+        fits(group, 12, 2 * cell_w + gap, group)
+        body.append(t(centre, top - 26, group, "head", "middle"))
+    for (role, trial), x in zip(cols, col_x):
+        body.append(t(x + cell_w / 2, top - 10, f"trial {trial}", "small muted", "middle"))
+    y = top
+    for family in families:
+        flagged = family in invalid
+        body.append(t(left, y + 20, FAMILY_LABEL[family], "lab", extra=' font-weight="600"'))
+        if flagged:
+            body.append(t(left, y + 38, "corpus defect: see adjudication", "small muted"))
+        for w_index, wording in enumerate(("A", "B")):
+            yy = y + w_index * row_h
+            body.append(t(left + label_w - 18, yy + 20, wording, "small muted", "end"))
+            for (role, trial), x in zip(cols, col_x):
+                verdict = cells[(family, wording, role, trial)]
+                label, fill, ink = VERDICT[verdict]
+                body.append(f'<rect x="{x}" y="{yy + 3}" width="{cell_w}" height="{row_h - 6}" rx="4" fill="{fill}"'
+                            f'{" stroke=\"var(--ink2)\" stroke-dasharray=\"3 3\"" if flagged else ""}/>')
+                body.append(f'<text x="{x + cell_w / 2}" y="{yy + 21}" class="small" text-anchor="middle" fill="{ink}" style="fill:{ink}">{label}</text>')
+        sound_t = [cells[(family, w, "sound", t_)] for w in ("A", "B") for t_ in (1, 2)]
+        ok = sum(SEVERITY[cells[(family, w, "changed", t_)]] > SEVERITY[cells[(family, w, "sound", t_)]] for w in ("A", "B") for t_ in (1, 2))
+        body.append(t(note_x, y + 20, f"{ok}/4 judged stricter", "small muted"))
+        y += row_h * 2 + 14
+        body.append(f'<line x1="{left}" y1="{y - 7}" x2="{width - left}" y2="{y - 7}" stroke="var(--grid)" stroke-opacity="0.6"/>')
+    ly = y + 16
+    for i, verdict in enumerate(("NO_BLOCKERS_FOUND", "CHANGES_RECOMMENDED", "BLOCKERS_FOUND")):
+        label, fill, ink = VERDICT[verdict]
+        x = left + i * 250
+        text = {"NO_BLOCKERS_FOUND": "Clean: no blockers found", "CHANGES_RECOMMENDED": "Changes recommended",
+                "BLOCKERS_FOUND": "Blockers found"}[verdict]
+        fits(text, 11.5, 200, text)
+        body.append(f'<rect x="{x}" y="{ly}" width="26" height="16" rx="3" fill="{fill}"/>')
+        body.append(t(x + 34, ly + 12, text, "small"))
+    body.append(t(left, ly + 40, f"Ordinal reading, five valid families: the changed twin was judged strictly more severely than its sound twin in {ordinal_ok} of {ordinal_n} pair-observations.", "small"))
+    body.append(t(left, ly + 58, "The runtime-budget twin has no measured throughput, so Changes (uncertainty) is the correct verdict there, not Blockers.", "small muted"))
+    body.append(t(left, ly + 76, "Dashed cells: the Output byte limit family is excluded because its sound plan and its twin were both flawed in ways the reviewer correctly described.", "small muted"))
+    return document(width, height, "Reviewer verdicts on sound plans and their changed twins",
+                    f"Per-case verdicts from {pilot['model']} through the Claude CLI across 6 families, 2 wordings and 2 trials; "
+                    f"five valid families judged the changed twin more severely in {ordinal_ok} of {ordinal_n} pair-observations.", body)
+
+
 def run_receipt(script):
     done = subprocess.run([sys.executable, "-B", "-I", str(ROOT / script)], capture_output=True, text=True,
                           timeout=300, check=False)
@@ -218,12 +293,43 @@ def collect_inputs():
         "mechanicalStopped": summary["mechanicalStopped"], "mechanicalFaults": summary["mechanicalFaults"],
         "argonTotal": argon["totalCases"], "argonRuns": len(argon["runs"]), "argonPerRun": argon["casesPerRun"],
         "argonSuites": [(s["suite"], s["cases"]) for s in argon["runs"][0]["suites"]],
+        "pilot": load_pilot(),
     }
 
 
+def load_pilot():
+    """Verdicts from the committed pilot ledgers, mapped to family/wording/role through the oracle."""
+    base = ROOT / "benchmarks/counterfactual-pairs"
+    results = base / "results/pilot1-claude-opus-5-5-high"
+    if not results.is_dir():
+        return None
+    oracle = {c["case"]: c for c in json.loads((base / "oracle/oracle.json").read_bytes())["cases"]}
+    rows, model, effort = {}, set(), set()
+    for trial in (1, 2):
+        for line in (results / f"trial{trial}/responses.jsonl").read_text(encoding="utf-8").splitlines():
+            row = json.loads(line)
+            truth = oracle[row["case"]]
+            if row.get("technicalStop"):
+                raise SystemExit("PILOT_HAS_STOPS")
+            rows[(truth["family"], truth["wording"], truth["role"], trial)] = row["assessment"]
+            model.add(row["requestedModel"])
+            effort.add(row["effort"])
+    if len(rows) != 48 or len(model) != 1 or len(effort) != 1:
+        raise SystemExit("PILOT_INCOMPLETE_OR_MIXED")
+    score = json.loads((results / "score.json").read_bytes())["trials"]
+    strict = [score[str(t_)]["pairDiscrimination"]["count"] for t_ in (1, 2)]
+    if any(score[str(t_)]["pairDiscrimination"]["of"] != 12 for t_ in (1, 2)):
+        raise SystemExit("PILOT_SCORE_MISMATCH")
+    return {"rows": rows, "model": model.pop(), "effort": effort.pop(), "strict": strict,
+            "invalidFamilies": ["output_bytes"]}
+
+
 def build(inputs):
-    return {"fault-gate-matrix.svg": fault_matrix(inputs["results"]),
-            "offline-evidence.svg": evidence_overview(inputs)}
+    figures = {"fault-gate-matrix.svg": fault_matrix(inputs["results"]),
+               "offline-evidence.svg": evidence_overview(inputs)}
+    if inputs.get("pilot"):
+        figures["pilot1-verdict-matrix.svg"] = pair_matrix(inputs["pilot"])
+    return figures
 
 
 def main(argv):

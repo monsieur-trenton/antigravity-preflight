@@ -57,6 +57,22 @@ class FigureTests(unittest.TestCase):
         self.assertIn("<circle", svg)        # passes through: exclamation mark
         self.assertIn("stroke-dasharray", svg)  # not exercised: dashed outline
 
+    def test_pair_matrix_is_well_formed_labelled_and_counts_ordinally(self):
+        order = ["NO_BLOCKERS_FOUND", "CHANGES_RECOMMENDED", "BLOCKERS_FOUND"]
+        rows = {}
+        for family in mf.FAMILY_LABEL:
+            for wording in ("A", "B"):
+                for trial in (1, 2):
+                    rows[(family, wording, "sound", trial)] = order[0]
+                    rows[(family, wording, "changed", trial)] = order[0] if family == "output_bytes" else order[2]
+        svg = mf.pair_matrix({"rows": rows, "model": "m", "effort": "high", "strict": [9, 8], "invalidFamilies": ["output_bytes"]})
+        ET.fromstring(svg)
+        self.assertIn("20 of 20", svg)
+        self.assertIn("9/12 and 8/12", svg)
+        self.assertIn("0/4 judged stricter", svg)
+        self.assertIn("corpus defect", svg)
+        self.assertIn("Blockers", svg)  # every state carries a text label, not colour alone
+
     def test_stale_figure_is_detected(self):
         figures = mf.build(INPUTS)
         with tempfile.TemporaryDirectory() as raw:

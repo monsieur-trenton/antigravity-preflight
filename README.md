@@ -72,7 +72,11 @@ All figures above come from deterministic offline checks. They show the gates be
 
 ![Fault injection matrix: 13 of 13 mechanical faults stopped, 2 semantic faults pass through to manual premise checking, 4 checks not exercised](docs/figures/fault-gate-matrix.svg)
 
-The amber rows are documented limits: a verbatim quotation can still misstate its source, so Codex must check each finding's premise. See the [fault-injection harness](benchmarks/fault-injection/README.md).
+![Reviewer verdicts for each sound plan and its changed twin](docs/figures/pilot1-verdict-matrix.svg)
+
+That figure is a small pilot on the `claude-cli` route (Claude Opus 5.5), not a Gemini or workflow result: no false blockers and no fabricated citations, with one corpus family found to be flawed in adjudication. Read the [full write-up](benchmarks/counterfactual-pairs/results/pilot1-claude-opus-5-5-high/README.md) before quoting it.
+
+The amber rows in the fault matrix are documented limits: a verbatim quotation can still misstate its source, so Codex must check each finding's premise. See the [fault-injection harness](benchmarks/fault-injection/README.md).
 
 ## Offline validation
 
@@ -102,6 +106,7 @@ This runs 732 synthetic normal/profile, integrity and timing controls twice, fol
 - [Demonstrated utility](docs/demonstrated-utility.md) — eight LLM review failure modes and boundary invariants deterministically verified by preflight
 - [Exploratory four-case plan audit](benchmarks/exploratory-plan-audit/README.md) — saved responses with corrected scoring and retrospective limitations
 - [Benchmark plan](docs/benchmark-plan.md) — eight benchmarks, with the figure each one produces
+- [Pilot 1 results](benchmarks/counterfactual-pairs/results/pilot1-claude-opus-5-5-high/README.md) — Claude Opus 5.5 via the Claude CLI, two trials, with adjudication and a corpus defect found
 - [Counterfactual-pair corpus](benchmarks/counterfactual-pairs/README.md) — frozen blind pilot inputs and scorer; no model run yet
 - [Fault-injection harness](benchmarks/fault-injection/README.md) — 19 single-fault variants against the citation checker
 - [Two proposed skill tests](docs/testing-next.md)

@@ -7,6 +7,7 @@
 - Add a frozen 24-case blind counterfactual-pair corpus (six families, two wordings), a hidden oracle and a scorer with Wilson intervals, tested with simulated reviewers. No model has been run on it.
 - Add a one-turn, zero-retry pilot driver for qualified Flash or Argon hosts (dry run by default, resume-safe, halts on repeated stops) and a ledger-reading scorer; tested with a stub runtime and the real packet functions.
 - Add a separate `claude-cli` route for the counterfactual-pair pilot (tool-free, isolated `claude -p` turns, served-model check, per-case spend cap) with an Antigravity orchestrator brief. It is not a qualified Gemini runtime; results are labelled by route and model.
+- Record pilot 1 (Claude Opus 5.5 via the Claude CLI, 2 trials of 24 cases, 0 stops, $1.14) with the unmodified reports, the pre-registered score and a post-hoc adjudication that found one corpus family flawed. Add a verdict-matrix figure generated from the committed ledgers. API errors are now labelled by `terminal_reason`.
 - Add the benchmark plan covering ablation, counterfactual pairs and downstream-effect trials. No new live model observations were collected.
 
 ## 0.3.0 — 2026-10-19
