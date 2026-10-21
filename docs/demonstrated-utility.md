@@ -32,18 +32,28 @@ python3 -B -I skills/antigravity-preflight/scripts/manual_citations.py check \
 
 ---
 
-## 2. Tool Sandboxing & Unadmitted Execution Denial
+## 2. Tool Sandboxing: Pre-Execution Native Hook & Post-Hoc Stream Admission
 
 ### The Failure Mode
 Untrusted code or prompt injections within review packets might attempt to trick the reviewer into executing operational tools (e.g., executing shell commands via `run_command`, writing arbitrary files, or delegating work to unvetted subagents).
 
-### How Antigravity Preflight Stops It
-The streaming reviewer harness ([`cli_review.py`](../runtime/argon-high/scripts/cli_review.py)) strictly parses incoming streaming events from the CLI process. Only passive review events (`user_input`, `agent_response`, and a terminal `finish` tool) are admitted. 
+### How Antigravity Preflight Stops It (Dual-Layer Containment)
+Preflight implements tool containment at two distinct architectural boundaries:
 
-Any attempt to invoke operational tools or pass delegation payloads aborts the review stream immediately:
-- **Operational Tool Attempt**: Rejected with `OPERATIONAL_TOOL`.
-- **Subagent Delegation Attempt**: Rejected with `DELEGATION_PAYLOAD`.
-- **Tool Error / Abnormal State**: Rejected with `STEP_STATE`.
+1. **Pre-Execution Native Hook Boundary (Prevention)**:
+   The native CLI execution engine intercepts every tool call *before* invocation through the `PreToolUse` hook defined in [`.agents/hooks.json`](../runtime/argon-high/assets/cli-review/.agents/hooks.json). The hook points to [`deny_tools.py`](../runtime/argon-high/assets/cli-review/deny_tools.py) with wildcard matching (`*`):
+   - Only the terminal `finish` tool produces `{"decision": "allow"}`.
+   - Any operational tool (`run_command`, `write_to_file`, etc.) produces `{"decision": "deny"}` and is blocked before execution.
+   - All attempted invocations are audited via `AGY_PREFLIGHT_AUDIT`.
+   - Any malformed or unparseable tool call defaults to `"deny"`.
+
+2. **Post-Hoc Stream Admission Boundary (Defense-in-Depth)**:
+   Even if an operational tool event were somehow reported in the subprocess stream, the streaming parser ([`cli_review.py Stream`](../runtime/argon-high/scripts/cli_review.py)) acts as a secondary admission filter:
+   - Operational tool events abort the stream with `OPERATIONAL_TOOL`.
+   - Subagent delegation payloads abort the stream with `DELEGATION_PAYLOAD`.
+   - Incomplete steps or nonzero tool errors abort the stream with `STEP_STATE`.
+
+This separation guarantees that sandboxing does not rely solely on post-hoc stream rejection: tools are denied before execution by the native hook, and stream admission confirms compliance afterward.
 
 ---
 
@@ -92,5 +102,5 @@ python3 -B -I tools/test_demonstrated_utility.py
 ```
 Expected output:
 ```json
-{"status": "PASS", "cases": 4, "checks": 15, "providerCalls": 0, "spend": 0.0}
+{"status": "PASS", "cases": 4, "checks": 21, "providerCalls": 0, "spend": 0.0}
 ```
