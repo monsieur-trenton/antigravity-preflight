@@ -156,6 +156,33 @@ class ScorerTests(unittest.TestCase):
         with self.assertRaises(sc.Invalid):
             sc.score([dict(row, assessment="LOOKS_GOOD")])
 
+    def test_committed_pilot1_score_still_reproduces_on_every_original_key(self):
+        res = HERE / "results/pilot1-claude-opus-5-5-high"
+        rows = [json.loads(line) for n in (1, 2) for line in (res / f"trial{n}/responses.jsonl").read_text().splitlines()]
+        new, old = sc.score(rows), json.loads((res / "score.json").read_text())
+        added = {"pairOrderedCalibrated", "hedgedOnSoundPlans", "pairOrderedCalibratedByDifficulty"}
+        for trial in ("1", "2"):
+            for key, value in old["trials"][trial].items():
+                got = new["trials"][trial][key]
+                if key == "perFamily":
+                    got = {f: {k: v for k, v in e.items() if k != "pairsOrderedCalibrated"} for f, e in got.items()}
+                self.assertEqual(got, value, (trial, key))
+            self.assertTrue(added <= set(new["trials"][trial]))
+        for key in ("kind", "corpusManifestSha256", "casesInCorpus", "repeatability"):
+            self.assertEqual(new[key], old[key], key)
+
+    def test_ordinal_metric_requires_stricter_changed_verdict_and_calibrated_uncertainty(self):
+        def policy(case, truth):
+            row = perfect(case, truth)
+            if truth["expectedClass"] == "UNCERTAIN":  # overclaims a verified blocker: ordered, but not calibrated
+                row = {"case": case, "completeness": "COMPLETE", "assessment": "BLOCKERS_FOUND",
+                       "findings": [finding(case, "BLOCKER", "VERIFIED")]}
+            return row
+        trial = sc.score(respond(policy))["trials"]["1"]
+        self.assertEqual(trial["pairOrderedCalibrated"]["count"], 10)
+        self.assertEqual(trial["perFamily"]["runtime_budget"]["pairsOrderedCalibrated"], "0/2")
+        self.assertEqual(trial["perFamily"]["output_bytes"]["pairsOrderedCalibrated"], "2/2")
+
     def test_wilson_interval_is_wide_for_small_n(self):
         low, high = sc.wilson(12, 12)
         self.assertLess(low, 0.8)

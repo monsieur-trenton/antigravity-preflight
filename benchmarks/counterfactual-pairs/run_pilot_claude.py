@@ -102,6 +102,7 @@ def main(argv=None):
     parser.add_argument("--effort", required=True, choices=EFFORTS)
     parser.add_argument("--workdir", required=True)
     parser.add_argument("--trial", type=int, default=1)
+    parser.add_argument("--corpus", help="corpus directory (default: this directory, corpus v1)")
     parser.add_argument("--execute", action="store_true", help="make live model calls; without it only prepare")
     parser.add_argument("--max-budget-usd", type=float, default=1.0, help="per-case spend cap passed to the CLI")
     parser.add_argument("--max-consecutive-stops", type=int, default=3)
@@ -111,9 +112,10 @@ def main(argv=None):
         rp.need(binary.is_absolute() and binary.is_file() and os.access(binary, os.X_OK), "CLAUDE_BIN_INVALID")
         work = Path(args.workdir).resolve()
         rp.need(ROOT not in work.parents and work != ROOT, "WORKDIR_INSIDE_REPOSITORY")
+        corpus = Path(args.corpus).resolve() if args.corpus else HERE
         score = rp.load_module("score", HERE / "score.py")
-        manifest, _ = score.load_frozen()
-        prompt = (HERE / "prompt.txt").read_bytes().decode("utf-8")
+        manifest, _ = score.load_frozen(corpus)
+        prompt = (corpus / "prompt.txt").read_bytes().decode("utf-8")
         version = subprocess.run([str(binary), "--version"], capture_output=True, text=True, timeout=60, check=False)
         rp.need(version.returncode == 0 and version.stdout.strip(), "CLAUDE_VERSION_FAILED")
         trial_dir = work / f"trial{args.trial}"
@@ -134,7 +136,7 @@ def main(argv=None):
             if args.execute and (trial_dir / "attempts" / case).exists():
                 row = {"technicalStop": "INTERRUPTED_UNKNOWN_STATE"}  # zero retries: record, never rerun
             else:
-                snapshot = (HERE / "packets" / (case + ".txt")).read_bytes()
+                snapshot = (corpus / "packets" / (case + ".txt")).read_bytes()
                 try:
                     row = run_case(args, case, prompt, snapshot, trial_dir, empty_mcp)
                 except (rp.Stop, OSError, subprocess.SubprocessError) as error:

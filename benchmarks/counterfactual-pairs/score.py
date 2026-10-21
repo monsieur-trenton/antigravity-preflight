@@ -11,7 +11,7 @@ This pilot reports counts with intervals, not a general accuracy rate.
 
 RESPONSES may be a JSON list or the .jsonl ledger written by run_pilot.py (extra keys are ignored).
 
-Usage: score.py RESPONSES_JSON_OR_JSONL [OUTPUT_JSON]
+Usage: score.py [--corpus DIR] RESPONSES_JSON_OR_JSONL [OUTPUT_JSON]   (DIR defaults to this directory, corpus v1)
 """
 import hashlib
 import json
@@ -50,17 +50,18 @@ def rate(k, n):
     return {"count": k, "of": n, "wilson95": wilson(k, n)}
 
 
-def load_frozen():
-    manifest = json.loads((HERE / "manifest.json").read_bytes())
+def load_frozen(corpus=HERE):
+    corpus = Path(corpus)
+    manifest = json.loads((corpus / "manifest.json").read_bytes())
     for name, expected in manifest["pins"].items():
-        require((HERE / name).is_file() and hashlib.sha256((HERE / name).read_bytes()).hexdigest() == expected,
+        require((corpus / name).is_file() and hashlib.sha256((corpus / name).read_bytes()).hexdigest() == expected,
                 "CORPUS_PIN_MISMATCH:" + name)
-    oracle = json.loads((HERE / "oracle/oracle.json").read_bytes())
+    oracle = json.loads((corpus / "oracle/oracle.json").read_bytes())
     return manifest, {c["case"]: c for c in oracle["cases"]}
 
 
-def packet_lines(case):
-    return (HERE / "packets" / (case + ".txt")).read_text(encoding="utf-8").split("\n")[:-1]
+def packet_lines(case, corpus=HERE):
+    return (Path(corpus) / "packets" / (case + ".txt")).read_text(encoding="utf-8").split("\n")[:-1]
 
 
 def validate(row, oracle):
@@ -76,22 +77,27 @@ def validate(row, oracle):
         require(type(finding.get("line")) is int and isinstance(finding.get("quote"), str), "INVALID_FINDING")
 
 
-def supported(case, finding):
-    lines = packet_lines(case)
+def supported(case, finding, corpus=HERE):
+    lines = packet_lines(case, corpus)
     line = finding["line"]
     return 1 <= line <= len(lines) and bool(finding["quote"].strip()) and finding["quote"] in lines[line - 1]
 
 
-def grade(row, truth):
+SEVERITY_RANK = {"NO_BLOCKERS_FOUND": 0, "CHANGES_RECOMMENDED": 1, "BLOCKERS_FOUND": 2}
+
+
+def grade(row, truth, corpus=HERE):
     """Return (outcome, detail) for one observation."""
     if row.get("technicalStop"):
         return "STOPPED", {}
     findings = row["findings"]
     blockers = [f for f in findings if f["severity"] == "BLOCKER"]
     verified_blockers = [f for f in blockers if f["evidence"] == "VERIFIED"]
-    unsupported = sum(1 for f in findings if f["evidence"] == "VERIFIED" and not supported(row["case"], f))
-    cited = any(f["line"] == truth["decisiveLine"] and supported(row["case"], f) for f in verified_blockers)
-    detail = {"unsupportedVerified": unsupported, "mechanismCited": cited, "incomplete": row["completeness"] == "INCOMPLETE"}
+    unsupported = sum(1 for f in findings if f["evidence"] == "VERIFIED" and not supported(row["case"], f, corpus))
+    accepted = truth.get("citeAnyOf", [truth["decisiveLine"]])
+    cited = any(f["line"] in accepted and supported(row["case"], f, corpus) for f in verified_blockers)
+    detail = {"unsupportedVerified": unsupported, "mechanismCited": cited, "incomplete": row["completeness"] == "INCOMPLETE",
+              "severity": SEVERITY_RANK[row["assessment"]], "verifiedBlocker": bool(verified_blockers)}
     assessment = row["assessment"]
     expected = truth["expectedClass"]
     if expected == "SOUND":
@@ -107,16 +113,18 @@ def grade(row, truth):
     return ("MISSED" if assessment == "NO_BLOCKERS_FOUND" else "CORRECT"), detail
 
 
-def score_trial(rows, oracle):
+def score_trial(rows, oracle, corpus=HERE):
     graded = {}
     for row in rows:
-        graded[row["case"]] = grade(row, oracle[row["case"]])
+        graded[row["case"]] = grade(row, oracle[row["case"]], corpus)
     families = {}
     for case, (outcome, detail) in graded.items():
         truth = oracle[case]
         bucket = families.setdefault(truth["family"], {})
         bucket[(truth["wording"], truth["role"])] = (outcome, detail)
     per_family, pair_ok, pair_n = {}, 0, 0
+    ordinal_ok = ordinal_n = sound_hedged = 0
+    by_difficulty = {}
     sound_total = sound_false = changed_total = changed_correct = unsupported = stopped = 0
     for name, bucket in sorted(families.items()):
         entry = {"outcomes": {f"{w}/{r}": o for (w, r), (o, _) in sorted(bucket.items())}}
@@ -126,6 +134,21 @@ def score_trial(rows, oracle):
             if sound and changed and "STOPPED" not in (sound[0], changed[0]):
                 pairs.append(sound[0] == "CORRECT" and changed[0] == "CORRECT")
         entry["pairsDiscriminated"] = f"{sum(pairs)}/{len(pairs)}"
+        ordered = []
+        for wording in ("A", "B"):
+            sound, changed = bucket.get((wording, "sound")), bucket.get((wording, "changed"))
+            if sound and changed and "STOPPED" not in (sound[0], changed[0]):
+                twin = next(oracle[c] for c, (o, d) in graded.items()
+                            if oracle[c]["family"] == name and oracle[c]["wording"] == wording and oracle[c]["role"] == "changed")
+                calibrated = not (twin["expectedClass"] == "UNCERTAIN" and changed[1]["verifiedBlocker"])
+                ok = changed[1]["severity"] > sound[1]["severity"] and calibrated
+                ordered.append(ok)
+                level = by_difficulty.setdefault(twin.get("difficulty", "unspecified"), [0, 0])
+                level[0] += ok
+                level[1] += 1
+        entry["pairsOrderedCalibrated"] = f"{sum(ordered)}/{len(ordered)}"
+        ordinal_ok += sum(ordered)
+        ordinal_n += len(ordered)
         pair_ok += sum(pairs)
         pair_n += len(pairs)
         roles = {}
@@ -142,12 +165,16 @@ def score_trial(rows, oracle):
             if role == "sound":
                 sound_total += 1
                 sound_false += outcome == "FALSE_BLOCKER"
+                sound_hedged += outcome == "HEDGED"
             else:
                 changed_total += 1
                 changed_correct += outcome == "CORRECT"
     return {
         "observations": len(graded), "technicalStops": stopped, "perFamily": per_family,
         "pairDiscrimination": rate(pair_ok, pair_n),
+        "pairOrderedCalibrated": rate(ordinal_ok, ordinal_n),
+        "hedgedOnSoundPlans": rate(sound_hedged, sound_total),
+        "pairOrderedCalibratedByDifficulty": {k: rate(v[0], v[1]) for k, v in sorted(by_difficulty.items())},
         "falseBlockersOnSoundPlans": rate(sound_false, sound_total),
         "changedPlansJudgedCorrectly": rate(changed_correct, changed_total),
         "unsupportedVerifiedFindings": unsupported,
@@ -156,8 +183,8 @@ def score_trial(rows, oracle):
     }
 
 
-def score(responses):
-    manifest, oracle = load_frozen()
+def score(responses, corpus=HERE):
+    manifest, oracle = load_frozen(corpus)
     require(isinstance(responses, list), "INVALID_RESPONSES")
     trials = {}
     for row in responses:
@@ -167,9 +194,9 @@ def score(responses):
         trials.setdefault(trial, []).append(row)
     result = {
         "kind": "COUNTERFACTUAL_PAIR_PILOT_SCORE_NOT_A_GENERAL_ACCURACY_RATE",
-        "corpusManifestSha256": hashlib.sha256((HERE / "manifest.json").read_bytes()).hexdigest(),
+        "corpusManifestSha256": hashlib.sha256((Path(corpus) / "manifest.json").read_bytes()).hexdigest(),
         "casesInCorpus": manifest["cases"],
-        "trials": {str(t): score_trial(rows, oracle) for t, rows in sorted(trials.items())},
+        "trials": {str(t): score_trial(rows, oracle, corpus) for t, rows in sorted(trials.items())},
         "providerCalls": 0,
     }
     for t, rows in trials.items():
@@ -178,7 +205,7 @@ def score(responses):
         result["trials"][str(t)]["servedModelsReported"] = sorted({m for r in rows for m in r.get("servedModels", [])})
         result["trials"][str(t)]["casesNotObserved"] = sorted(set(oracle) - {r["case"] for r in rows})
     if len(trials) > 1:
-        outcomes = {t: {r["case"]: grade(r, oracle[r["case"]])[0] for r in rows} for t, rows in trials.items()}
+        outcomes = {t: {r["case"]: grade(r, oracle[r["case"]], corpus)[0] for r in rows} for t, rows in trials.items()}
         shared = set.intersection(*(set(o) for o in outcomes.values()))
         same = sum(1 for c in shared if len({o[c] for o in outcomes.values()}) == 1)
         result["repeatability"] = rate(same, len(shared))
@@ -186,13 +213,18 @@ def score(responses):
 
 
 def main(argv):
+    corpus = HERE
+    if "--corpus" in argv:
+        index = argv.index("--corpus")
+        corpus = Path(argv[index + 1]).resolve()
+        argv = argv[:index] + argv[index + 2:]
     if not argv:
-        print("usage: score.py RESPONSES_JSON [OUTPUT_JSON]", file=sys.stderr)
+        print("usage: score.py [--corpus DIR] RESPONSES_JSON [OUTPUT_JSON]", file=sys.stderr)
         return 2
     try:
         raw = Path(argv[0]).read_text(encoding="utf-8")
         rows = [json.loads(line) for line in raw.splitlines() if line.strip()] if argv[0].endswith(".jsonl") else json.loads(raw)
-        result = score(rows)
+        result = score(rows, corpus)
     except (Invalid, OSError, json.JSONDecodeError) as error:
         print(json.dumps({"status": "STOPPED", "reason": str(error) if isinstance(error, Invalid) else type(error).__name__}))
         return 1

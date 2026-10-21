@@ -179,6 +179,7 @@ def main(argv=None):
     parser.add_argument("--qualification", required=True)
     parser.add_argument("--workdir", required=True, help="outside the repository; reused only to resume the same trial")
     parser.add_argument("--trial", type=int, default=1)
+    parser.add_argument("--corpus", help="corpus directory (default: this directory, corpus v1)")
     parser.add_argument("--execute", action="store_true", help="make live native calls; without it only prepare")
     parser.add_argument("--max-consecutive-stops", type=int, default=3)
     args = parser.parse_args(argv)
@@ -189,9 +190,10 @@ def main(argv=None):
         need((args.runtime_profile is not None) == (runtime.name == "argon-high"), "PROFILE_MUST_MATCH_RUNTIME")
         work = Path(args.workdir).resolve()
         need(ROOT not in work.parents and work != ROOT, "WORKDIR_INSIDE_REPOSITORY")
+        corpus = Path(args.corpus).resolve() if args.corpus else HERE
         score = load_module("score", HERE / "score.py")
-        manifest, _ = score.load_frozen()  # verifies every frozen pin, including prompt, packets and oracle
-        prompt = (HERE / "prompt.txt").read_bytes().decode("utf-8")
+        manifest, _ = score.load_frozen(corpus)  # verifies every frozen pin, including prompt, packets and oracle
+        prompt = (corpus / "prompt.txt").read_bytes().decode("utf-8")
         trial_dir = work / f"trial{args.trial}"
         ledger = work / f"responses-trial{args.trial}.jsonl"
         work.mkdir(parents=True, exist_ok=True)
@@ -206,7 +208,7 @@ def main(argv=None):
                 # State unknown after an interruption. Zero retries: record a stop, never re-run.
                 row = {"technicalStop": "INTERRUPTED_UNKNOWN_STATE"}
             else:
-                snapshot = (HERE / "packets" / (case + ".txt")).read_bytes()
+                snapshot = (corpus / "packets" / (case + ".txt")).read_bytes()
                 try:
                     row = run_case(args, case, prompt, snapshot, trial_dir)
                 except (Stop, OSError, subprocess.SubprocessError) as error:
