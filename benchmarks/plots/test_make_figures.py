@@ -73,6 +73,26 @@ class FigureTests(unittest.TestCase):
         self.assertIn("corpus defect", svg)
         self.assertIn("Blockers", svg)  # every state carries a text label, not colour alone
 
+    def test_pair_matrix_accepts_a_custom_family_set_footer_and_flag(self):
+        order = ["NO_BLOCKERS_FOUND", "CHANGES_RECOMMENDED", "BLOCKERS_FOUND"]
+        families = {"alpha": "Alpha", "beta": "Beta"}
+        rows = {}
+        for family in families:
+            for wording in ("A", "B"):
+                for trial in (1, 2):
+                    rows[(family, wording, "sound", trial)] = order[1] if family == "beta" else order[0]
+                    rows[(family, wording, "changed", trial)] = order[2]
+        svg = mf.pair_matrix({"rows": rows, "model": "m", "effort": "high", "families": families, "invalidFamilies": ["beta"],
+                              "flagNote": "adjudicated gap in sound plan", "subLabels": {"alpha": "needs inference across lines"},
+                              "subtitle3": "Custom subtitle.", "title": "Custom title",
+                              "footer": [("First footer line.", "small"), ("Second footer line.", "small muted")]})
+        ET.fromstring(svg)
+        for text in ("Custom title", "Custom subtitle.", "First footer line.", "Second footer line.", "adjudicated gap in sound plan",
+                     "needs inference across lines", "8 cases"):
+            self.assertIn(text, svg)
+        self.assertIn("stroke-dasharray", svg)  # the flagged family is dashed
+        self.assertEqual(svg.count("4/4 judged stricter"), 2)
+
     def test_stale_figure_is_detected(self):
         figures = mf.build(INPUTS)
         with tempfile.TemporaryDirectory() as raw:

@@ -172,6 +172,20 @@ class MetricTests(unittest.TestCase):
         outcome, _ = sc.grade(row(case, "BLOCKERS_FOUND", [finding(case, "BLOCKER", "VERIFIED", line=6)]), truth, HERE)
         self.assertEqual(outcome, "DETECTED_WITHOUT_DECISIVE_CITATION")
 
+    def test_adjudication_adds_an_adjusted_block_beside_the_all_pairs_result(self):
+        adjudication = {"invalidPairs": [{"family": "caller_callee", "wordings": ["A", "B"], "reason": "test"}]}
+        rows = [perfect(case, truth) for case, truth in ORACLE.items()]
+        result = sc.score(rows, HERE, adjudication)
+        self.assertEqual(result["trials"]["1"]["pairOrderedCalibrated"], sc.score(rows, HERE)["trials"]["1"]["pairOrderedCalibrated"])
+        self.assertEqual(result["trials"]["1"]["pairOrderedCalibrated"]["of"], 20)
+        adjusted = result["adjusted"]
+        self.assertEqual(adjusted["excludedPairs"], ["caller_callee/A", "caller_callee/B"])
+        self.assertEqual(adjusted["trials"]["1"]["observations"], 36)
+        self.assertEqual(adjusted["trials"]["1"]["pairOrderedCalibrated"]["of"], 18)
+        self.assertNotIn("adjusted", sc.score(rows, HERE))
+        with self.assertRaises(sc.Invalid):
+            sc.score(rows, HERE, {"invalidPairs": [{"family": "caller_callee", "wordings": ["A"], "reason": " "}]})
+
     def test_unsupported_verified_quote_fails_the_gate(self):
         def policy(case, truth):
             r = perfect(case, truth)

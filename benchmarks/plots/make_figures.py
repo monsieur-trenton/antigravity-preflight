@@ -202,11 +202,19 @@ FAMILY_LABEL = {"absent_vs_null": "Absent vs null", "caller_callee": "Caller / c
 
 
 def pair_matrix(pilot):
-    """Reviewer verdict per case: sound plan beside its changed twin, for every family, wording and trial."""
+    """Reviewer verdict per case: sound plan beside its changed twin, for every family, wording and trial.
+
+    Optional pilot keys (defaults reproduce the pilot 1 figure): families, subLabels, flagNote, pairs, title,
+    subtitle3, footer (list of (text, css class)), desc.
+    """
     rows = pilot["rows"]
     invalid = set(pilot.get("invalidFamilies", []))
+    families = list(pilot.get("families", FAMILY_LABEL))
+    labels = pilot.get("families", FAMILY_LABEL)
+    sub_labels = pilot.get("subLabels", {})
+    flag_note = pilot.get("flagNote", "corpus defect: see adjudication")
     cells = {}
-    for family in FAMILY_LABEL:
+    for family in families:
         for wording in ("A", "B"):
             for role in ("sound", "changed"):
                 for trial in (1, 2):
@@ -216,14 +224,18 @@ def pair_matrix(pilot):
     col_x = [left + label_w + i * (cell_w + gap) + (24 if i >= 2 else 0) for i in range(4)]
     note_x = col_x[3] + cell_w + 22
     top = 132
-    families = list(FAMILY_LABEL)
-    height = top + len(families) * (row_h * 2 + 14) + 118
     ordinal_ok = sum(SEVERITY[cells[(f, w, "changed", t)]] > SEVERITY[cells[(f, w, "sound", t)]]
                      for f in families if f not in invalid for w in ("A", "B") for t in (1, 2))
     ordinal_n = sum(1 for f in families if f not in invalid for _ in range(4))
-    body = [t(left, 36, "Sound plans and their changed twins: reviewer verdicts", "title"),
-            t(left, 58, f"Route claude-cli, model {pilot['model']}, effort {pilot['effort']}; 24 cases, 2 trials, 0 technical stops, 0 unsupported VERIFIED findings.", "sub muted"),
-            t(left, 78, f"Pre-registered strict score, pairs discriminated: {pilot['strict'][0]}/12 and {pilot['strict'][1]}/12. Post-hoc adjudication in the write-up.", "sub muted")]
+    footer = pilot.get("footer") or [
+        (f"Ordinal reading, five valid families: the changed twin was judged strictly more severely than its sound twin in {ordinal_ok} of {ordinal_n} pair-observations.", "small"),
+        ("The runtime-budget twin has no measured throughput, so Changes (uncertainty) is the correct verdict there, not Blockers.", "small muted"),
+        ("Dashed cells: the Output byte limit family is excluded because its sound plan and its twin were both flawed in ways the reviewer correctly described.", "small muted")]
+    height = top + len(families) * (row_h * 2 + 14) + 64 + 18 * len(footer)
+    pairs = pilot.get("pairs", 12)
+    body = [t(left, 36, pilot.get("title", "Sound plans and their changed twins: reviewer verdicts"), "title"),
+            t(left, 58, f"Route claude-cli, model {pilot['model']}, effort {pilot['effort']}; {len(families) * 4} cases, 2 trials, 0 technical stops, 0 unsupported VERIFIED findings.", "sub muted"),
+            t(left, 78, pilot.get("subtitle3") or f"Pre-registered strict score, pairs discriminated: {pilot['strict'][0]}/{pairs} and {pilot['strict'][1]}/{pairs}. Post-hoc adjudication in the write-up.", "sub muted")]
     for group, first in (("Sound plan", 0), ("Changed twin", 2)):
         centre = (col_x[first] + col_x[first + 1] + cell_w) / 2
         fits(group, 12, 2 * cell_w + gap, group)
@@ -233,9 +245,13 @@ def pair_matrix(pilot):
     y = top
     for family in families:
         flagged = family in invalid
-        body.append(t(left, y + 20, FAMILY_LABEL[family], "lab", extra=' font-weight="600"'))
+        fits(labels[family], 13, label_w - 40, family)
+        body.append(t(left, y + 20, labels[family], "lab", extra=' font-weight="600"'))
         if flagged:
-            body.append(t(left, y + 38, "corpus defect: see adjudication", "small muted"))
+            fits(flag_note, 11.5, label_w - 20, family + ":flag")
+            body.append(t(left, y + 38, flag_note, "small muted"))
+        elif family in sub_labels:
+            body.append(t(left, y + 38, sub_labels[family], "small muted"))
         for w_index, wording in enumerate(("A", "B")):
             yy = y + w_index * row_h
             body.append(t(left + label_w - 18, yy + 20, wording, "small muted", "end"))
@@ -245,7 +261,6 @@ def pair_matrix(pilot):
                 body.append(f'<rect x="{x}" y="{yy + 3}" width="{cell_w}" height="{row_h - 6}" rx="4" fill="{fill}"'
                             f'{" stroke=\"var(--ink2)\" stroke-dasharray=\"3 3\"" if flagged else ""}/>')
                 body.append(f'<text x="{x + cell_w / 2}" y="{yy + 21}" class="small" text-anchor="middle" fill="{ink}" style="fill:{ink}">{label}</text>')
-        sound_t = [cells[(family, w, "sound", t_)] for w in ("A", "B") for t_ in (1, 2)]
         ok = sum(SEVERITY[cells[(family, w, "changed", t_)]] > SEVERITY[cells[(family, w, "sound", t_)]] for w in ("A", "B") for t_ in (1, 2))
         body.append(t(note_x, y + 20, f"{ok}/4 judged stricter", "small muted"))
         y += row_h * 2 + 14
@@ -259,12 +274,11 @@ def pair_matrix(pilot):
         fits(text, 11.5, 200, text)
         body.append(f'<rect x="{x}" y="{ly}" width="26" height="16" rx="3" fill="{fill}"/>')
         body.append(t(x + 34, ly + 12, text, "small"))
-    body.append(t(left, ly + 40, f"Ordinal reading, five valid families: the changed twin was judged strictly more severely than its sound twin in {ordinal_ok} of {ordinal_n} pair-observations.", "small"))
-    body.append(t(left, ly + 58, "The runtime-budget twin has no measured throughput, so Changes (uncertainty) is the correct verdict there, not Blockers.", "small muted"))
-    body.append(t(left, ly + 76, "Dashed cells: the Output byte limit family is excluded because its sound plan and its twin were both flawed in ways the reviewer correctly described.", "small muted"))
+    for i, (text, css) in enumerate(footer):
+        body.append(t(left, ly + 40 + 18 * i, text, css))
     return document(width, height, "Reviewer verdicts on sound plans and their changed twins",
-                    f"Per-case verdicts from {pilot['model']} through the Claude CLI across 6 families, 2 wordings and 2 trials; "
-                    f"five valid families judged the changed twin more severely in {ordinal_ok} of {ordinal_n} pair-observations.", body)
+                    pilot.get("desc") or (f"Per-case verdicts from {pilot['model']} through the Claude CLI across 6 families, 2 wordings and 2 trials; "
+                                          f"five valid families judged the changed twin more severely in {ordinal_ok} of {ordinal_n} pair-observations."), body)
 
 
 def run_receipt(script):
@@ -294,6 +308,7 @@ def collect_inputs():
         "argonTotal": argon["totalCases"], "argonRuns": len(argon["runs"]), "argonPerRun": argon["casesPerRun"],
         "argonSuites": [(s["suite"], s["cases"]) for s in argon["runs"][0]["suites"]],
         "pilot": load_pilot(),
+        "pilot2": load_pilot2(),
     }
 
 
@@ -324,11 +339,76 @@ def load_pilot():
             "invalidFamilies": ["output_bytes"]}
 
 
+V2_LABEL = {"absent_vs_null": "Absent vs null", "required_coverage": "Required coverage", "caller_callee": "Caller / callee",
+            "deadline_arithmetic": "Deadline arithmetic", "migration_order": "Migration order", "output_bytes": "Output byte limit",
+            "ownership_authorization": "Ownership / authorization", "permission_chain": "Permission chain",
+            "unit_mismatch": "Unit mismatch", "runtime_budget": "Runtime budget evidence"}
+V2_DIFFICULTY = {"direct": 0, "inference": 1, "evidence_gap": 2}
+V2_DIFFICULTY_TEXT = {"direct": "direct contradiction", "inference": "needs inference across lines",
+                      "evidence_gap": "uncertainty, not a defect"}
+
+
+def load_pilot2():
+    """Verdicts, scores and the adjudication for pilot 2, all read from committed files."""
+    base = ROOT / "benchmarks/counterfactual-pairs"
+    results = base / "results/pilot2-v2-claude-opus-5-5-high"
+    if not results.is_dir():
+        return None
+    oracle = {c["case"]: c for c in json.loads((base / "v2/oracle/oracle.json").read_bytes())["cases"]}
+    rows, model, effort = {}, set(), set()
+    for trial in (1, 2):
+        for line in (results / f"trial{trial}/responses.jsonl").read_text(encoding="utf-8").splitlines():
+            row = json.loads(line)
+            if row.get("technicalStop"):
+                raise SystemExit("PILOT2_HAS_STOPS")
+            truth = oracle[row["case"]]
+            rows[(truth["family"], truth["wording"], truth["role"], trial)] = row["assessment"]
+            model.add(row["requestedModel"])
+            effort.add(row["effort"])
+    if len(rows) != 80 or len(model) != 1 or len(effort) != 1:
+        raise SystemExit("PILOT2_INCOMPLETE_OR_MIXED")
+    model_name, effort_name = model.pop(), effort.pop()
+    result = json.loads((results / "score.json").read_bytes())
+    adjudication = json.loads((results / "adjudication.json").read_bytes())
+    invalid = sorted({entry["family"] for entry in adjudication["invalidPairs"]})
+    trials = [result["trials"][str(t_)] for t_ in (1, 2)]
+    adjusted = [result["adjusted"]["trials"][str(t_)] for t_ in (1, 2)]
+    if any(t_["pairOrderedCalibrated"]["of"] != 20 for t_ in trials):
+        raise SystemExit("PILOT2_SCORE_MISMATCH")
+    family_difficulty = {c["family"]: c["difficulty"] for c in oracle.values()}
+    families = {f: V2_LABEL[f] for f in sorted(V2_LABEL, key=lambda f: (V2_DIFFICULTY[family_difficulty[f]], V2_LABEL[f]))}
+    inference_n = sum(1 for d in family_difficulty.values() if d == "inference")
+    o = [t_["pairOrderedCalibrated"]["count"] for t_ in trials]
+    a = [t_["pairOrderedCalibrated"]["count"] for t_ in adjusted]
+    an = adjusted[0]["pairOrderedCalibrated"]["of"]
+    st = [t_["pairDiscrimination"]["count"] for t_ in trials]
+    h = [t_["hedgedOnSoundPlans"]["count"] for t_ in trials]
+    blocked = sum(t_["falseBlockersOnSoundPlans"]["count"] for t_ in trials)
+    blocked_text = "none was blocked" if blocked == 0 else f"{blocked} were blocked"
+    flagged_family = ", ".join(V2_LABEL[f] for f in invalid)
+    return {
+        "rows": rows, "model": model_name, "effort": effort_name, "invalidFamilies": invalid, "families": families,
+        "subLabels": {f: V2_DIFFICULTY_TEXT[family_difficulty[f]] for f in families},
+        "flagNote": "adjudicated gap in sound plan",
+        "title": "Corpus v2: reviewer verdicts on sound plans and their changed twins",
+        "subtitle3": f"Preregistered before the run: ten families, {inference_n} needing inference across lines.",
+        "desc": (f"Per-case verdicts from {model_name} through the Claude CLI on corpus v2 across 10 families, 2 wordings and 2 trials; "
+                 f"preregistered ordinal pair discrimination {o[0]} of 20 and {o[1]} of 20."),
+        "footer": [
+            (f"Primary (preregistered ordinal): {o[0]}/20 and {o[1]}/20 pairs; {a[0]}/{an} and {a[1]}/{an} excluding the adjudicated pair.", "small"),
+            (f"Strict (sound plan fully clean): {st[0]}/20 and {st[1]}/20, because {h[0]}/20 and {h[1]}/20 sound plans were hedged; {blocked_text}.", "small"),
+            ("The runtime-budget twin has no measured throughput, so Changes (uncertainty) is the correct verdict there, not Blockers.", "small muted"),
+            (f"Dashed cells ({flagged_family}): the sound plan's tests omit main(), so its hedging is warranted by the text; adjudicated after the run.", "small muted")],
+    }
+
+
 def build(inputs):
     figures = {"fault-gate-matrix.svg": fault_matrix(inputs["results"]),
                "offline-evidence.svg": evidence_overview(inputs)}
     if inputs.get("pilot"):
         figures["pilot1-verdict-matrix.svg"] = pair_matrix(inputs["pilot"])
+    if inputs.get("pilot2"):
+        figures["pilot2-verdict-matrix.svg"] = pair_matrix(inputs["pilot2"])
     return figures
 
 

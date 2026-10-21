@@ -11,7 +11,7 @@ This pilot reports counts with intervals, not a general accuracy rate.
 
 RESPONSES may be a JSON list or the .jsonl ledger written by run_pilot.py (extra keys are ignored).
 
-Usage: score.py [--corpus DIR] RESPONSES_JSON_OR_JSONL [OUTPUT_JSON]   (DIR defaults to this directory, corpus v1)
+Usage: score.py [--corpus DIR] [--adjudication FILE] RESPONSES_JSON_OR_JSONL [OUTPUT_JSON]   (DIR defaults to this directory, corpus v1)
 """
 import hashlib
 import json
@@ -183,7 +183,18 @@ def score_trial(rows, oracle, corpus=HERE):
     }
 
 
-def score(responses, corpus=HERE):
+def invalid_pairs(adjudication):
+    """(family, wording) pairs an adjudication file marks invalid under the preregistered rule."""
+    require(isinstance(adjudication, dict) and isinstance(adjudication.get("invalidPairs"), list), "INVALID_ADJUDICATION")
+    pairs = set()
+    for entry in adjudication["invalidPairs"]:
+        require(isinstance(entry.get("family"), str) and isinstance(entry.get("wordings"), list)
+                and isinstance(entry.get("reason"), str) and entry["reason"].strip(), "INVALID_ADJUDICATION")
+        pairs.update((entry["family"], w) for w in entry["wordings"])
+    return pairs
+
+
+def score(responses, corpus=HERE, adjudication=None):
     manifest, oracle = load_frozen(corpus)
     require(isinstance(responses, list), "INVALID_RESPONSES")
     trials = {}
@@ -204,6 +215,14 @@ def score(responses, corpus=HERE):
         result["trials"][str(t)]["requestedModels"] = sorted({str(r.get("requestedModel", "unrecorded")) for r in rows})
         result["trials"][str(t)]["servedModelsReported"] = sorted({m for r in rows for m in r.get("servedModels", [])})
         result["trials"][str(t)]["casesNotObserved"] = sorted(set(oracle) - {r["case"] for r in rows})
+    if adjudication is not None:
+        excluded = invalid_pairs(adjudication)
+        keep = lambda r: (oracle[r["case"]]["family"], oracle[r["case"]]["wording"]) not in excluded
+        result["adjusted"] = {
+            "excludedPairs": sorted(f"{f}/{w}" for f, w in excluded),
+            "note": "Shown beside the all-pairs result, never instead of it; exclusions follow the preregistered rule.",
+            "trials": {str(t): score_trial([r for r in rows if keep(r)], oracle, corpus) for t, rows in sorted(trials.items())},
+        }
     if len(trials) > 1:
         outcomes = {t: {r["case"]: grade(r, oracle[r["case"]], corpus)[0] for r in rows} for t, rows in trials.items()}
         shared = set.intersection(*(set(o) for o in outcomes.values()))
@@ -213,18 +232,26 @@ def score(responses, corpus=HERE):
 
 
 def main(argv):
-    corpus = HERE
+    corpus, adjudication = HERE, None
+    if "--adjudication" in argv:
+        index = argv.index("--adjudication")
+        try:
+            adjudication = json.loads(Path(argv[index + 1]).read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            print(json.dumps({"status": "STOPPED", "reason": "ADJUDICATION_UNREADABLE"}))
+            return 1
+        argv = argv[:index] + argv[index + 2:]
     if "--corpus" in argv:
         index = argv.index("--corpus")
         corpus = Path(argv[index + 1]).resolve()
         argv = argv[:index] + argv[index + 2:]
     if not argv:
-        print("usage: score.py [--corpus DIR] RESPONSES_JSON [OUTPUT_JSON]", file=sys.stderr)
+        print("usage: score.py [--corpus DIR] [--adjudication FILE] RESPONSES_JSON [OUTPUT_JSON]", file=sys.stderr)
         return 2
     try:
         raw = Path(argv[0]).read_text(encoding="utf-8")
         rows = [json.loads(line) for line in raw.splitlines() if line.strip()] if argv[0].endswith(".jsonl") else json.loads(raw)
-        result = score(rows, corpus)
+        result = score(rows, corpus, adjudication)
     except (Invalid, OSError, json.JSONDecodeError) as error:
         print(json.dumps({"status": "STOPPED", "reason": str(error) if isinstance(error, Invalid) else type(error).__name__}))
         return 1
