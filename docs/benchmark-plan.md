@@ -9,7 +9,7 @@ Four claims need separate evidence. Only the first is covered today.
 
 | | Benchmark | Claim | Model calls | Figure |
 | --- | --- | --- | --- | --- |
-| A | Ablation: no preflight, raw Gemini prompt, full skill, on one seeded-defect corpus | 3 | Yes | Grouped bars by arm |
+| A | Ablation: no preflight, raw Gemini prompt, full skill, on one seeded-defect corpus. First arm built: a [bare-prompt arm](../benchmarks/counterfactual-pairs/ablation/README.md) against the skill-style bundle on corpus v2 (Claude CLI route), preregistered, not yet run; it tests the prompt-and-packet bundle only | 3 | Yes | Grouped bars by arm |
 | B | Blind counterfactual pairs, six families ([design](testing-next.md)); [frozen corpus and scorer ready](../benchmarks/counterfactual-pairs/README.md), pilot 1 run on the `claude-cli` route only ([results](../benchmarks/counterfactual-pairs/results/pilot1-claude-opus-5-5-high/README.md)); Gemini routes not yet run; [corpus v2](../benchmarks/counterfactual-pairs/v2/README.md) preregistered and run once on the `claude-cli` route ([pilot 2](../benchmarks/counterfactual-pairs/results/pilot2-v2-claude-opus-5-5-high/README.md): primary metric 20/20, a ceiling for that reviewer) | 2 | Yes | Paired slope chart and confusion tile |
 | C | Replay raw responses through the citation checker | 1, 3 | No | Finding funnel |
 | D | Evidence-integrity fault injection | 1 | No | Fault × gate matrix (done for the citation checker) |
