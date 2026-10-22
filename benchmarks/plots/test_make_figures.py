@@ -146,6 +146,50 @@ class FigureTests(unittest.TestCase):
         finally:
             (results / "analysis-vs-bare.json").write_bytes(original)
 
+    def test_four_arm_figure_is_built_from_committed_data_and_states_the_cost(self):
+        data = mf.load_four_arms()
+        svg = mf.four_arm_figure(data)
+        ET.fromstring(svg)
+        self.assertEqual(data["mix"]["defined-go"]["sound"], {"NO_BLOCKERS_FOUND": 40, "CHANGES_RECOMMENDED": 0, "BLOCKERS_FOUND": 0})
+        self.assertEqual(data["mix"]["defined-go"]["uncertain"], {"NO_BLOCKERS_FOUND": 3, "CHANGES_RECOMMENDED": 1, "BLOCKERS_FOUND": 0})
+        self.assertEqual(data["lostFamilies"], ["runtime_budget"])
+        self.assertEqual((data["strict"]["defined-go"]["count"], data["strict"]["skill"]["count"], data["strict"]["bare"]["count"]), (37, 24, 2))
+        for text in ("Clean 40", "Blockers 36", "Clean 3", "Preregistered label: costs detection", "37/40",
+                     "Runtime budget evidence", "not out-of-sample evidence", "Defined + optional sentence"):
+            self.assertIn(text, svg)
+        self.assertIn("<polygon", svg)   # diamonds and triangles, circles and squares: four shapes, not colour alone
+        self.assertIn("<circle", svg)
+        self.assertEqual(mf.build({"fourArms": data, **{k: INPUTS[k] for k in INPUTS}}).get("ablation-four-arms.svg"), svg)
+
+    def test_four_arm_label_matches_the_analysis_function(self):
+        spec = importlib.util.spec_from_file_location("analyze_for_label", mf.ROOT / "benchmarks/counterfactual-pairs/ablation/analyze.py")
+        analyze = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(analyze)
+        results = mf.RESULTS_V2 / mf.ARM_DIRS["defined-go"]
+        vs_defined = json.loads((results / "analysis-vs-defined.json").read_bytes())
+        vs_skill = json.loads((results / "analysis-vs-skill.json").read_bytes())
+        self.assertEqual(mf.fourth_arm_label(mf.load_four_arms()), analyze.fourth_arm_label(vs_defined, vs_skill))
+        for lost, clean, skill_only in ((0, (0, 14), 3), (0, (0, 14), 6), (2, (0, 14), 0), (0, (1, 5), 0), (0, (9, 0), 0), (3, (0, 14), 0)):
+            wrap = lambda c, l, s: {"soundCleanDefinedVsGo": {"onlyFirst": c[0], "onlySecond": c[1], "exactTwoSidedSignTestP": analyze.sign_test(*c)},
+                                    "twinCorrectDefinedVsGo": {"onlyFirst": l}, "soundCleanSkillVsGo": {"onlyFirst": s}}
+            blocks = lambda c, l, s: {"allPairs": {"soundCleanPaired": {"onlyFirst": c[0], "onlySecond": c[1], "exactTwoSidedSignTestP": analyze.sign_test(*c)},
+                                                  "changedTwinCorrectPaired": {"onlyFirst": l, "onlySecond": 0}}}
+            self.assertEqual(mf.fourth_arm_label(wrap(clean, lost, skill_only)),
+                             analyze.fourth_arm_label(blocks(clean, lost, 0), {"allPairs": {"soundCleanPaired": {"onlyFirst": skill_only, "onlySecond": 0,
+                                                                                                                   "exactTwoSidedSignTestP": 1.0}}}))
+
+    def test_four_arm_figure_refuses_a_stale_analysis(self):
+        results = mf.RESULTS_V2 / mf.ARM_DIRS["defined-go"]
+        original = (results / "analysis-vs-defined.json").read_bytes()
+        try:
+            stale = json.loads(original)
+            stale["allPairs"]["strictPairDiscrimination"]["defined-go"]["count"] -= 1
+            (results / "analysis-vs-defined.json").write_text(json.dumps(stale), encoding="utf-8")
+            with self.assertRaises(SystemExit):
+                mf.load_four_arms()
+        finally:
+            (results / "analysis-vs-defined.json").write_bytes(original)
+
     def test_stale_figure_is_detected(self):
         figures = mf.build(INPUTS)
         with tempfile.TemporaryDirectory() as raw:

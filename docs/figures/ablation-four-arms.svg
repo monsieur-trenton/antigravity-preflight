@@ -1,0 +1,172 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1264" width="900" height="1264" role="img" aria-labelledby="t d">
+<title id="t">Four arms on corpus v2: the optional-suggestions sentence</title><desc id="d">Verdict mix by arm for sound plans, defect twins and uncertainty twins, and pairs ordered per family: the sentence made 40 of 40 sound plans clean and kept every defect twin blocked, but 3 of 4 uncertainty-twin observations were judged Clean.</desc>
+<style>
+svg { --surface:#fcfcfb; --ink:#0b0b0b; --ink2:#52514e; --grid:#dcdbd6; --accent:#2a78d6;
+  --on-accent:#ffffff; --warn:#fab219; --on-warn:#0b0b0b; --neutral:#ecebe7; --tile:#f3f2ee; }
+@media (prefers-color-scheme: dark) {
+  svg { --surface:#1a1a19; --ink:#f0efec; --ink2:#c3c2b7; --grid:#3a3a37; --accent:#3987e5;
+    --on-accent:#0b0b0b; --warn:#fab219; --on-warn:#0b0b0b; --neutral:#2a2a28; --tile:#232321; }
+}
+text { font-family:-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif; fill:var(--ink); }
+.mono { font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+.muted { fill:var(--ink2); }
+.title { font-size:20px; font-weight:600; }
+.sub { font-size:13px; }
+.lab { font-size:13px; }
+.small { font-size:11.5px; }
+.big { font-size:30px; font-weight:650; }
+.head { font-size:12px; font-weight:600; }
+
+svg { --skill:#2a78d6; --bare:#eb6834; --defined:#1baf7a; --defined-go:#8a5fd6; }
+@media (prefers-color-scheme: dark) { svg { --skill:#3987e5; --bare:#d95926; --defined:#199e70; --defined-go:#a07ae6; } }
+</style>
+<rect width="900" height="1264" rx="10" fill="var(--surface)"/>
+<text x="24" y="36" class="title" text-anchor="start">One sentence made sound plans clean and let an unmeasured risk through</text>
+<text x="24" y="58" class="sub muted" text-anchor="start">claude-opus-5-5 through the Claude CLI, 2 trials per arm, same 40 plans; the earlier arms were not run concurrently.</text>
+<text x="24" y="78" class="sub muted" text-anchor="start">The added sentence says optional robustness suggestions are not needed changes, so GO if that is all.</text>
+<text x="24" y="116" class="lab" text-anchor="start" font-weight="600">A. Verdicts given</text>
+<text x="24" y="149" class="head" text-anchor="start">Sound plans</text>
+<text x="36" y="173" class="small" text-anchor="start">Skill-style (n=40)</text>
+<rect x="250.0" y="156" width="288.0" height="22" fill="#cde2fb" stroke="var(--surface)" stroke-width="2"/>
+<text x="394.0" y="171" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean 24</text>
+<rect x="538.0" y="156" width="192.0" height="22" fill="#6da7ec" stroke="var(--surface)" stroke-width="2"/>
+<text x="634.0" y="171" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes 16</text>
+<text x="36" y="201" class="small" text-anchor="start">Bare (n=39)</text>
+<rect x="250.0" y="184" width="86.2" height="22" fill="#cde2fb" stroke="var(--surface)" stroke-width="2"/>
+<text x="293.1" y="199" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean 7</text>
+<rect x="336.2" y="184" width="393.8" height="22" fill="#6da7ec" stroke="var(--surface)" stroke-width="2"/>
+<text x="533.1" y="199" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes 32</text>
+<text x="36" y="229" class="small" text-anchor="start">Defined verdicts (n=40)</text>
+<rect x="250.0" y="212" width="96.0" height="22" fill="#cde2fb" stroke="var(--surface)" stroke-width="2"/>
+<text x="298.0" y="227" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean 8</text>
+<rect x="346.0" y="212" width="384.0" height="22" fill="#6da7ec" stroke="var(--surface)" stroke-width="2"/>
+<text x="538.0" y="227" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes 32</text>
+<text x="36" y="257" class="small" text-anchor="start">Defined + optional sentence (n=40)</text>
+<rect x="250.0" y="240" width="480.0" height="22" fill="#cde2fb" stroke="var(--surface)" stroke-width="2"/>
+<text x="490.0" y="255" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean 40</text>
+<text x="24" y="289" class="head" text-anchor="start">Defect twins</text>
+<text x="36" y="313" class="small" text-anchor="start">Skill-style (n=36)</text>
+<rect x="250.0" y="296" width="480.0" height="22" fill="#184f95" stroke="var(--surface)" stroke-width="2"/>
+<text x="490.0" y="311" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">Blockers 36</text>
+<text x="36" y="341" class="small" text-anchor="start">Bare (n=34)</text>
+<rect x="250.0" y="324" width="211.8" height="22" fill="#6da7ec" stroke="var(--surface)" stroke-width="2"/>
+<text x="355.9" y="339" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes 15</text>
+<rect x="461.8" y="324" width="268.2" height="22" fill="#184f95" stroke="var(--surface)" stroke-width="2"/>
+<text x="595.9" y="339" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">Blockers 19</text>
+<text x="36" y="369" class="small" text-anchor="start">Defined verdicts (n=35)</text>
+<rect x="250.0" y="352" width="480.0" height="22" fill="#184f95" stroke="var(--surface)" stroke-width="2"/>
+<text x="490.0" y="367" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">Blockers 35</text>
+<text x="36" y="397" class="small" text-anchor="start">Defined + optional sentence (n=36)</text>
+<rect x="250.0" y="380" width="480.0" height="22" fill="#184f95" stroke="var(--surface)" stroke-width="2"/>
+<text x="490.0" y="395" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">Blockers 36</text>
+<text x="24" y="429" class="head" text-anchor="start">Uncertainty twins</text>
+<text x="36" y="453" class="small" text-anchor="start">Skill-style (n=4)</text>
+<rect x="250.0" y="436" width="480.0" height="22" fill="#6da7ec" stroke="var(--surface)" stroke-width="2"/>
+<text x="490.0" y="451" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes 4</text>
+<text x="36" y="481" class="small" text-anchor="start">Bare (n=4)</text>
+<rect x="250.0" y="464" width="480.0" height="22" fill="#6da7ec" stroke="var(--surface)" stroke-width="2"/>
+<text x="490.0" y="479" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes 4</text>
+<text x="36" y="509" class="small" text-anchor="start">Defined verdicts (n=4)</text>
+<rect x="250.0" y="492" width="480.0" height="22" fill="#6da7ec" stroke="var(--surface)" stroke-width="2"/>
+<text x="490.0" y="507" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes 4</text>
+<text x="36" y="537" class="small" text-anchor="start">Defined + optional sentence (n=4)</text>
+<rect x="250.0" y="520" width="360.0" height="22" fill="#cde2fb" stroke="var(--surface)" stroke-width="2"/>
+<text x="430.0" y="535" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean 3</text>
+<rect x="610.0" y="520" width="120.0" height="22" fill="#6da7ec" stroke="var(--surface)" stroke-width="2"/>
+<text x="670.0" y="535" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes 1</text>
+<rect x="250" y="554" width="22" height="14" rx="3" fill="#cde2fb"/>
+<text x="280" y="565" class="small" text-anchor="start">Clean (GO)</text>
+<rect x="366.0" y="554" width="22" height="14" rx="3" fill="#6da7ec"/>
+<text x="396.0" y="565" class="small" text-anchor="start">Changes (GO_WITH_CHANGES)</text>
+<rect x="581.0" y="554" width="22" height="14" rx="3" fill="#184f95"/>
+<text x="611.0" y="565" class="small" text-anchor="start">Blockers (NO_GO)</text>
+<text x="24" y="598" class="lab" text-anchor="start" font-weight="600">B. Pairs where the changed twin was judged more severely than its sound twin</text>
+<text x="24" y="616" class="small muted" text-anchor="start">Out of 4 per family (2 wordings x 2 trials); a line joins the lowest and highest arm. Stops can remove pairs.</text>
+<line x1="250" y1="644" x2="250" y2="1048" stroke="var(--grid)" stroke-opacity="0.7"/>
+<text x="250" y="638" class="small muted" text-anchor="middle">0</text>
+<line x1="334" y1="644" x2="334" y2="1048" stroke="var(--grid)" stroke-opacity="0.7"/>
+<text x="334" y="638" class="small muted" text-anchor="middle">1</text>
+<line x1="418" y1="644" x2="418" y2="1048" stroke="var(--grid)" stroke-opacity="0.7"/>
+<text x="418" y="638" class="small muted" text-anchor="middle">2</text>
+<line x1="502" y1="644" x2="502" y2="1048" stroke="var(--grid)" stroke-opacity="0.7"/>
+<text x="502" y="638" class="small muted" text-anchor="middle">3</text>
+<line x1="586" y1="644" x2="586" y2="1048" stroke="var(--grid)" stroke-opacity="0.7"/>
+<text x="586" y="638" class="small muted" text-anchor="middle">4</text>
+<text x="24" y="664" class="lab" text-anchor="start">Runtime budget evidence</text>
+<line x1="250" y1="660" x2="586" y2="660" stroke="var(--ink2)" stroke-width="2"/>
+<circle cx="586" cy="648.0" r="5.1" fill="var(--skill)" stroke="var(--surface)" stroke-width="1.5"/>
+<polygon points="250,650.15 255.85,656.0 250,661.85 244.15,656.0" fill="var(--bare)" stroke="var(--surface)" stroke-width="1.5"/>
+<rect x="245.71" y="659.71" width="8.58" height="8.58" fill="var(--defined)" stroke="var(--surface)" stroke-width="1.5"/>
+<polygon points="334,666.15 339.85,676.68 328.15,676.68" fill="var(--defined-go)" stroke="var(--surface)" stroke-width="1.5"/>
+<text x="24" y="704" class="lab" text-anchor="start">Caller / callee</text>
+<line x1="250" y1="700" x2="586" y2="700" stroke="var(--ink2)" stroke-width="2"/>
+<circle cx="586" cy="688.0" r="5.1" fill="var(--skill)" stroke="var(--surface)" stroke-width="1.5"/>
+<polygon points="250,690.15 255.85,696.0 250,701.85 244.15,696.0" fill="var(--bare)" stroke="var(--surface)" stroke-width="1.5"/>
+<rect x="581.71" y="699.71" width="8.58" height="8.58" fill="var(--defined)" stroke="var(--surface)" stroke-width="1.5"/>
+<polygon points="586,706.15 591.85,716.68 580.15,716.68" fill="var(--defined-go)" stroke="var(--surface)" stroke-width="1.5"/>
+<text x="24" y="744" class="lab" text-anchor="start">Output byte limit</text>
+<line x1="334" y1="740" x2="586" y2="740" stroke="var(--ink2)" stroke-width="2"/>
+<circle cx="586" cy="728.0" r="5.1" fill="var(--skill)" stroke="var(--surface)" stroke-width="1.5"/>
+<polygon points="334,730.15 339.85,736.0 334,741.85 328.15,736.0" fill="var(--bare)" stroke="var(--surface)" stroke-width="1.5"/>
+<rect x="497.71" y="739.71" width="8.58" height="8.58" fill="var(--defined)" stroke="var(--surface)" stroke-width="1.5"/>
+<polygon points="586,746.15 591.85,756.68 580.15,756.68" fill="var(--defined-go)" stroke="var(--surface)" stroke-width="1.5"/>
+<text x="606" y="744" class="small muted" text-anchor="start">pairs lost to stops: 3 bare, 1 defined</text>
+<text x="24" y="784" class="lab" text-anchor="start">Migration order</text>
+<line x1="334" y1="780" x2="586" y2="780" stroke="var(--ink2)" stroke-width="2"/>
+<circle cx="586" cy="768.0" r="5.1" fill="var(--skill)" stroke="var(--surface)" stroke-width="1.5"/>
+<polygon points="334,770.15 339.85,776.0 334,781.85 328.15,776.0" fill="var(--bare)" stroke="var(--surface)" stroke-width="1.5"/>
+<rect x="581.71" y="779.71" width="8.58" height="8.58" fill="var(--defined)" stroke="var(--surface)" stroke-width="1.5"/>
+<polygon points="586,786.15 591.85,796.68 580.15,796.68" fill="var(--defined-go)" stroke="var(--surface)" stroke-width="1.5"/>
+<text x="24" y="824" class="lab" text-anchor="start">Absent vs null</text>
+<line x1="418" y1="820" x2="586" y2="820" stroke="var(--ink2)" stroke-width="2"/>
+<circle cx="586" cy="808.0" r="5.1" fill="var(--skill)" stroke="var(--surface)" stroke-width="1.5"/>
+<polygon points="418,810.15 423.85,816.0 418,821.85 412.15,816.0" fill="var(--bare)" stroke="var(--surface)" stroke-width="1.5"/>
+<rect x="581.71" y="819.71" width="8.58" height="8.58" fill="var(--defined)" stroke="var(--surface)" stroke-width="1.5"/>
+<polygon points="586,826.15 591.85,836.68 580.15,836.68" fill="var(--defined-go)" stroke="var(--surface)" stroke-width="1.5"/>
+<text x="24" y="864" class="lab" text-anchor="start">Unit mismatch</text>
+<line x1="418" y1="860" x2="586" y2="860" stroke="var(--ink2)" stroke-width="2"/>
+<circle cx="586" cy="848.0" r="5.1" fill="var(--skill)" stroke="var(--surface)" stroke-width="1.5"/>
+<polygon points="418,850.15 423.85,856.0 418,861.85 412.15,856.0" fill="var(--bare)" stroke="var(--surface)" stroke-width="1.5"/>
+<rect x="581.71" y="859.71" width="8.58" height="8.58" fill="var(--defined)" stroke="var(--surface)" stroke-width="1.5"/>
+<polygon points="586,866.15 591.85,876.68 580.15,876.68" fill="var(--defined-go)" stroke="var(--surface)" stroke-width="1.5"/>
+<text x="24" y="904" class="lab" text-anchor="start">Required coverage</text>
+<line x1="502" y1="900" x2="586" y2="900" stroke="var(--ink2)" stroke-width="2"/>
+<circle cx="586" cy="888.0" r="5.1" fill="var(--skill)" stroke="var(--surface)" stroke-width="1.5"/>
+<polygon points="502,890.15 507.85,896.0 502,901.85 496.15,896.0" fill="var(--bare)" stroke="var(--surface)" stroke-width="1.5"/>
+<rect x="581.71" y="899.71" width="8.58" height="8.58" fill="var(--defined)" stroke="var(--surface)" stroke-width="1.5"/>
+<polygon points="586,906.15 591.85,916.68 580.15,916.68" fill="var(--defined-go)" stroke="var(--surface)" stroke-width="1.5"/>
+<text x="24" y="944" class="lab" text-anchor="start">Deadline arithmetic</text>
+<line x1="586" y1="940" x2="586" y2="940" stroke="var(--ink2)" stroke-width="2"/>
+<circle cx="586" cy="928.0" r="5.1" fill="var(--skill)" stroke="var(--surface)" stroke-width="1.5"/>
+<polygon points="586,930.15 591.85,936.0 586,941.85 580.15,936.0" fill="var(--bare)" stroke="var(--surface)" stroke-width="1.5"/>
+<rect x="581.71" y="939.71" width="8.58" height="8.58" fill="var(--defined)" stroke="var(--surface)" stroke-width="1.5"/>
+<polygon points="586,946.15 591.85,956.68 580.15,956.68" fill="var(--defined-go)" stroke="var(--surface)" stroke-width="1.5"/>
+<text x="24" y="984" class="lab" text-anchor="start">Ownership / authorization</text>
+<line x1="586" y1="980" x2="586" y2="980" stroke="var(--ink2)" stroke-width="2"/>
+<circle cx="586" cy="968.0" r="5.1" fill="var(--skill)" stroke="var(--surface)" stroke-width="1.5"/>
+<polygon points="586,970.15 591.85,976.0 586,981.85 580.15,976.0" fill="var(--bare)" stroke="var(--surface)" stroke-width="1.5"/>
+<rect x="581.71" y="979.71" width="8.58" height="8.58" fill="var(--defined)" stroke="var(--surface)" stroke-width="1.5"/>
+<polygon points="586,986.15 591.85,996.68 580.15,996.68" fill="var(--defined-go)" stroke="var(--surface)" stroke-width="1.5"/>
+<text x="24" y="1024" class="lab" text-anchor="start">Permission chain</text>
+<line x1="586" y1="1020" x2="586" y2="1020" stroke="var(--ink2)" stroke-width="2"/>
+<circle cx="586" cy="1008.0" r="5.1" fill="var(--skill)" stroke="var(--surface)" stroke-width="1.5"/>
+<polygon points="586,1010.15 591.85,1016.0 586,1021.85 580.15,1016.0" fill="var(--bare)" stroke="var(--surface)" stroke-width="1.5"/>
+<rect x="581.71" y="1019.71" width="8.58" height="8.58" fill="var(--defined)" stroke="var(--surface)" stroke-width="1.5"/>
+<polygon points="586,1026.15 591.85,1036.68 580.15,1036.68" fill="var(--defined-go)" stroke="var(--surface)" stroke-width="1.5"/>
+<circle cx="32" cy="1068" r="6.5" fill="var(--skill)"/>
+<text x="48" y="1072" class="small" text-anchor="start">Skill-style</text>
+<polygon points="156.6,1060.5 164.1,1068 156.6,1075.5 149.1,1068" fill="var(--bare)"/>
+<text x="172.6" y="1072" class="small" text-anchor="start">Bare</text>
+<rect x="229.5" y="1062.5" width="11" height="11" fill="var(--defined)"/>
+<text x="251.0" y="1072" class="small" text-anchor="start">Defined verdicts</text>
+<polygon points="392.6,1060.5 400.1,1074 385.1,1074" fill="var(--defined-go)"/>
+<text x="408.6" y="1072" class="small" text-anchor="start">Defined + optional sentence</text>
+<text x="24" y="1102" class="small" text-anchor="start">Primary (ordered pairs): skill-style 40/40, defined + sentence 37/40, defined 35/39, bare 21/37.</text>
+<text x="24" y="1120" class="small" text-anchor="start">Sound plans Clean: 40 of 40 with the sentence, 8 of 40 without (32 units for, 0 against, p &lt; 0.0001); skill-style 24 of 40.</text>
+<text x="24" y="1138" class="small" text-anchor="start">Defect twins stayed blocked: 36/36 (defined 35/35).</text>
+<text x="24" y="1156" class="small" text-anchor="start">Uncertainty twins (correct verdict Changes): Changes 4 of 4 before, 1 of 4 with the sentence; the other 3 were judged Clean.</text>
+<text x="24" y="1174" class="small" text-anchor="start">All 3 are in one family (Runtime budget evidence): the unmeasured throughput was filed as an optional suggestion.</text>
+<text x="24" y="1192" class="small" text-anchor="start">Strict pairs (sound twin Clean, changed twin right): defined + sentence 37/40, skill-style 24/40, defined 7/39, bare 2/37.</text>
+<text x="24" y="1210" class="small" text-anchor="start">Preregistered label: costs detection (the guard is 3 or more lost units; here 3).</text>
+<text x="24" y="1228" class="small muted" text-anchor="start">The sentence was written after the defined result, on this corpus: a check of the mechanism, not out-of-sample evidence.</text>
+</svg>
