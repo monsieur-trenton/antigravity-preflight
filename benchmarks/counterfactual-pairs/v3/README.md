@@ -21,16 +21,12 @@ Four fresh model authors wrote the families without seeing any arm, result or th
 
 ## Running it
 
-**Not yet runnable for the three ablation arms.** The skill-style driver already takes `--corpus benchmarks/counterfactual-pairs/v3`, the scorer and verifier accept it, and a test runs all 64 cases through the stubbed driver. The defined and defined-plus-sentence arms are bound by their manifests to corpus v2, and `analyze.py` reads the v2 rubric, so v3 needs:
-1. arm bindings that name v3 without touching the v2 manifests, which the earlier evidence is verified against;
-2. `analyze.py` taking a rubric and reporting the three preregistered primary rates, strict pairs and "gap named but dismissed";
-3. a run preregistration that pins the arms, order, trials and cap, and a gated brief.
-
-Those are the next step; nothing should be run on v3 before they exist.
+The three-arm run is [preregistered](../v3-run/PREREGISTRATION.md) and has a [gated runbook](../v3-run/HANDOFF.md). The arms' own manifests still name corpus v2 and are untouched; a [run manifest](../v3-run/manifest.json) binds the skill-style, defined and defined-plus-sentence arms to this corpus, and `run_pilot_claude.py` and `verify_run.py` take it with `--run-manifest`. [analyze.py](../v3-run/analyze.py) takes this corpus's rubric and computes the preregistered rates, comparisons and labels. **Nothing has been run on v3 yet.**
 
 ```bash
 python3 -B -I benchmarks/counterfactual-pairs/v3/build_corpus.py --check
 python3 -B -I benchmarks/counterfactual-pairs/v3/test_corpus.py
+python3 -B -I benchmarks/counterfactual-pairs/v3-run/test_run.py
 ```
 
 ## Limits

@@ -6,7 +6,7 @@ hash matches its saved report; the saved report equals the CLI's result field; t
 system-prompt hash) is consistent and matches the arguments; the served model matches the request. Technical stops
 are reported, not treated as failures. It never reads the oracle or scores anything.
 
-Usage: verify_run.py --corpus DIR --workdir DIR --model MODEL_ID --effort EFFORT [--trials 1,2]
+Usage: verify_run.py --corpus DIR --workdir DIR --model MODEL_ID --effort EFFORT [--trials 1,2] [--arm ARM] [--run-manifest FILE]
 """
 import argparse
 import hashlib
@@ -38,16 +38,23 @@ def check_pins(corpus):
     return manifest, bad
 
 
-def verify(corpus, workdir, model, effort, trials, arm_name="skill"):
+def verify(corpus, workdir, model, effort, trials, arm_name="skill", run_manifest=None):
     rc = load("run_pilot_claude")
     rp = rc.rp
     arm = rc.load_arm(arm_name)
     manifest, bad_pins = check_pins(corpus)
     failures = [f"CORPUS_PIN_MISMATCH:{name}" for name in bad_pins]
+    run = None
+    if run_manifest:
+        try:
+            run = rc.load_run(run_manifest)
+            rc.bind_arm_to_corpus(arm, sha((corpus / "manifest.json").read_bytes()), run)
+        except rp.Stop as error:
+            failures.append(str(error))
     prompt = (corpus / "prompt.txt").read_text(encoding="utf-8")
     expected_system = sha(arm["system"].encode("utf-8"))
     order = manifest["submissionOrder"]
-    report = {"corpus": str(corpus), "arm": arm_name, "manifestSha256": sha((corpus / "manifest.json").read_bytes()),
+    report = {"corpus": str(corpus), "arm": arm_name, "runManifestSha256": run["sha256"] if run else None, "manifestSha256": sha((corpus / "manifest.json").read_bytes()),
               "casesInCorpus": manifest["cases"], "trials": {}}
     versions, served, cost_total = set(), set(), 0.0
     for trial in trials:
@@ -73,7 +80,8 @@ def verify(corpus, workdir, model, effort, trials, arm_name="skill"):
             stamp_ok = (row.get("route") == rc.ROUTE and row.get("requestedModel") == model and row.get("effort") == effort
                         and row.get("systemPromptSha256") == expected_system and row.get("trial") == trial
                         and row.get("arm", "skill") == arm_name
-                        and (arm["manifestSha256"] is None or row.get("armManifestSha256") == arm["manifestSha256"]))
+                        and (arm["manifestSha256"] is None or row.get("armManifestSha256") == arm["manifestSha256"])
+                        and row.get("runManifestSha256") == (run["sha256"] if run else None))
             if not stamp_ok:
                 failures.append(f"STAMP_MISMATCH:{tag}")
             if row.get("technicalStop"):
@@ -116,9 +124,10 @@ def main(argv=None):
     parser.add_argument("--effort", required=True)
     parser.add_argument("--trials", default="1,2")
     parser.add_argument("--arm", choices=("skill", "bare", "defined", "defined-go"), default="skill")
+    parser.add_argument("--run-manifest", help="the frozen run manifest the run was bound to; rows must carry its hash")
     args = parser.parse_args(argv)
     report = verify(Path(args.corpus).resolve(), Path(args.workdir).resolve(), args.model, args.effort,
-                    [int(t) for t in args.trials.split(",")], args.arm)
+                    [int(t) for t in args.trials.split(",")], args.arm, args.run_manifest)
     print(json.dumps(report, indent=2))
     return 1 if report["failures"] else 0
 

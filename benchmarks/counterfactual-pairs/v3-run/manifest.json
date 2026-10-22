@@ -1,0 +1,25 @@
+{
+  "kind": "V3_RUN_FROZEN",
+  "corpus": {
+    "path": "benchmarks/counterfactual-pairs/v3",
+    "manifestSha256": "1ad685287cf4623dae5e8b3109554b2f0859152a28875e8ddfc4d4c5e7554202"
+  },
+  "arms": {
+    "skill": {
+      "manifest": null,
+      "systemPromptSha256": "5bb08d37446ad283dfde5a9b62350644a92706e452e45974de8d28a15f95faec"
+    },
+    "defined": {
+      "manifest": "benchmarks/counterfactual-pairs/ablation/defined/manifest.json",
+      "manifestSha256": "60f9268660ec0fb2fd545d2c835d5997eaa2f1362a798af7e92a43415d817484"
+    },
+    "defined-go": {
+      "manifest": "benchmarks/counterfactual-pairs/ablation/defined-go/manifest.json",
+      "manifestSha256": "b628683f9140c2c20c4f583c672244b15a99fd4a3c007efc348bb7ee68b0f356"
+    }
+  },
+  "pins": {
+    "PREREGISTRATION.md": "4c1813a8bb37c1a084f12f5eb1645e24685e2333c5eac83018d938242e8ae768"
+  },
+  "providerCalls": 0
+}

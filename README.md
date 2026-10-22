@@ -131,6 +131,7 @@ This runs 732 synthetic normal/profile, integrity and timing controls twice, fol
 - [Pilot 2 results](benchmarks/counterfactual-pairs/results/pilot2-v2-claude-opus-5-5-high/README.md) — corpus v2, Claude Opus 5.5, two trials: 20/20 on the preregistered primary metric, a ceiling effect, with adjudication
 - [Pilot 1 results](benchmarks/counterfactual-pairs/results/pilot1-claude-opus-5-5-high/README.md) — Claude Opus 5.5 via the Claude CLI, two trials, with adjudication and a corpus defect found
 - [Counterfactual-pair corpus v3](benchmarks/counterfactual-pairs/v3/README.md) — held-out successor: 64 cases, 8 evidence-gap families with no absorbing fallback, independently authored and blind-audited; no arm has run on it yet
+- [v3 run](benchmarks/counterfactual-pairs/v3-run/PREREGISTRATION.md) — preregistered three-arm run on v3 (skill-style, defined, defined plus the sentence; six runs in one sitting), with the run manifest, the analysis and its labels, tests and a gated runbook; not yet run
 - [Counterfactual-pair corpus v2](benchmarks/counterfactual-pairs/v2/README.md) — 40 harder cases, preregistered metrics, audited sound plans; no model run yet
 - [Counterfactual-pair corpus v1](benchmarks/counterfactual-pairs/README.md) — frozen blind pilot inputs and scorer; no model run yet
 - [Fault-injection harness](benchmarks/fault-injection/README.md) — 19 single-fault variants against the citation checker

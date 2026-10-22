@@ -79,6 +79,39 @@ def load_arm(name):
             "build": lambda prompt, lines: template.replace("{plan}", "\n".join(lines)).encode("utf-8"), "parse": parse_bare}
 
 
+def load_run(path):
+    """A run manifest binds a set of arms to one corpus for one preregistered run (see v3-run/). It pins its own files, the arms' manifests
+    and the skill-style system prompt, so the arms' own bindings to corpus v2 are replaced only by a binding that is itself frozen."""
+    path = Path(path).resolve()
+    data = path.read_bytes()
+    manifest = json.loads(data)
+    rp.need(manifest.get("kind") == "V3_RUN_FROZEN", "RUN_MANIFEST_KIND")
+    for filename, expected in manifest["pins"].items():
+        target = path.parent / filename
+        rp.need(target.is_file() and rp.sha(target.read_bytes()) == expected, "RUN_PIN_MISMATCH:" + filename)
+    for name, info in manifest["arms"].items():
+        if info.get("manifest"):
+            target = ROOT / info["manifest"]
+            rp.need(target.is_file() and rp.sha(target.read_bytes()) == info["manifestSha256"], "RUN_ARM_MANIFEST_MISMATCH:" + name)
+    manifest["sha256"] = rp.sha(data)
+    return manifest
+
+
+def bind_arm_to_corpus(arm, corpus_manifest_sha, run):
+    """Without a run manifest the verdict-only arms are bound to the corpus their own manifest names; with one, to the corpus the run names."""
+    if run is None:
+        if arm["name"] in VERDICT_ONLY_ARMS:
+            rp.need(corpus_manifest_sha == arm["corpusManifestSha256"], "ABLATION_CORPUS_MISMATCH")
+        return
+    bound = run["arms"].get(arm["name"])
+    rp.need(bound is not None, "RUN_ARM_NOT_BOUND")
+    rp.need(corpus_manifest_sha == run["corpus"]["manifestSha256"], "RUN_CORPUS_MISMATCH")
+    if arm["manifestSha256"]:
+        rp.need(arm["manifestSha256"] == bound["manifestSha256"], "RUN_ARM_MANIFEST_MISMATCH:" + arm["name"])
+    else:
+        rp.need(rp.sha(arm["system"].encode("utf-8")) == bound["systemPromptSha256"], "RUN_SYSTEM_PROMPT_MISMATCH")
+
+
 def claude_command(args, empty_mcp, system=SYSTEM_PROMPT):
     return [args.claude_bin, "-p", "--model", args.model, "--effort", args.effort,
             "--tools", "", "--safe-mode", "--no-session-persistence", "--disable-slash-commands",
@@ -148,6 +181,7 @@ def main(argv=None):
     parser.add_argument("--arm", choices=("skill",) + VERDICT_ONLY_ARMS, default="skill",
                         help="skill: the pilot 1 and 2 prompt and packet (default); bare: a plain request; defined: the plain request "
                              "plus verdict definitions; defined-go: the same plus one sentence about optional suggestions; see ablation/")
+    parser.add_argument("--run-manifest", help="a frozen run manifest (v3-run/manifest.json) that binds this arm to the corpus being run")
     parser.add_argument("--execute", action="store_true", help="make live model calls; without it only prepare")
     parser.add_argument("--max-budget-usd", type=float, default=1.0, help="per-case spend cap passed to the CLI")
     parser.add_argument("--max-consecutive-stops", type=int, default=3)
@@ -162,8 +196,8 @@ def main(argv=None):
         manifest, _ = score.load_frozen(corpus)
         prompt = (corpus / "prompt.txt").read_bytes().decode("utf-8")
         arm = load_arm(args.arm)
-        if arm["name"] in VERDICT_ONLY_ARMS:  # the preregistrations bind these arms to one frozen corpus
-            rp.need(rp.sha((corpus / "manifest.json").read_bytes()) == arm["corpusManifestSha256"], "ABLATION_CORPUS_MISMATCH")
+        run = load_run(args.run_manifest) if args.run_manifest else None
+        bind_arm_to_corpus(arm, rp.sha((corpus / "manifest.json").read_bytes()), run)  # preregistrations bind arms to one frozen corpus
         version = subprocess.run([str(binary), "--version"], capture_output=True, text=True, timeout=60, check=False)
         rp.need(version.returncode == 0 and version.stdout.strip(), "CLAUDE_VERSION_FAILED")
         trial_dir = work / f"trial{args.trial}"
@@ -179,6 +213,9 @@ def main(argv=None):
                  "claudeVersion": version.stdout.strip(), "systemPromptSha256": rp.sha(arm["system"].encode("utf-8"))}
         if arm["manifestSha256"]:
             stamp["armManifestSha256"] = arm["manifestSha256"]
+        if run:
+            stamp["runManifestSha256"] = run["sha256"]
+            summary["runManifestSha256"] = run["sha256"]
         for case in manifest["submissionOrder"]:
             if case in done:
                 summary["skippedAlreadyRecorded"] += 1
