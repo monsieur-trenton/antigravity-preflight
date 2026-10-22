@@ -10,6 +10,7 @@ Two trials of the preregistered 40-case [corpus v2](../../v2/README.md), run thr
 | --- | --- |
 | Route / model / effort | `claude-cli` / `claude-opus-5-5` / `high`, the same as [pilot 1](../pilot1-claude-opus-5-5-high/README.md) |
 | Claude Code version | 2.1.306, the same as pilot 1 |
+| Binary / cap / host | Not in the returned archive. The owner later pasted the orchestrator's report ([orchestrator-reported-identity.json](orchestrator-reported-identity.json), not checkable against the archive): binary `/home/john/.local/bin/claude`, SHA-256 `520bc6c1…71cfe` (the same hash the bare arm recorded), $5.00 per-case cap, Linux host, 2026-10-21 07:14 to 07:31 PDT |
 | Served model | `claude-opus-5-5` in all 80 observations, as reported by the CLI |
 | Trials | 2, 40 cases each, one tool-free turn per case, no retries |
 | Cost / time | $2.14 in total ($1.24 and $0.90); about 12 s per case |
