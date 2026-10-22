@@ -310,6 +310,7 @@ def collect_inputs():
         "pilot": load_pilot(),
         "pilot2": load_pilot2(),
         "ablation": load_ablation(),
+        "threeArms": load_three_arms(),
     }
 
 
@@ -543,6 +544,166 @@ def ablation_figure(data):
                     body, ABLATION_CSS)
 
 
+THREE_ARM_CSS = """
+svg { --skill:#2a78d6; --bare:#eb6834; --defined:#1baf7a; }
+@media (prefers-color-scheme: dark) { svg { --skill:#3987e5; --bare:#d95926; --defined:#199e70; } }
+"""
+ARM_STYLE = (("skill", "Skill-style", "circle"), ("bare", "Bare", "diamond"), ("defined", "Bare + defined verdicts", "square"))
+
+
+def load_three_arms():
+    """All three arms' verdicts recomputed from committed ledgers and checked against the committed analyses."""
+    base = ROOT / "benchmarks/counterfactual-pairs"
+    results = base / "results"
+    defined_dir = results / "ablation-defined-opus-5-5-high"
+    if not defined_dir.is_dir():
+        return None
+    oracle = {c["case"]: c for c in json.loads((base / "v2/oracle/oracle.json").read_bytes())["cases"]}
+    arms = {"skill": results / "pilot2-v2-claude-opus-5-5-high", "bare": results / "ablation-bare-opus-5-5-high", "defined": defined_dir}
+    vs_bare = json.loads((defined_dir / "analysis-vs-bare.json").read_bytes())
+    vs_skill = json.loads((defined_dir / "analysis-vs-skill.json").read_bytes())
+    mix, units = {}, {}
+    for arm, directory in arms.items():
+        severity, mix[arm] = {}, {"sound": dict.fromkeys(VERDICT_ORDER, 0), "defect": dict.fromkeys(VERDICT_ORDER, 0), "stops": 0}
+        for trial in (1, 2):
+            for line in (directory / f"trial{trial}/responses.jsonl").read_text(encoding="utf-8").splitlines():
+                row = json.loads(line)
+                if row.get("technicalStop"):
+                    mix[arm]["stops"] += 1
+                    continue
+                truth = oracle[row["case"]]
+                severity[(truth["family"], truth["wording"], trial, truth["role"])] = (VERDICT_ORDER.index(row["assessment"]), truth["expectedClass"])
+                group = "sound" if truth["role"] == "sound" else "defect" if truth["expectedClass"] == "DEFECT" else None
+                if group:
+                    mix[arm][group][row["assessment"]] += 1
+        counted = {}
+        for (family, wording, trial, role), (value, klass) in severity.items():
+            if role == "sound" and (family, wording, trial, "changed") in severity:
+                twin, twin_class = severity[(family, wording, trial, "changed")]
+                counted[(family, wording, trial)] = twin > value and not (twin_class == "UNCERTAIN" and twin == 2)
+        units[arm] = counted
+    expected = {"skill": vs_skill["allPairs"]["primaryOrdinalPairDiscrimination"]["skill"], "bare": vs_bare["allPairs"]["primaryOrdinalPairDiscrimination"]["bare"],
+                "defined": vs_bare["allPairs"]["primaryOrdinalPairDiscrimination"]["defined"]}
+    for arm in arms:
+        if (sum(units[arm].values()), len(units[arm])) != (expected[arm]["count"], expected[arm]["of"]):
+            raise SystemExit("THREE_ARM_ANALYSIS_STALE:" + arm)
+    families = sorted({f for f, _, _ in units["skill"]})
+    per_family = {f: {arm: sum(v for (fam, _, _), v in units[arm].items() if fam == f) for arm in arms} for f in families}
+    for f in families:
+        for arm in arms:
+            per_family[f][arm + "Lost"] = 4 - sum(1 for (fam, _, _) in units[arm] if fam == f)
+    only_skill = sorted({k[0] for k in set(units["skill"]) & set(units["defined"]) if units["skill"][k] and not units["defined"][k]})
+    return {"mix": mix, "perFamily": per_family, "primary": expected, "model": vs_bare["arms"]["defined"]["stamps"][0][0],
+            "pairedDefinedBare": vs_bare["allPairs"]["primaryPaired"], "pairedSkillDefined": vs_skill["allPairs"]["primaryPaired"],
+            "follows": {"skill": vs_skill["arms"]["skill"]["verdictFollowsFinding"], "bare": vs_bare["arms"]["bare"]["verdictFollowsFinding"],
+                        "defined": vs_bare["arms"]["defined"]["verdictFollowsFinding"]},
+            "onlySkillFamilies": only_skill}
+
+
+def three_arm_figure(data):
+    width, left = 900, 24
+    mix, per_family = data["mix"], data["perFamily"]
+    pdb, psd = data["pairedDefinedBare"], data["pairedSkillDefined"]
+    fmt_p = lambda p: "p < 0.0001" if p < 0.0001 else f"p = {p}"
+    body = [t(left, 36, "Does defining the verdicts close the gap? Three arms, same 40 plans", "title"),
+            t(left, 58, f"{data['model']} through the Claude CLI, 2 trials per arm. The skill-style and bare arms were run earlier, not concurrently.", "sub muted"),
+            t(left, 78, "The bare + defined arm is the bare prompt plus one five-line block saying what GO, GO_WITH_CHANGES and NO_GO mean.", "sub muted"),
+            t(left, 116, "A. Verdicts given", "lab", extra=' font-weight="600"')]
+    bar_x, bar_w, row_y = 250, 480, 134
+    for group, label in (("sound", "Sound plans"), ("defect", "Defect twins")):
+        body.append(t(left, row_y + 15, label, "head"))
+        row_y += 22
+        for arm, name, _ in ARM_STYLE:
+            counts = mix[arm][group]
+            n = sum(counts.values())
+            fits(name, 11.5, bar_x - left - 24, name)
+            body.append(t(left + 12, row_y + 17, f"{name} (n={n})", "small"))
+            x = bar_x
+            for verdict in VERDICT_ORDER:
+                value = counts[verdict]
+                if not value:
+                    continue
+                seg = bar_w * value / n
+                label, fill, ink = VERDICT[verdict]
+                body.append(f'<rect x="{x:.1f}" y="{row_y}" width="{seg:.1f}" height="22" fill="{fill}" stroke="var(--surface)" stroke-width="2"/>')
+                if seg >= 46:
+                    body.append(f'<text x="{x + seg / 2:.1f}" y="{row_y + 15}" class="small" text-anchor="middle" fill="{ink}" style="fill:{ink}">{label} {value}</text>')
+                x += seg
+            row_y += 28
+        row_y += 6
+    lx = bar_x
+    for verdict in VERDICT_ORDER:
+        label, fill, ink = VERDICT[verdict]
+        text = {"NO_BLOCKERS_FOUND": "Clean (GO)", "CHANGES_RECOMMENDED": "Changes (GO_WITH_CHANGES)", "BLOCKERS_FOUND": "Blockers (NO_GO)"}[verdict]
+        body.append(f'<rect x="{lx}" y="{row_y}" width="22" height="14" rx="3" fill="{fill}"/>')
+        body.append(t(lx + 30, row_y + 11, text, "small"))
+        lx += 30 + len(text) * 6.6 + 20
+    row_y += 44
+    body.append(t(left, row_y, "B. Pairs where the changed twin was judged more severely than its sound twin", "lab", extra=' font-weight="600"'))
+    body.append(t(left, row_y + 18, "Out of 4 per family (2 wordings x 2 trials). A dashed line spans pairs that a stop removed.", "small muted"))
+    track_x, unit = 250, 84
+    order = sorted(per_family, key=lambda f: (per_family[f]["bare"], per_family[f]["defined"], V2_LABEL.get(f, f)))
+    top = row_y + 56
+    for k in range(5):
+        x = track_x + k * unit
+        body.append(f'<line x1="{x}" y1="{top - 10}" x2="{x}" y2="{top + 24 * len(order) - 6}" stroke="var(--grid)" stroke-opacity="0.7"/>')
+        body.append(t(x, top - 16, str(k), "small muted", "middle"))
+    for i, family in enumerate(order):
+        y = top + 24 * i + 6
+        fits(V2_LABEL[family], 13, track_x - left - 24, family)
+        body.append(t(left, y + 4, V2_LABEL[family], "lab"))
+        values = [per_family[family][arm] for arm, _, _ in ARM_STYLE]
+        body.append(f'<line x1="{track_x + min(values) * unit}" y1="{y}" x2="{track_x + max(values) * unit}" y2="{y}" stroke="var(--ink2)" stroke-width="2"/>')
+        for arm, _, shape in ARM_STYLE:
+            cx = track_x + per_family[family][arm] * unit
+            if shape == "circle":
+                body.append(f'<circle cx="{cx}" cy="{y}" r="6.5" fill="var(--skill)" stroke="var(--surface)" stroke-width="1.5"/>')
+            elif shape == "diamond":
+                body.append(f'<polygon points="{cx},{y - 7.5} {cx + 7.5},{y} {cx},{y + 7.5} {cx - 7.5},{y}" fill="var(--bare)" stroke="var(--surface)" stroke-width="1.5"/>')
+            else:
+                body.append(f'<rect x="{cx - 5.5}" y="{y - 5.5}" width="11" height="11" fill="var(--defined)" stroke="var(--surface)" stroke-width="1.5"/>')
+        lost = {arm: per_family[family][arm + "Lost"] for arm, _, _ in ARM_STYLE if per_family[family][arm + "Lost"]}
+        if lost:
+            names = ", ".join(f"{n} {arm}" for arm, n in lost.items())
+            body.append(t(track_x + 4 * unit + 20, y + 4, f"pairs lost to stops: {names}", "small muted"))
+    ly = top + 24 * len(order) + 14
+    lx = left
+    for arm, name, shape in ARM_STYLE:
+        cy = ly
+        if shape == "circle":
+            body.append(f'<circle cx="{lx + 8}" cy="{cy}" r="6.5" fill="var(--skill)"/>')
+        elif shape == "diamond":
+            body.append(f'<polygon points="{lx + 8},{cy - 7.5} {lx + 15.5},{cy} {lx + 8},{cy + 7.5} {lx + 0.5},{cy}" fill="var(--bare)"/>')
+        else:
+            body.append(f'<rect x="{lx + 2.5}" y="{cy - 5.5}" width="11" height="11" fill="var(--defined)"/>')
+        body.append(t(lx + 24, cy + 4, name, "small"))
+        lx += 24 + len(name) * 6.6 + 28
+    prim, follows = data["primary"], data["follows"]
+    only = data["onlySkillFamilies"]
+    residual = (f"All {psd['onlyFirst']} units still favouring the skill-style arm are in one family ({V2_LABEL.get(only[0], only[0])}), the preregistered limit: "
+                "a hedged sound plan leaves nothing to order.") if len(only) == 1 else \
+               f"The {psd['onlyFirst']} units still favouring the skill-style arm fall in {len(only)} families."
+    label = "closes the gap" if (pdb["exactTwoSidedSignTestP"] < 0.05 and pdb["onlySecond"] == 0 and psd["onlyFirst"] <= 3) else \
+        "partly closes the gap" if pdb["exactTwoSidedSignTestP"] < 0.05 else "does not close the gap"
+    footer = [
+        (f"Primary (preregistered): skill-style {prim['skill']['count']}/{prim['skill']['of']}, defined {prim['defined']['count']}/{prim['defined']['of']}, bare {prim['bare']['count']}/{prim['bare']['of']} pairs.", "small"),
+        (f"Defined against bare: {pdb['onlyFirst']} units favour bare, {pdb['onlySecond']} favour defined ({fmt_p(pdb['exactTwoSidedSignTestP'])}). "
+         f"Defined against skill-style: {psd['onlyFirst']} favour skill-style, {psd['onlySecond']} favour defined ({fmt_p(psd['exactTwoSidedSignTestP'])}).", "small"),
+        (residual, "small"),
+        (f"Verdict follows finding: skill-style {follows['skill']['count']}/{follows['skill']['of']}, defined {follows['defined']['count']}/{follows['defined']['of']}, bare {follows['bare']['count']}/{follows['bare']['of']}.", "small"),
+        (f"Sound plans were still hedged: clean {mix['defined']['sound']['NO_BLOCKERS_FOUND']} of {sum(mix['defined']['sound'].values())} (defined), "
+         f"{mix['skill']['sound']['NO_BLOCKERS_FOUND']} of {sum(mix['skill']['sound'].values())} (skill-style). None was blocked in any arm.", "small"),
+        (f"Preregistered label: {label}. A bundle test: other differences from the skill-style arm remain.", "small muted")]
+    y0 = ly + 34
+    for i, (text, css) in enumerate(footer):
+        body.append(t(left, y0 + 18 * i, text, css))
+    height = y0 + 18 * len(footer) + 18
+    return document(width, height, "Three arms on corpus v2: skill-style, bare, and bare with defined verdicts",
+                    f"Verdict mix and per-family pair discrimination: {prim['skill']['count']} of {prim['skill']['of']} (skill-style), "
+                    f"{prim['defined']['count']} of {prim['defined']['of']} (defined) and {prim['bare']['count']} of {prim['bare']['of']} (bare) pairs ordered.",
+                    body, THREE_ARM_CSS)
+
+
 def build(inputs):
     figures = {"fault-gate-matrix.svg": fault_matrix(inputs["results"]),
                "offline-evidence.svg": evidence_overview(inputs)}
@@ -552,6 +713,8 @@ def build(inputs):
         figures["pilot2-verdict-matrix.svg"] = pair_matrix(inputs["pilot2"])
     if inputs.get("ablation"):
         figures["ablation-bare-vs-skill.svg"] = ablation_figure(inputs["ablation"])
+    if inputs.get("threeArms"):
+        figures["ablation-three-arms.svg"] = three_arm_figure(inputs["threeArms"])
     return figures
 
 

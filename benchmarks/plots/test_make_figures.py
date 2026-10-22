@@ -118,6 +118,34 @@ class FigureTests(unittest.TestCase):
         finally:
             (results / "analysis.json").write_bytes(original)
 
+    def test_three_arm_figure_is_built_from_committed_data_and_labels_every_state(self):
+        data = mf.load_three_arms()
+        svg = mf.three_arm_figure(data)
+        ET.fromstring(svg)
+        self.assertEqual(data["mix"]["defined"]["sound"], {"NO_BLOCKERS_FOUND": 8, "CHANGES_RECOMMENDED": 32, "BLOCKERS_FOUND": 0})
+        self.assertEqual(data["mix"]["defined"]["defect"]["BLOCKERS_FOUND"], 35)
+        self.assertEqual(data["primary"]["defined"]["count"], 35)
+        self.assertEqual(data["onlySkillFamilies"], ["runtime_budget"])
+        for text in ("Clean 24", "Changes 32", "Blockers 35", "pairs lost to stops: 3 bare, 1 defined",
+                     "defined 35/39", "Preregistered label: partly closes the gap", "Runtime budget evidence",
+                     "p = 0.0005", "Bare + defined verdicts"):
+            self.assertIn(text, svg)
+        self.assertIn("<polygon", svg)  # diamonds for bare, circles for skill-style, squares for defined: not colour alone
+        self.assertIn("<circle", svg)
+        self.assertIn("<rect x=", svg)
+
+    def test_three_arm_figure_refuses_a_stale_analysis(self):
+        results = mf.ROOT / "benchmarks/counterfactual-pairs/results/ablation-defined-opus-5-5-high"
+        original = (results / "analysis-vs-bare.json").read_bytes()
+        try:
+            stale = json.loads(original)
+            stale["allPairs"]["primaryOrdinalPairDiscrimination"]["defined"]["count"] += 1
+            (results / "analysis-vs-bare.json").write_text(json.dumps(stale), encoding="utf-8")
+            with self.assertRaises(SystemExit):
+                mf.load_three_arms()
+        finally:
+            (results / "analysis-vs-bare.json").write_bytes(original)
+
     def test_stale_figure_is_detected(self):
         figures = mf.build(INPUTS)
         with tempfile.TemporaryDirectory() as raw:
