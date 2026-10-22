@@ -82,6 +82,6 @@ Reading coverage was partial, as in the bare arm, and is stated in the file: eig
 ## Next, if wanted
 
 1. **A controlled rerun of the four `output_bytes` plans** in the bare and defined arms, plus the skill-style arm for contrast, to find out whether the safety interruptions reproduce and which part of the prompt or plan triggers them.
-2. **A fourth arm aimed at sound plans:** the defined arm with the one extra sentence that recommended improvements that do not make the plan fail are not a reason to withhold `GO`. It would test directly whether the remaining clean-plan gap is vocabulary too. Preregister it first, and say that the wording is chosen after seeing this result.
+2. **A fourth arm aimed at sound plans:** the defined arm with the one extra sentence that optional suggestions are not a reason to withhold `GO`. It tests directly whether the remaining clean-plan gap is vocabulary too. [Built and preregistered](../../ablation/defined-go/README.md) after this result, with the wording chosen after seeing it (stated there); not yet run.
 3. **A concurrent skill-style arm**, to remove the non-concurrency caveat shared by all three comparisons.
 4. **A new corpus (v3)** with a different author and different wording, so the conclusions do not depend on one audited set.

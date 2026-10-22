@@ -84,7 +84,7 @@ def supported(case, finding, corpus=HERE):
 
 
 SEVERITY_RANK = {"NO_BLOCKERS_FOUND": 0, "CHANGES_RECOMMENDED": 1, "BLOCKERS_FOUND": 2}
-VERDICT_ONLY_ARMS = ("bare", "defined")  # arms whose reports carry a verdict line and no checkable findings
+VERDICT_ONLY_ARMS = ("bare", "defined", "defined-go")  # arms whose reports carry a verdict line and no checkable findings
 
 
 def grade(row, truth, corpus=HERE):

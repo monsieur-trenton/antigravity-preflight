@@ -87,8 +87,38 @@ def paired(first, second):
             "onlyFirst": b, "onlySecond": c, "exactTwoSidedSignTestP": sign_test(b, c)}
 
 
+def strict_units(severity_by_case_trial, oracle, excluded):
+    """(family, wording, trial) -> sound twin judged clean and changed twin judged correctly, where both have a verdict."""
+    pairs = {}
+    for (case, trial), severity in severity_by_case_trial.items():
+        truth = oracle[case]
+        if truth["family"] in excluded:
+            continue
+        pairs.setdefault((truth["family"], truth["wording"], trial), {})[truth["role"]] = (severity, truth["expectedClass"])
+    units = {}
+    for key, pair in pairs.items():
+        if "sound" in pair and "changed" in pair:
+            (s_sev, _), (c_sev, c_class) = pair["sound"], pair["changed"]
+            units[key] = s_sev == 0 and c_sev == (2 if c_class == "DEFECT" else 1)
+    return units
+
+
 def rate(k, n):
     return sc.rate(k, n)
+
+
+def fourth_arm_label(vs_defined, vs_skill):
+    """The fourth arm's preregistered outcome label, from the all-pairs blocks of two analyses (first=defined, second=defined-go;
+    first=skill, second=defined-go). Fixed in ablation/defined-go/PREREGISTRATION.md before any observation of that arm."""
+    clean, lost = vs_defined["allPairs"]["soundCleanPaired"], vs_defined["allPairs"]["changedTwinCorrectPaired"]
+    skill = vs_skill["allPairs"]["soundCleanPaired"]
+    if lost["onlyFirst"] >= 3:
+        return "costs detection"
+    if clean["exactTwoSidedSignTestP"] < 0.05 and clean["onlyFirst"] > clean["onlySecond"]:
+        return "worse on sound plans"
+    if clean["exactTwoSidedSignTestP"] < 0.05:
+        return "closes the sound-plan gap" if skill["onlyFirst"] <= 5 else "partly closes the sound-plan gap"
+    return "does not close the sound-plan gap"
 
 
 def mechanism_mentions(trials, oracle, rubric, severity):
@@ -205,6 +235,14 @@ def _analyze(corpus, arms, loaded, excluded):
         block["soundCleanPaired"] = {"first": first, "second": second, **paired(clean[first], clean[second])}
         block["changedTwinVerdictCorrect"] = {n: rate(sum(twin_ok[n].values()), len(twin_ok[n])) for n in names}
         block["changedTwinCorrectPaired"] = {"first": first, "second": second, **paired(twin_ok[first], twin_ok[second])}
+        strict = {n: strict_units(severities[n], oracle, skip) for n in names}
+        block["strictPairDiscrimination"] = {n: rate(sum(strict[n].values()), len(strict[n])) for n in names}
+        block["strictPaired"] = {"first": first, "second": second, **paired(strict[first], strict[second])}
+        defect_blocked = {n: {k: v == 2 for k, v in severities[n].items()
+                              if oracle[k[0]]["role"] == "changed" and oracle[k[0]]["expectedClass"] == "DEFECT"
+                              and oracle[k[0]]["family"] not in skip} for n in names}
+        block["defectTwinsBlocked"] = {n: rate(sum(defect_blocked[n].values()), len(defect_blocked[n])) for n in names}
+        block["defectTwinBlockedPaired"] = {"first": first, "second": second, **paired(defect_blocked[first], defect_blocked[second])}
         result[label] = block
     return result
 

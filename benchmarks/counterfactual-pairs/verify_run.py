@@ -115,7 +115,7 @@ def main(argv=None):
     parser.add_argument("--model", required=True)
     parser.add_argument("--effort", required=True)
     parser.add_argument("--trials", default="1,2")
-    parser.add_argument("--arm", choices=("skill", "bare", "defined"), default="skill")
+    parser.add_argument("--arm", choices=("skill", "bare", "defined", "defined-go"), default="skill")
     args = parser.parse_args(argv)
     report = verify(Path(args.corpus).resolve(), Path(args.workdir).resolve(), args.model, args.effort,
                     [int(t) for t in args.trials.split(",")], args.arm)

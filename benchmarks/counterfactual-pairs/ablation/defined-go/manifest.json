@@ -1,0 +1,16 @@
+{
+  "kind": "ABLATION_DEFINED_GO_ARM_FROZEN",
+  "corpus": {
+    "path": "benchmarks/counterfactual-pairs/v2",
+    "manifestSha256": "79facc8afe49f243009a813e63f9f77adfa284567982af2282daf9948eb6316b"
+  },
+  "pins": {
+    "PREREGISTRATION.md": "a4e877f3202ae158983ea2a75947d299ab9e6f61451e6cf98bbe681f4d103f7c",
+    "defined-go-request.txt": "086bbaf170c82505092f079971350f64586400db3ccc4a666743cfc0bab4deb6"
+  },
+  "borrowed": {
+    "bare-system.txt": "9db26da266bd05448800db1d986281ad1a92645dba943c208cd421b97e87fb06",
+    "rubric.json": "46baeae69381ebd06dd58c6b30218b68ebad7e9cbc0b547413e3520dcfc0c461"
+  },
+  "providerCalls": 0
+}

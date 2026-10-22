@@ -179,6 +179,118 @@ class DefinedArmDriverTests(unittest.TestCase):
             self.assertEqual((code, out["reason"]), (1, "ABLATION_CORPUS_MISMATCH"))
 
 
+DEFINED_GO = HERE / "defined-go"
+OPTIONAL_SENTENCE = "Optional suggestions that only make a working plan more robust are not changes it needs; if that is all you have, the verdict is GO."
+
+
+class FourthArmFrozenFilesTests(unittest.TestCase):
+    def test_request_differs_from_the_defined_arm_by_exactly_one_sentence(self):
+        import difflib
+        case = next(iter(ORACLE))
+        lines = (V2 / "packets" / (case + ".txt")).read_text().splitlines()
+        defined = rc.load_arm("defined")["build"]("x", lines).decode("utf-8").splitlines()
+        fourth = rc.load_arm("defined-go")["build"]("x", lines).decode("utf-8").splitlines()
+        diff = [l for l in difflib.ndiff(defined, fourth) if l[:2] in ("+ ", "- ")]
+        self.assertEqual(diff, ["+ " + OPTIONAL_SENTENCE])
+        self.assertEqual(fourth.index(OPTIONAL_SENTENCE), fourth.index("NO_GO: the plan as written will fail or break a rule it states.") + 1)
+        self.assertEqual(rc.load_arm("defined-go")["system"], "You are a helpful assistant.")
+
+    def test_manifest_is_current_tied_to_the_corpus_and_borrows_the_bare_files_by_hash(self):
+        build = load("abl_defined_go_build", DEFINED_GO / "build_manifest.py")
+        self.assertEqual((DEFINED_GO / "manifest.json").read_bytes(), build.build())
+        manifest = json.loads((DEFINED_GO / "manifest.json").read_bytes())
+        bare_pins = json.loads((HERE / "manifest.json").read_bytes())["pins"]
+        self.assertEqual(manifest["corpus"]["manifestSha256"], rc.rp.sha((V2 / "manifest.json").read_bytes()))
+        self.assertEqual(manifest["borrowed"], {k: bare_pins[k] for k in ("bare-system.txt", "rubric.json")})
+        self.assertEqual(sorted(manifest["pins"]), ["PREREGISTRATION.md", "defined-go-request.txt"])
+
+    def test_the_earlier_arms_manifests_are_untouched_so_their_evidence_still_verifies(self):
+        self.assertEqual(rc.rp.sha((HERE / "manifest.json").read_bytes()), "35d7ea8dd779078b95b3c854da645f3039f91bec2cec068c8f9355fab4c4dcbb")
+        self.assertEqual(rc.rp.sha((DEFINED / "manifest.json").read_bytes()), "60f9268660ec0fb2fd545d2c835d5997eaa2f1362a798af7e92a43415d817484")
+
+    def test_tampering_with_the_request_is_refused(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            copy = Path(tmp) / "ablation"
+            shutil.copytree(HERE, copy, ignore=shutil.ignore_patterns("__pycache__"))
+            original = rc.DEFINED_GO, rc.ABLATION
+            try:
+                rc.ABLATION, rc.DEFINED_GO = copy, copy / "defined-go"
+                (copy / "defined-go" / "defined-go-request.txt").write_text("{plan}\nVERDICT: GO\n", encoding="utf-8")
+                with self.assertRaises(rc.rp.Stop) as raised:
+                    rc.load_arm("defined-go")
+                self.assertEqual(str(raised.exception), "ABLATION_PIN_MISMATCH:defined-go-request.txt")
+            finally:
+                rc.DEFINED_GO, rc.ABLATION = original
+
+
+class FourthArmDriverTests(unittest.TestCase):
+    def run_arm(self, tmp, verdict="GO", *extra):
+        h = claude_tests.Harness(tmp)
+        (h.bin.parent / "stub-config.json").write_text(json.dumps({"mode": "ok", "log": str(h.log), "model": MODEL, "verdict": verdict}))
+        code, out = h.run("--arm", "defined-go", "--corpus", str(V2), "--execute", *extra)
+        return h, code, out
+
+    def test_run_uses_the_fourth_prompt_and_the_bare_isolation_and_stamps_its_own_manifest(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            h, code, out = self.run_arm(tmp)
+            self.assertEqual((code, out["executed"], out["arm"]), (0, 40, "defined-go"))
+            for call in h.calls():
+                argv = call["argv"]
+                self.assertEqual(argv[argv.index("--system-prompt") + 1], "You are a helpful assistant.")
+                self.assertEqual(argv[argv.index("--tools") + 1], "")
+                self.assertIn(OPTIONAL_SENTENCE, call["stdin"])
+            manifest_sha = rc.rp.sha((DEFINED_GO / "manifest.json").read_bytes())
+            self.assertTrue(all(r["arm"] == "defined-go" and r["armManifestSha256"] == manifest_sha for r in h.ledger()))
+
+    def test_ledger_scores_as_verdict_only_verifies_and_the_wrong_arm_is_caught(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            h, _, _ = self.run_arm(tmp)
+            result = sc.score(h.ledger(), V2)["trials"]["1"]
+            self.assertEqual(result["arms"], ["defined-go"])
+            self.assertEqual(result["verdictOnly"]["soundClean"]["count"], 20)
+            self.assertEqual(vr.verify(V2, h.work, MODEL, "high", [1], "defined-go")["failures"], [])
+            self.assertTrue(vr.verify(V2, h.work, MODEL, "high", [1], "defined")["failures"])
+
+    def test_refuses_another_corpus(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            h = claude_tests.Harness(tmp)
+            code, out = h.run("--arm", "defined-go")
+            self.assertEqual((code, out["reason"]), (1, "ABLATION_CORPUS_MISMATCH"))
+
+
+class FourthArmAnalysisTests(unittest.TestCase):
+    def analysis(self, first, second):
+        with tempfile.TemporaryDirectory() as tmp:
+            a, b = Path(tmp) / "a", Path(tmp) / "b"
+            write_arm(a, first)
+            write_arm(b, second)
+            return an.analyze(V2, {"first": a, "second": b})
+
+    def test_strict_and_defect_twin_metrics_are_added_beside_the_existing_ones(self):
+        hedges_sound = lambda truth: "CHANGES_RECOMMENDED" if truth["expectedClass"] == "SOUND" else ideal(truth)
+        block = self.analysis(hedges_sound, ideal)["allPairs"]
+        self.assertEqual((block["strictPairDiscrimination"]["first"]["count"], block["strictPairDiscrimination"]["second"]["count"]), (0, 40))
+        self.assertEqual((block["strictPaired"]["onlyFirst"], block["strictPaired"]["onlySecond"]), (0, 40))
+        self.assertEqual((block["defectTwinsBlocked"]["second"]["count"], block["defectTwinsBlocked"]["second"]["of"]), (36, 36))
+        self.assertEqual(block["defectTwinBlockedPaired"]["onlyFirst"] + block["defectTwinBlockedPaired"]["onlySecond"], 0)
+
+    def label(self, vs_defined, vs_skill):
+        wrap = lambda clean, lost: {"allPairs": {"soundCleanPaired": clean, "changedTwinCorrectPaired": lost}}
+        paired = lambda first, second: {"onlyFirst": first, "onlySecond": second, "exactTwoSidedSignTestP": an.sign_test(first, second)}
+        return an.fourth_arm_label(wrap(paired(*vs_defined[0]), paired(*vs_defined[1])), wrap(paired(*vs_skill), paired(0, 0)))
+
+    def test_preregistered_labels_in_order(self):
+        # vs_defined = ((clean onlyFirst=defined, onlySecond=defined-go), (correct-twin onlyFirst=defined, onlySecond=defined-go))
+        self.assertEqual(self.label(((0, 14), (0, 0)), (3, 0)), "closes the sound-plan gap")
+        self.assertEqual(self.label(((0, 14), (0, 0)), (5, 0)), "closes the sound-plan gap")
+        self.assertEqual(self.label(((0, 14), (0, 0)), (6, 0)), "partly closes the sound-plan gap")
+        self.assertEqual(self.label(((1, 5), (0, 0)), (3, 0)), "does not close the sound-plan gap")      # 5 against 1, p = 0.22
+        self.assertEqual(self.label(((0, 0), (0, 0)), (16, 0)), "does not close the sound-plan gap")
+        self.assertEqual(self.label(((9, 0), (0, 0)), (16, 0)), "worse on sound plans")
+        self.assertEqual(self.label(((0, 14), (3, 0)), (0, 0)), "costs detection")                      # a cleaner result does not rescue it
+        self.assertEqual(self.label(((0, 14), (2, 0)), (0, 0)), "closes the sound-plan gap")            # two lost twins is below the guard
+
+
 class ParserTests(unittest.TestCase):
     def test_verdict_line_is_the_only_hook(self):
         for text, raw in (("Review.\nVERDICT: GO", "GO"), ("x\n**VERDICT: GO_WITH_CHANGES**\n", "GO_WITH_CHANGES"),
