@@ -1,0 +1,26 @@
+{
+  "provenance": "Pasted by the owner into the session on 2026-10-22 from the orchestrator's hand-back for the defined-verdicts arm, after the evidence was scored and committed. It was not in the returned archive and cannot be checked against it, except where noted. The owner called it 'the fourth arm'; it is attributed to the third arm (`defined`) because its manifest hash, commit and timestamps are those of that arm, and the fourth arm (`defined-go`) has not been run.",
+  "commit": "506c25dd2640b862883e743eb162c6c24a2ddf5f",
+  "commitSubject": "Add the preregistered defined-verdicts arm, its manifest and brief (checked in this repository)",
+  "v2ManifestSha256": "79facc8afe49f243009a813e63f9f77adfa284567982af2282daf9948eb6316b",
+  "bareArmManifestSha256": "35d7ea8dd779078b95b3c854da645f3039f91bec2cec068c8f9355fab4c4dcbb",
+  "definedArmManifestSha256": "60f9268660ec0fb2fd545d2c835d5997eaa2f1362a798af7e92a43415d817484",
+  "manifestHashesMatchCommittedFiles": true,
+  "claudeBin": "/home/john/.local/bin/claude",
+  "claudeBinSha256": "520bc6c1f40af466bd03a278b5ae1af1a2938bc7de5b9e5cb15526da20d71cfe",
+  "claudeBinSha256SameAsBareArmAndPilot2": true,
+  "claudeVersion": "2.1.306 (Claude Code)",
+  "requestedModel": "claude-opus-5-5",
+  "effort": "high",
+  "maxBudgetUsdPerCase": 5.0,
+  "hostOs": "Linux john-laptop 7.0.0-38-generic #38~24.04.4-Ubuntu SMP PREEMPT_DYNAMIC Mon Sep 14 16:37:11 UTC 2 x86_64 x86_64 x86_64 GNU/Linux",
+  "hostSameAsBareArm": true,
+  "trials": {
+    "1": {"start": "2026-10-21 17:31:19 PDT", "end": "2026-10-21 17:41:33 PDT"},
+    "2": {"start": "2026-10-21 17:44:51 PDT", "end": "2026-10-21 17:54:58 PDT"}
+  },
+  "notes": [
+    "The orchestrator's own verification output was not included; verify.json in this directory is mine, run on the returned archive.",
+    "The kernel string is identical to the one recorded for the bare arm's run."
+  ]
+}
