@@ -1,6 +1,6 @@
 # Third arm: bare plus defined verdicts
 
-Does defining the three verdicts, and nothing else, close the gap that the [bare-arm run](../../results/ablation-bare-opus-5-5-high/README.md) found? There the verdict-only metric put the skill-style arm at 40 of 40 pairs and the bare arm at 21 of 37, yet the bare reviewer had named the planted defect in all 15 twins it missed, then ended `GO_WITH_CHANGES`. **This arm has not been run yet.**
+Does defining the three verdicts, and nothing else, close the gap that the [bare-arm run](../../results/ablation-bare-opus-5-5-high/README.md) found? There the verdict-only metric put the skill-style arm at 40 of 40 pairs and the bare arm at 21 of 37, yet the bare reviewer had named the planted defect in all 15 twins it missed, then ended `GO_WITH_CHANGES`. **This arm has been run once** ([results](../../results/ablation-defined-opus-5-5-high/README.md)): 35 of 39 pairs ordered, 12 units for it and none against the bare arm, 4 units still favouring the skill-style arm; the preregistered label is "partly closes the gap".
 
 | | Bare arm | This arm |
 | --- | --- | --- |

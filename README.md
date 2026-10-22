@@ -84,6 +84,10 @@ Pilot 2 repeated this on the preregistered, harder [corpus v2](benchmarks/counte
 
 The preregistered ablation ran the same 40 plans with a bare prompt. On the verdict-only metric the skill-style arm ordered 40 of 40 pairs and the bare arm 21 of 37, yet the bare reviewer **found and named the defect in all 15 of the twins it missed**, then ended `GO_WITH_CHANGES`; neither arm blocked a sound plan. So this shows the verdict line carried the signal in one arm and not the other, not that the bundle improved defect detection. [Write-up](benchmarks/counterfactual-pairs/results/ablation-bare-opus-5-5-high/README.md).
 
+![Three arms on corpus v2: skill-style, bare, and bare with defined verdicts](docs/figures/ablation-three-arms.svg)
+
+A third arm added **five lines saying what each verdict means** to the bare prompt and nothing else. That moved it from 21 of 37 to 35 of 39 pairs ordered (12 units for the defined arm, none against, p = 0.0005); all 35 of its defect twins that produced a verdict received `NO_GO`, and no sound plan was blocked. By the preregistered rule it **partly closes the gap**: the 4 units still favouring the skill-style arm are all in one documented family, and the defined arm still hedges sound plans (clean 8 of 40, against 24 of 40 for the skill-style arm). So most of the earlier verdict gap was verdict calibration, not detection. One safety interruption again hit an `output_bytes` plan. [Write-up](benchmarks/counterfactual-pairs/results/ablation-defined-opus-5-5-high/README.md).
+
 The amber rows in the fault matrix are documented limits: a verbatim quotation can still misstate its source, so Codex must check each finding's premise. See the [fault-injection harness](benchmarks/fault-injection/README.md).
 
 ## Offline validation
@@ -115,7 +119,8 @@ This runs 732 synthetic normal/profile, integrity and timing controls twice, fol
 - [Exploratory four-case plan audit](benchmarks/exploratory-plan-audit/README.md) — saved responses with corrected scoring and retrospective limitations
 - [Benchmark plan](docs/benchmark-plan.md) — eight benchmarks, with the figure each one produces
 - [Bare-prompt ablation arm](benchmarks/counterfactual-pairs/ablation/README.md) — preregistered test of the skill-style bundle against a plain request on corpus v2; run once, with a verdict-calibration finding
-- [Third arm: bare plus defined verdicts](benchmarks/counterfactual-pairs/ablation/defined/README.md) — preregistered test of whether defining the verdicts closes the verdict gap; not yet run
+- [Third arm: bare plus defined verdicts](benchmarks/counterfactual-pairs/ablation/defined/README.md) — preregistered test of whether defining the verdicts closes the verdict gap; run once, partly closes it
+- [Defined-verdicts results](benchmarks/counterfactual-pairs/results/ablation-defined-opus-5-5-high/README.md) — bare prompt plus five lines defining the verdicts: 35/39 pairs ordered against 21/37, "partly closes the gap" by the preregistered label; sound plans still hedged
 - [Ablation results](benchmarks/counterfactual-pairs/results/ablation-bare-opus-5-5-high/README.md) — bare prompt against skill-style prompt: 21/37 against 40/40 on the verdict metric, but the defects were found; platform interruptions and a mixed-model observation documented
 - [Pilot 2 results](benchmarks/counterfactual-pairs/results/pilot2-v2-claude-opus-5-5-high/README.md) — corpus v2, Claude Opus 5.5, two trials: 20/20 on the preregistered primary metric, a ceiling effect, with adjudication
 - [Pilot 1 results](benchmarks/counterfactual-pairs/results/pilot1-claude-opus-5-5-high/README.md) — Claude Opus 5.5 via the Claude CLI, two trials, with adjudication and a corpus defect found

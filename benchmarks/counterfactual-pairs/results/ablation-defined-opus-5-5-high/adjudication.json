@@ -1,0 +1,18 @@
+{
+  "writtenBefore": "any defined-arm metric was computed. What had been inspected: the ledger stamps, the stop codes, the verdict counts, safety_stops, num_turns and modelUsage of every observation, and the strict verifier output.",
+  "integrity": {
+    "verifier": "verify_run.py --arm defined (strict: every served model must match the request, and a safety-interrupted observation must be recorded as a stop) reports 0 failures on both trials.",
+    "stampsMatch": "All 80 ledger rows carry arm 'defined', route claude-cli, model claude-opus-5-5, effort high, Claude Code 2.1.306 (the same as pilot 2 and the bare arm) and the manifest hash of ablation/defined/manifest.json.",
+    "technicalStops": "1 of 80: trial 2, P-704166 (output_bytes, wording A, defect twin), SAFETY_INTERRUPTED:2. It had safety_stops = 2, num_turns = 2 and claude-opus-4-8 beside the requested model, the same signature as the one mixed-model observation in the bare arm. The driver fixed after that run recorded it as a stop, so no reclassification is needed and the as-run ledger is already the documented-rule view.",
+    "contrast": "1 safety-interrupted observation of 80 in this arm, against 4 of 80 in the bare arm and 0 of 128 in pilot 1 and the skill-style arm. P-704166 is the case that was interrupted in the bare arm in both trials, and again here in trial 2."
+  },
+  "technicalStops": [],
+  "notIncludedInTheArchive": [
+    "The binary SHA-256 and path, the spend cap and the host were requested by the brief but are not in the returned archive, so 'the same binary and cap as the bare arm' cannot be confirmed here; only the Claude Code version (2.1.306) is recorded in every row.",
+    "The orchestrator's own verification output and identity metadata were not returned."
+  ],
+  "costNote": "Largest per-case cost and mean are recorded in the write-up. No cap can have bound if the bare arm's $5.00 was used; the largest case cost far less.",
+  "notes": [
+    "Judged by one reader, the benchmark's author. No defined-arm metric had been computed when this was written."
+  ]
+}
