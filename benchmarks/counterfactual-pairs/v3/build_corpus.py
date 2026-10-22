@@ -21,7 +21,7 @@ HERE = Path(__file__).resolve().parent
 SEED = 20261023
 SOUND, DEFECT, UNCERTAIN = "SOUND", "DEFECT", "UNCERTAIN"
 PREREGISTRATION = "PREREGISTRATION.md"
-SOURCES = (PREREGISTRATION, "families.json", "rubric.json", "audit/judgments.json", "audit/classification.json")
+SOURCES = (PREREGISTRATION, "families.json", "rubric.json", "audit/README.md", "audit/author-brief.txt", "audit/judgments.json", "audit/classification.json")
 FORBIDDEN = ("defect", "bug", "flaw", "sound", "uncertain", "blocker", "evidence", "unverified", "verified", "test case",
              "counterfactual", "reviewer", "review", "oracle", "distractor")
 MIN_LINES, MAX_LINES, MAX_LENGTH = 5, 8, 260
@@ -88,7 +88,8 @@ def problems(families=None):
     return found
 
 
-def build():
+def cases_and_packets():
+    """Case records and reviewer-visible packets, deterministic from the seed; needs no frozen source files."""
     bad = problems()
     if bad:
         raise SystemExit("INVALID_FAMILIES:" + "; ".join(bad))
@@ -102,12 +103,12 @@ def build():
                 used.add(value)
                 return value
 
-    files, cases = {}, []
+    packets, cases = {}, []
     for family, spec in FAMILIES.items():
         for wording in ("A", "B"):
             for role in ("sound", "twin"):
                 case = new_id()
-                files["packets/" + case + ".txt"] = ("\n".join(plan_lines(family, wording, role)) + "\n").encode("utf-8")
+                packets["packets/" + case + ".txt"] = ("\n".join(plan_lines(family, wording, role)) + "\n").encode("utf-8")
                 cases.append({
                     "case": case, "family": family, "wording": wording,
                     "role": "sound" if role == "sound" else "changed",
@@ -116,13 +117,18 @@ def build():
                     "mechanism": None if role == "sound" else spec["mechanism"],
                 })
     cases.sort(key=lambda c: (c["family"], c["wording"], c["role"]))
+    order = [c["case"] for c in cases]
+    rng.shuffle(order)
+    return cases, packets, order
+
+
+def build():
+    cases, files, order = cases_and_packets()
     oracle = {"kind": "COUNTERFACTUAL_ORACLE_NEVER_SEND_TO_REVIEWER", "corpus": "v3", "seed": SEED, "cases": cases}
     files["oracle/oracle.json"] = (json.dumps(oracle, indent=2) + "\n").encode("utf-8")
     files["prompt.txt"] = PROMPT.encode("utf-8")
     for name in SOURCES:
         files[name] = (HERE / name).read_bytes()
-    order = [c["case"] for c in cases]
-    rng.shuffle(order)
     manifest = {
         "kind": "COUNTERFACTUAL_PAIR_CORPUS_V3_FROZEN",
         "cases": len(cases), "families": len(FAMILIES), "submissionOrder": order,

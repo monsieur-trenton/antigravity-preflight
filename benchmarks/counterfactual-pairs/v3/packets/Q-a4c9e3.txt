@@ -1,0 +1,8 @@
+The month-end job sends invoice records to the ledger partner's batch endpoint, which rejects the entire request if its body is larger than 5,000,000 bytes.
+The job reads the closed month-end snapshot, which no longer changes once the month is closed, and sends it in batches of 500 records.
+Each record is serialized as JSON and carries a free-text notes field that the source system does not limit in length.
+The batch is wrapped in an envelope and sent uncompressed, and the envelope plus the separators between records add under 1,000 bytes per request.
+The serialized sizes of the records in the closed snapshot have not been measured, so the size of the largest record is not known.
+The job makes exactly one request per batch and never resends a rejected batch, because the partner treats a second submission for the same period as a duplicate filing.
+Any invoice missing from the partner's ledger makes the month-end reconciliation fail, and the month then stays open with the partner until the next cycle.
+The client timeout is raised from the default 30 seconds to 120 seconds, since the partner documents responses of up to 60 seconds for large batches.

@@ -1,0 +1,7 @@
+Each night a compaction job on the storage host combines the event segments from the day before; over the last 90 days that input has ranged from 1.0 TB to 1.3 TB.
+Its scheduled start is 01:00 and the scheduler terminates it at 04:00, so the job has a fixed 3-hour window.
+Output from a terminated run is discarded, which means each night's run has to complete within the 3-hour window.
+Running the full-size workload on a production-class machine with identical disks and job settings gave a measured rate of 1.0 TB per hour, putting even a 1.3 TB night at roughly 1.3 hours.
+Its CPU priority is nice 19 and its disk priority is the idle I/O class, which yields only to competing work, and no other work is booked on the storage host from 01:00 to 04:00.
+The backup agent that also runs on this host is done by 00:45, ahead of the job's start.
+Removal of the previous segment files with rm -rf happens only once the new segment set is completely written and its checksums agree with the source.

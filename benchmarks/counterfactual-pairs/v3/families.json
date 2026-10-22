@@ -1,0 +1,711 @@
+{
+ "note": "Family texts exactly as returned by four independent model authors (author d1, d2, u1, u2) from audit/author-brief.txt; the only added field is 'author'. Edits made after the audits, if any, are listed in audit/README.md.",
+ "families": [
+  {
+   "family": "cache_tenant_key",
+   "twin": "DEFECT",
+   "difficulty": "inference",
+   "line": 4,
+   "cite": [
+    1,
+    3,
+    4,
+    7
+   ],
+   "mechanism": "The twin's cache key is \"dash:{dashboard_id}:{range}\", which leaves out tenant_id. Line 3 says dashboard IDs restart at 1 in every tenant, so dashboard 42 in tenant X and dashboard 42 in tenant Y get the same key. The cluster is shared (line 1), so whichever tenant fills the entry first has its response served to the other tenant. That breaks the isolation rule in line 7.",
+   "A": {
+    "sound": [
+     "The reporting API will cache rendered dashboard responses in a single Redis cluster that is shared by every customer tenant.",
+     "The gateway authenticates each request and attaches the caller's tenant_id before the request reaches the dashboard handler.",
+     "Dashboard IDs are assigned per tenant starting from 1, so the same dashboard ID, such as 42, exists in many tenants with different data behind it.",
+     "The cache key is \"dash:{tenant_id}:{dashboard_id}:{range}\", and the handler only ever reads or writes the key built from the current request.",
+     "Every dashboard is visible to all users inside its tenant, so the key deliberately leaves out the user ID.",
+     "Entries expire after 300 seconds, and any edit to a dashboard deletes its cached entries at once.",
+     "Isolation rule: a response cached for one tenant must never be returned to a caller belonging to a different tenant."
+    ],
+    "twin": {
+     "4": "The cache key is \"dash:{dashboard_id}:{range}\", and the handler only ever reads or writes the key built from the current request."
+    }
+   },
+   "B": {
+    "sound": [
+     "Rendered dashboard responses from the reporting API are to be cached in one Redis cluster used jointly by all customer tenants.",
+     "Before any request arrives at the dashboard handler, the gateway has authenticated it and stamped it with the tenant_id of the caller.",
+     "Numbering of dashboard IDs restarts at 1 for each tenant, which means one ID such as 42 appears in many tenants and points to different data in each.",
+     "Keys take the form \"dash:{tenant_id}:{dashboard_id}:{range}\", and the handler touches no key other than the one derived from the request in hand.",
+     "Because all users of a tenant may see every dashboard of that tenant, the user ID is intentionally not part of the key.",
+     "A cached entry lives for 300 seconds, and editing a dashboard removes its cached entries immediately.",
+     "Isolation rule: no tenant's caller may ever receive a response that was cached for another tenant."
+    ],
+    "twin": {
+     "4": "Keys take the form \"dash:{dashboard_id}:{range}\", and the handler touches no key other than the one derived from the request in hand."
+    }
+   },
+   "sampleReport": "The cache key \"dash:{dashboard_id}:{range}\" does not include tenant_id. The plan says dashboard IDs are numbered per tenant from 1, so the same ID such as 42 exists in many tenants, and the plan also says all tenants share one Redis cluster. When two tenants request dashboard 42 for the same range, they hit the same entry, and one tenant gets the other's cached data. That breaks the stated isolation rule. Leaving out the user ID is fine because visibility is tenant-wide, but tenant_id has to be part of the key.",
+   "author": "d1"
+  },
+  {
+   "family": "lock_order",
+   "twin": "DEFECT",
+   "difficulty": "inference",
+   "line": 3,
+   "cite": [
+    1,
+    2,
+    3,
+    4,
+    7
+   ],
+   "mechanism": "Checkout takes stock_mu and then reserve_mu (line 2). In the twin, restock takes reserve_mu and then stock_mu, keeping the first lock while it waits for the second (line 3). The two paths run at the same time (line 4), and the locks block with no timeout (line 1). So checkout can hold stock_mu and wait for reserve_mu while restock holds reserve_mu and waits for stock_mu, and both wait forever. That is the deadlock line 7 forbids.",
+   "A": {
+    "sound": [
+     "The inventory service protects warehouse counts with two mutexes, stock_mu and reserve_mu, and both are blocking locks with no acquisition timeout.",
+     "The checkout handler locks stock_mu, then locks reserve_mu while still holding stock_mu, moves units from available to reserved, and releases both.",
+     "The restock worker locks stock_mu, then locks reserve_mu while still holding stock_mu, adds the delivered units, trims expired reservations, and releases both.",
+     "Checkout requests arrive continuously and the restock worker runs every 30 seconds, so the two paths regularly execute at the same moment on different threads.",
+     "The nightly audit job takes only stock_mu, holds it for up to 2 seconds, and acquires no other lock while holding it.",
+     "No other code path acquires either mutex.",
+     "Requirement: the service must never deadlock, because a stuck pod keeps passing its liveness probe and stops selling until someone restarts it by hand."
+    ],
+    "twin": {
+     "3": "The restock worker locks reserve_mu, then locks stock_mu while still holding reserve_mu, adds the delivered units, trims expired reservations, and releases both."
+    }
+   },
+   "B": {
+    "sound": [
+     "Two mutexes guard the warehouse counts in the inventory service, stock_mu and reserve_mu, and acquiring either one blocks indefinitely with no timeout.",
+     "On checkout, the handler acquires stock_mu first, takes reserve_mu without releasing stock_mu, shifts units from available to reserved, and then lets go of both.",
+     "On restock, the worker acquires stock_mu first, takes reserve_mu without releasing stock_mu, adds the delivered units, prunes expired reservations, and then lets go of both.",
+     "Since checkouts never stop arriving and restock fires every 30 seconds, both paths often run simultaneously on separate threads.",
+     "Each night an audit job grabs stock_mu alone, keeps it for at most 2 seconds, and never requests another lock during that time.",
+     "Neither mutex is acquired anywhere else in the code.",
+     "Requirement: a deadlock is never acceptable, since a hung pod still answers its liveness probe and sells nothing until an operator restarts it manually."
+    ],
+    "twin": {
+     "3": "On restock, the worker acquires reserve_mu first, takes stock_mu without releasing reserve_mu, adds the delivered units, prunes expired reservations, and then lets go of both."
+    }
+   },
+   "sampleReport": "Checkout locks stock_mu and then reserve_mu, but restock now locks reserve_mu and then stock_mu, and each keeps its first lock while it waits for the second. The plan says these two paths regularly run at the same moment on different threads, and that the locks block with no timeout. A checkout can therefore hold stock_mu while a restock holds reserve_mu, and each waits forever for the other's lock. That is exactly the deadlock the requirement forbids, and the pod would stop selling until someone restarts it by hand. The audit job is not a problem because it only ever holds stock_mu.",
+   "author": "d1"
+  },
+  {
+   "family": "rate_arithmetic",
+   "twin": "DEFECT",
+   "difficulty": "inference",
+   "line": 3,
+   "cite": [
+    2,
+    3,
+    4,
+    7
+   ],
+   "mechanism": "The twin runs 12 workers, and each may send up to 5 requests in any one-second window (line 4). That allows 12 x 5 = 60 requests per second, which is over the contracted ceiling of 50 per second (line 2). Going over the ceiling suspends the key for 24 hours and also stops live checkout lookups, which breaks the requirement in line 7. The sound plan's 8 x 5 = 40 requests per second stays under 50.",
+   "A": {
+    "sound": [
+     "The address backfill will geocode 3.2 million rows through the vendor geocoding API using a single API key.",
+     "The key's contract allows at most 50 requests per second in total, and exceeding it in any one-second window suspends the key for 24 hours.",
+     "The job runs 8 worker processes in parallel with no shared coordination between them, and the count stays fixed for the whole run.",
+     "Each worker is held by a client-side limiter to at most 5 requests in any one-second window.",
+     "Retries after an HTTP 500 draw from the same limiter as first attempts, so they never add traffic on top of the worker's rate.",
+     "No other service or job uses this API key while the backfill is running.",
+     "Requirement: the backfill must stay within the contracted rate, because a suspension would also stop live checkout address lookups for a full day."
+    ],
+    "twin": {
+     "3": "The job runs 12 worker processes in parallel with no shared coordination between them, and the count stays fixed for the whole run."
+    }
+   },
+   "B": {
+    "sound": [
+     "Using one API key, the address backfill sends 3.2 million rows to the vendor geocoding API.",
+     "Under the key's contract the combined ceiling is 50 requests per second, and going over it during any one-second window gets the key suspended for 24 hours.",
+     "Exactly 8 worker processes run side by side without coordinating with each other, and that number does not change during the run.",
+     "A client-side limiter in each worker caps it at 5 requests in any one-second window.",
+     "When a request fails with HTTP 500, the retry consumes the worker's own limiter allowance just like a first attempt, so retries never push a worker above its rate.",
+     "While the backfill runs, the API key is used by no other service or job.",
+     "Requirement: the contracted rate must never be exceeded, since a suspension would also halt live checkout address lookups for an entire day."
+    ],
+    "twin": {
+     "3": "Exactly 12 worker processes run side by side without coordinating with each other, and that number does not change during the run."
+    }
+   },
+   "sampleReport": "With 12 workers each allowed 5 requests in any one-second window, the backfill can send 60 requests per second against a contracted ceiling of 50. The workers do not coordinate, so nothing keeps the combined rate under the ceiling. Their full rates add up. Going over 50 in any one-second window suspends the key for 24 hours, and that also stops live checkout address lookups, so the plan breaks its own requirement. At 5 requests per second per worker, no more than 10 workers keep the total within 50.",
+   "author": "d1"
+  },
+  {
+   "family": "payment_idempotency_key",
+   "twin": "DEFECT",
+   "difficulty": "inference",
+   "line": 5,
+   "cite": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "mechanism": "Line 3 says a timed-out attempt may already have been charged, and lines 4 and 6 say the worker retries after such timeouts. In the twin, each retry carries a newly generated key, and line 2 says a key the processor has not seen always creates a new charge. So a timeout followed by a retry can charge the customer two or more times for one order, which breaks the rule in line 7.",
+   "A": {
+    "sound": [
+     "The checkout service submits each order's payment to the processor's charge endpoint from a background worker.",
+     "The processor treats a repeated idempotency key as the same request: within 24 hours it returns the original result and does not charge again, while a new key always creates a new charge.",
+     "A submission that times out may already have been charged, because the timeout can occur after the processor has accepted the request.",
+     "The worker retries a timed-out or failed submission up to 3 more times with backoff, and all attempts for an order finish within 10 minutes.",
+     "The idempotency key is the order's UUID, created once when the order is placed, stored with the order, and sent unchanged on every attempt.",
+     "Retries are deliberately sent even after a timeout whose outcome is unknown, so a slow processor response does not leave the order unpaid.",
+     "Rule: a customer must never be charged more than once for a single order."
+    ],
+    "twin": {
+     "5": "Each attempt, including every retry, generates a fresh random UUID and sends it as the idempotency key."
+    }
+   },
+   "B": {
+    "sound": [
+     "Order payments are sent to the processor's charge endpoint by a background worker in the checkout service.",
+     "Requests carrying an idempotency key the processor has seen in the last 24 hours get the original result back with no second charge, whereas any key it has not seen produces a fresh charge.",
+     "A timeout does not mean the charge failed, since it can happen after the processor has already accepted the request.",
+     "Timed-out or failed submissions get as many as 3 further attempts with backoff, and every attempt for an order completes within 10 minutes.",
+     "For the idempotency key the worker uses the order's UUID, which is generated a single time at order placement, saved alongside the order, and reused as-is on each attempt.",
+     "The worker intentionally retries even when a timed-out attempt's outcome is unknown, so that a sluggish processor does not leave orders unpaid.",
+     "Rule: no customer may be charged twice for the same order."
+    ],
+    "twin": {
+     "5": "For the idempotency key the worker generates a brand-new random UUID on each attempt, retries included."
+    }
+   },
+   "sampleReport": "Each attempt now sends a fresh random UUID as the idempotency key, so the processor sees every retry as a new request. The plan says a timeout can happen after the processor has already accepted the charge, and the worker deliberately retries after such timeouts, up to 3 more times. Because a key the processor has not seen always creates a new charge, a single slow response can lead to two or more charges for one order. That breaks the stated rule against charging a customer more than once. The key needs to be generated once per order and reused on every attempt, which the 24-hour key retention easily covers given the 10-minute retry window.",
+   "author": "d1"
+  },
+  {
+   "family": "cert_rotation",
+   "twin": "DEFECT",
+   "difficulty": "inference",
+   "line": 8,
+   "cite": [
+    1,
+    2,
+    3,
+    6,
+    8
+   ],
+   "mechanism": "The twin removes 'Internal Root 2023' from the trust bundle on day 5. Lines 3 and 6 say the server keeps presenting its 'Internal Root 2023' certificate until the switch on day 7. Line 2 says clients trust only roots in their bundle and reload it within 15 minutes. So from shortly after day 5 until day 7, every client rejects the server certificate, which breaks line 1's rule that no client may lose connectivity. The safe order is to switch the server first and remove the old root afterwards.",
+   "A": {
+    "sound": [
+     "The orders-api service is rotating its TLS server certificate and the CA that issues it, from 'Internal Root 2023' to 'Internal Root 2026', while all existing clients keep running, and no client may lose connectivity at any point.",
+     "Clients accept a server certificate only if it chains to a root in their local trust bundle, and they reload that bundle in place every 15 minutes without dropping open connections.",
+     "Until the switch on day 7, the server keeps presenting its current certificate issued by 'Internal Root 2023', which stays valid until day 60.",
+     "On day 1 the trust bundle delivered to every client is replaced with one that contains both 'Internal Root 2023' and 'Internal Root 2026'.",
+     "On day 3 the fleet inventory must show every client reporting a bundle hash that includes both roots before the switch is scheduled.",
+     "On day 7 the server begins presenting a new certificate issued by 'Internal Root 2026', sent with its full chain.",
+     "The two roots carry the same subject name and differ only in key identifier, and staging clients given a bundle with both accepted certificates issued by either one.",
+     "On day 30 'Internal Root 2023' is removed from the trust bundle, and its private key, kept offline since day 1, is destroyed."
+    ],
+    "twin": {
+     "8": "On day 5 'Internal Root 2023' is removed from the trust bundle, and its private key, kept offline since day 1, is destroyed."
+    }
+   },
+   "B": {
+    "sound": [
+     "For orders-api, both the TLS server certificate and its issuing CA are being replaced, moving from 'Internal Root 2023' to 'Internal Root 2026' with every existing client left running, and connectivity must never drop for any client.",
+     "A client trusts the server certificate only when it chains up to a root found in the client's local trust bundle, which is re-read in place every 15 minutes without closing open connections.",
+     "Up to the switch on day 7, the server continues to serve its current 'Internal Root 2023' certificate, which remains good until day 60.",
+     "Every client is sent a replacement trust bundle on day 1 that holds 'Internal Root 2023' and 'Internal Root 2026' together.",
+     "The switch gets a date only after the fleet inventory on day 3 lists every client with a bundle hash covering both roots.",
+     "Starting on day 7, the server presents a fresh certificate signed by 'Internal Root 2026' and includes the full chain with it.",
+     "Both roots share one subject name and are told apart solely by key identifier, and in staging, clients holding a bundle with the pair accepted certificates from each root.",
+     "'Internal Root 2023' is dropped from the trust bundle on day 30, at which point its private key, held offline from day 1 onward, is destroyed."
+    ],
+    "twin": {
+     "8": "'Internal Root 2023' is dropped from the trust bundle on day 5, at which point its private key, held offline from day 1 onward, is destroyed."
+    }
+   },
+   "sampleReport": "The plan removes 'Internal Root 2023' from client trust bundles on day 5. But the server keeps presenting its old-root certificate until the switch on day 7. Clients trust only roots in their bundle and pick up a new bundle within 15 minutes, so for about two days every client would reject the server certificate. That breaks the stated rule that no client may lose connectivity. The old root should come out of the bundle only after the day 7 switch, as a day 30 removal would do.",
+   "author": "d2"
+  },
+  {
+   "family": "flag_default",
+   "twin": "DEFECT",
+   "difficulty": "direct",
+   "line": 3,
+   "cite": [
+    2,
+    3,
+    4,
+    7,
+    8
+   ],
+   "mechanism": "Line 2 requires every new code path to ship switched off in production and be enabled later only by a separate, approved flag change. The twin's line 3 sets the production default of 'checkout.split_payment' to true, so the new split-payment flow ships switched on. This also contradicts lines 4, 7 and 8, which assume the flag is off in production.",
+   "A": {
+    "sound": [
+     "Release 4.12 of the checkout service adds a split-payment flow, guarded by the feature flag 'checkout.split_payment'.",
+     "Release rule: every new code path ships switched off in production and is turned on later only through a separate, approved flag change.",
+     "Flag defaults in flags.yaml are true in dev, true in staging and false in production.",
+     "The existing single-payment code is left untouched and stays the path production customers use while the flag is off.",
+     "The release also adds a nullable column 'split_payment_ref' to the orders table, which held a lock for under 1 second on a full-size staging copy and is not written while the flag is off.",
+     "The flag value is cached locally for 30 seconds, so a later flip reaches every pod within 30 seconds without a redeploy.",
+     "CI runs the checkout suite twice in staging, once with the flag on and once with it forced off to mirror production.",
+     "Enabling the flag in production is left to a later change ticket after two weeks of staging traffic."
+    ],
+    "twin": {
+     "3": "Flag defaults in flags.yaml are true in dev, true in staging and true in production."
+    }
+   },
+   "B": {
+    "sound": [
+     "The split-payment flow arrives in checkout service release 4.12 behind the feature flag 'checkout.split_payment'.",
+     "This release follows the rule that any new code path goes to production disabled, with activation coming afterwards solely via its own approved flag change.",
+     "In flags.yaml the default is true for dev, true for staging and false for production.",
+     "Nothing in the current single-payment code changes, and production customers keep going through it as long as the flag is off.",
+     "A nullable 'split_payment_ref' column is also added to the orders table; on a full-size staging copy it held a lock for under 1 second, and no writes reach it with the flag off.",
+     "Because each pod caches the flag value for 30 seconds, a future flip takes effect everywhere within 30 seconds and needs no redeploy.",
+     "In staging, CI executes the checkout suite two times, one pass with the flag enabled and one with it forced off, mirroring production.",
+     "Switching the flag on in production is deferred to a subsequent change ticket once staging has carried two weeks of traffic."
+    ],
+    "twin": {
+     "3": "In flags.yaml the default is true for dev, true for staging and true for production."
+    }
+   },
+   "sampleReport": "The release rule says every new code path must ship switched off in production and be turned on only through a separate, approved flag change. But flags.yaml sets 'checkout.split_payment' to true in production, so the split-payment flow would go live the moment 4.12 deploys. That also conflicts with the plan's own claims that production customers stay on the single-payment path, that the flag-off CI pass mirrors production, and that enabling is left to a later ticket. The production default needs to be false.",
+   "author": "d2"
+  },
+  {
+   "family": "backup_window",
+   "twin": "DEFECT",
+   "difficulty": "direct",
+   "line": 5,
+   "cite": [
+    1,
+    3,
+    4,
+    5,
+    8
+   ],
+   "mechanism": "Line 1 requires point-in-time restore back to 14 days ago, and line 4 notes that this can need a base backup up to 21 days old plus all WAL since. The twin's line 5 keeps base backups and WAL for only 7 days. Nothing older than 7 days can be restored, so the 14-day window (and the monthly 13-to-14-day drill in line 8) cannot be met.",
+   "A": {
+    "sound": [
+     "The orders PostgreSQL database must be restorable to any point in time from 14 days ago up to 5 minutes ago.",
+     "A full base backup runs every Sunday at 02:00 UTC, and WAL segments are archived continuously, each one within 60 seconds of being written.",
+     "A restore to a chosen time starts from the latest base backup taken before that time and replays archived WAL forward from it.",
+     "Since base backups are weekly, reaching a point 14 days back can require a base backup up to 21 days old together with all WAL written after it.",
+     "Base backups and archived WAL are both retained for 28 days, and a nightly lifecycle job deletes anything older.",
+     "The lifecycle job holds delete permission on the backup bucket, but its rule matches only objects older than the retention limit.",
+     "The backup bucket lives in a separate account where the database hosts can write new objects but cannot overwrite or delete existing ones.",
+     "Each month a restore to a randomly chosen point between 13 and 14 days back is rehearsed on a scratch instance."
+    ],
+    "twin": {
+     "5": "Base backups and archived WAL are both retained for 7 days, and a nightly lifecycle job deletes anything older."
+    }
+   },
+   "B": {
+    "sound": [
+     "Point-in-time recovery for the orders PostgreSQL database has to reach any moment from 14 days ago up to 5 minutes ago.",
+     "WAL is shipped to the archive continuously, with every segment landing within 60 seconds of being written, alongside a full base backup each Sunday at 02:00 UTC.",
+     "To recover to a given moment, the most recent base backup preceding it is loaded and archived WAL is then replayed on top until that moment.",
+     "With one base backup per week, getting back 14 days may depend on a base backup as old as 21 days plus every WAL segment produced since.",
+     "Retention is 28 days for base backups and archived WAL alike, with anything past that age removed by a nightly lifecycle job.",
+     "Although the lifecycle job is allowed to delete from the backup bucket, its rule selects nothing younger than the retention limit.",
+     "Database hosts reach the backup bucket, which sits in its own account, with rights to add objects and no rights to overwrite or remove them.",
+     "A monthly drill recovers a scratch instance to a random moment 13 to 14 days in the past."
+    ],
+    "twin": {
+     "5": "Retention is 7 days for base backups and archived WAL alike, with anything past that age removed by a nightly lifecycle job."
+    }
+   },
+   "sampleReport": "The plan requires point-in-time restore back to 14 days ago, and it notes that this can need a base backup up to 21 days old plus all the WAL since then. Yet base backups and archived WAL are kept for only 7 days before the nightly job deletes them. Any point more than 7 days back cannot be restored, so the 14-day requirement fails, and so would the monthly drill that targets 13 to 14 days back. Retention has to be at least 21 days, and longer to leave some margin.",
+   "author": "d2"
+  },
+  {
+   "family": "credential_logging",
+   "twin": "DEFECT",
+   "difficulty": "direct",
+   "line": 5,
+   "cite": [
+    2,
+    3,
+    5,
+    6,
+    7
+   ],
+   "mechanism": "Line 2 forbids credentials in logs, and line 3 says every request carries a bearer token in the Authorization header. The twin's line 5 writes every request header name and value at INFO but redacts only Cookie and X-Api-Key, so the Authorization value is logged. Line 6 runs production at INFO, so live bearer tokens reach the shared logs that line 7 makes searchable by every engineer.",
+   "A": {
+    "sound": [
+     "The payments gateway is adding per-request logging so slow upstream calls can be traced.",
+     "Rule for this service: logs must never contain credentials, which here means bearer tokens, API keys, passwords and session cookies.",
+     "Callers authenticate with a bearer token sent in the Authorization header of every request.",
+     "At INFO level each request writes one line with method, path without query string, status, latency in milliseconds and request ID.",
+     "At DEBUG level the logger also writes every request header name and value, with Authorization, Cookie and X-Api-Key values replaced by the string '[redacted]'.",
+     "Request and response bodies are not logged at any level, and production runs at INFO level.",
+     "Log lines are shipped to the shared logging cluster, where every engineer in the company can search them for 90 days.",
+     "The request ID is a random 128-bit value generated by the gateway, not derived from the token or any other caller input."
+    ],
+    "twin": {
+     "5": "At INFO level the logger also writes every request header name and value, with Cookie and X-Api-Key values replaced by the string '[redacted]'."
+    }
+   },
+   "B": {
+    "sound": [
+     "Per-request logging is being added to the payments gateway to make slow upstream calls traceable.",
+     "This service requires that no credential ever appears in its logs, with bearer tokens, API keys, passwords and session cookies all counting as credentials.",
+     "Every request a caller sends carries a bearer token in its Authorization header for authentication.",
+     "Under INFO, a single line per request records the method, the path minus its query string, the status, the latency in milliseconds and the request ID.",
+     "Under DEBUG, the logger adds each request header's name and value, substituting the string '[redacted]' for the values of Authorization, Cookie and X-Api-Key.",
+     "No level ever logs request or response bodies, and the production log level is INFO.",
+     "Logs flow into the shared logging cluster, searchable by any engineer in the company for 90 days.",
+     "The gateway generates each request ID as a random 128-bit value that owes nothing to the token or other caller input."
+    ],
+    "twin": {
+     "5": "Under INFO, the logger adds each request header's name and value, substituting the string '[redacted]' for the values of Cookie and X-Api-Key."
+    }
+   },
+   "sampleReport": "The plan's rule is that logs must never contain credentials, and every request carries a bearer token in the Authorization header. The header-logging line writes all request header names and values at INFO but redacts only Cookie and X-Api-Key. Authorization is left out of the redaction list. Since production runs at INFO, every caller's live bearer token would be written to the shared cluster, where any engineer can search it for 90 days. Authorization has to be redacted, or header values kept out of INFO entirely.",
+   "author": "d2"
+  },
+  {
+   "family": "capacity_headroom",
+   "twin": "UNCERTAIN",
+   "difficulty": "evidence_gap",
+   "line": 4,
+   "cite": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "mechanism": "Every nightly run must finish within the 3-hour window from 01:00 to 04:00, or it is killed and its output is discarded. In the sound plan, the measured 1.0 TB per hour on a production-class host means the largest night of 1.3 TB takes about 1.3 hours, which is about 2.3x headroom. In the twin, production-class throughput has not been measured, so nothing shows that a 1.3 TB night fits in 3 hours.",
+   "A": {
+    "sound": [
+     "The nightly compaction job merges the previous day's event segments on the storage host, and that daily volume has stayed between 1.0 TB and 1.3 TB over the last 90 days.",
+     "The scheduler starts the job at 01:00 and kills it at 04:00, which gives a hard window of 3 hours.",
+     "A killed run throws away its partly written output, so every nightly run must finish inside the 3-hour window.",
+     "A full-size rehearsal on a production-class host with the same disks and job settings measured 1.0 TB per hour, so even 1.3 TB takes about 1.3 hours.",
+     "The job runs at nice 19 in the idle I/O class, which only gives way to other work, and nothing else is scheduled on the storage host between 01:00 and 04:00.",
+     "The nightly backup agent on the same host finishes by 00:45, before the job starts.",
+     "The old segment files are deleted with rm -rf only after the new segment set has been written in full and its checksums match the source."
+    ],
+    "twin": {
+     "4": "The job's throughput on a production-class host has not been measured, so how long 1.3 TB takes there is not known."
+    }
+   },
+   "B": {
+    "sound": [
+     "Each night a compaction job on the storage host combines the event segments from the day before; over the last 90 days that input has ranged from 1.0 TB to 1.3 TB.",
+     "Its scheduled start is 01:00 and the scheduler terminates it at 04:00, so the job has a fixed 3-hour window.",
+     "Output from a terminated run is discarded, which means each night's run has to complete within the 3-hour window.",
+     "Running the full-size workload on a production-class machine with identical disks and job settings gave a measured rate of 1.0 TB per hour, putting even a 1.3 TB night at roughly 1.3 hours.",
+     "Its CPU priority is nice 19 and its disk priority is the idle I/O class, which yields only to competing work, and no other work is booked on the storage host from 01:00 to 04:00.",
+     "The backup agent that also runs on this host is done by 00:45, ahead of the job's start.",
+     "Removal of the previous segment files with rm -rf happens only once the new segment set is completely written and its checksums agree with the source."
+    ],
+    "twin": {
+     "4": "No throughput figure has been measured for this job on a production-class machine, so the time a 1.3 TB night would take there is unknown."
+    }
+   },
+   "sampleReport": "The plan requires every nightly compaction run to finish between 01:00 and 04:00, because a run that is killed at 04:00 loses its output. Nightly input reaches 1.3 TB, but the plan says throughput on a production-class host has not been measured, so nothing shows that 1.3 TB can be processed in 3 hours. The low-priority settings and the rm -rf step are harmless here, since nothing else runs in the window and old files are removed only after the checksums match. The completion requirement depends entirely on that missing throughput figure. A full-size run on production-class hardware needs to show a comfortable margin under 3 hours before this plan can be relied on.",
+   "author": "u1"
+  },
+  {
+   "family": "upgrade_compat",
+   "twin": "UNCERTAIN",
+   "difficulty": "evidence_gap",
+   "line": 4,
+   "cite": [
+    2,
+    3,
+    4
+   ],
+   "mechanism": "The plan's rule is that the 14 existing callers must behave exactly as before after the upgrade from 2.8 to 3.0, because any change puts wrong due dates on invoices that cannot be recalled. In the sound plan, all 14 callers were replayed on 3.0 with full recorded inputs and produced byte-identical output. In the twin, those callers were never run on 3.0, so nothing establishes that their behaviour is unchanged.",
+   "A": {
+    "sound": [
+     "The billing service upgrades its date-parsing library from version 2.8 to version 3.0 to pick up a fix that the new refunds module needs.",
+     "The plan's rule is that the 14 existing callers of the library must behave exactly as they do today once the upgrade is in place.",
+     "Any change in their output would put wrong due dates on that night's invoices, which are emailed to customers at 06:00 and cannot be recalled.",
+     "All 14 existing callers were run against version 3.0 with last month's full recorded inputs, which cover every date format they pass, and their outputs matched the version 2.8 outputs byte for byte.",
+     "Version 3.0 needs runtime version 11 or later, and every billing host already runs runtime version 12.",
+     "The archived reporting tool keeps its own pinned copy of version 2.8 in a separate directory; it is not one of the 14 callers and is not redeployed.",
+     "The upgrade goes out in the regular 14:00 deploy, well ahead of the 02:00 invoice run."
+    ],
+    "twin": {
+     "4": "The 14 existing callers have not been run against version 3.0; so far only the new refunds module has been exercised with it."
+    }
+   },
+   "B": {
+    "sound": [
+     "To get a fix required by the new refunds module, the billing service moves its date-parsing library from version 2.8 up to version 3.0.",
+     "Under this plan, none of the library's 14 existing callers may show any difference in behaviour after the move.",
+     "If their output shifted, that night's invoices would carry incorrect due dates, and those invoices go out by email to customers at 06:00 with no way to pull them back.",
+     "Each of the 14 existing callers was executed on version 3.0 using the complete recorded inputs from last month, which include every date format they supply, and the results were byte-for-byte identical to version 2.8.",
+     "Runtime version 11 or newer is a prerequisite of version 3.0, and runtime version 12 is already installed on all billing hosts.",
+     "A separate directory holds a pinned version 2.8 copy for the archived reporting tool, which is outside the 14 callers and does not get redeployed.",
+     "Shipping happens with the routine 14:00 deploy, long before the invoice run starts at 02:00."
+    ],
+    "twin": {
+     "4": "None of the 14 existing callers has been executed on version 3.0 yet; the only code exercised with it so far is the new refunds module."
+    }
+   },
+   "sampleReport": "The plan's own rule is that the 14 existing callers of the date-parsing library must behave exactly as before after the move to version 3.0, because changed output would put wrong due dates on invoices that are emailed at 06:00 and cannot be recalled. The plan then says that none of those 14 callers has been run against version 3.0, and only the new refunds module has. So nothing in the plan shows the no-change rule is met for the code it protects. The runtime requirement and the separately pinned 2.8 copy for the archived tool are fine as written. The existing callers need to be run on 3.0 with representative inputs, and their output compared with 2.8, before this ships.",
+   "author": "u1"
+  },
+  {
+   "family": "retry_idempotent",
+   "twin": "UNCERTAIN",
+   "difficulty": "evidence_gap",
+   "line": 6,
+   "cite": [
+    2,
+    3,
+    4,
+    6
+   ],
+   "mechanism": "The client resends a capture up to 5 times after timeouts or 5xx responses, and a timeout can follow a capture the server already applied. So the rule that no capture is applied twice holds only if the endpoint collapses repeats that share an idempotency key. In the sound plan, that behaviour is shown in staging (1,000 captures x 6 sends = exactly 1,000 charges) and confirmed by the payments team. In the twin, it has been neither checked nor confirmed.",
+   "A": {
+    "sound": [
+     "The checkout client calls the payments service's capture endpoint once per order to charge the customer's card.",
+     "The plan's rule is that no capture may be applied twice, because a second capture charges the customer a second time.",
+     "On a timeout or an HTTP 5xx response the client retries the same capture up to 5 times, with a backoff that starts at 200 ms and doubles each time.",
+     "A timeout can happen after the server has already applied the capture, so a retry may arrive for a capture that already went through.",
+     "Every attempt for an order carries the same idempotency key, a UUID created once with the order and never regenerated.",
+     "The capture endpoint is idempotent per key: a staging run that sent each of 1,000 captures 6 times recorded exactly 1,000 charges, and the payments team confirmed this is the endpoint's documented contract.",
+     "The client turns off its HTTP library's built-in retries, so the 5 retries above are the only repeats that occur."
+    ],
+    "twin": {
+     "6": "Whether the capture endpoint treats repeated requests with the same idempotency key as a single capture has not been checked, and the payments team has not confirmed it."
+    }
+   },
+   "B": {
+    "sound": [
+     "For each order, the checkout client makes one call to the capture endpoint of the payments service, which charges the customer's card.",
+     "Under this plan a capture must never take effect more than once, since a duplicate capture bills the customer again.",
+     "When a call times out or comes back with an HTTP 5xx status, the client sends that capture again, at most 5 more times, waiting 200 ms before the first resend and twice as long before each later one.",
+     "The server may have completed the capture before the client's timeout fires, so a resend can reach the server for a charge that already succeeded.",
+     "All attempts belonging to one order send an identical idempotency key, which is a UUID generated a single time when the order is made and never replaced.",
+     "Repeats with one key are collapsed by the capture endpoint: in staging, 1,000 captures each submitted 6 times yielded exactly 1,000 charges, and the payments team has confirmed that behaviour as the endpoint's documented contract.",
+     "Automatic retrying inside the HTTP library is switched off, which leaves the 5 resends described above as the only repeated requests."
+    ],
+    "twin": {
+     "6": "Nobody has checked whether the capture endpoint collapses repeats that share an idempotency key into one capture, and the payments team has not confirmed it either."
+    }
+   },
+   "sampleReport": "The plan retries a capture up to 5 times after a timeout or 5xx response, and it admits that a timeout can come after the server has already charged the card. So the rule that no capture is applied twice depends on the endpoint treating repeats with the same idempotency key as one capture. The plan says this has not been checked and the payments team has not confirmed it. Sending a stable UUID key and turning off the library's own retries are both fine, but a key protects nothing unless the server honours it. The endpoint's deduplication needs to be shown, for example with a staging run of repeated sends, before the retry policy can be trusted to meet the rule.",
+   "author": "u1"
+  },
+  {
+   "family": "rate_limit_quota",
+   "twin": "UNCERTAIN",
+   "difficulty": "evidence_gap",
+   "line": 6,
+   "cite": [
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "mechanism": "The account must never exceed its limits, or it is suspended and live signup lookups stop. Planned peak traffic is 5 req/s from the job (4 workers x 1.25) plus 3 req/s from signup, which is 8 req/s, and at most 240,000 + 50,000 = 290,000 requests per day. In the sound plan, the provider confirmed limits of 20 req/s and 1,000,000/day, which gives 2.5x and 3.4x headroom. In the twin, the account's actual limits are unconfirmed, so nothing shows that 8 req/s or 290,000/day stays under them.",
+   "A": {
+    "sound": [
+     "The address backfill job geocodes 240,000 customer addresses through a third-party geocoding API in a single run.",
+     "The plan's rule is that our account must never exceed its rate limits, because the provider suspends an account that goes over them, which would also stop live address lookups at signup.",
+     "The job runs 4 worker processes, each held by a client-side limiter to 1.25 requests per second, so it sends at most 5 requests per second and finishes in about 13.3 hours.",
+     "The signup flow uses the same account and has peaked at 3 requests per second and 50,000 requests per day over the last 6 months.",
+     "Combined peak traffic is therefore 8 requests per second, and no single day of the run can exceed 290,000 requests.",
+     "The provider has confirmed in writing that our account's limits are 20 requests per second and 1,000,000 requests per day.",
+     "Failed lookups are not retried within the run, so the job never sends more than the 240,000 planned requests."
+    ],
+    "twin": {
+     "6": "The limits that actually apply to our account have not been confirmed with the provider, and the plan has no figure for them."
+    }
+   },
+   "B": {
+    "sound": [
+     "In one run, the address backfill job sends 240,000 customer addresses to a third-party geocoding API for geocoding.",
+     "This plan requires that our account stay within its rate limits at all times, since the provider suspends any account that breaches them, and a suspension would also cut off live address lookups during signup.",
+     "Across its 4 worker processes, each capped by a client-side limiter at 1.25 requests per second, the job sends no more than 5 requests per second and completes in roughly 13.3 hours.",
+     "Signup lookups go through the same account, and in the last 6 months they have topped out at 3 requests per second and 50,000 requests per day.",
+     "Together that gives a peak of 8 requests per second, and any one day of the run sees at most 290,000 requests.",
+     "In writing, the provider has stated that the limits on our account are 20 requests per second and 1,000,000 requests per day.",
+     "The run does not resend lookups that fail, which keeps the job's total at or below the 240,000 planned requests."
+    ],
+    "twin": {
+     "6": "Nobody has confirmed with the provider which limits actually apply to our account, and the plan contains no figure for them."
+    }
+   },
+   "sampleReport": "The plan's arithmetic for its own traffic is consistent: 4 workers at 1.25 requests per second give 5 per second, which with signup's 3 per second peaks at 8 per second, and no day exceeds 290,000 requests. The rule, however, is that the account must never go over its rate limits, and a breach suspends the account and stops live signup lookups. The plan says the limits that apply to this account have not been confirmed and gives no figure for them, so nothing shows that 8 requests per second or 290,000 per day is within them. The client-side limiter and the no-retry policy bound the traffic, but bounding it says nothing about the limit it must stay under. The account's actual per-second and per-day limits need to be confirmed with the provider before the job runs.",
+   "author": "u1"
+  },
+  {
+   "family": "unique_constraint",
+   "twin": "UNCERTAIN",
+   "difficulty": "evidence_gap",
+   "line": 6,
+   "cite": [
+    2,
+    5,
+    6
+   ],
+   "mechanism": "The release aborts if the unique constraint on (tenant_id, email) cannot be applied (line 2). Line 5 rules out duplicates written since 4.9. In the sound plan, line 6 rules out duplicates among rows created before 4.9, which covers every row. In the twin, nothing has checked the pre-4.9 rows for duplicates. Any duplicate among them would make CREATE UNIQUE INDEX fail and abort the release, so applying the constraint depends on a fact nobody has established.",
+   "A": {
+    "sound": [
+     "Release 4.12 adds a unique constraint on the pair (tenant_id, email) to the customers table, which holds about 38 million rows in production.",
+     "The release runbook says that if this constraint cannot be applied in production, the whole release is aborted and the 4.12 build does not ship.",
+     "The migration starts with DROP INDEX IF EXISTS customers_tenant_email_uq, which removes nothing in production because no index of that name exists there yet.",
+     "It then builds customers_tenant_email_uq with CREATE UNIQUE INDEX CONCURRENTLY and attaches it to the table as the constraint once the build finishes.",
+     "Since release 4.9, the only code path that writes customer emails locks the tenant row first and refuses an email the tenant already has, so no duplicate pairs have been created since then.",
+     "A GROUP BY tenant_id, email HAVING COUNT(*) > 1 query over all rows created before release 4.9 was run on the production primary and returned zero rows.",
+     "Once the constraint is in place, the 4.12 sign-up code relies on it to return a clear error instead of creating a second account for the same email."
+    ],
+    "twin": {
+     "6": "Rows created before release 4.9 have not been checked for duplicate (tenant_id, email) pairs, and no duplicate query has been run on production."
+    }
+   },
+   "B": {
+    "sound": [
+     "In production the customers table has about 38 million rows, and release 4.12 places a unique constraint on its (tenant_id, email) pair.",
+     "Per the release runbook, a failure to apply this constraint in production aborts the entire release, and the 4.12 build is then not shipped.",
+     "As its opening step the migration executes DROP INDEX IF EXISTS customers_tenant_email_uq, a no-op in production since no index carrying that name exists there yet.",
+     "Next, customers_tenant_email_uq is created using CREATE UNIQUE INDEX CONCURRENTLY, and after the build completes it is attached to the table as the constraint.",
+     "From release 4.9 onward, customer emails are written by a single code path that first locks the tenant row and rejects an email already held by that tenant, so no duplicate pair has appeared since.",
+     "On the production primary, the query GROUP BY tenant_id, email HAVING COUNT(*) > 1 was executed across every row created before release 4.9 and came back with zero rows.",
+     "After the constraint exists, the sign-up code in 4.12 depends on it to report a clear error rather than open a second account under the same email."
+    ],
+    "twin": {
+     "6": "Nobody has run a duplicate query on production, so whether rows created before release 4.9 contain duplicate (tenant_id, email) pairs is still unchecked."
+    }
+   },
+   "sampleReport": "The whole 4.12 release depends on applying a unique constraint on (tenant_id, email) to a 38-million-row table, and line 2 aborts the release if that fails. Line 5 covers rows written since 4.9, but line 6 says nobody has checked the rows created before 4.9 for duplicate pairs. A single duplicate pair among those older rows would make CREATE UNIQUE INDEX CONCURRENTLY fail, and the release would be aborted. The GROUP BY tenant_id, email HAVING COUNT(*) > 1 query should be run over the pre-4.9 rows on production before this plan is relied on. The DROP INDEX IF EXISTS step is harmless as described.",
+   "author": "u2"
+  },
+  {
+   "family": "rollback_window",
+   "twin": "UNCERTAIN",
+   "difficulty": "evidence_gap",
+   "line": 6,
+   "cite": [
+    1,
+    2,
+    4,
+    6
+   ],
+   "mechanism": "Policy requires a failed release to be fully rolled back within 15 minutes of being declared failed, and a longer outage is a contractual breach (lines 2-3). The rollback is a down-migration on a 400 GB table followed by a redeploy (lines 1 and 4). In the sound plan, timed runs on a production-sized copy took at most 6 minutes, which is 2.5x headroom. In the twin, the rollback has never been timed at production size, so nothing shows it fits within 15 minutes.",
+   "A": {
+    "sound": [
+     "Version 7.3 of the order service ships tonight with a migration that adds the column discount_code to the orders table, which is about 400 GB in production.",
+     "Policy requires a failed release to be fully rolled back within 15 minutes of being declared failed, as the outage clock in our largest merchant's contract runs until the previous version serves traffic again.",
+     "Any outage longer than 15 minutes under that contract is a breach that carries a fixed penalty and must be reported to the merchant.",
+     "Rollback is one pipeline job that starts automatically when the release is declared failed, runs the down-migration, and then redeploys version 7.2.",
+     "The down-migration drops the discount_code column, which discards nothing 7.2 needs because 7.2 never reads or writes that column.",
+     "Three timed runs of the complete rollback job on a production-sized copy of the database took 5, 6 and 6 minutes from start until 7.2 was serving traffic.",
+     "The redeploy of 7.2 skips the usual canary stage, which is acceptable because 7.2 has served all production traffic for the past 30 days."
+    ],
+    "twin": {
+     "6": "The rollback job has not been timed on a production-sized copy of the database, so how long the down-migration and redeploy take at 400 GB is not known."
+    }
+   },
+   "B": {
+    "sound": [
+     "Tonight's release of the order service, version 7.3, includes a migration adding a discount_code column to the orders table, whose production size is about 400 GB.",
+     "Under the release policy, a release declared failed has to be completely rolled back within 15 minutes, since the outage clock in the contract with our largest merchant runs until the prior version is serving traffic again.",
+     "That contract treats an outage exceeding 15 minutes as a breach, which incurs a fixed penalty and has to be disclosed to the merchant.",
+     "A single pipeline job performs the rollback: it kicks off on its own as soon as the release is declared failed, executes the down-migration, and then puts version 7.2 back in place.",
+     "As part of the down-migration the discount_code column is dropped, and no data that 7.2 depends on is lost, since 7.2 neither reads nor writes that column.",
+     "On a copy of the database at production size, the whole rollback job was timed three times, taking 5, 6 and 6 minutes from its start to 7.2 serving traffic.",
+     "Putting 7.2 back bypasses the normal canary stage, which is acceptable given that 7.2 carried all production traffic for the past 30 days."
+    ],
+    "twin": {
+     "6": "Nobody has timed the rollback job against a copy of the database at production size, so the duration of the down-migration and redeploy at 400 GB is not known."
+    }
+   },
+   "sampleReport": "The plan requires a failed 7.3 release to be fully rolled back within 15 minutes, because any longer outage breaches the merchant contract and carries a penalty. The rollback runs a down-migration against a 400 GB orders table and then redeploys 7.2, but line 6 says the job has never been timed on a production-sized copy. Nothing else in the plan limits how long that takes, so nothing shows the rollback fits within 15 minutes. The full rollback should be timed on a production-sized copy before 7.3 ships. Dropping discount_code and skipping the canary for 7.2 are both justified by the plan's other lines.",
+   "author": "u2"
+  },
+  {
+   "family": "payload_limit",
+   "twin": "UNCERTAIN",
+   "difficulty": "evidence_gap",
+   "line": 5,
+   "cite": [
+    1,
+    2,
+    3,
+    5,
+    6,
+    7
+   ],
+   "mechanism": "Any request over 5,000,000 bytes is rejected whole (line 1). Rejected batches are never resent (line 6), and a missing invoice makes reconciliation fail (line 7). Batches hold 500 records whose notes field has no length limit (lines 2-3). In the sound plan, the largest record is 4,100 bytes, so a batch is at most 2,050,000 + under 1,000 bytes, about 2.4x below the limit. In the twin, record sizes have not been measured, so nothing bounds the batch size and staying under the limit is not established.",
+   "A": {
+    "sound": [
+     "The month-end job sends invoice records to the ledger partner's batch endpoint, which rejects the entire request if its body is larger than 5,000,000 bytes.",
+     "The job reads the closed month-end snapshot, which no longer changes once the month is closed, and sends it in batches of 500 records.",
+     "Each record is serialized as JSON and carries a free-text notes field that the source system does not limit in length.",
+     "The batch is wrapped in an envelope and sent uncompressed, and the envelope plus the separators between records add under 1,000 bytes per request.",
+     "A scan of every record in the closed snapshot found the largest serialized record to be 4,100 bytes, so a full batch of 500 is at most 2,050,000 bytes before the envelope.",
+     "The job makes exactly one request per batch and never resends a rejected batch, because the partner treats a second submission for the same period as a duplicate filing.",
+     "Any invoice missing from the partner's ledger makes the month-end reconciliation fail, and the month then stays open with the partner until the next cycle.",
+     "The client timeout is raised from the default 30 seconds to 120 seconds, since the partner documents responses of up to 60 seconds for large batches."
+    ],
+    "twin": {
+     "5": "The serialized sizes of the records in the closed snapshot have not been measured, so the size of the largest record is not known."
+    }
+   },
+   "B": {
+    "sound": [
+     "At month end a job posts invoice records to the batch endpoint of the ledger partner, and that endpoint refuses the whole request whenever its body exceeds 5,000,000 bytes.",
+     "Its input is the closed month-end snapshot, which stays fixed after the month is closed, and the job splits it into batches of 500 records.",
+     "Records go out as JSON, and every record includes a free-text notes field whose length the source system places no cap on.",
+     "Batches travel without compression inside an envelope, and that envelope together with the separators between records contributes under 1,000 bytes to each request.",
+     "Scanning every record of the closed snapshot showed that the biggest serialized record is 4,100 bytes, which puts a full batch of 500 at no more than 2,050,000 bytes excluding the envelope.",
+     "Each batch is sent in exactly one request and a refused batch is never sent again, since the partner regards a second submission for the same period as a duplicate filing.",
+     "If even one invoice is absent from the partner's ledger, month-end reconciliation fails and the month remains open with the partner until the following cycle.",
+     "The client's default timeout of 30 seconds is lifted to 120 seconds, because the partner states that large batches can take up to 60 seconds to answer."
+    ],
+    "twin": {
+     "5": "Nobody has measured how large the serialized records in the closed snapshot are, so the size of the biggest record is not known."
+    }
+   },
+   "sampleReport": "The endpoint rejects any request over 5,000,000 bytes, the job sends each 500-record batch exactly once, and a missing invoice makes month-end reconciliation fail. Each record has a notes field with no length limit, and line 5 says nobody has measured record sizes in the snapshot. Without a known maximum record size, nothing shows that 500 records plus under 1,000 bytes of envelope stays under 5,000,000 bytes. The closed snapshot should be scanned for its largest serialized record before running the job. The 120-second timeout is consistent with the partner's stated 60-second responses.",
+   "author": "u2"
+  },
+  {
+   "family": "storage_access",
+   "twin": "UNCERTAIN",
+   "difficulty": "evidence_gap",
+   "line": 4,
+   "cite": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "mechanism": "The export moves to a new location and runs once as svc-export with no retry (lines 1-2). If it does not complete, the 09:00 release is blocked (line 3). In the sound plan, svc-export wrote a 1 KB object to exports-prod/nightly/ yesterday, and no policy change is pending (line 5). In the twin, nobody has attempted a write with svc-export or checked its permissions on the new bucket. Whether the export can write at all is therefore not established, and that decides whether the release ships.",
+   "A": {
+    "sound": [
+     "From tonight, the nightly customer export writes its output to the bucket exports-prod under the prefix nightly/ instead of the old shared drive.",
+     "The export runs once at 01:00 under the service account svc-export, and a failed run is not retried.",
+     "The 09:00 release pipeline uses tonight's export as its input, and if the export has not completed, that morning's release is blocked and does not ship that day.",
+     "Yesterday a 1 KB object was written to exports-prod/nightly/ with svc-export's own credentials, the write succeeded, and an administrator then removed the object.",
+     "The bucket policy for exports-prod is kept in the infrastructure repository, and no change to it is pending or scheduled before tonight's run.",
+     "A lifecycle rule deletes objects in exports-prod after 7 days, which does not affect the release because the pipeline reads each export within 8 hours of it being written.",
+     "The export is written as a single object of about 30 GB, which is well under the bucket's stated limit of 5 TB per object."
+    ],
+    "twin": {
+     "4": "No write to exports-prod/nightly/ has been attempted with svc-export's own credentials, and its permissions on that bucket have not been checked."
+    }
+   },
+   "B": {
+    "sound": [
+     "Beginning tonight, output of the nightly customer export goes to the exports-prod bucket under the nightly/ prefix rather than to the old shared drive.",
+     "The service account svc-export runs the export a single time at 01:00, and no retry follows a failed run.",
+     "Tonight's export is the input of the release pipeline at 09:00, so if the export has not finished, the release for that morning is blocked and nothing ships that day.",
+     "Using svc-export's own credentials, a 1 KB object was successfully written to exports-prod/nightly/ yesterday, after which an administrator deleted it.",
+     "The exports-prod bucket policy lives in the infrastructure repository, with no pending or scheduled change to it ahead of tonight's run.",
+     "Objects in exports-prod are removed after 7 days by a lifecycle rule, which leaves the release unaffected since the pipeline consumes every export within 8 hours of its creation.",
+     "The export lands as one object of roughly 30 GB, far below the 5 TB per-object limit the bucket states."
+    ],
+    "twin": {
+     "4": "Nobody has tried writing to exports-prod/nightly/ with svc-export's own credentials, and what permissions it holds on that bucket has not been checked."
+    }
+   },
+   "sampleReport": "Tonight the export moves to a new bucket, runs once as svc-export with no retry, and a failed run blocks the 09:00 release. Line 4 says nobody has tried a write to exports-prod/nightly/ with svc-export's credentials or checked its permissions there. Since this is the first run against the new location, nothing in the plan shows the job can write its output at all. A small write as svc-export to that prefix should be made before tonight's run. The 7-day lifecycle rule and the 30 GB object size are both fine given the plan's other lines.",
+   "author": "u2"
+  }
+ ]
+}
