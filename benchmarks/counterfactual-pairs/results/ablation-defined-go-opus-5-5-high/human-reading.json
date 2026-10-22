@@ -1,0 +1,40 @@
+{
+  "rule": "ablation/defined-go/PREREGISTRATION.md, Human reading: (1) every changed twin that received GO; (2) every defect twin without NO_GO and every sound plan with NO_GO; (3) a sample of sound plans that were hedged in the defined arm and are clean here, and a sample of sound plans that are still GO_WITH_CHANGES.",
+  "reader": "the benchmark's author, after seeing the scores; the same person wrote the corpus and the arm's sentence",
+  "falseCleanChangedTwins": {
+    "count": 3,
+    "observations": [
+      {"trial": 1, "case": "P-236f74", "family": "runtime_budget", "wording": "B", "expectedClass": "UNCERTAIN", "verdict": "GO", "definedArmVerdict": "GO_WITH_CHANGES"},
+      {"trial": 2, "case": "P-08bce2", "family": "runtime_budget", "wording": "A", "expectedClass": "UNCERTAIN", "verdict": "GO", "definedArmVerdict": "GO_WITH_CHANGES"},
+      {"trial": 2, "case": "P-236f74", "family": "runtime_budget", "wording": "B", "expectedClass": "UNCERTAIN", "verdict": "GO", "definedArmVerdict": "GO_WITH_CHANGES"}
+    ],
+    "classification": "All three are the same kind: the report names the planted gap (the 22 MB/s requirement against a throughput nobody measured) and then dismisses it as handled by the plan's own cancel-and-report rule, filing 'benchmark first' under 'Optional suggestions (robustness only, not required)'. None misses the gap. This is the risk the preregistration named: the new sentence lets a reviewer file an unverified risk as optional.",
+    "quotes": ["\"Unmeasured throughput: this is a real unknown, but the plan already handles it.\" (P-236f74, trial 1)", "\"The unmeasured throughput is a risk, but the cancel-and-report rule already contains it. So the plan works as written.\" (P-08bce2, trial 2)", "\"so this is a risk rather than a defect\" (P-236f74, trial 2)"],
+    "theFourthObservation": "Trial 1 P-08bce2 (the other 'changed' runtime-budget observation) still received GO_WITH_CHANGES. Runtime budget is the only family whose correct verdict is GO_WITH_CHANGES, so 3 of its 4 observations lost the correct verdict, and 2 distinct plans were involved.",
+    "alsoWorthSaying": "Reading the plans, the reviewers' reasoning is defensible as a reading of the plan's own rule (a cancelled run is a designed outcome). The oracle's expectation is that an unmeasured throughput deserves a flagged change; the skill-style arm met it 4 of 4 times. Which is right is a question about what the verdict scale is for, not one this experiment settles."
+  },
+  "missedDefectTwins": {"count": 0, "note": "All 36 defect twins received NO_GO."},
+  "blockedSoundPlans": {"count": 0, "note": "No sound plan received NO_GO (0 of 40)."},
+  "soundPlansHedged": {"count": 0, "note": "No sound plan received GO_WITH_CHANGES: all 40 were GO, so there was no sample of still-hedged plans to read."},
+  "soundPlansNewlyCleanSampled": {
+    "readFirstCharacters": 1500,
+    "reports": [
+      {"trial": 1, "case": "P-1795a8", "family": "migration_order", "verdict": "GO", "definedArmVerdict": "GO_WITH_CHANGES", "finding": "Checks each step's precondition and concludes the plan works as written; the multiple-shipments, pre-check, index and batching points are listed under 'Optional suggestions: none of these is needed for the plan to work'."},
+      {"trial": 1, "case": "P-993a80", "family": "permission_chain", "verdict": "GO", "definedArmVerdict": "GO_WITH_CHANGES", "finding": "Traces the authorization chain to its rule, concludes no path lets a non-member approve; revocation-at-endpoint, stolen tokens and defence in depth are 'Optional hardening (not required)'."},
+      {"trial": 1, "case": "P-544e9e", "family": "caller_callee", "wording": "A", "verdict": "GO", "definedArmVerdict": "GO_WITH_CHANGES", "finding": "All three callers covered; the missing test for main() is the first optional suggestion."},
+      {"trial": 2, "case": "P-544e9e", "family": "caller_callee", "wording": "A", "verdict": "GO", "finding": "Same: the missing test for main() is an optional suggestion; 'none of these is needed for the plan to work'."}
+    ],
+    "callerCalleeNote": "The caller/callee sound plan is the one adjudicated in pilot 2 as having a text-visible gap (main() is the one caller with a promised behaviour and it has no test). The reviewer sees the gap and calls it optional, so a GO here is the sentence working as written, and arguably a miss. The primary result is unaffected when caller/callee is excluded (sound plans clean 36 of 36)."
+  },
+  "correctDefectTwinsSampled": {
+    "readFirstCharacters": 1500,
+    "reports": [
+      {"trial": 1, "case": "P-58b118", "family": "migration_order", "verdict": "NO_GO", "finding": "Steps run 1, 3, 2; the constraint fails on 2M NULL rows; names the failure and the fix; other points are 'not blocking'."},
+      {"trial": 2, "case": "P-244d59", "family": "unit_mismatch", "verdict": "NO_GO", "finding": "timeout=5 is 5 ms against an 800 ms p99; retries make it worse; 'Required fix'."}
+    ],
+    "conclusion": "Complete and correct. With the sentence the reviewer still separates the required fix from robustness suggestions, which is what the sentence asks."
+  },
+  "exploratory": "Not preregistered: every sound-plan report I read ended with a section headed 'Optional suggestions' or 'Optional hardening', and every report with NO_GO carried its mechanism. The sentence appears to have changed how the reviewer files its suggestions, not whether it makes them.",
+  "coverage": "Read in full: the three false-clean reports. The fourth runtime-budget changed-twin observation (P-08bce2, trial 1, GO_WITH_CHANGES) was not read. Read for their first 1,500 to 1,800 characters (plus the last 250 for the first four): the six samples above. Everything else was checked only by its verdict and the keyword rubric.",
+  "notes": ["Judged by one reader, the benchmark's author, who wrote the corpus and the sentence."]
+}

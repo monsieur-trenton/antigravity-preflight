@@ -1,6 +1,6 @@
 # Fourth arm: defined verdicts plus one sentence on optional suggestions
 
-The [defined arm](../defined/README.md) closed most of the verdict gap but not the sound-plan part of it: it blocked all 35 defect twins that produced a verdict, yet judged only 8 of 40 sound plans clean, against 24 of 40 for the skill-style arm ([results](../../results/ablation-defined-opus-5-5-high/README.md)). Its sound-plan reviews said "these are improvements, not blockers" and then ended `GO_WITH_CHANGES`. This arm adds **one sentence** and asks whether that makes sound plans clean without losing the defect twins. **It has not been run yet.**
+The [defined arm](../defined/README.md) closed most of the verdict gap but not the sound-plan part of it: it blocked all 35 defect twins that produced a verdict, yet judged only 8 of 40 sound plans clean, against 24 of 40 for the skill-style arm ([results](../../results/ablation-defined-opus-5-5-high/README.md)). Its sound-plan reviews said "these are improvements, not blockers" and then ended `GO_WITH_CHANGES`. This arm adds **one sentence** and asks whether that makes sound plans clean without losing the defect twins. **It has been run once** ([results](../../results/ablation-defined-go-opus-5-5-high/README.md)): all 40 sound plans clean and all 36 defect twins blocked, but 3 of 4 uncertainty-twin observations judged `GO`; the preregistered label is "costs detection".
 
 | | Defined arm | This arm |
 | --- | --- | --- |
