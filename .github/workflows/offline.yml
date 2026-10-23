@@ -24,6 +24,7 @@ jobs:
       - run: python3 -B -I benchmarks/counterfactual-pairs/build_corpus.py --check
       - run: python3 -B -I benchmarks/counterfactual-pairs/test_score.py
       - run: python3 -B -I benchmarks/counterfactual-pairs/test_run_pilot.py
+      - run: python3 -B -I benchmarks/counterfactual-pairs/test_reparse_lenient.py
       - run: python3 -B -I benchmarks/counterfactual-pairs/test_run_pilot_claude.py
       - run: python3 -B -I benchmarks/counterfactual-pairs/v2/build_corpus.py --check
       - run: python3 -B -I benchmarks/counterfactual-pairs/v2/test_corpus.py

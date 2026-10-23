@@ -1,0 +1,167 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 736" width="900" height="736" role="img" aria-labelledby="t d">
+<title id="t">Reviewer verdicts on sound plans and their changed twins</title><desc id="d">Per-case verdicts from gemini-3.8-flash-high through the Claude CLI across 6 families, 2 wordings and 2 trials; five valid families judged the changed twin more severely in 20 of 20 pair-observations.</desc>
+<style>
+svg { --surface:#fcfcfb; --ink:#0b0b0b; --ink2:#52514e; --grid:#dcdbd6; --accent:#2a78d6;
+  --on-accent:#ffffff; --warn:#fab219; --on-warn:#0b0b0b; --neutral:#ecebe7; --tile:#f3f2ee; }
+@media (prefers-color-scheme: dark) {
+  svg { --surface:#1a1a19; --ink:#f0efec; --ink2:#c3c2b7; --grid:#3a3a37; --accent:#3987e5;
+    --on-accent:#0b0b0b; --warn:#fab219; --on-warn:#0b0b0b; --neutral:#2a2a28; --tile:#232321; }
+}
+text { font-family:-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif; fill:var(--ink); }
+.mono { font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+.muted { fill:var(--ink2); }
+.title { font-size:20px; font-weight:600; }
+.sub { font-size:13px; }
+.lab { font-size:13px; }
+.small { font-size:11.5px; }
+.big { font-size:30px; font-weight:650; }
+.head { font-size:12px; font-weight:600; }
+</style>
+<rect width="900" height="736" rx="10" fill="var(--surface)"/>
+<text x="24" y="36" class="title" text-anchor="start">Gemini 3.8 Flash High: sound plans and their changed twins</text>
+<text x="24" y="58" class="sub muted" text-anchor="start">Route flash-high (native agy), model gemini-3.8-flash-high (requested, not attested), effort high; 24 cases, 2 trials, 4 format stops marked *.</text>
+<text x="24" y="78" class="sub muted" text-anchor="start">Pre-registered strict score on the documented-rule view: 8/12 and 8/12 (as run, with the stops removed: 5/9 and 7/11).</text>
+<text x="334.0" y="106" class="head" text-anchor="middle">Sound plan</text>
+<text x="526.0" y="106" class="head" text-anchor="middle">Changed twin</text>
+<text x="292.0" y="122" class="small muted" text-anchor="middle">trial 1</text>
+<text x="376.0" y="122" class="small muted" text-anchor="middle">trial 2</text>
+<text x="484.0" y="122" class="small muted" text-anchor="middle">trial 1</text>
+<text x="568.0" y="122" class="small muted" text-anchor="middle">trial 2</text>
+<text x="24" y="152" class="lab" text-anchor="start" font-weight="600">Absent vs null</text>
+<text x="236" y="152" class="small muted" text-anchor="end">A</text>
+<rect x="254" y="135" width="76" height="26" rx="4" fill="#cde2fb"/>
+<text x="292.0" y="153" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="338" y="135" width="76" height="26" rx="4" fill="#cde2fb"/>
+<text x="376.0" y="153" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="446" y="135" width="76" height="26" rx="4" fill="#184f95"/>
+<text x="484.0" y="153" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">Blockers</text>
+<rect x="530" y="135" width="76" height="26" rx="4" fill="#184f95"/>
+<text x="568.0" y="153" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">Blockers</text>
+<text x="236" y="184" class="small muted" text-anchor="end">B</text>
+<rect x="254" y="167" width="76" height="26" rx="4" fill="#cde2fb"/>
+<text x="292.0" y="185" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="338" y="167" width="76" height="26" rx="4" fill="#cde2fb"/>
+<text x="376.0" y="185" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="446" y="167" width="76" height="26" rx="4" fill="#184f95"/>
+<text x="484.0" y="185" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">Blockers</text>
+<rect x="530" y="167" width="76" height="26" rx="4" fill="#184f95"/>
+<text x="568.0" y="185" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">Blockers</text>
+<text x="628" y="152" class="small muted" text-anchor="start">4/4 judged stricter</text>
+<line x1="24" y1="203" x2="876" y2="203" stroke="var(--grid)" stroke-opacity="0.6"/>
+<text x="24" y="230" class="lab" text-anchor="start" font-weight="600">Caller / callee</text>
+<text x="236" y="230" class="small muted" text-anchor="end">A</text>
+<rect x="254" y="213" width="76" height="26" rx="4" fill="#cde2fb"/>
+<text x="292.0" y="231" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="338" y="213" width="76" height="26" rx="4" fill="#cde2fb"/>
+<text x="376.0" y="231" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="446" y="213" width="76" height="26" rx="4" fill="#184f95"/>
+<text x="484.0" y="231" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">Blockers*</text>
+<rect x="530" y="213" width="76" height="26" rx="4" fill="#184f95"/>
+<text x="568.0" y="231" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">Blockers</text>
+<text x="236" y="262" class="small muted" text-anchor="end">B</text>
+<rect x="254" y="245" width="76" height="26" rx="4" fill="#cde2fb"/>
+<text x="292.0" y="263" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="338" y="245" width="76" height="26" rx="4" fill="#cde2fb"/>
+<text x="376.0" y="263" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="446" y="245" width="76" height="26" rx="4" fill="#184f95"/>
+<text x="484.0" y="263" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">Blockers</text>
+<rect x="530" y="245" width="76" height="26" rx="4" fill="#184f95"/>
+<text x="568.0" y="263" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">Blockers</text>
+<text x="628" y="230" class="small muted" text-anchor="start">4/4 judged stricter</text>
+<line x1="24" y1="281" x2="876" y2="281" stroke="var(--grid)" stroke-opacity="0.6"/>
+<text x="24" y="308" class="lab" text-anchor="start" font-weight="600">Output byte limit</text>
+<text x="24" y="326" class="small muted" text-anchor="start">corpus defect: see adjudication</text>
+<text x="236" y="308" class="small muted" text-anchor="end">A</text>
+<rect x="254" y="291" width="76" height="26" rx="4" fill="#cde2fb" stroke="var(--ink2)" stroke-dasharray="3 3"/>
+<text x="292.0" y="309" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="338" y="291" width="76" height="26" rx="4" fill="#cde2fb" stroke="var(--ink2)" stroke-dasharray="3 3"/>
+<text x="376.0" y="309" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="446" y="291" width="76" height="26" rx="4" fill="#6da7ec" stroke="var(--ink2)" stroke-dasharray="3 3"/>
+<text x="484.0" y="309" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes</text>
+<rect x="530" y="291" width="76" height="26" rx="4" fill="#6da7ec" stroke="var(--ink2)" stroke-dasharray="3 3"/>
+<text x="568.0" y="309" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes</text>
+<text x="236" y="340" class="small muted" text-anchor="end">B</text>
+<rect x="254" y="323" width="76" height="26" rx="4" fill="#cde2fb" stroke="var(--ink2)" stroke-dasharray="3 3"/>
+<text x="292.0" y="341" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="338" y="323" width="76" height="26" rx="4" fill="#cde2fb" stroke="var(--ink2)" stroke-dasharray="3 3"/>
+<text x="376.0" y="341" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="446" y="323" width="76" height="26" rx="4" fill="#6da7ec" stroke="var(--ink2)" stroke-dasharray="3 3"/>
+<text x="484.0" y="341" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes</text>
+<rect x="530" y="323" width="76" height="26" rx="4" fill="#cde2fb" stroke="var(--ink2)" stroke-dasharray="3 3"/>
+<text x="568.0" y="341" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<text x="628" y="308" class="small muted" text-anchor="start">3/4 judged stricter</text>
+<line x1="24" y1="359" x2="876" y2="359" stroke="var(--grid)" stroke-opacity="0.6"/>
+<text x="24" y="386" class="lab" text-anchor="start" font-weight="600">Ownership / authorization</text>
+<text x="236" y="386" class="small muted" text-anchor="end">A</text>
+<rect x="254" y="369" width="76" height="26" rx="4" fill="#cde2fb"/>
+<text x="292.0" y="387" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="338" y="369" width="76" height="26" rx="4" fill="#cde2fb"/>
+<text x="376.0" y="387" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="446" y="369" width="76" height="26" rx="4" fill="#184f95"/>
+<text x="484.0" y="387" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">Blockers*</text>
+<rect x="530" y="369" width="76" height="26" rx="4" fill="#184f95"/>
+<text x="568.0" y="387" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">Blockers</text>
+<text x="236" y="418" class="small muted" text-anchor="end">B</text>
+<rect x="254" y="401" width="76" height="26" rx="4" fill="#cde2fb"/>
+<text x="292.0" y="419" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="338" y="401" width="76" height="26" rx="4" fill="#cde2fb"/>
+<text x="376.0" y="419" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="446" y="401" width="76" height="26" rx="4" fill="#184f95"/>
+<text x="484.0" y="419" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">Blockers*</text>
+<rect x="530" y="401" width="76" height="26" rx="4" fill="#184f95"/>
+<text x="568.0" y="419" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">Blockers*</text>
+<text x="628" y="386" class="small muted" text-anchor="start">4/4 judged stricter</text>
+<line x1="24" y1="437" x2="876" y2="437" stroke="var(--grid)" stroke-opacity="0.6"/>
+<text x="24" y="464" class="lab" text-anchor="start" font-weight="600">Required coverage</text>
+<text x="236" y="464" class="small muted" text-anchor="end">A</text>
+<rect x="254" y="447" width="76" height="26" rx="4" fill="#cde2fb"/>
+<text x="292.0" y="465" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="338" y="447" width="76" height="26" rx="4" fill="#cde2fb"/>
+<text x="376.0" y="465" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="446" y="447" width="76" height="26" rx="4" fill="#6da7ec"/>
+<text x="484.0" y="465" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes</text>
+<rect x="530" y="447" width="76" height="26" rx="4" fill="#6da7ec"/>
+<text x="568.0" y="465" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes</text>
+<text x="236" y="496" class="small muted" text-anchor="end">B</text>
+<rect x="254" y="479" width="76" height="26" rx="4" fill="#cde2fb"/>
+<text x="292.0" y="497" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="338" y="479" width="76" height="26" rx="4" fill="#cde2fb"/>
+<text x="376.0" y="497" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="446" y="479" width="76" height="26" rx="4" fill="#6da7ec"/>
+<text x="484.0" y="497" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes</text>
+<rect x="530" y="479" width="76" height="26" rx="4" fill="#6da7ec"/>
+<text x="568.0" y="497" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes</text>
+<text x="628" y="464" class="small muted" text-anchor="start">4/4 judged stricter</text>
+<line x1="24" y1="515" x2="876" y2="515" stroke="var(--grid)" stroke-opacity="0.6"/>
+<text x="24" y="542" class="lab" text-anchor="start" font-weight="600">Runtime budget evidence</text>
+<text x="236" y="542" class="small muted" text-anchor="end">A</text>
+<rect x="254" y="525" width="76" height="26" rx="4" fill="#cde2fb"/>
+<text x="292.0" y="543" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="338" y="525" width="76" height="26" rx="4" fill="#cde2fb"/>
+<text x="376.0" y="543" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="446" y="525" width="76" height="26" rx="4" fill="#6da7ec"/>
+<text x="484.0" y="543" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes</text>
+<rect x="530" y="525" width="76" height="26" rx="4" fill="#6da7ec"/>
+<text x="568.0" y="543" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes</text>
+<text x="236" y="574" class="small muted" text-anchor="end">B</text>
+<rect x="254" y="557" width="76" height="26" rx="4" fill="#cde2fb"/>
+<text x="292.0" y="575" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="338" y="557" width="76" height="26" rx="4" fill="#cde2fb"/>
+<text x="376.0" y="575" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="446" y="557" width="76" height="26" rx="4" fill="#6da7ec"/>
+<text x="484.0" y="575" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes</text>
+<rect x="530" y="557" width="76" height="26" rx="4" fill="#6da7ec"/>
+<text x="568.0" y="575" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes</text>
+<text x="628" y="542" class="small muted" text-anchor="start">4/4 judged stricter</text>
+<line x1="24" y1="593" x2="876" y2="593" stroke="var(--grid)" stroke-opacity="0.6"/>
+<rect x="24" y="616" width="26" height="16" rx="3" fill="#cde2fb"/>
+<text x="58" y="628" class="small" text-anchor="start">Clean: no blockers found</text>
+<rect x="274" y="616" width="26" height="16" rx="3" fill="#6da7ec"/>
+<text x="308" y="628" class="small" text-anchor="start">Changes recommended</text>
+<rect x="524" y="616" width="26" height="16" rx="3" fill="#184f95"/>
+<text x="558" y="628" class="small" text-anchor="start">Blockers found</text>
+<text x="24" y="656" class="small" text-anchor="start">Ordinal reading, five valid families: the changed twin was judged strictly more severely than its sound twin in 20 of 20 pair-observations.</text>
+<text x="24" y="674" class="small muted" text-anchor="start">* The report ended with a correct BLOCKER whose line field was the label S01:3; the strict parser stopped it. Read here as line 3 (documented rule).</text>
+<text x="24" y="692" class="small muted" text-anchor="start">Both required-coverage twins got Changes (a RISK), not Blockers: the reviewer said the diff's contents are not in the snapshot.</text>
+<text x="24" y="710" class="small muted" text-anchor="start">Dashed cells: Output byte limit is excluded as a corpus defect (pilot 1). This reviewer judged both of its sound plans clean.</text>
+</svg>

@@ -234,7 +234,7 @@ def pair_matrix(pilot):
     height = top + len(families) * (row_h * 2 + 14) + 64 + 18 * len(footer)
     pairs = pilot.get("pairs", 12)
     body = [t(left, 36, pilot.get("title", "Sound plans and their changed twins: reviewer verdicts"), "title"),
-            t(left, 58, f"Route claude-cli, model {pilot['model']}, effort {pilot['effort']}; {len(families) * 4} cases, 2 trials, 0 technical stops, 0 unsupported VERIFIED findings.", "sub muted"),
+            t(left, 58, pilot.get("subtitle2") or f"Route claude-cli, model {pilot['model']}, effort {pilot['effort']}; {len(families) * 4} cases, 2 trials, 0 technical stops, 0 unsupported VERIFIED findings.", "sub muted"),
             t(left, 78, pilot.get("subtitle3") or f"Pre-registered strict score, pairs discriminated: {pilot['strict'][0]}/{pairs} and {pilot['strict'][1]}/{pairs}. Post-hoc adjudication in the write-up.", "sub muted")]
     for group, first in (("Sound plan", 0), ("Changed twin", 2)):
         centre = (col_x[first] + col_x[first + 1] + cell_w) / 2
@@ -258,6 +258,7 @@ def pair_matrix(pilot):
             for (role, trial), x in zip(cols, col_x):
                 verdict = cells[(family, wording, role, trial)]
                 label, fill, ink = VERDICT[verdict]
+                label += "*" if (family, wording, role, trial) in pilot.get("marks", ()) else ""
                 body.append(f'<rect x="{x}" y="{yy + 3}" width="{cell_w}" height="{row_h - 6}" rx="4" fill="{fill}"'
                             f'{" stroke=\"var(--ink2)\" stroke-dasharray=\"3 3\"" if flagged else ""}/>')
                 body.append(f'<text x="{x + cell_w / 2}" y="{yy + 21}" class="small" text-anchor="middle" fill="{ink}" style="fill:{ink}">{label}</text>')
@@ -312,6 +313,8 @@ def collect_inputs():
         "ablation": load_ablation(),
         "threeArms": load_three_arms(),
         "fourArms": load_four_arms(),
+        "flash": load_flash(),
+        "routes": load_routes(),
     }
 
 
@@ -340,6 +343,44 @@ def load_pilot():
         raise SystemExit("PILOT_SCORE_MISMATCH")
     return {"rows": rows, "model": model.pop(), "effort": effort.pop(), "strict": strict,
             "invalidFamilies": ["output_bytes"]}
+
+
+GEMINI_RESULTS = ROOT / "benchmarks/counterfactual-pairs/results/pilot-flash-high"
+
+
+def _flash_rows(ledger):
+    return {t: [json.loads(line) for line in (GEMINI_RESULTS / f"trial{t}/{ledger}").read_text(encoding="utf-8").splitlines() if line.strip()] for t in (1, 2)}
+
+
+def load_flash():
+    """The Gemini 3.8 Flash High pilot on corpus v1, in the documented-rule view (four format stops re-read), from committed ledgers."""
+    if not GEMINI_RESULTS.is_dir():
+        return None
+    base = ROOT / "benchmarks/counterfactual-pairs"
+    oracle = {c["case"]: c for c in json.loads((base / "oracle/oracle.json").read_bytes())["cases"]}
+    as_run, doc = _flash_rows("responses.jsonl"), _flash_rows("responses-documented-rule.jsonl")
+    identity = json.loads((GEMINI_RESULTS / "orchestrator-reported-identity.json").read_bytes())
+    rows, marks = {}, set()
+    for trial in (1, 2):
+        for row in doc[trial]:
+            truth = oracle[row["case"]]
+            if row.get("technicalStop"):
+                raise SystemExit("FLASH_DOCUMENTED_RULE_HAS_STOPS")
+            key = (truth["family"], truth["wording"], truth["role"], trial)
+            rows[key] = row["assessment"]
+            if row.get("reparsedFrom"):
+                marks.add(key)
+    stops = sum(1 for t in (1, 2) for r in as_run[t] if r.get("technicalStop"))
+    score = json.loads((GEMINI_RESULTS / "score-documented-rule.json").read_bytes())["trials"]
+    as_run_score = json.loads((GEMINI_RESULTS / "score-as-run.json").read_bytes())["trials"]
+    strict = [score[str(t_)]["pairDiscrimination"]["count"] for t_ in (1, 2)]
+    if len(rows) != 48 or len(marks) != stops or any(score[str(t_)]["pairDiscrimination"]["of"] != 12 for t_ in (1, 2)):
+        raise SystemExit("FLASH_SCORE_MISMATCH")
+    ordinal = sum(SEVERITY[rows[(f, w, "changed", t_)]] > SEVERITY[rows[(f, w, "sound", t_)]]
+                  for f in FAMILY_LABEL if f != "output_bytes" for w in ("A", "B") for t_ in (1, 2))
+    as_run_strict = [(as_run_score[str(t_)]["pairDiscrimination"]["count"], as_run_score[str(t_)]["pairDiscrimination"]["of"]) for t_ in (1, 2)]
+    return {"rows": rows, "model": identity["requestedModel"], "effort": identity["effort"], "strict": strict, "invalidFamilies": ["output_bytes"],
+            "marks": marks, "stops": stops, "ordinal": ordinal, "asRunStrict": as_run_strict}
 
 
 V2_LABEL = {"absent_vs_null": "Absent vs null", "required_coverage": "Required coverage", "caller_callee": "Caller / callee",
@@ -562,12 +603,12 @@ ARM_DIRS = {"skill": "pilot2-v2-claude-opus-5-5-high", "bare": "ablation-bare-op
             "defined": "ablation-defined-opus-5-5-high", "defined-go": "ablation-defined-go-opus-5-5-high"}
 
 
-def _arm_data(directory, oracle):
+def _arm_data(directory, oracle, ledger="responses.jsonl"):
     """One arm's verdict mix (sound plans, defect twins, uncertainty twins) and per-unit ordinal and strict outcomes, from its ledgers."""
     severity, verdicts, mix = {}, {}, {"sound": dict.fromkeys(VERDICT_ORDER, 0), "defect": dict.fromkeys(VERDICT_ORDER, 0),
                          "uncertain": dict.fromkeys(VERDICT_ORDER, 0), "stops": 0}
     for trial in (1, 2):
-        for line in (directory / f"trial{trial}/responses.jsonl").read_text(encoding="utf-8").splitlines():
+        for line in (directory / f"trial{trial}/{ledger}").read_text(encoding="utf-8").splitlines():
             row = json.loads(line)
             if row.get("technicalStop"):
                 mix["stops"] += 1
@@ -829,6 +870,57 @@ def four_arm_figure(data):
                         f"but {unc['NO_BLOCKERS_FOUND']} of {n_unc} uncertainty-twin observations were judged Clean.", lanes=True)
 
 
+ROUTE_CSS = """
+svg { --claude:#2a78d6; --flash:#8a5fd6; }
+@media (prefers-color-scheme: dark) { svg { --claude:#3987e5; --flash:#a07ae6; } }
+"""
+ROUTE_STYLE = (("claude", "Claude Opus 5.5", "circle"), ("flash", "Gemini 3.8 Flash High", "square"))
+
+
+def load_routes():
+    """The same corpus v1 on two routes, from committed ledgers (the Gemini run in its documented-rule view), checked against committed scores."""
+    claude_dir = RESULTS_V2 / "pilot1-claude-opus-5-5-high"
+    if not GEMINI_RESULTS.is_dir() or not claude_dir.is_dir():
+        return None
+    base = ROOT / "benchmarks/counterfactual-pairs"
+    oracle = {c["case"]: c for c in json.loads((base / "oracle/oracle.json").read_bytes())["cases"]}
+    mix, units, strict, verdicts = {}, {}, {}, {}
+    mix["claude"], units["claude"], strict["claude"], verdicts["claude"] = _arm_data(claude_dir, oracle)
+    mix["flash"], units["flash"], strict["flash"], verdicts["flash"] = _arm_data(GEMINI_RESULTS, oracle, "responses-documented-rule.jsonl")
+    for arm, path in (("claude", claude_dir / "score.json"), ("flash", GEMINI_RESULTS / "score-documented-rule.json")):
+        score = json.loads(path.read_bytes())["trials"]
+        for t_ in (1, 2):
+            got = sum(v for (f, w, tr), v in strict[arm].items() if tr == t_)
+            if got != score[str(t_)]["pairDiscrimination"]["count"]:
+                raise SystemExit("ROUTE_SCORE_STALE:" + arm)
+    per_trial = lambda table, arm, skip=(): [sum(v for (f, w, tr), v in table[arm].items() if tr == t_ and f not in skip) for t_ in (1, 2)]
+    agree = sum(verdicts["claude"][k] == verdicts["flash"][k] for k in verdicts["claude"])
+    flash_stops = sum(1 for t_ in (1, 2) for r in _flash_rows("responses.jsonl")[t_] if r.get("technicalStop"))
+    hedged = {arm: mix[arm]["sound"]["CHANGES_RECOMMENDED"] for arm in mix}
+    return {"mix": mix, "perFamily": _per_family(units, ["claude", "flash"]), "agree": agree, "total": len(verdicts["claude"]), "stops": flash_stops,
+            "ordered": {a: per_trial(units, a) for a in units}, "orderedValid": {a: per_trial(units, a, ("output_bytes",)) for a in units},
+            "strict": {a: per_trial(strict, a) for a in strict}, "hedged": hedged, "soundN": {a: sum(mix[a]["sound"].values()) for a in mix}}
+
+
+def routes_figure(data):
+    mix, ordered, valid, strict = data["mix"], data["ordered"], data["orderedValid"], data["strict"]
+    footer = [
+        (f"Pairs ordered (twin judged more severely than its sound plan), trials 1 and 2: Claude {ordered['claude'][0]}/12 and {ordered['claude'][1]}/12, Gemini {ordered['flash'][0]}/12 and {ordered['flash'][1]}/12.", "small"),
+        (f"Without the defective Output byte limit family: Claude {valid['claude'][0]}/10 and {valid['claude'][1]}/10, Gemini {valid['flash'][0]}/10 and {valid['flash'][1]}/10.", "small"),
+        (f"Strict pairs (sound plan Clean and twin right): Claude {strict['claude'][0]}/12 and {strict['claude'][1]}/12, Gemini {strict['flash'][0]}/12 and {strict['flash'][1]}/12.", "small"),
+        (f"Gemini hedged {data['hedged']['flash']} of {data['soundN']['flash']} sound plans, Claude {data['hedged']['claude']} of {data['soundN']['claude']}. On required coverage Gemini wrote Changes where Claude wrote Blockers.", "small"),
+        (f"Verdicts agree in {data['agree']} of {data['total']}. Gemini's {data['stops']} format stops are re-read (documented rule); its model is requested, not attested.", "small muted"),
+        ("Different routes and times, one corpus with one flawed family; nothing here is a general accuracy rate.", "small muted")]
+    header = ("Same 24 plans, two reviewers: Claude Opus 5.5 and Gemini 3.8 Flash High",
+              "Corpus v1, 2 trials each: Claude via claude-cli, Gemini via the native flash-high route; run at different times.",
+              "Gemini's four format stops (label S01:3 for line 3) are re-read as line 3; as-run numbers are in the write-up.")
+    for text, size in [(header[0], 20), (header[1], 13), (header[2], 13)] + [(line, 11.5) for line, _ in footer]:
+        fits(text, size, 876, "routes text")
+    return _arms_figure(data, ROUTE_STYLE, ROUTE_CSS, (("sound", "Sound plans"), ("defect", "Defect twins"), ("uncertain", "Uncertainty twin (runtime budget)")),
+                        header, footer, "Corpus v1 on two reviewer routes",
+                        f"Verdict mix and pairs ordered per family for Claude Opus 5.5 and Gemini 3.8 Flash High on the same 24 plans; verdicts agree in {data['agree']} of {data['total']} observations.", lanes=True)
+
+
 def build(inputs):
     figures = {"fault-gate-matrix.svg": fault_matrix(inputs["results"]),
                "offline-evidence.svg": evidence_overview(inputs)}
@@ -842,6 +934,19 @@ def build(inputs):
         figures["ablation-three-arms.svg"] = three_arm_figure(inputs["threeArms"])
     if inputs.get("fourArms"):
         figures["ablation-four-arms.svg"] = four_arm_figure(inputs["fourArms"])
+    if inputs.get("flash"):
+        flash = inputs["flash"]
+        figures["pilot-flash-verdict-matrix.svg"] = pair_matrix(dict(
+            flash, subtitle2=f"Route flash-high (native agy), model {flash['model']} (requested, not attested), effort {flash['effort']}; 24 cases, 2 trials, {flash['stops']} format stops marked *.",
+            subtitle3=f"Pre-registered strict score on the documented-rule view: {flash['strict'][0]}/12 and {flash['strict'][1]}/12 (as run, with the stops removed: "
+                      f"{flash['asRunStrict'][0][0]}/{flash['asRunStrict'][0][1]} and {flash['asRunStrict'][1][0]}/{flash['asRunStrict'][1][1]}).",
+            title="Gemini 3.8 Flash High: sound plans and their changed twins",
+            footer=[(f"Ordinal reading, five valid families: the changed twin was judged strictly more severely than its sound twin in {flash['ordinal']} of 20 pair-observations.", "small"),
+                    ("* The report ended with a correct BLOCKER whose line field was the label S01:3; the strict parser stopped it. Read here as line 3 (documented rule).", "small muted"),
+                    ("Both required-coverage twins got Changes (a RISK), not Blockers: the reviewer said the diff's contents are not in the snapshot.", "small muted"),
+                    ("Dashed cells: Output byte limit is excluded as a corpus defect (pilot 1). This reviewer judged both of its sound plans clean.", "small muted")]))
+    if inputs.get("routes"):
+        figures["pilot-routes-comparison.svg"] = routes_figure(inputs["routes"])
     return figures
 
 

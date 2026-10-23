@@ -190,6 +190,40 @@ class FigureTests(unittest.TestCase):
         finally:
             (results / "analysis-vs-defined.json").write_bytes(original)
 
+    def test_flash_pilot_figure_is_built_from_committed_ledgers_and_marks_the_reread_cells(self):
+        data = mf.load_flash()
+        svg = mf.build({**INPUTS, "flash": data})["pilot-flash-verdict-matrix.svg"]
+        ET.fromstring(svg)
+        self.assertEqual((data["strict"], data["ordinal"], data["stops"], len(data["marks"])), ([8, 8], 20, 4, 4))
+        self.assertEqual(data["asRunStrict"], [(5, 9), (7, 11)])
+        self.assertEqual(svg.count("Blockers*"), 4)
+        for text in ("Gemini 3.8 Flash High", "requested, not attested", "8/12 and 8/12", "5/9 and 7/11", "20 of 20", "S01:3", "stroke-dasharray"):
+            self.assertIn(text, svg)
+
+    def test_route_comparison_is_built_from_committed_ledgers_and_checked_against_scores(self):
+        data = mf.load_routes()
+        svg = mf.routes_figure(data)
+        ET.fromstring(svg)
+        self.assertEqual((data["agree"], data["total"], data["stops"]), (36, 48, 4))
+        self.assertEqual((data["ordered"]["claude"], data["ordered"]["flash"]), ([10, 10], [12, 11]))
+        self.assertEqual((data["orderedValid"]["claude"], data["orderedValid"]["flash"]), ([10, 10], [10, 10]))
+        self.assertEqual((data["strict"]["claude"], data["strict"]["flash"]), ([9, 8], [8, 8]))
+        self.assertEqual((data["hedged"]["claude"], data["hedged"]["flash"]), (7, 0))
+        for text in ("Claude Opus 5.5", "Gemini 3.8 Flash High", "36 of 48", "Clean 24", "<circle", "<rect x="):
+            self.assertIn(text, svg)
+
+    def test_route_comparison_refuses_a_stale_score(self):
+        score_path = mf.GEMINI_RESULTS / "score-documented-rule.json"
+        original = score_path.read_bytes()
+        try:
+            stale = json.loads(original)
+            stale["trials"]["1"]["pairDiscrimination"]["count"] += 1
+            score_path.write_text(json.dumps(stale), encoding="utf-8")
+            with self.assertRaises(SystemExit):
+                mf.load_routes()
+        finally:
+            score_path.write_bytes(original)
+
     def test_stale_figure_is_detected(self):
         figures = mf.build(INPUTS)
         with tempfile.TemporaryDirectory() as raw:
