@@ -1,6 +1,6 @@
 # Blind counterfactual pairs: frozen pilot corpus
 
-Prepared for benchmark B in the [benchmark plan](../../docs/benchmark-plan.md) and the design in [testing-next.md](../../docs/testing-next.md). **No model has been run on this corpus.** This directory holds the frozen inputs and the scorer, so the live pilot can be authorized and run without changing either afterwards.
+Prepared for benchmark B in the [benchmark plan](../../docs/benchmark-plan.md) and the design in [testing-next.md](../../docs/testing-next.md). Two pilots have run on it: [Claude Opus 5.5 through the Claude CLI](results/pilot1-claude-opus-5-5-high/README.md) and [Gemini 3.8 Flash High through the native `flash-high` runtime](results/pilot-flash-high/README.md). This directory holds the frozen inputs and the scorer, so a live pilot can be authorized and run without changing either afterwards.
 
 ## What is here
 

@@ -1,0 +1,803 @@
+{
+  "kind": "COUNTERFACTUAL_PAIR_PILOT_SCORE_NOT_A_GENERAL_ACCURACY_RATE",
+  "corpusManifestSha256": "9885c1cf66d546882b49db70e5b360f5c49f7dbd6464a1856c223aca7ac32e46",
+  "casesInCorpus": 24,
+  "trials": {
+    "1": {
+      "observations": 24,
+      "technicalStops": 3,
+      "perFamily": {
+        "absent_vs_null": {
+          "outcomes": {
+            "A/changed": "CORRECT",
+            "A/sound": "CORRECT",
+            "B/changed": "CORRECT",
+            "B/sound": "CORRECT"
+          },
+          "pairsDiscriminated": "2/2",
+          "pairsOrderedCalibrated": "2/2",
+          "wordingConsistent": {
+            "changed": true,
+            "sound": true
+          }
+        },
+        "caller_callee": {
+          "outcomes": {
+            "A/changed": "STOPPED",
+            "A/sound": "CORRECT",
+            "B/changed": "CORRECT",
+            "B/sound": "CORRECT"
+          },
+          "pairsDiscriminated": "1/1",
+          "pairsOrderedCalibrated": "1/1",
+          "wordingConsistent": {
+            "changed": false,
+            "sound": true
+          }
+        },
+        "output_bytes": {
+          "outcomes": {
+            "A/changed": "MISSED",
+            "A/sound": "CORRECT",
+            "B/changed": "MISSED",
+            "B/sound": "CORRECT"
+          },
+          "pairsDiscriminated": "0/2",
+          "pairsOrderedCalibrated": "2/2",
+          "wordingConsistent": {
+            "changed": true,
+            "sound": true
+          }
+        },
+        "ownership_authorization": {
+          "outcomes": {
+            "A/changed": "STOPPED",
+            "A/sound": "CORRECT",
+            "B/changed": "STOPPED",
+            "B/sound": "CORRECT"
+          },
+          "pairsDiscriminated": "0/0",
+          "pairsOrderedCalibrated": "0/0",
+          "wordingConsistent": {
+            "changed": true,
+            "sound": true
+          }
+        },
+        "required_coverage": {
+          "outcomes": {
+            "A/changed": "MISSED",
+            "A/sound": "CORRECT",
+            "B/changed": "MISSED",
+            "B/sound": "CORRECT"
+          },
+          "pairsDiscriminated": "0/2",
+          "pairsOrderedCalibrated": "2/2",
+          "wordingConsistent": {
+            "changed": true,
+            "sound": true
+          }
+        },
+        "runtime_budget": {
+          "outcomes": {
+            "A/changed": "CORRECT",
+            "A/sound": "CORRECT",
+            "B/changed": "CORRECT",
+            "B/sound": "CORRECT"
+          },
+          "pairsDiscriminated": "2/2",
+          "pairsOrderedCalibrated": "2/2",
+          "wordingConsistent": {
+            "changed": true,
+            "sound": true
+          }
+        }
+      },
+      "pairDiscrimination": {
+        "count": 5,
+        "of": 9,
+        "wilson95": [
+          0.267,
+          0.811
+        ]
+      },
+      "pairOrderedCalibrated": {
+        "count": 9,
+        "of": 9,
+        "wilson95": [
+          0.701,
+          1.0
+        ]
+      },
+      "hedgedOnSoundPlans": {
+        "count": 0,
+        "of": 12,
+        "wilson95": [
+          0.0,
+          0.243
+        ]
+      },
+      "pairOrderedCalibratedByDifficulty": {
+        "unspecified": {
+          "count": 9,
+          "of": 9,
+          "wilson95": [
+            0.701,
+            1.0
+          ]
+        }
+      },
+      "verdictOnly": {
+        "soundClean": {
+          "count": 12,
+          "of": 12,
+          "wilson95": [
+            0.757,
+            1.0
+          ]
+        },
+        "soundBlocked": {
+          "count": 0,
+          "of": 12,
+          "wilson95": [
+            0.0,
+            0.243
+          ]
+        },
+        "soundHedged": {
+          "count": 0,
+          "of": 12,
+          "wilson95": [
+            0.0,
+            0.243
+          ]
+        },
+        "changedVerdictCorrect": {
+          "count": 5,
+          "of": 9,
+          "wilson95": [
+            0.267,
+            0.811
+          ]
+        },
+        "pairStrictVerdictOnly": {
+          "count": 5,
+          "of": 9,
+          "wilson95": [
+            0.267,
+            0.811
+          ]
+        },
+        "pairOrderedVerdictOnly": {
+          "count": 9,
+          "of": 9,
+          "wilson95": [
+            0.701,
+            1.0
+          ]
+        },
+        "note": "Verdict-only definitions identical for every arm: defect twin = BLOCKERS_FOUND, uncertainty twin = CHANGES_RECOMMENDED."
+      },
+      "falseBlockersOnSoundPlans": {
+        "count": 0,
+        "of": 12,
+        "wilson95": [
+          0.0,
+          0.243
+        ]
+      },
+      "changedPlansJudgedCorrectly": {
+        "count": 5,
+        "of": 9,
+        "wilson95": [
+          0.267,
+          0.811
+        ]
+      },
+      "unsupportedVerifiedFindings": 0,
+      "pilotGate": {
+        "unsupportedVerifiedIsZero": true,
+        "note": "Also requires complete source/question coverage and human adjudication of every mechanism."
+      },
+      "arms": [
+        "skill"
+      ],
+      "routes": [
+        "unspecified"
+      ],
+      "requestedModels": [
+        "unrecorded"
+      ],
+      "servedModelsReported": [],
+      "casesNotObserved": []
+    },
+    "2": {
+      "observations": 24,
+      "technicalStops": 1,
+      "perFamily": {
+        "absent_vs_null": {
+          "outcomes": {
+            "A/changed": "CORRECT",
+            "A/sound": "CORRECT",
+            "B/changed": "CORRECT",
+            "B/sound": "CORRECT"
+          },
+          "pairsDiscriminated": "2/2",
+          "pairsOrderedCalibrated": "2/2",
+          "wordingConsistent": {
+            "changed": true,
+            "sound": true
+          }
+        },
+        "caller_callee": {
+          "outcomes": {
+            "A/changed": "CORRECT",
+            "A/sound": "CORRECT",
+            "B/changed": "CORRECT",
+            "B/sound": "CORRECT"
+          },
+          "pairsDiscriminated": "2/2",
+          "pairsOrderedCalibrated": "2/2",
+          "wordingConsistent": {
+            "changed": true,
+            "sound": true
+          }
+        },
+        "output_bytes": {
+          "outcomes": {
+            "A/changed": "MISSED",
+            "A/sound": "CORRECT",
+            "B/changed": "MISSED",
+            "B/sound": "CORRECT"
+          },
+          "pairsDiscriminated": "0/2",
+          "pairsOrderedCalibrated": "1/2",
+          "wordingConsistent": {
+            "changed": true,
+            "sound": true
+          }
+        },
+        "ownership_authorization": {
+          "outcomes": {
+            "A/changed": "CORRECT",
+            "A/sound": "CORRECT",
+            "B/changed": "STOPPED",
+            "B/sound": "CORRECT"
+          },
+          "pairsDiscriminated": "1/1",
+          "pairsOrderedCalibrated": "1/1",
+          "wordingConsistent": {
+            "changed": false,
+            "sound": true
+          }
+        },
+        "required_coverage": {
+          "outcomes": {
+            "A/changed": "MISSED",
+            "A/sound": "CORRECT",
+            "B/changed": "MISSED",
+            "B/sound": "CORRECT"
+          },
+          "pairsDiscriminated": "0/2",
+          "pairsOrderedCalibrated": "2/2",
+          "wordingConsistent": {
+            "changed": true,
+            "sound": true
+          }
+        },
+        "runtime_budget": {
+          "outcomes": {
+            "A/changed": "CORRECT",
+            "A/sound": "CORRECT",
+            "B/changed": "CORRECT",
+            "B/sound": "CORRECT"
+          },
+          "pairsDiscriminated": "2/2",
+          "pairsOrderedCalibrated": "2/2",
+          "wordingConsistent": {
+            "changed": true,
+            "sound": true
+          }
+        }
+      },
+      "pairDiscrimination": {
+        "count": 7,
+        "of": 11,
+        "wilson95": [
+          0.354,
+          0.848
+        ]
+      },
+      "pairOrderedCalibrated": {
+        "count": 10,
+        "of": 11,
+        "wilson95": [
+          0.623,
+          0.984
+        ]
+      },
+      "hedgedOnSoundPlans": {
+        "count": 0,
+        "of": 12,
+        "wilson95": [
+          0.0,
+          0.243
+        ]
+      },
+      "pairOrderedCalibratedByDifficulty": {
+        "unspecified": {
+          "count": 10,
+          "of": 11,
+          "wilson95": [
+            0.623,
+            0.984
+          ]
+        }
+      },
+      "verdictOnly": {
+        "soundClean": {
+          "count": 12,
+          "of": 12,
+          "wilson95": [
+            0.757,
+            1.0
+          ]
+        },
+        "soundBlocked": {
+          "count": 0,
+          "of": 12,
+          "wilson95": [
+            0.0,
+            0.243
+          ]
+        },
+        "soundHedged": {
+          "count": 0,
+          "of": 12,
+          "wilson95": [
+            0.0,
+            0.243
+          ]
+        },
+        "changedVerdictCorrect": {
+          "count": 7,
+          "of": 11,
+          "wilson95": [
+            0.354,
+            0.848
+          ]
+        },
+        "pairStrictVerdictOnly": {
+          "count": 7,
+          "of": 11,
+          "wilson95": [
+            0.354,
+            0.848
+          ]
+        },
+        "pairOrderedVerdictOnly": {
+          "count": 10,
+          "of": 11,
+          "wilson95": [
+            0.623,
+            0.984
+          ]
+        },
+        "note": "Verdict-only definitions identical for every arm: defect twin = BLOCKERS_FOUND, uncertainty twin = CHANGES_RECOMMENDED."
+      },
+      "falseBlockersOnSoundPlans": {
+        "count": 0,
+        "of": 12,
+        "wilson95": [
+          0.0,
+          0.243
+        ]
+      },
+      "changedPlansJudgedCorrectly": {
+        "count": 7,
+        "of": 11,
+        "wilson95": [
+          0.354,
+          0.848
+        ]
+      },
+      "unsupportedVerifiedFindings": 0,
+      "pilotGate": {
+        "unsupportedVerifiedIsZero": true,
+        "note": "Also requires complete source/question coverage and human adjudication of every mechanism."
+      },
+      "arms": [
+        "skill"
+      ],
+      "routes": [
+        "unspecified"
+      ],
+      "requestedModels": [
+        "unrecorded"
+      ],
+      "servedModelsReported": [],
+      "casesNotObserved": []
+    }
+  },
+  "providerCalls": 0,
+  "adjusted": {
+    "excludedPairs": [
+      "output_bytes/A",
+      "output_bytes/B"
+    ],
+    "note": "Shown beside the all-pairs result, never instead of it; exclusions follow the preregistered rule.",
+    "trials": {
+      "1": {
+        "observations": 20,
+        "technicalStops": 3,
+        "perFamily": {
+          "absent_vs_null": {
+            "outcomes": {
+              "A/changed": "CORRECT",
+              "A/sound": "CORRECT",
+              "B/changed": "CORRECT",
+              "B/sound": "CORRECT"
+            },
+            "pairsDiscriminated": "2/2",
+            "pairsOrderedCalibrated": "2/2",
+            "wordingConsistent": {
+              "changed": true,
+              "sound": true
+            }
+          },
+          "caller_callee": {
+            "outcomes": {
+              "A/changed": "STOPPED",
+              "A/sound": "CORRECT",
+              "B/changed": "CORRECT",
+              "B/sound": "CORRECT"
+            },
+            "pairsDiscriminated": "1/1",
+            "pairsOrderedCalibrated": "1/1",
+            "wordingConsistent": {
+              "changed": false,
+              "sound": true
+            }
+          },
+          "ownership_authorization": {
+            "outcomes": {
+              "A/changed": "STOPPED",
+              "A/sound": "CORRECT",
+              "B/changed": "STOPPED",
+              "B/sound": "CORRECT"
+            },
+            "pairsDiscriminated": "0/0",
+            "pairsOrderedCalibrated": "0/0",
+            "wordingConsistent": {
+              "changed": true,
+              "sound": true
+            }
+          },
+          "required_coverage": {
+            "outcomes": {
+              "A/changed": "MISSED",
+              "A/sound": "CORRECT",
+              "B/changed": "MISSED",
+              "B/sound": "CORRECT"
+            },
+            "pairsDiscriminated": "0/2",
+            "pairsOrderedCalibrated": "2/2",
+            "wordingConsistent": {
+              "changed": true,
+              "sound": true
+            }
+          },
+          "runtime_budget": {
+            "outcomes": {
+              "A/changed": "CORRECT",
+              "A/sound": "CORRECT",
+              "B/changed": "CORRECT",
+              "B/sound": "CORRECT"
+            },
+            "pairsDiscriminated": "2/2",
+            "pairsOrderedCalibrated": "2/2",
+            "wordingConsistent": {
+              "changed": true,
+              "sound": true
+            }
+          }
+        },
+        "pairDiscrimination": {
+          "count": 5,
+          "of": 7,
+          "wilson95": [
+            0.359,
+            0.918
+          ]
+        },
+        "pairOrderedCalibrated": {
+          "count": 7,
+          "of": 7,
+          "wilson95": [
+            0.646,
+            1.0
+          ]
+        },
+        "hedgedOnSoundPlans": {
+          "count": 0,
+          "of": 10,
+          "wilson95": [
+            0.0,
+            0.278
+          ]
+        },
+        "pairOrderedCalibratedByDifficulty": {
+          "unspecified": {
+            "count": 7,
+            "of": 7,
+            "wilson95": [
+              0.646,
+              1.0
+            ]
+          }
+        },
+        "verdictOnly": {
+          "soundClean": {
+            "count": 10,
+            "of": 10,
+            "wilson95": [
+              0.722,
+              1.0
+            ]
+          },
+          "soundBlocked": {
+            "count": 0,
+            "of": 10,
+            "wilson95": [
+              0.0,
+              0.278
+            ]
+          },
+          "soundHedged": {
+            "count": 0,
+            "of": 10,
+            "wilson95": [
+              0.0,
+              0.278
+            ]
+          },
+          "changedVerdictCorrect": {
+            "count": 5,
+            "of": 7,
+            "wilson95": [
+              0.359,
+              0.918
+            ]
+          },
+          "pairStrictVerdictOnly": {
+            "count": 5,
+            "of": 7,
+            "wilson95": [
+              0.359,
+              0.918
+            ]
+          },
+          "pairOrderedVerdictOnly": {
+            "count": 7,
+            "of": 7,
+            "wilson95": [
+              0.646,
+              1.0
+            ]
+          },
+          "note": "Verdict-only definitions identical for every arm: defect twin = BLOCKERS_FOUND, uncertainty twin = CHANGES_RECOMMENDED."
+        },
+        "falseBlockersOnSoundPlans": {
+          "count": 0,
+          "of": 10,
+          "wilson95": [
+            0.0,
+            0.278
+          ]
+        },
+        "changedPlansJudgedCorrectly": {
+          "count": 5,
+          "of": 7,
+          "wilson95": [
+            0.359,
+            0.918
+          ]
+        },
+        "unsupportedVerifiedFindings": 0,
+        "pilotGate": {
+          "unsupportedVerifiedIsZero": true,
+          "note": "Also requires complete source/question coverage and human adjudication of every mechanism."
+        }
+      },
+      "2": {
+        "observations": 20,
+        "technicalStops": 1,
+        "perFamily": {
+          "absent_vs_null": {
+            "outcomes": {
+              "A/changed": "CORRECT",
+              "A/sound": "CORRECT",
+              "B/changed": "CORRECT",
+              "B/sound": "CORRECT"
+            },
+            "pairsDiscriminated": "2/2",
+            "pairsOrderedCalibrated": "2/2",
+            "wordingConsistent": {
+              "changed": true,
+              "sound": true
+            }
+          },
+          "caller_callee": {
+            "outcomes": {
+              "A/changed": "CORRECT",
+              "A/sound": "CORRECT",
+              "B/changed": "CORRECT",
+              "B/sound": "CORRECT"
+            },
+            "pairsDiscriminated": "2/2",
+            "pairsOrderedCalibrated": "2/2",
+            "wordingConsistent": {
+              "changed": true,
+              "sound": true
+            }
+          },
+          "ownership_authorization": {
+            "outcomes": {
+              "A/changed": "CORRECT",
+              "A/sound": "CORRECT",
+              "B/changed": "STOPPED",
+              "B/sound": "CORRECT"
+            },
+            "pairsDiscriminated": "1/1",
+            "pairsOrderedCalibrated": "1/1",
+            "wordingConsistent": {
+              "changed": false,
+              "sound": true
+            }
+          },
+          "required_coverage": {
+            "outcomes": {
+              "A/changed": "MISSED",
+              "A/sound": "CORRECT",
+              "B/changed": "MISSED",
+              "B/sound": "CORRECT"
+            },
+            "pairsDiscriminated": "0/2",
+            "pairsOrderedCalibrated": "2/2",
+            "wordingConsistent": {
+              "changed": true,
+              "sound": true
+            }
+          },
+          "runtime_budget": {
+            "outcomes": {
+              "A/changed": "CORRECT",
+              "A/sound": "CORRECT",
+              "B/changed": "CORRECT",
+              "B/sound": "CORRECT"
+            },
+            "pairsDiscriminated": "2/2",
+            "pairsOrderedCalibrated": "2/2",
+            "wordingConsistent": {
+              "changed": true,
+              "sound": true
+            }
+          }
+        },
+        "pairDiscrimination": {
+          "count": 7,
+          "of": 9,
+          "wilson95": [
+            0.453,
+            0.937
+          ]
+        },
+        "pairOrderedCalibrated": {
+          "count": 9,
+          "of": 9,
+          "wilson95": [
+            0.701,
+            1.0
+          ]
+        },
+        "hedgedOnSoundPlans": {
+          "count": 0,
+          "of": 10,
+          "wilson95": [
+            0.0,
+            0.278
+          ]
+        },
+        "pairOrderedCalibratedByDifficulty": {
+          "unspecified": {
+            "count": 9,
+            "of": 9,
+            "wilson95": [
+              0.701,
+              1.0
+            ]
+          }
+        },
+        "verdictOnly": {
+          "soundClean": {
+            "count": 10,
+            "of": 10,
+            "wilson95": [
+              0.722,
+              1.0
+            ]
+          },
+          "soundBlocked": {
+            "count": 0,
+            "of": 10,
+            "wilson95": [
+              0.0,
+              0.278
+            ]
+          },
+          "soundHedged": {
+            "count": 0,
+            "of": 10,
+            "wilson95": [
+              0.0,
+              0.278
+            ]
+          },
+          "changedVerdictCorrect": {
+            "count": 7,
+            "of": 9,
+            "wilson95": [
+              0.453,
+              0.937
+            ]
+          },
+          "pairStrictVerdictOnly": {
+            "count": 7,
+            "of": 9,
+            "wilson95": [
+              0.453,
+              0.937
+            ]
+          },
+          "pairOrderedVerdictOnly": {
+            "count": 9,
+            "of": 9,
+            "wilson95": [
+              0.701,
+              1.0
+            ]
+          },
+          "note": "Verdict-only definitions identical for every arm: defect twin = BLOCKERS_FOUND, uncertainty twin = CHANGES_RECOMMENDED."
+        },
+        "falseBlockersOnSoundPlans": {
+          "count": 0,
+          "of": 10,
+          "wilson95": [
+            0.0,
+            0.278
+          ]
+        },
+        "changedPlansJudgedCorrectly": {
+          "count": 7,
+          "of": 9,
+          "wilson95": [
+            0.453,
+            0.937
+          ]
+        },
+        "unsupportedVerifiedFindings": 0,
+        "pilotGate": {
+          "unsupportedVerifiedIsZero": true,
+          "note": "Also requires complete source/question coverage and human adjudication of every mechanism."
+        }
+      }
+    }
+  },
+  "repeatability": {
+    "count": 22,
+    "of": 24,
+    "wilson95": [
+      0.742,
+      0.977
+    ]
+  }
+}
