@@ -123,16 +123,27 @@ python3 -B -I benchmarks/counterfactual-pairs/verify_gemini_run.py \
   --workdir <root>/liveN --trial N
 ```
 
-It checks the corpus and run-manifest pins; one ledger row per case in the frozen order; the stamp; for every case that reached a report, that the prompt sent is byte-identical to what the frozen prompt and corpus produce, that the saved report matches the ledger and the receipt, that re-parsing it reproduces the ledger row, and that the receipt is clean (no failure, zero retries, one proxy and one native invocation, every process reaped, private home and socket directory gone, the prompt delivered in full, the native binary's SHA-256 the frozen one). Expected: `"failures": []` and exit status 0; stops and the count of snapshot labels read are listed, not failures. Paste its full output. If `failures` is not empty, stop and report; do not repair evidence. Then report, for that trial: recorded, executed and stopped counts, each stop code with its case id, start and end times, and wait for the next go.
+It checks the corpus and run-manifest pins; one ledger row per case in the frozen order; the stamp; for every case that reached a report, that the prompt sent is byte-identical to what the frozen prompt and corpus produce, that the saved report matches the ledger and the receipt, that re-parsing it reproduces the ledger row, and that the receipt is clean (no failure, zero retries, one proxy and one native invocation, every process reaped, private home and socket directory gone, the prompt delivered in full, the native binary's SHA-256 the frozen one). Expected: `"failures": []` and exit status 0; stops and the count of snapshot labels read are listed, not failures. Paste its full output. If `failures` is not empty, stop and report; do not repair evidence. Then report, for that trial: recorded, executed and stopped counts, each stop code with its case id, start and end times.
+
+**Then pack the evidence** (no model call; the working directory is read, never modified):
+
+```bash
+python3 -B -I benchmarks/counterfactual-pairs/bundle_gemini_evidence.py --workdir <root>/liveN --trial N --out <root>/evidence-trialN.tar.gz
+mkdir <root>/check-trialN && tar -xzf <root>/evidence-trialN.tar.gz -C <root>/check-trialN
+python3 -B -I benchmarks/counterfactual-pairs/verify_gemini_run.py --corpus benchmarks/counterfactual-pairs/v3 \
+  --run-manifest benchmarks/counterfactual-pairs/v3-run-gemini/manifest.json --workdir <root>/check-trialN/liveN --trial N
+```
+
+A trial's working directory is tens of gigabytes (every seed and attempt carries a copy of the runtime and the binary), so **do not archive or upload it**. The bundle holds only what the verifier and the scorer read (the ledger, each case's report and receipt, the prompt sent and its snapshot), a few megabytes, with a `BUNDLE-MANIFEST.json` of hashes and of what was left out. Paste the bundler's one-line output and the second verifier's output; its `failures` must be `[]` and its counts must equal the first run's. Keep the full working directory untouched on the host. Then wait for the next go.
 
 ## 8. Hand back (no scoring)
 
-Write `<root>/identity.txt` and bundle `<root>` as one archive. **Required** (an earlier archive omitted it):
+Write `<root>/identity.txt`; the files to hand back are `identity.txt` and the two `evidence-trialN.tar.gz` bundles (**not** the whole working root). **Required** (an earlier archive omitted it):
 - the commit; the SHA-256 of the v3 and run manifests; the route; the exact `agy` path, SHA-256 and `VERSION.stdout`; the capabilities `RESULT.json`; the qualification file's status and case counts; host OS and kernel; the start and end time of each trial;
 - per trial: recorded, executed and stopped counts, each stop code with its case id, the number of snapshot labels read, and the full `verify_gemini_run.py` output;
 - a receipt summary per trial from the `CLI-RECEIPT.json` files: counts by `status`, any `failure` or `closingFailures`, `elapsedSeconds` minimum, median and maximum, and whether every process was reaped and every private home and socket directory removed. `servedAttestation` and `providerRequestCount` are `UNAVAILABLE`; that is expected.
 
-Evidence stays untouched under `<root>`: `liveN/responses-trialN.jsonl`, and per case `trialN/packets/<case>/`, `trialN/attempts/<case>/GEMINI-REVIEW.md` and `CLI-RECEIPT.json`. Report anything surprising verbatim, then tell the owner the evidence is ready, and stop.
+The full evidence stays untouched under `<root>` (`liveN/responses-trialN.jsonl`, and per case `trialN/packets/<case>/`, `trialN/attempts/<case>/`); the bundles are copies of the allowlisted files. Report anything surprising verbatim, then tell the owner the evidence is ready, and stop.
 
 ## 9. What happens afterwards
 

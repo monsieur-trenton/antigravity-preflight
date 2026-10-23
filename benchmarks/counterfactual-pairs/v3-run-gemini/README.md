@@ -8,6 +8,7 @@ One arm (the skill-style prompt, as the [Gemini pilot](../results/pilot-flash-hi
 | `manifest.json`, `build_manifest.py` | The run manifest: pins the preregistration, the corpus v3 manifest hash, the `runtime/flash-high` package (one hash over every file), the `agy` binary's SHA-256 (the one every receipt of the pilot recorded) and the parser. `--check` fails if anything changed |
 | `../run_gemini_v3.py` | The driver: a wrapper around `run_pilot.py` (which is not edited) that refuses unless the corpus, runtime package, capabilities probe and binary match the manifest, reads a snapshot label `S01:<n>` in a FINDING's line field as line n, and stamps every ledger row |
 | `../verify_gemini_run.py` | The verifier for a trial's working directory: prompts byte-identical to the frozen corpus, report and receipt hashes, re-parse reproduces the ledger, clean receipts (no retries, processes reaped, sandbox removed, prompt delivered, binary hash), order and stamps |
+| `../bundle_gemini_evidence.py` | Packs one trial's evidence (ledger, reports, receipts, prompts and snapshots, a few MB) from a working directory that is tens of GB, with a manifest of hashes and of what was left out; the verifier runs unchanged on the extracted bundle |
 | `test_run.py` | Offline tests with a stub runtime: the manifest, the parser relaxation and its limits, the driver's refusals, a full 64-case run, the verifier's failure modes |
 | `HANDOFF.md` | The gated runbook; it needs the owner's go before each trial and requires the run identity to be returned |
 

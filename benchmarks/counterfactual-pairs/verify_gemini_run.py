@@ -5,7 +5,7 @@ order; every row stamped with the run manifest hash, route and parser; for every
 is byte-identical to what the frozen prompt and corpus produce (what the model was sent), the saved report matches the ledger hash and the
 receipt's report hash, re-parsing it with the run's parser reproduces the ledger row (or the recorded stop), and the receipt is clean:
 status, no failure, model and effort as frozen, zero retries, one proxy and one native invocation, every spawned process reaped, private
-home and socket directory gone, prompt delivered in full (wire bytes equal to the prompt), and the native binary's SHA-256 equal to the frozen
+home and socket directory gone, prompt delivered in full (wire bytes equal to the framed prompt), and the native binary's SHA-256 equal to the frozen
 one. Stops are listed, not failures. The model that served each turn is not attestable on this route and is not checked.
 
 Usage: verify_gemini_run.py --corpus DIR --run-manifest FILE --workdir DIR [--trial N]
@@ -28,6 +28,13 @@ def load(name, path):
     return module
 
 
+def expected_wire_bytes(prompt_bytes):
+    """What the runtime records as wireBytes: the prompt travels as one stream-json user event plus a newline, not as the bare prompt.
+    Checked against all 48 receipts of the Gemini pilot (results/pilot-flash-high) in test_run.py."""
+    frame = json.dumps(dict(event="user", message=dict(content=prompt_bytes.decode("utf-8")))).encode() + b"\n"
+    return len(frame)
+
+
 def check_receipt(receipt, run, expected_prompt, report_bytes, rp):
     problems = []
     if receipt.get("status") != "REPORT_RECEIVED_PENDING_ADJUDICATION" or receipt.get("failure") or receipt.get("closingFailures"):
@@ -42,7 +49,8 @@ def check_receipt(receipt, run, expected_prompt, report_bytes, rp):
     if receipt.get("privateHomeAbsent") is not True or receipt.get("socketDirectoryAbsent") is not True:
         problems.append("SANDBOX_NOT_CLEANED")
     delivery = receipt.get("promptDelivery") or {}
-    if delivery.get("status") != "COMPLETE" or delivery.get("wireBytes") != len(expected_prompt) or delivery.get("bytesWritten") != len(expected_prompt):
+    wire = expected_wire_bytes(expected_prompt)
+    if delivery.get("status") != "COMPLETE" or delivery.get("wireBytes") != wire or delivery.get("bytesWritten") != wire:
         problems.append("PROMPT_DELIVERY")
     if (receipt.get("native") or {}).get("sha256") != run["binary"]["sha256"]:
         problems.append("NATIVE_BINARY_HASH")

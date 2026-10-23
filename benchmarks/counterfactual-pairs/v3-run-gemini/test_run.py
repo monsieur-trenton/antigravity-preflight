@@ -28,6 +28,7 @@ def load(name, path):
 
 rg = load("t_run_gemini_v3", PARENT / "run_gemini_v3.py")
 vg = load("t_verify_gemini_run", PARENT / "verify_gemini_run.py")
+bg = load("t_bundle_gemini_evidence", PARENT / "bundle_gemini_evidence.py")
 bm = load("t_gemini_build_manifest", HERE / "build_manifest.py")
 sc = load("t_score", PARENT / "score.py")
 rp = rg.rp
@@ -60,12 +61,13 @@ elif args[0] == "run":
                "bracket": head + "ASSESSMENT: BLOCKERS_FOUND\nFINDING: BLOCKER | VERIFIED | [S01:3] | " + snapshot[2] + "\n",
                "garbage": "I think it is fine."}
     report = reports[mode].encode("utf-8")
+    frame = json.dumps(dict(event="user", message=dict(content=prompt.decode("utf-8")))).encode() + b"\n"
     (attempt / "GEMINI-REVIEW.md").write_bytes(report)
     receipt = {"status": "REPORT_RECEIVED_PENDING_ADJUDICATION", "failure": None, "closingFailures": [],
                "model": "gemini-3.8-flash-high", "effort": "high", "retries": 0, "invocations": {"proxy": 1, "native": 1},
                "processes": {"native": {"spawned": True, "reaped": True}, "proxy": {"spawned": True, "reaped": True}},
                "privateHomeAbsent": True, "socketDirectoryAbsent": True,
-               "promptDelivery": {"status": "COMPLETE", "wireBytes": len(prompt), "bytesWritten": len(prompt)},
+               "promptDelivery": {"status": "COMPLETE", "wireBytes": len(frame), "bytesWritten": len(frame)},
                "native": {"sha256": config["binary"], "bytes": 1}, "report": {"sha256": sha(report), "bytes": len(report)}}
     receipt.update(config.get("receipt", {}))
     (attempt / "CLI-RECEIPT.json").write_text(json.dumps(receipt))
@@ -134,7 +136,7 @@ class FrozenFilesTests(unittest.TestCase):
         brief = (HERE / "HANDOFF.md").read_text(encoding="utf-8")
         for digest in (rp.sha(MANIFEST.read_bytes()), rp.sha((V3 / "manifest.json").read_bytes()), BINARY):
             self.assertIn(digest, brief)
-        for text in ("run_gemini_v3.py", "verify_gemini_run.py", "--run-manifest", "go trial N", "Do not commit, push"):
+        for text in ("run_gemini_v3.py", "verify_gemini_run.py", "bundle_gemini_evidence.py", "--run-manifest", "go trial N", "Do not commit, push", "do not archive or upload"):
             self.assertIn(text, brief)
 
     def test_the_pilot_driver_is_imported_not_edited(self):
@@ -152,6 +154,25 @@ class FrozenFilesTests(unittest.TestCase):
             self.assertEqual(rg.runtime_tree_sha(copy), before)
             (copy / "scripts/cli_review.py").write_bytes((copy / "scripts/cli_review.py").read_bytes() + b"\n#")
             self.assertNotEqual(rg.runtime_tree_sha(copy), before)
+
+
+class PromptDeliveryTests(unittest.TestCase):
+    def test_the_framed_prompt_length_matches_every_real_receipt_of_the_gemini_pilot(self):
+        # The first live use of the verifier compared wireBytes with the bare prompt and failed on every case: the runtime sends one stream-json frame.
+        v1 = PARENT
+        prompt = (v1 / "prompt.txt").read_text(encoding="utf-8")
+        checked = 0
+        for trial in (1, 2):
+            for path in sorted((v1 / f"results/pilot-flash-high/trial{trial}/receipts").glob("*.json")):
+                snapshot = (v1 / "packets" / (path.stem + ".txt")).read_bytes().decode("utf-8").split("\n")[:-1]
+                delivery = json.loads(path.read_text())["promptDelivery"]
+                wire = vg.expected_wire_bytes(rp.request_text(prompt, snapshot, True))
+                self.assertEqual((delivery["wireBytes"], delivery["bytesWritten"]), (wire, wire), path.name)
+                checked += 1
+        self.assertEqual(checked, 48)
+
+    def test_a_non_ascii_prompt_is_escaped_in_the_frame_as_the_runtime_does(self):
+        self.assertEqual(vg.expected_wire_bytes("caf\u00e9".encode("utf-8")), len(json.dumps(dict(event="user", message=dict(content="caf\u00e9"))).encode()) + 1)
 
 
 class ParserTests(unittest.TestCase):
@@ -324,6 +345,67 @@ class VerifierTests(WithHarness):
             self.assertEqual(vg.main(["--corpus", str(V3), "--run-manifest", str(MANIFEST), "--workdir", str(h.work)]), 0)
             (h.work / "responses-trial1.jsonl").unlink()
             self.assertEqual(vg.main(["--corpus", str(V3), "--run-manifest", str(MANIFEST), "--workdir", str(h.work)]), 1)
+
+
+class BundleTests(WithHarness):
+    def full_run_with_bulk(self):
+        h = self.harness()
+        h.run("--execute")
+        for case in [r["case"] for r in h.ledger()][:3]:
+            for bulk in (h.work / "trial1/seeds" / case / "runtime/agy", h.work / "trial1/attempts" / case / "private-home/cache.bin"):
+                bulk.parent.mkdir(parents=True, exist_ok=True)
+                bulk.write_bytes(b"x" * (2 * 1024 * 1024))
+        return h
+
+    def test_the_bundle_is_small_keeps_the_layout_and_verifies_like_the_original(self):
+        import tarfile
+        h = self.full_run_with_bulk()
+        out = h.tmp / "evidence.tar.gz"
+        report = bg.bundle(h.work, 1, out)
+        self.assertEqual((report["status"], report["included"]), ("PASS", 1 + 64 * 3 + 64 * 2))
+        self.assertGreater(report["omittedBytes"], 12 * 1024 * 1024)
+        self.assertLess(report["archiveBytes"], 2 * 1024 * 1024)
+        extract = h.tmp / "extracted"
+        with tarfile.open(out) as archive:
+            archive.extractall(extract, filter="data")
+        original, bundled = h.verify(), vg.verify(V3, MANIFEST, extract / "live1", 1)
+        self.assertEqual((original["failures"], bundled["failures"]), ([], []))
+        for key in ("observations", "technicalStops", "snapshotLabelsRead", "meanWallSeconds"):
+            self.assertEqual(original[key], bundled[key], key)
+
+    def test_the_manifest_hashes_every_included_file_and_counts_the_rest(self):
+        import tarfile
+        h = self.full_run_with_bulk()
+        out = h.tmp / "evidence.tar.gz"
+        bg.bundle(h.work, 1, out)
+        with tarfile.open(out) as archive:
+            manifest = json.loads(archive.extractfile("live1/BUNDLE-MANIFEST.json").read())
+            for row in manifest["included"][:5]:
+                self.assertEqual(hashlib.sha256(archive.extractfile("live1/" + row["path"]).read()).hexdigest(), row["sha256"])
+            names = archive.getnames()
+        self.assertFalse(any("seeds" in n or "private-home" in n for n in names))
+        self.assertEqual(manifest["omitted"]["byTopLevel"]["trial1/seeds/" + h.ledger()[0]["case"]]["bytes"] >= 2 * 1024 * 1024, True)
+        self.assertEqual(manifest["trial"], 1)
+
+    def test_the_bundler_changes_nothing_and_refuses_unsafe_outputs(self):
+        h = self.full_run_with_bulk()
+        before = sorted((str(p.relative_to(h.work)), p.stat().st_size) for p in h.work.rglob("*") if p.is_file())
+        bg.bundle(h.work, 1, h.tmp / "a.tar.gz", hash_omitted=True)
+        self.assertEqual(before, sorted((str(p.relative_to(h.work)), p.stat().st_size) for p in h.work.rglob("*") if p.is_file()))
+        out = io.StringIO()
+        with contextlib.redirect_stdout(out):
+            self.assertEqual(bg.main(["--workdir", str(h.work), "--trial", "1", "--out", str(h.tmp / "a.tar.gz")]), 1)
+            self.assertEqual(bg.main(["--workdir", str(h.work), "--trial", "1", "--out", str(h.work / "inside.tar.gz")]), 1)
+        self.assertIn("OUTPUT_EXISTS", out.getvalue())
+        self.assertIn("OUTPUT_INSIDE_WORKDIR", out.getvalue())
+
+    def test_an_oversized_evidence_file_is_refused_rather_than_silently_dropped(self):
+        h = self.harness()
+        h.run("--execute")
+        review = h.work / "trial1/attempts" / h.ledger()[0]["case"] / "CLI-RECEIPT.json"
+        review.write_bytes(b"{" + b" " * (9 * 1024 * 1024) + b"}")
+        with self.assertRaises(SystemExit):
+            bg.bundle(h.work, 1, h.tmp / "big.tar.gz")
 
 
 if __name__ == "__main__":
