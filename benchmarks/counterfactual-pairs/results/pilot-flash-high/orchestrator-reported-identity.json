@@ -1,0 +1,89 @@
+{
+  "commit": "d935c72339b5ec3119ebaa1ff528bf09bbcc02b9",
+  "commitSubject": "Use python3 -B -I across all benchmark and runtime commands",
+  "branch": "claude/modest-gates-8eyuke",
+  "manifestSha256": "9885c1cf66d546882b49db70e5b360f5c49f7dbd6464a1856c223aca7ac32e46",
+  "corpus": "benchmarks/counterfactual-pairs (corpus v1)",
+  "casesInCorpus": 24,
+  "runtimeDir": "runtime/flash-high",
+  "runtimeProfile": "flash-high",
+  "requestedModel": "gemini-3.8-flash-high",
+  "effort": "high",
+  "binaryPath": "/home/john/.local/bin/agy",
+  "binarySha256": "16e228cb243fa098eeb27b3b2aca963caec84e4a8ac49e3821b00c56f99f7508",
+  "binaryVersion": "1.4.1",
+  "hostOs": "Linux Mint 22.3",
+  "hostKernel": "Linux john-laptop 7.0.0-38-generic #38~24.04.4-Ubuntu SMP PREEMPT_DYNAMIC Mon Sep 14 16:37:11 UTC 2 x86_64 x86_64 x86_64 GNU/Linux",
+  "timestamps": {
+    "offlineQualification": "2026-10-22T15:53:28-07:00",
+    "capabilitiesCheck": "2026-10-22T15:53:39-07:00",
+    "dryRun": "2026-10-22T15:54:03-07:00",
+    "trial1Start": "2026-10-22T15:56:27-07:00",
+    "trial1End": "2026-10-22T17:02:48-07:00",
+    "trial2Start": "2026-10-22T17:16:07-07:00",
+    "trial2End": "2026-10-22T18:23:39-07:00"
+  },
+  "trials": {
+    "1": {
+      "totalCasesRecorded": 24,
+      "executedNormally": 21,
+      "stopped": 3,
+      "stoppedGroups": {
+        "UNPARSEABLE_REPORT:MALFORMED_FINDING": [
+          "P-97610e",
+          "P-6b8046",
+          "P-7a8a51"
+        ]
+      },
+      "receiptCounts": {
+        "REPORT_RECEIVED_PENDING_ADJUDICATION": 24
+      },
+      "processReaping": {
+        "allNativeReaped": true,
+        "allProxyReaped": true,
+        "privateHomeAbsent": true,
+        "socketDirectoryAbsent": true
+      },
+      "totalWallClockSeconds": 4005.78,
+      "wallClockPerCase": {
+        "min": 22.09,
+        "median": 116.78,
+        "max": 352.93
+      }
+    },
+    "2": {
+      "totalCasesRecorded": 24,
+      "executedNormally": 23,
+      "stopped": 1,
+      "stoppedGroups": {
+        "UNPARSEABLE_REPORT:MALFORMED_FINDING": [
+          "P-97610e"
+        ]
+      },
+      "receiptCounts": {
+        "REPORT_RECEIVED_PENDING_ADJUDICATION": 24
+      },
+      "processReaping": {
+        "allNativeReaped": true,
+        "allProxyReaped": true,
+        "privateHomeAbsent": true,
+        "socketDirectoryAbsent": true
+      },
+      "totalWallClockSeconds": 4066.93,
+      "wallClockPerCase": {
+        "min": 38.18,
+        "median": 103.24,
+        "max": 464.26
+      }
+    }
+  },
+  "evidenceLocations": {
+    "qualification": "qual/DUAL-OFFLINE-QUALIFICATION.json",
+    "capabilities": "caps/",
+    "dryRun": "dry/trial1/",
+    "trial1Ledger": "live1/responses-trial1.jsonl",
+    "trial1Attempts": "live1/trial1/attempts/",
+    "trial2Ledger": "live2/responses-trial2.jsonl",
+    "trial2Attempts": "live2/trial2/attempts/"
+  }
+}
