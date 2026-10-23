@@ -262,7 +262,7 @@ class AnalysisTests(unittest.TestCase):
         self.assertTrue(result["comparability"]["sameModelEffortAndCliVersion"])
         self.assertEqual(result["providerCalls"], 0)
 
-    def test_the_command_line_writes_the_analysis_and_refuses_a_single_arm(self):
+    def test_the_command_line_writes_the_analysis_and_a_single_arm_gives_rates_without_comparisons(self):
         rubric = str(RUBRIC_FILE)
         with tempfile.TemporaryDirectory() as tmp:
             a, b, out = Path(tmp) / "a", Path(tmp) / "b", Path(tmp) / "out.json"
@@ -270,10 +270,12 @@ class AnalysisTests(unittest.TestCase):
             write_arm(b, waves_through_gaps)
             self.assertEqual(an.main(["--corpus", str(V3), "--rubric", rubric, "--arm", f"defined={a}", "--arm", f"defined-go={b}", "--out", str(out)]), 0)
             self.assertEqual(json.loads(out.read_text())["labels"]["evidenceGapCost"], "confirmed")
-            buffer = io.StringIO()
-            with contextlib.redirect_stdout(buffer):
-                self.assertEqual(an.main(["--corpus", str(V3), "--rubric", rubric, "--arm", f"defined={a}"]), 1)
-            self.assertIn("AT_LEAST_TWO_ARMS_REQUIRED", buffer.getvalue())
+            single = Path(tmp) / "single.json"
+            self.assertEqual(an.main(["--corpus", str(V3), "--rubric", rubric, "--arm", f"gemini={a}", "--out", str(single)]), 0)
+            result = json.loads(single.read_text())
+            self.assertEqual((result["comparisons"], result["labels"]), ({}, None))
+            self.assertEqual(result["arms"]["gemini"]["primary"]["soundPlansGo"]["count"], 64)
+            self.assertEqual(result["arms"]["gemini"]["secondary"]["snapshotLabelRead"], 0)
 
     def test_the_analysis_never_reads_a_ledger_it_was_not_given(self):
         self.assertNotIn("results/", (HERE / "analyze.py").read_text())

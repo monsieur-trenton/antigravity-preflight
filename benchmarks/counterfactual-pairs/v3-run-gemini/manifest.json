@@ -1,0 +1,23 @@
+{
+  "kind": "V3_GEMINI_RUN_FROZEN",
+  "corpus": {
+    "path": "benchmarks/counterfactual-pairs/v3",
+    "manifestSha256": "1ad685287cf4623dae5e8b3109554b2f0859152a28875e8ddfc4d4c5e7554202"
+  },
+  "runtime": {
+    "dir": "runtime/flash-high",
+    "profile": null,
+    "model": "gemini-3.8-flash-high",
+    "effort": "high",
+    "treeSha256": "d5554af88f53c2d0c737de6e53239ce657de0fa3bf830166b52c684f72cb8cc4"
+  },
+  "binary": {
+    "sha256": "16e228cb243fa098eeb27b3b2aca963caec84e4a8ac49e3821b00c56f99f7508",
+    "versionContains": "1.4.1"
+  },
+  "parser": "snapshot-label-tolerant",
+  "pins": {
+    "PREREGISTRATION.md": "c53a7ad9f474ccf67460cad3d9c562c01c46fd5a2c15d5e5eb7435ac9ecea85c"
+  },
+  "providerCalls": 0
+}

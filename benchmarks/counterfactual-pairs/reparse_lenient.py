@@ -21,7 +21,7 @@ _spec = importlib.util.spec_from_file_location("run_pilot", HERE / "run_pilot.py
 rp = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(rp)
 
-LABELLED_LINE = re.compile(r"^(\s*FINDING:[^|]*\|[^|]*\|\s*)S\d+:(\d+)(\s*\|)", re.M)
+LABELLED_LINE = re.compile(r"^(\s*FINDING:[^|]*\|[^|]*\|\s*)S01:(\d+)(\s*\|)", re.M)
 
 
 def lenient_text(text):

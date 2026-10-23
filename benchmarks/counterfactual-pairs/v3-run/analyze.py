@@ -6,7 +6,7 @@ rates (sound plans judged GO, defect twins judged NO_GO, evidence-gap twins judg
 discrimination, the secondary rates, a per-family table, every pairwise paired comparison on matched (case, trial) units with
 an exact two-sided sign test, and the preregistered labels. It reads the oracle only to map cases to families, roles and classes.
 
-Usage: analyze.py --corpus DIR --rubric FILE --arm NAME=DIR [--arm NAME=DIR ...] [--exclude FAMILY ...] [--adjudication FILE] [--out FILE]
+Usage: analyze.py --corpus DIR --rubric FILE --arm NAME=DIR [--arm NAME=DIR ...]   (one arm gives the rates and no comparisons) [--exclude FAMILY ...] [--adjudication FILE] [--out FILE]
 """
 import argparse
 import importlib.util
@@ -132,6 +132,7 @@ def arm_block(name, trials, oracle, corpus, rubric, excluded):
             "gapNamedAmongAllEvidenceGapTwins": ab.rate(named_any, len(gap)),
             "verdictFollowsFinding": ab.verdict_follows_finding(trials, oracle, rubric, severity),
             "verdictIdenticalAcrossTrials": first,
+            "snapshotLabelRead": sum(1 for rows in trials.values() for r in rows if r.get("snapshotLabelRead")),
         },
         "perFamily": per_family(obs, oracle),
     }, units, strict, ordinal
@@ -225,7 +226,7 @@ def main(argv=None):
     args = parser.parse_args(argv)
     try:
         arms = dict(item.split("=", 1) for item in args.arm)
-        sc.require(len(arms) >= 2, "AT_LEAST_TWO_ARMS_REQUIRED")
+        sc.require(len(arms) >= 1, "AT_LEAST_ONE_ARM_REQUIRED")
         rubric = json.loads(Path(args.rubric).read_bytes())["families"]
         adjudication = json.loads(Path(args.adjudication).read_text(encoding="utf-8")) if args.adjudication else None
         result = analyze(args.corpus, arms, rubric, args.exclude, adjudication)
