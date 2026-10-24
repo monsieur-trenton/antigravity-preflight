@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 490" width="900" height="490" role="img" aria-labelledby="t d">
+<title id="t">Corpus v3: verdict mix for four reviewers</title><desc id="d">Verdict counts for sound plans, defect twins and evidence-gap twins from three Claude prompt arms and one Gemini run on corpus v3, two trials each.</desc>
+<style>
+svg { --surface:#fcfcfb; --ink:#0b0b0b; --ink2:#52514e; --grid:#dcdbd6; --accent:#2a78d6;
+  --on-accent:#ffffff; --warn:#fab219; --on-warn:#0b0b0b; --neutral:#ecebe7; --tile:#f3f2ee; }
+@media (prefers-color-scheme: dark) {
+  svg { --surface:#1a1a19; --ink:#f0efec; --ink2:#c3c2b7; --grid:#3a3a37; --accent:#3987e5;
+    --on-accent:#0b0b0b; --warn:#fab219; --on-warn:#0b0b0b; --neutral:#2a2a28; --tile:#232321; }
+}
+text { font-family:-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif; fill:var(--ink); }
+.mono { font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+.muted { fill:var(--ink2); }
+.title { font-size:20px; font-weight:600; }
+.sub { font-size:13px; }
+.lab { font-size:13px; }
+.small { font-size:11.5px; }
+.big { font-size:30px; font-weight:650; }
+.head { font-size:12px; font-weight:600; }
+</style>
+<rect width="900" height="490" rx="10" fill="var(--surface)"/>
+<text x="24" y="36" class="title" text-anchor="start">Corpus v3: four reviewers, verdict mix per kind of case</text>
+<text x="24" y="58" class="sub muted" text-anchor="start">Claude Opus 5.5 via the Claude CLI (three prompt arms) and Gemini 3.8 Flash High via the native route; 64 cases, 2 trials each.</text>
+<text x="24" y="78" class="sub muted" text-anchor="start">The right verdict is Clean for a sound plan, Blockers for a defect twin and Changes for an evidence-gap twin (outlined).</text>
+<text x="200" y="128" class="head" text-anchor="start">Sound plans</text>
+<text x="434" y="128" class="head" text-anchor="start">Defect twins</text>
+<text x="668" y="128" class="head" text-anchor="start">Evidence-gap twins</text>
+<text x="24" y="166" class="lab" text-anchor="start">Claude skill-style</text>
+<rect x="200.0" y="148" width="116.9" height="28" fill="#cde2fb" stroke="var(--ink)" stroke-width="2"><title>Clean: 34 of 64</title></rect>
+<text x="258.4" y="167" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">34</text>
+<rect x="316.9" y="148" width="103.1" height="28" fill="#6da7ec"><title>Changes: 30 of 64</title></rect>
+<text x="368.4" y="167" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">30</text>
+<text x="200" y="190" class="small muted" text-anchor="start">34 of 64 right</text>
+<rect x="434.0" y="148" width="220.0" height="28" fill="#184f95" stroke="var(--ink)" stroke-width="2"><title>Blockers: 32 of 32</title></rect>
+<text x="544.0" y="167" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">32</text>
+<text x="434" y="190" class="small muted" text-anchor="start">32 of 32 right</text>
+<rect x="668.0" y="148" width="165.0" height="28" fill="#6da7ec" stroke="var(--ink)" stroke-width="2"><title>Changes: 24 of 32</title></rect>
+<text x="750.5" y="167" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">24</text>
+<rect x="833.0" y="148" width="55.0" height="28" fill="#184f95"><title>Blockers: 8 of 32</title></rect>
+<text x="860.5" y="167" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">8</text>
+<text x="668" y="190" class="small muted" text-anchor="start">24 of 32 right</text>
+<text x="24" y="220" class="lab" text-anchor="start">Claude defined</text>
+<rect x="200.0" y="202" width="79.1" height="28" fill="#cde2fb" stroke="var(--ink)" stroke-width="2"><title>Clean: 23 of 64</title></rect>
+<text x="239.5" y="221" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">23</text>
+<rect x="279.1" y="202" width="140.9" height="28" fill="#6da7ec"><title>Changes: 41 of 64</title></rect>
+<text x="349.5" y="221" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">41</text>
+<text x="200" y="244" class="small muted" text-anchor="start">23 of 64 right</text>
+<rect x="434.0" y="202" width="220.0" height="28" fill="#184f95" stroke="var(--ink)" stroke-width="2"><title>Blockers: 32 of 32</title></rect>
+<text x="544.0" y="221" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">32</text>
+<text x="434" y="244" class="small muted" text-anchor="start">32 of 32 right</text>
+<rect x="668.0" y="202" width="41.2" height="28" fill="#6da7ec" stroke="var(--ink)" stroke-width="2"><title>Changes: 6 of 32</title></rect>
+<text x="688.6" y="221" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">6</text>
+<rect x="709.2" y="202" width="178.8" height="28" fill="#184f95"><title>Blockers: 26 of 32</title></rect>
+<text x="798.6" y="221" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">26</text>
+<text x="668" y="244" class="small muted" text-anchor="start">6 of 32 right</text>
+<text x="24" y="274" class="lab" text-anchor="start">Claude + sentence</text>
+<rect x="200.0" y="256" width="220.0" height="28" fill="#cde2fb" stroke="var(--ink)" stroke-width="2"><title>Clean: 64 of 64</title></rect>
+<text x="310.0" y="275" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">64</text>
+<text x="200" y="298" class="small muted" text-anchor="start">64 of 64 right</text>
+<rect x="434.0" y="256" width="220.0" height="28" fill="#184f95" stroke="var(--ink)" stroke-width="2"><title>Blockers: 32 of 32</title></rect>
+<text x="544.0" y="275" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">32</text>
+<text x="434" y="298" class="small muted" text-anchor="start">32 of 32 right</text>
+<rect x="668.0" y="256" width="6.9" height="28" fill="#cde2fb"><title>Clean: 1 of 32</title></rect>
+<rect x="674.9" y="256" width="68.8" height="28" fill="#6da7ec" stroke="var(--ink)" stroke-width="2"><title>Changes: 10 of 32</title></rect>
+<text x="709.2" y="275" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">10</text>
+<rect x="743.6" y="256" width="144.4" height="28" fill="#184f95"><title>Blockers: 21 of 32</title></rect>
+<text x="815.8" y="275" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">21</text>
+<text x="668" y="298" class="small muted" text-anchor="start">10 of 32 right</text>
+<text x="24" y="328" class="lab" text-anchor="start">Gemini skill-style</text>
+<rect x="200.0" y="310" width="213.0" height="28" fill="#cde2fb" stroke="var(--ink)" stroke-width="2"><title>Clean: 61 of 63</title></rect>
+<text x="306.5" y="329" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">61</text>
+<rect x="413.0" y="310" width="7.0" height="28" fill="#6da7ec"><title>Changes: 2 of 63</title></rect>
+<text x="200" y="352" class="small muted" text-anchor="start">61 of 63 right</text>
+<rect x="434.0" y="310" width="220.0" height="28" fill="#184f95" stroke="var(--ink)" stroke-width="2"><title>Blockers: 32 of 32</title></rect>
+<text x="544.0" y="329" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">32</text>
+<text x="434" y="352" class="small muted" text-anchor="start">32 of 32 right</text>
+<rect x="668.0" y="310" width="220.0" height="28" fill="#6da7ec" stroke="var(--ink)" stroke-width="2"><title>Changes: 32 of 32</title></rect>
+<text x="778.0" y="329" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">32</text>
+<text x="668" y="352" class="small muted" text-anchor="start">32 of 32 right</text>
+<rect x="24" y="372" width="26" height="16" rx="3" fill="#cde2fb"/>
+<text x="58" y="384" class="small" text-anchor="start">Clean: no blockers found</text>
+<rect x="274" y="372" width="26" height="16" rx="3" fill="#6da7ec"/>
+<text x="308" y="384" class="small" text-anchor="start">Changes recommended</text>
+<rect x="524" y="372" width="26" height="16" rx="3" fill="#184f95"/>
+<text x="558" y="384" class="small" text-anchor="start">Blockers found</text>
+<text x="24" y="412" class="small" text-anchor="start">Counts are observations over two trials. Gemini had 1 runtime stop (a sound plan), removed from every denominator.</text>
+<text x="24" y="430" class="small" text-anchor="start">Claude's verdict-only arms overclaimed the evidence gap as a blocker (26 and 21 of 32); the sentence arm waved through 1.</text>
+<text x="24" y="448" class="small" text-anchor="start">The skill-style prompt hedged 30 of 64 sound plans on Claude and 2 of 63 on Gemini.</text>
+<text x="24" y="466" class="small muted" text-anchor="start">Different routes, wrappers and days: Claude against Gemini is a difference as run, not between models.</text>
+</svg>

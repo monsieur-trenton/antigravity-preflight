@@ -1,5 +1,6 @@
 """Offline tests for the v3 run tooling: run-manifest binding, the analysis and its labels. Stubbed driver and simulated arms; no provider calls."""
 import contextlib
+import hashlib
 import importlib.util
 import io
 import json
@@ -279,6 +280,56 @@ class AnalysisTests(unittest.TestCase):
 
     def test_the_analysis_never_reads_a_ledger_it_was_not_given(self):
         self.assertNotIn("results/", (HERE / "analyze.py").read_text())
+
+
+RESULTS = PARENT / "results/v3-claude-opus-5-5-high"
+ARMS = ("skill", "defined", "defined-go")
+
+
+class CommittedResultsTests(unittest.TestCase):
+    """The committed evidence is what the write-up says it is: stamps, report hashes, scores, analysis and labels; no model calls."""
+
+    def rows(self, arm, trial):
+        return [json.loads(line) for line in (RESULTS / arm / f"trial{trial}/responses.jsonl").read_text(encoding="utf-8").splitlines() if line.strip()]
+
+    def test_every_ledger_follows_the_frozen_order_and_stamp_and_every_report_matches_its_hash(self):
+        order = json.loads((V3 / "manifest.json").read_bytes())["submissionOrder"]
+        run_sha = hashlib.sha256(RUN_MANIFEST.read_bytes()).hexdigest()
+        for arm in ARMS:
+            for trial in (1, 2):
+                rows = self.rows(arm, trial)
+                self.assertEqual([r["case"] for r in rows], order)
+                for r in rows:
+                    self.assertEqual((r["arm"], r["runManifestSha256"], r["servedModels"], r["safetyStops"], r.get("technicalStop")),
+                                     (arm, run_sha, ["claude-opus-5-5"], 0, None))
+                    report = (RESULTS / arm / f"trial{trial}/reports/{r['case']}.md").read_bytes()
+                    self.assertEqual(hashlib.sha256(report).hexdigest(), r["reportSha256"])
+                    self.assertTrue((RESULTS / arm / f"trial{trial}/requests/{r['case']}.txt").is_file())
+
+    def test_the_committed_analysis_is_what_the_analyser_gives_on_the_committed_ledgers(self):
+        rubric = json.loads(RUBRIC_FILE.read_bytes())["families"]
+        adjudication = json.loads((RESULTS / "adjudication.json").read_bytes())
+        fresh = an.analyze(str(V3), {arm: str(RESULTS / arm) for arm in ARMS}, rubric, [], adjudication)
+        self.assertEqual(json.loads(json.dumps(fresh)), json.loads((RESULTS / "analysis.json").read_bytes()))
+
+    def test_the_committed_skill_score_matches_the_scorer_and_the_gate_is_zero(self):
+        sc = load("v3run_score", PARENT / "score.py")
+        rows = self.rows("skill", 1) + self.rows("skill", 2)
+        committed = json.loads((RESULTS / "score-skill.json").read_bytes())
+        self.assertEqual(sc.score(rows, V3, json.loads((RESULTS / "adjudication.json").read_bytes())), committed)
+        self.assertEqual([committed["trials"][t]["unsupportedVerifiedFindings"] for t in ("1", "2")], [0, 0])
+
+    def test_the_headline_numbers_and_labels_are_the_ones_the_write_up_states(self):
+        analysis = json.loads((RESULTS / "analysis.json").read_bytes())
+        primary = {arm: {k: v["count"] for k, v in analysis["arms"][arm]["primary"].items()} for arm in ARMS}
+        self.assertEqual(primary, {"skill": {"soundPlansGo": 34, "defectTwinsNoGo": 32, "evidenceGapTwinsGoWithChanges": 24},
+                                   "defined": {"soundPlansGo": 23, "defectTwinsNoGo": 32, "evidenceGapTwinsGoWithChanges": 6},
+                                   "defined-go": {"soundPlansGo": 64, "defectTwinsNoGo": 32, "evidenceGapTwinsGoWithChanges": 10}})
+        self.assertEqual({arm: analysis["arms"][arm]["technicalStops"] for arm in ARMS}, {arm: {} for arm in ARMS})
+        labels = analysis["labels"]
+        self.assertEqual((labels["soundPlanGain"], labels["evidenceGapCost"], labels["defectTwins"]), ("replicated", "not detected", "held"))
+        self.assertEqual(labels["skillStyleVsSentenceArm"], {"evidenceGapGoWithChanges": "skill-style better", "soundPlansGo": "sentence arm better"})
+        self.assertEqual(json.loads((RESULTS / "adjudication.json").read_bytes())["stopsDocumentation"]["observations"], [])
 
 
 if __name__ == "__main__":

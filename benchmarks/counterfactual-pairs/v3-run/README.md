@@ -1,6 +1,6 @@
 # The v3 run: tooling and preregistration
 
-Three arms (`skill`, `defined`, `defined-go`) on the held-out [corpus v3](../v3/README.md), six runs in one sitting. **Nothing has been run yet.**
+Three arms (`skill`, `defined`, `defined-go`) on the held-out [corpus v3](../v3/README.md), six runs in one sitting. **It has been run once, six runs: see the [results](../results/v3-claude-opus-5-5-high/README.md).**
 
 | File | Role |
 | --- | --- |

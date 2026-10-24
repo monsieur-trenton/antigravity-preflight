@@ -246,6 +246,28 @@ class FigureTests(unittest.TestCase):
         finally:
             score_path.write_bytes(original)
 
+    def test_v3_four_reviewer_figure_is_built_from_committed_ledgers_and_checked_against_the_analysis(self):
+        data = mf.load_v3_arms()
+        svg = mf.build({**INPUTS, "v3Arms": data})["v3-four-reviewers.svg"]
+        ET.fromstring(svg)
+        self.assertEqual(data["mix"]["defined-go"]["sound"]["NO_BLOCKERS_FOUND"], 64)
+        self.assertEqual(data["mix"]["skill"]["gap"], {"NO_BLOCKERS_FOUND": 0, "CHANGES_RECOMMENDED": 24, "BLOCKERS_FOUND": 8})
+        self.assertEqual(data["stops"], {"skill": 0, "defined": 0, "defined-go": 0, "gemini": 1})
+        for text in ("Claude skill-style", "Gemini skill-style", "Claude + sentence", "34 of 64 right", "61 of 63 right", "26 and 21 of 32", "waved through 1"):
+            self.assertIn(text, svg)
+
+    def test_v3_four_reviewer_figure_refuses_a_stale_analysis(self):
+        path = mf.V3_CLAUDE / "analysis.json"
+        original = path.read_bytes()
+        try:
+            stale = json.loads(original)
+            stale["arms"]["defined"]["primary"]["soundPlansGo"]["count"] += 1
+            path.write_text(json.dumps(stale), encoding="utf-8")
+            with self.assertRaises(SystemExit):
+                mf.load_v3_arms()
+        finally:
+            path.write_bytes(original)
+
     def test_stale_figure_is_detected(self):
         figures = mf.build(INPUTS)
         with tempfile.TemporaryDirectory() as raw:

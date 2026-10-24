@@ -1,6 +1,6 @@
 # Counterfactual pairs, corpus v3
 
-A held-out successor to the [v2 corpus](../v2/README.md), built after the [ablation arms](../ablation/README.md) were tuned on v2. **One reviewer has run on it so far:** Gemini 3.8 Flash High through the native route, [two trials](../results/v3-gemini-flash-high/README.md) (a ceiling result). The Claude-route arms have not. It has 64 cases in 16 families: 8 whose twin is a defect and **8 whose twin leaves one decisive fact unestablished**, the family that v2 had only one of. Its design, metrics, hypotheses and limits are fixed in the [preregistration](PREREGISTRATION.md), pinned by the manifest.
+A held-out successor to the [v2 corpus](../v2/README.md), built after the [ablation arms](../ablation/README.md) were tuned on v2. **One reviewer has run on it so far:** Gemini 3.8 Flash High through the native route, [two trials](../results/v3-gemini-flash-high/README.md) (a ceiling result). The three Claude-route arms have run too ([results](../results/v3-claude-opus-5-5-high/README.md)). It has 64 cases in 16 families: 8 whose twin is a defect and **8 whose twin leaves one decisive fact unestablished**, the family that v2 had only one of. Its design, metrics, hypotheses and limits are fixed in the [preregistration](PREREGISTRATION.md), pinned by the manifest.
 
 | | v2 | v3 |
 | --- | --- | --- |

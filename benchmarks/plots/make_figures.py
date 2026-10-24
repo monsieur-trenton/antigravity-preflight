@@ -316,6 +316,7 @@ def collect_inputs():
         "flash": load_flash(),
         "routes": load_routes(),
         "v3Gemini": load_v3_gemini(),
+        "v3Arms": load_v3_arms(),
     }
 
 
@@ -1034,6 +1035,102 @@ def v3_gemini_figure(data):
                     f"defect twins Blockers {p['defectTwinsNoGo'][0]} of {p['defectTwinsNoGo'][1]}, evidence-gap twins Changes {p['evidenceGapTwinsGoWithChanges'][0]} of {p['evidenceGapTwinsGoWithChanges'][1]}.", body)
 
 
+V3_CLAUDE = ROOT / "benchmarks/counterfactual-pairs/results/v3-claude-opus-5-5-high"
+V3_ROWS = (("skill", "Claude skill-style", V3_CLAUDE / "skill"), ("defined", "Claude defined", V3_CLAUDE / "defined"),
+           ("defined-go", "Claude + sentence", V3_CLAUDE / "defined-go"), ("gemini", "Gemini skill-style", V3_RESULTS))
+V3_PANELS = (("sound", "Sound plans", "NO_BLOCKERS_FOUND", "Clean"), ("defect", "Defect twins", "BLOCKERS_FOUND", "Blockers"),
+             ("gap", "Evidence-gap twins", "CHANGES_RECOMMENDED", "Changes"))
+
+
+def load_v3_arms():
+    """Verdict mix per arm and group on corpus v3 from committed ledgers, checked against the committed three-arm analysis."""
+    if not V3_CLAUDE.is_dir() or not V3_RESULTS.is_dir():
+        return None
+    base = ROOT / "benchmarks/counterfactual-pairs"
+    oracle = {c["case"]: c for c in json.loads((base / "v3/oracle/oracle.json").read_bytes())["cases"]}
+    analysis = json.loads((V3_CLAUDE / "analysis.json").read_bytes())["arms"]
+    mixes, stops = {}, {}
+    for arm, _, directory in V3_ROWS:
+        mix = {g: dict.fromkeys(VERDICT_ORDER, 0) for g, *_ in V3_PANELS}
+        stops[arm] = 0
+        for trial in (1, 2):
+            for line in (directory / f"trial{trial}/responses.jsonl").read_text(encoding="utf-8").splitlines():
+                row = json.loads(line)
+                if row.get("technicalStop"):
+                    stops[arm] += 1
+                    continue
+                truth = oracle[row["case"]]
+                group = "sound" if truth["role"] == "sound" else "defect" if truth["expectedClass"] == "DEFECT" else "gap"
+                mix[group][row["assessment"]] += 1
+        mixes[arm] = mix
+    for arm, key in (("skill", "skill"), ("defined", "defined"), ("defined-go", "defined-go"), ("gemini", None)):
+        if key is None:
+            expected = json.loads((V3_RESULTS / "analysis.json").read_bytes())["arms"]["gemini"]["primary"]
+        else:
+            expected = analysis[key]["primary"]
+        got = (mixes[arm]["sound"]["NO_BLOCKERS_FOUND"], mixes[arm]["defect"]["BLOCKERS_FOUND"], mixes[arm]["gap"]["CHANGES_RECOMMENDED"])
+        want = (expected["soundPlansGo"]["count"], expected["defectTwinsNoGo"]["count"], expected["evidenceGapTwinsGoWithChanges"]["count"])
+        if got != want:
+            raise SystemExit("V3_ARMS_ANALYSIS_STALE:" + arm)
+    return {"mix": mixes, "stops": stops}
+
+
+def v3_arms_figure(data):
+    mix, stops = data["mix"], data["stops"]
+    width, left, label_w, panel_w, gap, row_h = 900, 24, 176, 220, 14, 54
+    top = 142
+    colours = {"NO_BLOCKERS_FOUND": ("Clean", "#cde2fb", "#0b0b0b"), "CHANGES_RECOMMENDED": ("Changes", "#6da7ec", "#0b0b0b"),
+               "BLOCKERS_FOUND": ("Blockers", "#184f95", "#ffffff")}
+    body = [t(left, 36, "Corpus v3: four reviewers, verdict mix per kind of case", "title"),
+            t(left, 58, "Claude Opus 5.5 via the Claude CLI (three prompt arms) and Gemini 3.8 Flash High via the native route; 64 cases, 2 trials each.", "sub muted"),
+            t(left, 78, "The right verdict is Clean for a sound plan, Blockers for a defect twin and Changes for an evidence-gap twin (outlined).", "sub muted")]
+    for i, (group, title, right, short) in enumerate(V3_PANELS):
+        x = left + label_w + i * (panel_w + gap)
+        body.append(t(x, top - 14, title, "head"))
+    y = top
+    for arm, label, _ in V3_ROWS:
+        fits(label, 13, label_w - 12, label)
+        body.append(t(left, y + 24, label, "lab"))
+        for i, (group, title, right, short) in enumerate(V3_PANELS):
+            x0 = left + label_w + i * (panel_w + gap)
+            counts = mix[arm][group]
+            n = sum(counts.values())
+            x = x0
+            for verdict in VERDICT_ORDER:
+                count = counts[verdict]
+                if not count:
+                    continue
+                w = panel_w * count / n
+                name, fill, ink = colours[verdict]
+                outline = ' stroke="var(--ink)" stroke-width="2"' if verdict == right else ""
+                body.append(f'<rect x="{x:.1f}" y="{y + 6}" width="{w:.1f}" height="28" fill="{fill}"{outline}><title>{name}: {count} of {n}</title></rect>')
+                if w >= 22:
+                    body.append(f'<text x="{x + w / 2:.1f}" y="{y + 25}" class="small" text-anchor="middle" fill="{ink}" style="fill:{ink}">{count}</text>')
+                x += w
+            body.append(t(x0, y + 48, f"{counts[right]} of {n} right", "small muted"))
+        y += row_h
+    ly = y + 14
+    for i, verdict in enumerate(VERDICT_ORDER):
+        name, fill, ink = colours[verdict]
+        text = {"NO_BLOCKERS_FOUND": "Clean: no blockers found", "CHANGES_RECOMMENDED": "Changes recommended", "BLOCKERS_FOUND": "Blockers found"}[verdict]
+        x = left + i * 250
+        body.append(f'<rect x="{x}" y="{ly}" width="26" height="16" rx="3" fill="{fill}"/>')
+        body.append(t(x + 34, ly + 12, text, "small"))
+    sound_skill = mix["skill"]["sound"]["NO_BLOCKERS_FOUND"]
+    footer = [(f"Counts are observations over two trials. Gemini had {stops['gemini']} runtime stop (a sound plan), removed from every denominator.", "small"),
+              (f"Claude's verdict-only arms overclaimed the evidence gap as a blocker ({mix['defined']['gap']['BLOCKERS_FOUND']} and {mix['defined-go']['gap']['BLOCKERS_FOUND']} of 32); "
+               f"the sentence arm waved through {mix['defined-go']['gap']['NO_BLOCKERS_FOUND']}.", "small"),
+              (f"The skill-style prompt hedged {mix['skill']['sound']['CHANGES_RECOMMENDED']} of 64 sound plans on Claude and {mix['gemini']['sound']['CHANGES_RECOMMENDED']} of 63 on Gemini.", "small"),
+              ("Different routes, wrappers and days: Claude against Gemini is a difference as run, not between models.", "small muted")]
+    for text, css in footer:
+        fits(text, 11.5, 876, "v3 arms footer")
+    for i, (text, css) in enumerate(footer):
+        body.append(t(left, ly + 40 + 18 * i, text, css))
+    height = ly + 40 + 18 * len(footer) + 6
+    return document(width, height, "Corpus v3: verdict mix for four reviewers",
+                    "Verdict counts for sound plans, defect twins and evidence-gap twins from three Claude prompt arms and one Gemini run on corpus v3, two trials each.", body)
+
+
 def build(inputs):
     figures = {"fault-gate-matrix.svg": fault_matrix(inputs["results"]),
                "offline-evidence.svg": evidence_overview(inputs)}
@@ -1062,6 +1159,8 @@ def build(inputs):
         figures["pilot-routes-comparison.svg"] = routes_figure(inputs["routes"])
     if inputs.get("v3Gemini"):
         figures["v3-gemini-verdicts.svg"] = v3_gemini_figure(inputs["v3Gemini"])
+    if inputs.get("v3Arms"):
+        figures["v3-four-reviewers.svg"] = v3_arms_figure(inputs["v3Arms"])
     return figures
 
 
