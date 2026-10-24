@@ -224,6 +224,28 @@ class FigureTests(unittest.TestCase):
         finally:
             score_path.write_bytes(original)
 
+    def test_v3_gemini_figure_is_built_from_committed_ledgers_and_marks_the_stop(self):
+        data = mf.load_v3_gemini()
+        svg = mf.build({**INPUTS, "v3Gemini": data})["v3-gemini-verdicts.svg"]
+        ET.fromstring(svg)
+        self.assertEqual((data["strict"], len(data["stops"]), data["primary"]["soundPlansGo"]), ([(31, 31), (30, 32)], 1, (61, 63)))
+        self.assertEqual(svg.count("Blockers</text>"), 32)  # the 32 defect-twin cells; the legend says "Blockers found"
+        self.assertEqual(svg.count("stroke-dasharray"), 1)
+        for text in ("Gemini 3.8 Flash High", "requested, not attested", "61/63", "32/32", "Twins right in 64 of 64", "Storage access (trial 2)", "ceiling result"):
+            self.assertIn(text, svg)
+
+    def test_v3_gemini_figure_refuses_a_stale_score(self):
+        score_path = mf.V3_RESULTS / "score.json"
+        original = score_path.read_bytes()
+        try:
+            stale = json.loads(original)
+            stale["trials"]["2"]["pairDiscrimination"]["count"] += 1
+            score_path.write_text(json.dumps(stale), encoding="utf-8")
+            with self.assertRaises(SystemExit):
+                mf.load_v3_gemini()
+        finally:
+            score_path.write_bytes(original)
+
     def test_stale_figure_is_detected(self):
         figures = mf.build(INPUTS)
         with tempfile.TemporaryDirectory() as raw:

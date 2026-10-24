@@ -1,6 +1,6 @@
 # The v3 run on the Gemini route: tooling and preregistration
 
-One arm (the skill-style prompt, as the [Gemini pilot](../results/pilot-flash-high/README.md) ran it), two trials, on the held-out [corpus v3](../v3/README.md) through the native `flash-high` runtime. **Nothing has been run yet.** The Claude-route run (three arms) has its own [package](../v3-run/README.md).
+One arm (the skill-style prompt, as the [Gemini pilot](../results/pilot-flash-high/README.md) ran it), two trials, on the held-out [corpus v3](../v3/README.md) through the native `flash-high` runtime. **It has been run once, two trials: see the [results](../results/v3-gemini-flash-high/README.md).** The Claude-route run (three arms) has its own [package](../v3-run/README.md).
 
 | File | Role |
 | --- | --- |

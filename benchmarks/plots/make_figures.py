@@ -315,6 +315,7 @@ def collect_inputs():
         "fourArms": load_four_arms(),
         "flash": load_flash(),
         "routes": load_routes(),
+        "v3Gemini": load_v3_gemini(),
     }
 
 
@@ -921,6 +922,118 @@ def routes_figure(data):
                         f"Verdict mix and pairs ordered per family for Claude Opus 5.5 and Gemini 3.8 Flash High on the same 24 plans; verdicts agree in {data['agree']} of {data['total']} observations.", lanes=True)
 
 
+V3_RESULTS = ROOT / "benchmarks/counterfactual-pairs/results/v3-gemini-flash-high"
+V3_LABEL = {"cache_tenant_key": "Cache tenant key", "lock_order": "Lock order", "rate_arithmetic": "Rate arithmetic",
+            "payment_idempotency_key": "Payment idempotency key", "cert_rotation": "Certificate rotation",
+            "flag_default": "Flag default", "backup_window": "Backup window", "credential_logging": "Credential logging",
+            "capacity_headroom": "Capacity headroom", "upgrade_compat": "Upgrade compatibility",
+            "retry_idempotent": "Retry idempotence", "rate_limit_quota": "Rate limit quota",
+            "unique_constraint": "Unique constraint", "rollback_window": "Rollback window",
+            "payload_limit": "Payload limit", "storage_access": "Storage access"}
+
+
+def load_v3_gemini():
+    """The Gemini 3.8 Flash High run on corpus v3 (as run), from committed ledgers, checked against the committed score and analysis."""
+    if not V3_RESULTS.is_dir():
+        return None
+    base = ROOT / "benchmarks/counterfactual-pairs"
+    oracle = {c["case"]: c for c in json.loads((base / "v3/oracle/oracle.json").read_bytes())["cases"]}
+    rows, stops, kind = {}, [], {}
+    for trial in (1, 2):
+        for line in (V3_RESULTS / f"trial{trial}/responses.jsonl").read_text(encoding="utf-8").splitlines():
+            row = json.loads(line)
+            truth = oracle[row["case"]]
+            key = (truth["family"], truth["wording"], truth["role"], trial)
+            rows[key] = "STOP" if row.get("technicalStop") else row["assessment"]
+            if truth["role"] == "changed":
+                kind[truth["family"]] = (truth["expectedClass"], truth["difficulty"])
+            stops += [key] if row.get("technicalStop") else []
+    if len(rows) != 128 or len(kind) != 16:
+        raise SystemExit("V3_GEMINI_INCOMPLETE")
+    score = json.loads((V3_RESULTS / "score.json").read_bytes())["trials"]
+    analysis = json.loads((V3_RESULTS / "analysis.json").read_bytes())["arms"]["gemini"]
+    strict = [(score[str(t_)]["pairDiscrimination"]["count"], score[str(t_)]["pairDiscrimination"]["of"]) for t_ in (1, 2)]
+    for t_ in (1, 2):
+        got = sum(1 for f in kind for w in "AB" if "STOP" not in (rows[(f, w, "sound", t_)], rows[(f, w, "changed", t_)])
+                  and rows[(f, w, "sound", t_)] == "NO_BLOCKERS_FOUND"
+                  and rows[(f, w, "changed", t_)] == ("BLOCKERS_FOUND" if kind[f][0] == "DEFECT" else "CHANGES_RECOMMENDED"))
+        if got != strict[t_ - 1][0]:
+            raise SystemExit("V3_GEMINI_SCORE_STALE")
+    primary = {k: (v["count"], v["of"]) for k, v in analysis["primary"].items()}
+    return {"rows": rows, "kind": kind, "stops": stops, "strict": strict, "primary": primary,
+            "labels": analysis["secondary"]["snapshotLabelRead"]}
+
+
+def v3_gemini_figure(data):
+    rows, kind, p = data["rows"], data["kind"], data["primary"]
+    width, left, label_w, cell_w, cell_h, row_h = 900, 24, 230, 62, 20, 25
+    sub = 4
+    x_sound = left + label_w
+    x_twin = x_sound + 4 * (cell_w + sub) + 28
+    families = [f for f in V3_LABEL if kind[f][0] == "DEFECT"] + [f for f in V3_LABEL if kind[f][0] != "DEFECT"]
+    top = 150
+    height = top + 16 * row_h + 2 * 30 + 130
+    body = [t(left, 36, "Gemini 3.8 Flash High on held-out corpus v3: every verdict", "title"),
+            t(left, 58, "Route flash-high (native agy), model gemini-3.8-flash-high (requested, not attested); 64 cases, 2 trials, 1 runtime stop.", "sub muted"),
+            t(left, 78, f"Sound plans judged Clean {p['soundPlansGo'][0]}/{p['soundPlansGo'][1]}; defect twins Blockers {p['defectTwinsNoGo'][0]}/{p['defectTwinsNoGo'][1]}; "
+                        f"evidence-gap twins Changes {p['evidenceGapTwinsGoWithChanges'][0]}/{p['evidenceGapTwinsGoWithChanges'][1]}.", "sub muted")]
+    for x0, group in ((x_sound, "Sound plan"), (x_twin, "Changed twin")):
+        centre = x0 + (4 * (cell_w + sub) - sub) / 2
+        body.append(t(centre, top - 34, group, "head", "middle"))
+        for i, (w, t_) in enumerate((("A", 1), ("A", 2), ("B", 1), ("B", 2))):
+            body.append(t(x0 + i * (cell_w + sub) + cell_w / 2, top - 12, f"{w} · trial {t_}", "small muted", "middle"))
+    y = top
+    section = None
+    for family in families:
+        cls = "Defect families (the twin breaks a stated rule)" if kind[family][0] == "DEFECT" else "Evidence-gap families (one decisive fact is not established)"
+        if cls != section:
+            y += 10 if section else 0
+            section = cls
+            fits(cls, 12, 700, cls)
+            body.append(t(left, y + 8, cls, "head"))
+            y += 22
+        detail = {"direct": "direct", "inference": "inference across lines", "evidence_gap": "evidence gap"}[kind[family][1]]
+        fits(V3_LABEL[family], 13, label_w - 20, family)
+        body.append(t(left, y + 15, f"{V3_LABEL[family]}", "lab"))
+        for x0, role in ((x_sound, "sound"), (x_twin, "changed")):
+            for i, (w, t_) in enumerate((("A", 1), ("A", 2), ("B", 1), ("B", 2))):
+                verdict = rows[(family, w, role, t_)]
+                x = x0 + i * (cell_w + sub)
+                if verdict == "STOP":
+                    body.append(f'<rect x="{x}" y="{y}" width="{cell_w}" height="{cell_h}" rx="3" fill="none" stroke="var(--ink2)" stroke-dasharray="3 3"/>')
+                    body.append(f'<text x="{x + cell_w / 2}" y="{y + 14}" class="small" text-anchor="middle">Stop</text>')
+                    continue
+                label, fill, ink = VERDICT[verdict]
+                body.append(f'<rect x="{x}" y="{y}" width="{cell_w}" height="{cell_h}" rx="3" fill="{fill}"/>')
+                body.append(f'<text x="{x + cell_w / 2}" y="{y + 14}" class="small" text-anchor="middle" fill="{ink}" style="fill:{ink}">{label}</text>')
+        y += row_h
+    ly = y + 16
+    for i, verdict in enumerate(("NO_BLOCKERS_FOUND", "CHANGES_RECOMMENDED", "BLOCKERS_FOUND")):
+        label, fill, ink = VERDICT[verdict]
+        text = {"NO_BLOCKERS_FOUND": "Clean: no blockers found", "CHANGES_RECOMMENDED": "Changes recommended", "BLOCKERS_FOUND": "Blockers found"}[verdict]
+        x = left + i * 250
+        body.append(f'<rect x="{x}" y="{ly}" width="26" height="16" rx="3" fill="{fill}"/>')
+        body.append(t(x + 34, ly + 12, text, "small"))
+    stop_f, stop_w, stop_r, stop_t = data["stops"][0]
+    want = lambda f: "BLOCKERS_FOUND" if kind[f][0] == "DEFECT" else "CHANGES_RECOMMENDED"
+    twins = [(f, w, t_) for f in kind for w in "AB" for t_ in (1, 2)]
+    twins_right = sum(rows[(f, w, "changed", t_)] == want(f) for f, w, t_ in twins)
+    not_clean = [f"{V3_LABEL[f]} (trial {t_})" for f, w, t_ in twins if rows[(f, w, "sound", t_)] not in ("NO_BLOCKERS_FOUND", "STOP")]
+    footer = [("Right verdict: Clean for a sound plan, Blockers for a defect twin, Changes for an evidence-gap twin.", "small"),
+              (f"Twins right in {twins_right} of {len(twins)} observations. Sound plans hedged, never Blockers: " + ", ".join(not_clean) + ".", "small"),
+              (f"Dashed cell: runtime stop (error step, no report), {V3_LABEL[stop_f]} sound plan, trial {stop_t}; not rerun, in no denominator.", "small muted"),
+              (f"Pairs discriminated, strict: {data['strict'][0][0]}/{data['strict'][0][1]} and {data['strict'][1][0]}/{data['strict'][1][1]}. Zero unsupported VERIFIED findings.", "small muted"),
+              (f"{data['labels']} reports used the label S01:n as the line number (read as that line, preregistered).", "small muted"),
+              ("One reviewer, one route, one corpus written by Claude; a ceiling result is not a general accuracy rate.", "small muted")]
+    for i, (text, css) in enumerate(footer):
+        fits(text, 11.5, 876, "v3 footer")
+        body.append(t(left, ly + 40 + 18 * i, text, css))
+    height = ly + 40 + 18 * len(footer) + 6
+    return document(width, height, "Gemini 3.8 Flash High on corpus v3: verdicts",
+                    f"Every verdict of two trials on 64 held-out cases; sound plans Clean {p['soundPlansGo'][0]} of {p['soundPlansGo'][1]}, "
+                    f"defect twins Blockers {p['defectTwinsNoGo'][0]} of {p['defectTwinsNoGo'][1]}, evidence-gap twins Changes {p['evidenceGapTwinsGoWithChanges'][0]} of {p['evidenceGapTwinsGoWithChanges'][1]}.", body)
+
+
 def build(inputs):
     figures = {"fault-gate-matrix.svg": fault_matrix(inputs["results"]),
                "offline-evidence.svg": evidence_overview(inputs)}
@@ -947,6 +1060,8 @@ def build(inputs):
                     ("Dashed cells: Output byte limit is excluded as a corpus defect (pilot 1). This reviewer judged both of its sound plans clean.", "small muted")]))
     if inputs.get("routes"):
         figures["pilot-routes-comparison.svg"] = routes_figure(inputs["routes"])
+    if inputs.get("v3Gemini"):
+        figures["v3-gemini-verdicts.svg"] = v3_gemini_figure(inputs["v3Gemini"])
     return figures
 
 

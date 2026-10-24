@@ -1,0 +1,320 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 774" width="900" height="774" role="img" aria-labelledby="t d">
+<title id="t">Gemini 3.8 Flash High on corpus v3: verdicts</title><desc id="d">Every verdict of two trials on 64 held-out cases; sound plans Clean 61 of 63, defect twins Blockers 32 of 32, evidence-gap twins Changes 32 of 32.</desc>
+<style>
+svg { --surface:#fcfcfb; --ink:#0b0b0b; --ink2:#52514e; --grid:#dcdbd6; --accent:#2a78d6;
+  --on-accent:#ffffff; --warn:#fab219; --on-warn:#0b0b0b; --neutral:#ecebe7; --tile:#f3f2ee; }
+@media (prefers-color-scheme: dark) {
+  svg { --surface:#1a1a19; --ink:#f0efec; --ink2:#c3c2b7; --grid:#3a3a37; --accent:#3987e5;
+    --on-accent:#0b0b0b; --warn:#fab219; --on-warn:#0b0b0b; --neutral:#2a2a28; --tile:#232321; }
+}
+text { font-family:-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif; fill:var(--ink); }
+.mono { font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+.muted { fill:var(--ink2); }
+.title { font-size:20px; font-weight:600; }
+.sub { font-size:13px; }
+.lab { font-size:13px; }
+.small { font-size:11.5px; }
+.big { font-size:30px; font-weight:650; }
+.head { font-size:12px; font-weight:600; }
+</style>
+<rect width="900" height="774" rx="10" fill="var(--surface)"/>
+<text x="24" y="36" class="title" text-anchor="start">Gemini 3.8 Flash High on held-out corpus v3: every verdict</text>
+<text x="24" y="58" class="sub muted" text-anchor="start">Route flash-high (native agy), model gemini-3.8-flash-high (requested, not attested); 64 cases, 2 trials, 1 runtime stop.</text>
+<text x="24" y="78" class="sub muted" text-anchor="start">Sound plans judged Clean 61/63; defect twins Blockers 32/32; evidence-gap twins Changes 32/32.</text>
+<text x="384.0" y="116" class="head" text-anchor="middle">Sound plan</text>
+<text x="285.0" y="138" class="small muted" text-anchor="middle">A · trial 1</text>
+<text x="351.0" y="138" class="small muted" text-anchor="middle">A · trial 2</text>
+<text x="417.0" y="138" class="small muted" text-anchor="middle">B · trial 1</text>
+<text x="483.0" y="138" class="small muted" text-anchor="middle">B · trial 2</text>
+<text x="676.0" y="116" class="head" text-anchor="middle">Changed twin</text>
+<text x="577.0" y="138" class="small muted" text-anchor="middle">A · trial 1</text>
+<text x="643.0" y="138" class="small muted" text-anchor="middle">A · trial 2</text>
+<text x="709.0" y="138" class="small muted" text-anchor="middle">B · trial 1</text>
+<text x="775.0" y="138" class="small muted" text-anchor="middle">B · trial 2</text>
+<text x="24" y="158" class="head" text-anchor="start">Defect families (the twin breaks a stated rule)</text>
+<text x="24" y="187" class="lab" text-anchor="start">Cache tenant key</text>
+<rect x="254" y="172" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="285.0" y="186" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="320" y="172" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="351.0" y="186" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="386" y="172" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="417.0" y="186" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="452" y="172" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="483.0" y="186" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="546" y="172" width="62" height="20" rx="3" fill="#184f95"/>
+<text x="577.0" y="186" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">Blockers</text>
+<rect x="612" y="172" width="62" height="20" rx="3" fill="#184f95"/>
+<text x="643.0" y="186" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">Blockers</text>
+<rect x="678" y="172" width="62" height="20" rx="3" fill="#184f95"/>
+<text x="709.0" y="186" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">Blockers</text>
+<rect x="744" y="172" width="62" height="20" rx="3" fill="#184f95"/>
+<text x="775.0" y="186" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">Blockers</text>
+<text x="24" y="212" class="lab" text-anchor="start">Lock order</text>
+<rect x="254" y="197" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="285.0" y="211" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="320" y="197" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="351.0" y="211" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="386" y="197" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="417.0" y="211" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="452" y="197" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="483.0" y="211" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="546" y="197" width="62" height="20" rx="3" fill="#184f95"/>
+<text x="577.0" y="211" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">Blockers</text>
+<rect x="612" y="197" width="62" height="20" rx="3" fill="#184f95"/>
+<text x="643.0" y="211" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">Blockers</text>
+<rect x="678" y="197" width="62" height="20" rx="3" fill="#184f95"/>
+<text x="709.0" y="211" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">Blockers</text>
+<rect x="744" y="197" width="62" height="20" rx="3" fill="#184f95"/>
+<text x="775.0" y="211" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">Blockers</text>
+<text x="24" y="237" class="lab" text-anchor="start">Rate arithmetic</text>
+<rect x="254" y="222" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="285.0" y="236" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="320" y="222" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="351.0" y="236" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="386" y="222" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="417.0" y="236" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="452" y="222" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="483.0" y="236" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="546" y="222" width="62" height="20" rx="3" fill="#184f95"/>
+<text x="577.0" y="236" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">Blockers</text>
+<rect x="612" y="222" width="62" height="20" rx="3" fill="#184f95"/>
+<text x="643.0" y="236" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">Blockers</text>
+<rect x="678" y="222" width="62" height="20" rx="3" fill="#184f95"/>
+<text x="709.0" y="236" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">Blockers</text>
+<rect x="744" y="222" width="62" height="20" rx="3" fill="#184f95"/>
+<text x="775.0" y="236" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">Blockers</text>
+<text x="24" y="262" class="lab" text-anchor="start">Payment idempotency key</text>
+<rect x="254" y="247" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="285.0" y="261" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="320" y="247" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="351.0" y="261" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="386" y="247" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="417.0" y="261" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="452" y="247" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="483.0" y="261" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="546" y="247" width="62" height="20" rx="3" fill="#184f95"/>
+<text x="577.0" y="261" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">Blockers</text>
+<rect x="612" y="247" width="62" height="20" rx="3" fill="#184f95"/>
+<text x="643.0" y="261" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">Blockers</text>
+<rect x="678" y="247" width="62" height="20" rx="3" fill="#184f95"/>
+<text x="709.0" y="261" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">Blockers</text>
+<rect x="744" y="247" width="62" height="20" rx="3" fill="#184f95"/>
+<text x="775.0" y="261" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">Blockers</text>
+<text x="24" y="287" class="lab" text-anchor="start">Certificate rotation</text>
+<rect x="254" y="272" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="285.0" y="286" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="320" y="272" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="351.0" y="286" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="386" y="272" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="417.0" y="286" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="452" y="272" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="483.0" y="286" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="546" y="272" width="62" height="20" rx="3" fill="#184f95"/>
+<text x="577.0" y="286" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">Blockers</text>
+<rect x="612" y="272" width="62" height="20" rx="3" fill="#184f95"/>
+<text x="643.0" y="286" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">Blockers</text>
+<rect x="678" y="272" width="62" height="20" rx="3" fill="#184f95"/>
+<text x="709.0" y="286" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">Blockers</text>
+<rect x="744" y="272" width="62" height="20" rx="3" fill="#184f95"/>
+<text x="775.0" y="286" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">Blockers</text>
+<text x="24" y="312" class="lab" text-anchor="start">Flag default</text>
+<rect x="254" y="297" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="285.0" y="311" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="320" y="297" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="351.0" y="311" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="386" y="297" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="417.0" y="311" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="452" y="297" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="483.0" y="311" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="546" y="297" width="62" height="20" rx="3" fill="#184f95"/>
+<text x="577.0" y="311" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">Blockers</text>
+<rect x="612" y="297" width="62" height="20" rx="3" fill="#184f95"/>
+<text x="643.0" y="311" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">Blockers</text>
+<rect x="678" y="297" width="62" height="20" rx="3" fill="#184f95"/>
+<text x="709.0" y="311" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">Blockers</text>
+<rect x="744" y="297" width="62" height="20" rx="3" fill="#184f95"/>
+<text x="775.0" y="311" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">Blockers</text>
+<text x="24" y="337" class="lab" text-anchor="start">Backup window</text>
+<rect x="254" y="322" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="285.0" y="336" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="320" y="322" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="351.0" y="336" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="386" y="322" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="417.0" y="336" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="452" y="322" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="483.0" y="336" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="546" y="322" width="62" height="20" rx="3" fill="#184f95"/>
+<text x="577.0" y="336" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">Blockers</text>
+<rect x="612" y="322" width="62" height="20" rx="3" fill="#184f95"/>
+<text x="643.0" y="336" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">Blockers</text>
+<rect x="678" y="322" width="62" height="20" rx="3" fill="#184f95"/>
+<text x="709.0" y="336" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">Blockers</text>
+<rect x="744" y="322" width="62" height="20" rx="3" fill="#184f95"/>
+<text x="775.0" y="336" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">Blockers</text>
+<text x="24" y="362" class="lab" text-anchor="start">Credential logging</text>
+<rect x="254" y="347" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="285.0" y="361" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="320" y="347" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="351.0" y="361" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="386" y="347" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="417.0" y="361" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="452" y="347" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="483.0" y="361" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="546" y="347" width="62" height="20" rx="3" fill="#184f95"/>
+<text x="577.0" y="361" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">Blockers</text>
+<rect x="612" y="347" width="62" height="20" rx="3" fill="#184f95"/>
+<text x="643.0" y="361" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">Blockers</text>
+<rect x="678" y="347" width="62" height="20" rx="3" fill="#184f95"/>
+<text x="709.0" y="361" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">Blockers</text>
+<rect x="744" y="347" width="62" height="20" rx="3" fill="#184f95"/>
+<text x="775.0" y="361" class="small" text-anchor="middle" fill="#ffffff" style="fill:#ffffff">Blockers</text>
+<text x="24" y="390" class="head" text-anchor="start">Evidence-gap families (one decisive fact is not established)</text>
+<text x="24" y="419" class="lab" text-anchor="start">Capacity headroom</text>
+<rect x="254" y="404" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="285.0" y="418" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="320" y="404" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="351.0" y="418" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="386" y="404" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="417.0" y="418" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="452" y="404" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="483.0" y="418" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="546" y="404" width="62" height="20" rx="3" fill="#6da7ec"/>
+<text x="577.0" y="418" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes</text>
+<rect x="612" y="404" width="62" height="20" rx="3" fill="#6da7ec"/>
+<text x="643.0" y="418" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes</text>
+<rect x="678" y="404" width="62" height="20" rx="3" fill="#6da7ec"/>
+<text x="709.0" y="418" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes</text>
+<rect x="744" y="404" width="62" height="20" rx="3" fill="#6da7ec"/>
+<text x="775.0" y="418" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes</text>
+<text x="24" y="444" class="lab" text-anchor="start">Upgrade compatibility</text>
+<rect x="254" y="429" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="285.0" y="443" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="320" y="429" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="351.0" y="443" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="386" y="429" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="417.0" y="443" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="452" y="429" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="483.0" y="443" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="546" y="429" width="62" height="20" rx="3" fill="#6da7ec"/>
+<text x="577.0" y="443" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes</text>
+<rect x="612" y="429" width="62" height="20" rx="3" fill="#6da7ec"/>
+<text x="643.0" y="443" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes</text>
+<rect x="678" y="429" width="62" height="20" rx="3" fill="#6da7ec"/>
+<text x="709.0" y="443" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes</text>
+<rect x="744" y="429" width="62" height="20" rx="3" fill="#6da7ec"/>
+<text x="775.0" y="443" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes</text>
+<text x="24" y="469" class="lab" text-anchor="start">Retry idempotence</text>
+<rect x="254" y="454" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="285.0" y="468" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="320" y="454" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="351.0" y="468" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="386" y="454" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="417.0" y="468" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="452" y="454" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="483.0" y="468" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="546" y="454" width="62" height="20" rx="3" fill="#6da7ec"/>
+<text x="577.0" y="468" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes</text>
+<rect x="612" y="454" width="62" height="20" rx="3" fill="#6da7ec"/>
+<text x="643.0" y="468" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes</text>
+<rect x="678" y="454" width="62" height="20" rx="3" fill="#6da7ec"/>
+<text x="709.0" y="468" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes</text>
+<rect x="744" y="454" width="62" height="20" rx="3" fill="#6da7ec"/>
+<text x="775.0" y="468" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes</text>
+<text x="24" y="494" class="lab" text-anchor="start">Rate limit quota</text>
+<rect x="254" y="479" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="285.0" y="493" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="320" y="479" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="351.0" y="493" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="386" y="479" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="417.0" y="493" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="452" y="479" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="483.0" y="493" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="546" y="479" width="62" height="20" rx="3" fill="#6da7ec"/>
+<text x="577.0" y="493" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes</text>
+<rect x="612" y="479" width="62" height="20" rx="3" fill="#6da7ec"/>
+<text x="643.0" y="493" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes</text>
+<rect x="678" y="479" width="62" height="20" rx="3" fill="#6da7ec"/>
+<text x="709.0" y="493" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes</text>
+<rect x="744" y="479" width="62" height="20" rx="3" fill="#6da7ec"/>
+<text x="775.0" y="493" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes</text>
+<text x="24" y="519" class="lab" text-anchor="start">Unique constraint</text>
+<rect x="254" y="504" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="285.0" y="518" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="320" y="504" width="62" height="20" rx="3" fill="#6da7ec"/>
+<text x="351.0" y="518" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes</text>
+<rect x="386" y="504" width="62" height="20" rx="3" fill="none" stroke="var(--ink2)" stroke-dasharray="3 3"/>
+<text x="417.0" y="518" class="small" text-anchor="middle">Stop</text>
+<rect x="452" y="504" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="483.0" y="518" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="546" y="504" width="62" height="20" rx="3" fill="#6da7ec"/>
+<text x="577.0" y="518" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes</text>
+<rect x="612" y="504" width="62" height="20" rx="3" fill="#6da7ec"/>
+<text x="643.0" y="518" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes</text>
+<rect x="678" y="504" width="62" height="20" rx="3" fill="#6da7ec"/>
+<text x="709.0" y="518" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes</text>
+<rect x="744" y="504" width="62" height="20" rx="3" fill="#6da7ec"/>
+<text x="775.0" y="518" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes</text>
+<text x="24" y="544" class="lab" text-anchor="start">Rollback window</text>
+<rect x="254" y="529" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="285.0" y="543" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="320" y="529" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="351.0" y="543" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="386" y="529" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="417.0" y="543" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="452" y="529" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="483.0" y="543" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="546" y="529" width="62" height="20" rx="3" fill="#6da7ec"/>
+<text x="577.0" y="543" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes</text>
+<rect x="612" y="529" width="62" height="20" rx="3" fill="#6da7ec"/>
+<text x="643.0" y="543" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes</text>
+<rect x="678" y="529" width="62" height="20" rx="3" fill="#6da7ec"/>
+<text x="709.0" y="543" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes</text>
+<rect x="744" y="529" width="62" height="20" rx="3" fill="#6da7ec"/>
+<text x="775.0" y="543" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes</text>
+<text x="24" y="569" class="lab" text-anchor="start">Payload limit</text>
+<rect x="254" y="554" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="285.0" y="568" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="320" y="554" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="351.0" y="568" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="386" y="554" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="417.0" y="568" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="452" y="554" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="483.0" y="568" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="546" y="554" width="62" height="20" rx="3" fill="#6da7ec"/>
+<text x="577.0" y="568" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes</text>
+<rect x="612" y="554" width="62" height="20" rx="3" fill="#6da7ec"/>
+<text x="643.0" y="568" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes</text>
+<rect x="678" y="554" width="62" height="20" rx="3" fill="#6da7ec"/>
+<text x="709.0" y="568" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes</text>
+<rect x="744" y="554" width="62" height="20" rx="3" fill="#6da7ec"/>
+<text x="775.0" y="568" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes</text>
+<text x="24" y="594" class="lab" text-anchor="start">Storage access</text>
+<rect x="254" y="579" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="285.0" y="593" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="320" y="579" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="351.0" y="593" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="386" y="579" width="62" height="20" rx="3" fill="#cde2fb"/>
+<text x="417.0" y="593" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Clean</text>
+<rect x="452" y="579" width="62" height="20" rx="3" fill="#6da7ec"/>
+<text x="483.0" y="593" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes</text>
+<rect x="546" y="579" width="62" height="20" rx="3" fill="#6da7ec"/>
+<text x="577.0" y="593" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes</text>
+<rect x="612" y="579" width="62" height="20" rx="3" fill="#6da7ec"/>
+<text x="643.0" y="593" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes</text>
+<rect x="678" y="579" width="62" height="20" rx="3" fill="#6da7ec"/>
+<text x="709.0" y="593" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes</text>
+<rect x="744" y="579" width="62" height="20" rx="3" fill="#6da7ec"/>
+<text x="775.0" y="593" class="small" text-anchor="middle" fill="#0b0b0b" style="fill:#0b0b0b">Changes</text>
+<rect x="24" y="620" width="26" height="16" rx="3" fill="#cde2fb"/>
+<text x="58" y="632" class="small" text-anchor="start">Clean: no blockers found</text>
+<rect x="274" y="620" width="26" height="16" rx="3" fill="#6da7ec"/>
+<text x="308" y="632" class="small" text-anchor="start">Changes recommended</text>
+<rect x="524" y="620" width="26" height="16" rx="3" fill="#184f95"/>
+<text x="558" y="632" class="small" text-anchor="start">Blockers found</text>
+<text x="24" y="660" class="small" text-anchor="start">Right verdict: Clean for a sound plan, Blockers for a defect twin, Changes for an evidence-gap twin.</text>
+<text x="24" y="678" class="small" text-anchor="start">Twins right in 64 of 64 observations. Sound plans hedged, never Blockers: Storage access (trial 2), Unique constraint (trial 2).</text>
+<text x="24" y="696" class="small muted" text-anchor="start">Dashed cell: runtime stop (error step, no report), Unique constraint sound plan, trial 1; not rerun, in no denominator.</text>
+<text x="24" y="714" class="small muted" text-anchor="start">Pairs discriminated, strict: 31/31 and 30/32. Zero unsupported VERIFIED findings.</text>
+<text x="24" y="732" class="small muted" text-anchor="start">11 reports used the label S01:n as the line number (read as that line, preregistered).</text>
+<text x="24" y="750" class="small muted" text-anchor="start">One reviewer, one route, one corpus written by Claude; a ceiling result is not a general accuracy rate.</text>
+</svg>

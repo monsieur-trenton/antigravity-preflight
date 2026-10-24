@@ -408,5 +408,61 @@ class BundleTests(WithHarness):
             bg.bundle(h.work, 1, h.tmp / "big.tar.gz")
 
 
+RESULTS = PARENT / "results/v3-gemini-flash-high"
+
+
+class CommittedResultsTests(unittest.TestCase):
+    """The committed evidence is what the write-up says it is: hashes, receipts, re-parse, scores; no model calls."""
+
+    def rows(self, trial):
+        return [json.loads(line) for line in (RESULTS / f"trial{trial}/responses.jsonl").read_text(encoding="utf-8").splitlines() if line.strip()]
+
+    def test_ledgers_follow_the_frozen_order_and_carry_the_run_stamp(self):
+        order = json.loads((V3 / "manifest.json").read_bytes())["submissionOrder"]
+        for trial in (1, 2):
+            rows = self.rows(trial)
+            self.assertEqual([r["case"] for r in rows], order)
+            for r in rows:
+                self.assertEqual((r["route"], r["parser"], r["runManifestSha256"], r["binarySha256"], r["trial"]),
+                                 (rg.ROUTE, rg.PARSER, rp.sha(MANIFEST.read_bytes()), BINARY, trial))
+
+    def test_every_report_hashes_to_its_row_reparses_to_it_and_has_a_clean_receipt(self):
+        stops = []
+        for trial in (1, 2):
+            for r in self.rows(trial):
+                receipt = json.loads((RESULTS / f"trial{trial}/receipts/{r['case']}.json").read_bytes())
+                if r.get("technicalStop"):
+                    stops.append((trial, r["case"], r["technicalStop"], receipt["status"], receipt["failure"]["code"]))
+                    self.assertFalse((RESULTS / f"trial{trial}/reports/{r['case']}.md").exists())
+                    continue
+                report = (RESULTS / f"trial{trial}/reports/{r['case']}.md").read_bytes()
+                self.assertEqual(rp.sha(report), r["reportSha256"])
+                self.assertEqual(rp.sha(report), receipt["report"]["sha256"])
+                parsed = rg.tolerant_parse(report.decode("utf-8"))
+                for key in ("assessment", "completeness", "findings"):
+                    self.assertEqual(parsed[key], r[key])
+                self.assertEqual(bool(parsed.get("snapshotLabelRead")), bool(r.get("snapshotLabelRead")))
+                self.assertEqual((receipt["status"], receipt["retries"], receipt["servedAttestation"]),
+                                 ("REPORT_RECEIVED_PENDING_ADJUDICATION", 0, "UNAVAILABLE"))
+                self.assertEqual(receipt["native"]["sha256"], BINARY)
+        self.assertEqual(stops, [(1, "Q-497363", 'RUNTIME_STOP:{"code": "UNQUALIFIED_STEP", "failureClass": "ValueError"}', "STOPPED", "UNQUALIFIED_STEP")])
+
+    def test_the_committed_score_is_what_the_scorer_gives_on_the_committed_ledgers(self):
+        rows = self.rows(1) + self.rows(2)
+        adjudication = json.loads((RESULTS / "adjudication.json").read_bytes())
+        fresh = sc.score(rows, V3, adjudication)
+        committed = json.loads((RESULTS / "score.json").read_bytes())
+        self.assertEqual(fresh, committed)
+        self.assertEqual([committed["trials"][t]["unsupportedVerifiedFindings"] for t in ("1", "2")], [0, 0])
+        self.assertEqual([(committed["trials"][t]["pairDiscrimination"]["count"], committed["trials"][t]["pairDiscrimination"]["of"]) for t in ("1", "2")],
+                         [(31, 31), (30, 32)])
+
+    def test_the_adjudication_names_the_one_stop_and_excludes_nothing(self):
+        adjudication = json.loads((RESULTS / "adjudication.json").read_bytes())
+        self.assertEqual([(o["trial"], o["case"]) for o in adjudication["stopsDocumentation"]["observations"]], [(1, "Q-497363")])
+        self.assertEqual(adjudication["invalidPairs"], [])
+        self.assertEqual(ORACLE["Q-497363"]["role"], "sound")
+
+
 if __name__ == "__main__":
     unittest.main()
