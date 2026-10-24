@@ -1,0 +1,16 @@
+{
+  "writtenBefore": "any verdict count, score, rate or paired comparison of these six runs was computed. What had been seen: the orchestrator's identity record (commit, hashes, versions, per-run counts, stop counts, cost and times), the structure of the archive, and aggregate fields of the CLI outputs (turns, safety stops, permission denials, error flags, served models, cost). No report had been read and no ledger verdict printed; no score.py or analyze.py output existed.",
+  "integrity": {
+    "checkedByMe": "Independently of the orchestrator, with the committed verify_run.py on each arm's returned working directory (both trials), against corpus v3 and the v3 run manifest: 64 ledger rows per trial in the frozen order for all three arms; every saved request equals what the frozen prompt and corpus produce; every ledger report hash equals the SHA-256 of the saved report; every row carries the run manifest hash 3751f9ac... and the arm's stamp; every served model is claude-opus-5-5; no stop of any kind. Each arm: failures []. In addition, across all 384 CLI outputs: one turn each, zero safety stops, zero permission denials, no error flag, one served model, the largest per-case cost $0.0657 against the $5.00 cap, which never bound.",
+    "identityRecord": "The orchestrator's record names commit dba5b6a7a4374fb11455192bbfd0cfece5cdb85e, which is the head of this branch when the run was prepared, with the v3, v3-run, bare, defined and defined-go manifest hashes equal to the committed ones; claude 2.1.306 and binary SHA-256 520bc6c1... as the brief required; spend cap 5.0. The orchestrator did not commit, push or edit anything in the repository.",
+    "notAttested": "Isolation is Claude CLI configuration (tools disabled, an empty working directory, an empty MCP config), not the qualified native containment, as for every earlier Claude-route arm.",
+    "cost": "The total cost was $13.72 (skill 4.81, defined 4.70, defined-go 4.21), above the brief's estimate of about $10 (range $9 to $13). Scaled from the v2 runs, the estimate was not a bound; nothing depends on it."
+  },
+  "stopsDocumentation": {
+    "observations": [],
+    "headline": "There is no technical stop in any of the 384 observations, so there is nothing to remove from a denominator and no documented-rule view. The as-run result is the only result."
+  },
+  "invalidPairs": [],
+  "noOtherExclusion": "No pair, family, case or observation is excluded or reclassified. The pre-specified exclusion views of v3-run/PREREGISTRATION.md (if any) are computed beside the all-pairs run, never instead of it.",
+  "readingPlan": "After the scores are computed, the preregistered reading of v3-run/PREREGISTRATION.md for each arm and for the comparison. The reader is the corpus author, who has seen the scores. Reading can add observations; it changes no as-run number."
+}

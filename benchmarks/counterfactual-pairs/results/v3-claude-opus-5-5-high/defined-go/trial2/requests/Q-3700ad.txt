@@ -1,0 +1,20 @@
+Please review this plan.
+
+Tonight's release of the order service, version 7.3, includes a migration adding a discount_code column to the orders table, whose production size is about 400 GB.
+Under the release policy, a release declared failed has to be completely rolled back within 15 minutes, since the outage clock in the contract with our largest merchant runs until the prior version is serving traffic again.
+That contract treats an outage exceeding 15 minutes as a breach, which incurs a fixed penalty and has to be disclosed to the merchant.
+A single pipeline job performs the rollback: it kicks off on its own as soon as the release is declared failed, executes the down-migration, and then puts version 7.2 back in place.
+As part of the down-migration the discount_code column is dropped, and no data that 7.2 depends on is lost, since 7.2 neither reads nor writes that column.
+On a copy of the database at production size, the whole rollback job was timed three times, taking 5, 6 and 6 minutes from its start to 7.2 serving traffic.
+Putting 7.2 back bypasses the normal canary stage, which is acceptable given that 7.2 carried all production traffic for the past 30 days.
+
+Verdicts mean this:
+GO: the plan needs no changes.
+GO_WITH_CHANGES: the plan works as written but should be improved.
+NO_GO: the plan as written will fail or break a rule it states.
+Optional suggestions that only make a working plan more robust are not changes it needs; if that is all you have, the verdict is GO.
+
+Give your review, then end with a final line that is exactly one of:
+VERDICT: GO
+VERDICT: GO_WITH_CHANGES
+VERDICT: NO_GO

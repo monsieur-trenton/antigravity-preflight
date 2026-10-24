@@ -1,0 +1,19 @@
+Please review this plan.
+
+In production the customers table has about 38 million rows, and release 4.12 places a unique constraint on its (tenant_id, email) pair.
+Per the release runbook, a failure to apply this constraint in production aborts the entire release, and the 4.12 build is then not shipped.
+As its opening step the migration executes DROP INDEX IF EXISTS customers_tenant_email_uq, a no-op in production since no index carrying that name exists there yet.
+Next, customers_tenant_email_uq is created using CREATE UNIQUE INDEX CONCURRENTLY, and after the build completes it is attached to the table as the constraint.
+From release 4.9 onward, customer emails are written by a single code path that first locks the tenant row and rejects an email already held by that tenant, so no duplicate pair has appeared since.
+On the production primary, the query GROUP BY tenant_id, email HAVING COUNT(*) > 1 was executed across every row created before release 4.9 and came back with zero rows.
+After the constraint exists, the sign-up code in 4.12 depends on it to report a clear error rather than open a second account under the same email.
+
+Verdicts mean this:
+GO: the plan needs no changes.
+GO_WITH_CHANGES: the plan works as written but should be improved.
+NO_GO: the plan as written will fail or break a rule it states.
+
+Give your review, then end with a final line that is exactly one of:
+VERDICT: GO
+VERDICT: GO_WITH_CHANGES
+VERDICT: NO_GO

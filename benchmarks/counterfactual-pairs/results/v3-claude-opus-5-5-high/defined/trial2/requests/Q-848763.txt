@@ -1,0 +1,19 @@
+Please review this plan.
+
+Two mutexes guard the warehouse counts in the inventory service, stock_mu and reserve_mu, and acquiring either one blocks indefinitely with no timeout.
+On checkout, the handler acquires stock_mu first, takes reserve_mu without releasing stock_mu, shifts units from available to reserved, and then lets go of both.
+On restock, the worker acquires reserve_mu first, takes stock_mu without releasing reserve_mu, adds the delivered units, prunes expired reservations, and then lets go of both.
+Since checkouts never stop arriving and restock fires every 30 seconds, both paths often run simultaneously on separate threads.
+Each night an audit job grabs stock_mu alone, keeps it for at most 2 seconds, and never requests another lock during that time.
+Neither mutex is acquired anywhere else in the code.
+Requirement: a deadlock is never acceptable, since a hung pod still answers its liveness probe and sells nothing until an operator restarts it manually.
+
+Verdicts mean this:
+GO: the plan needs no changes.
+GO_WITH_CHANGES: the plan works as written but should be improved.
+NO_GO: the plan as written will fail or break a rule it states.
+
+Give your review, then end with a final line that is exactly one of:
+VERDICT: GO
+VERDICT: GO_WITH_CHANGES
+VERDICT: NO_GO

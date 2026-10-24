@@ -1,0 +1,21 @@
+Please review this plan.
+
+At month end a job posts invoice records to the batch endpoint of the ledger partner, and that endpoint refuses the whole request whenever its body exceeds 5,000,000 bytes.
+Its input is the closed month-end snapshot, which stays fixed after the month is closed, and the job splits it into batches of 500 records.
+Records go out as JSON, and every record includes a free-text notes field whose length the source system places no cap on.
+Batches travel without compression inside an envelope, and that envelope together with the separators between records contributes under 1,000 bytes to each request.
+Scanning every record of the closed snapshot showed that the biggest serialized record is 4,100 bytes, which puts a full batch of 500 at no more than 2,050,000 bytes excluding the envelope.
+Each batch is sent in exactly one request and a refused batch is never sent again, since the partner regards a second submission for the same period as a duplicate filing.
+If even one invoice is absent from the partner's ledger, month-end reconciliation fails and the month remains open with the partner until the following cycle.
+The client's default timeout of 30 seconds is lifted to 120 seconds, because the partner states that large batches can take up to 60 seconds to answer.
+
+Verdicts mean this:
+GO: the plan needs no changes.
+GO_WITH_CHANGES: the plan works as written but should be improved.
+NO_GO: the plan as written will fail or break a rule it states.
+Optional suggestions that only make a working plan more robust are not changes it needs; if that is all you have, the verdict is GO.
+
+Give your review, then end with a final line that is exactly one of:
+VERDICT: GO
+VERDICT: GO_WITH_CHANGES
+VERDICT: NO_GO

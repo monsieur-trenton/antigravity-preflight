@@ -1,0 +1,19 @@
+Please review this plan.
+
+From tonight, the nightly customer export writes its output to the bucket exports-prod under the prefix nightly/ instead of the old shared drive.
+The export runs once at 01:00 under the service account svc-export, and a failed run is not retried.
+The 09:00 release pipeline uses tonight's export as its input, and if the export has not completed, that morning's release is blocked and does not ship that day.
+No write to exports-prod/nightly/ has been attempted with svc-export's own credentials, and its permissions on that bucket have not been checked.
+The bucket policy for exports-prod is kept in the infrastructure repository, and no change to it is pending or scheduled before tonight's run.
+A lifecycle rule deletes objects in exports-prod after 7 days, which does not affect the release because the pipeline reads each export within 8 hours of it being written.
+The export is written as a single object of about 30 GB, which is well under the bucket's stated limit of 5 TB per object.
+
+Verdicts mean this:
+GO: the plan needs no changes.
+GO_WITH_CHANGES: the plan works as written but should be improved.
+NO_GO: the plan as written will fail or break a rule it states.
+
+Give your review, then end with a final line that is exactly one of:
+VERDICT: GO
+VERDICT: GO_WITH_CHANGES
+VERDICT: NO_GO

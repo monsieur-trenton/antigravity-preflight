@@ -1,0 +1,19 @@
+Please review this plan.
+
+The checkout client calls the payments service's capture endpoint once per order to charge the customer's card.
+The plan's rule is that no capture may be applied twice, because a second capture charges the customer a second time.
+On a timeout or an HTTP 5xx response the client retries the same capture up to 5 times, with a backoff that starts at 200 ms and doubles each time.
+A timeout can happen after the server has already applied the capture, so a retry may arrive for a capture that already went through.
+Every attempt for an order carries the same idempotency key, a UUID created once with the order and never regenerated.
+Whether the capture endpoint treats repeated requests with the same idempotency key as a single capture has not been checked, and the payments team has not confirmed it.
+The client turns off its HTTP library's built-in retries, so the 5 retries above are the only repeats that occur.
+
+Verdicts mean this:
+GO: the plan needs no changes.
+GO_WITH_CHANGES: the plan works as written but should be improved.
+NO_GO: the plan as written will fail or break a rule it states.
+
+Give your review, then end with a final line that is exactly one of:
+VERDICT: GO
+VERDICT: GO_WITH_CHANGES
+VERDICT: NO_GO

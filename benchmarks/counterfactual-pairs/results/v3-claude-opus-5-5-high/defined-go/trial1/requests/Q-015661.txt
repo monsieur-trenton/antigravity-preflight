@@ -1,0 +1,21 @@
+Please review this plan.
+
+The split-payment flow arrives in checkout service release 4.12 behind the feature flag 'checkout.split_payment'.
+This release follows the rule that any new code path goes to production disabled, with activation coming afterwards solely via its own approved flag change.
+In flags.yaml the default is true for dev, true for staging and false for production.
+Nothing in the current single-payment code changes, and production customers keep going through it as long as the flag is off.
+A nullable 'split_payment_ref' column is also added to the orders table; on a full-size staging copy it held a lock for under 1 second, and no writes reach it with the flag off.
+Because each pod caches the flag value for 30 seconds, a future flip takes effect everywhere within 30 seconds and needs no redeploy.
+In staging, CI executes the checkout suite two times, one pass with the flag enabled and one with it forced off, mirroring production.
+Switching the flag on in production is deferred to a subsequent change ticket once staging has carried two weeks of traffic.
+
+Verdicts mean this:
+GO: the plan needs no changes.
+GO_WITH_CHANGES: the plan works as written but should be improved.
+NO_GO: the plan as written will fail or break a rule it states.
+Optional suggestions that only make a working plan more robust are not changes it needs; if that is all you have, the verdict is GO.
+
+Give your review, then end with a final line that is exactly one of:
+VERDICT: GO
+VERDICT: GO_WITH_CHANGES
+VERDICT: NO_GO

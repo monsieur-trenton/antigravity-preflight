@@ -1,0 +1,20 @@
+Please review this plan.
+
+Order payments are sent to the processor's charge endpoint by a background worker in the checkout service.
+Requests carrying an idempotency key the processor has seen in the last 24 hours get the original result back with no second charge, whereas any key it has not seen produces a fresh charge.
+A timeout does not mean the charge failed, since it can happen after the processor has already accepted the request.
+Timed-out or failed submissions get as many as 3 further attempts with backoff, and every attempt for an order completes within 10 minutes.
+For the idempotency key the worker generates a brand-new random UUID on each attempt, retries included.
+The worker intentionally retries even when a timed-out attempt's outcome is unknown, so that a sluggish processor does not leave orders unpaid.
+Rule: no customer may be charged twice for the same order.
+
+Verdicts mean this:
+GO: the plan needs no changes.
+GO_WITH_CHANGES: the plan works as written but should be improved.
+NO_GO: the plan as written will fail or break a rule it states.
+Optional suggestions that only make a working plan more robust are not changes it needs; if that is all you have, the verdict is GO.
+
+Give your review, then end with a final line that is exactly one of:
+VERDICT: GO
+VERDICT: GO_WITH_CHANGES
+VERDICT: NO_GO
