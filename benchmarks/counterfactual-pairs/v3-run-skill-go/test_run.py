@@ -218,5 +218,59 @@ class AnalysisTests(unittest.TestCase):
                 an.analyze(V3, {"skill-go": Path(tmp) / "skill-go"}, RUBRIC)
 
 
+class RunScriptTests(unittest.TestCase):
+    """The gated helper script: its pinned expectations match the repository, it refuses ungated live runs, and its dry run makes no model call."""
+    SCRIPT = HERE / "run.sh"
+
+    def sh(self, *args, claude_version="2.1.306 (Claude Code)", root=None):
+        import os
+        import subprocess
+        with tempfile.TemporaryDirectory() as tmp:
+            stub = Path(tmp) / "claude"
+            stub.write_text(f'#!/bin/sh\necho "{claude_version}"\n', encoding="utf-8")
+            stub.chmod(0o755)
+            env = dict(os.environ, CLAUDE=str(stub), ROOT=str(root or Path(tmp) / "root"))
+            done = subprocess.run(["bash", str(self.SCRIPT), *args], capture_output=True, text=True, env=env, cwd=REPO, check=False, timeout=300)
+            return done.returncode, done.stdout, done.stderr
+
+    def test_the_pinned_expectations_match_the_repository(self):
+        text = self.SCRIPT.read_text(encoding="utf-8")
+        for name, path in (("EXPECT_CORPUS_SHA", V3 / "manifest.json"), ("EXPECT_RUN_SHA", RUN_MANIFEST), ("EXPECT_ARM_SHA", ARM_DIR / "manifest.json")):
+            self.assertIn(f"{name}={rc.rp.sha(path.read_bytes())}", text)
+        self.assertIn("EXPECT_CLAUDE_SHA=520bc6c1f40af466bd03a278b5ae1af1a2938bc7de5b9e5cb15526da20d71cfe", text)
+        self.assertTrue(self.SCRIPT.stat().st_mode & 0o111)
+
+    def test_a_live_run_needs_the_go_flag_and_a_valid_run_number(self):
+        code, out, err = self.sh("live", "1")
+        self.assertEqual(code, 2)
+        self.assertIn("REFUSED", err)
+        code, out, err = self.sh("live", "5", "--go")
+        self.assertEqual(code, 2)
+        self.assertIn("RUN_MUST_BE_1_TO_4", err)
+        code, out, err = self.sh()
+        self.assertEqual(code, 2)
+
+    def test_the_checks_stop_on_a_wrong_claude_version_before_anything_else(self):
+        code, out, err = self.sh("checks", claude_version="9.9.9")
+        self.assertEqual(code, 1)
+        self.assertIn("MISMATCH:claude-version", err)
+
+    def test_the_dry_run_prepares_both_arms_and_shows_only_the_sentence_as_the_difference(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            code, out, err = self.sh("dry", root=Path(tmp) / "r")
+            self.assertEqual(code, 0, err)
+            self.assertEqual(out.count("DRY_RUN_PREPARED_ONLY"), 2)
+            diff = [line for line in out.split("--- the only difference")[1].splitlines() if line.startswith(("<", ">"))]
+            self.assertEqual(diff, ["< " + SENTENCE])
+            self.assertEqual(len(list((Path(tmp) / "r/work-skill-go/trial1/dry-requests").iterdir())), 64)
+            self.assertFalse((Path(tmp) / "r/work-skill-go/responses-trial1.jsonl").exists())
+
+    def test_bundling_without_any_run_is_refused(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            code, out, err = self.sh("bundle", root=Path(tmp) / "empty")
+            self.assertEqual(code, 1)
+            self.assertIn("NOTHING_TO_BUNDLE", err)
+
+
 if __name__ == "__main__":
     unittest.main()
