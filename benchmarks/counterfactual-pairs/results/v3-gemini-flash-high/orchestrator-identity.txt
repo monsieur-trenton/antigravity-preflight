@@ -1,0 +1,283 @@
+================================================================================
+EXPERIMENT RUN IDENTITY: PREREGISTERED V3 RUN ON GEMINI 3.8 FLASH HIGH
+================================================================================
+
+Git Commit:
+58a7b38219b6930b232695842292c10918011809
+
+Corpus v3 Manifest SHA-256:
+1ad685287cf4623dae5e8b3109554b2f0859152a28875e8ddfc4d4c5e7554202
+
+Run Manifest SHA-256:
+d853fee334b39a42d8b1b20b87a9dc27d68f108a9a4b4afa8e28c48e901ff5d2
+
+Route:
+native-flash-high (route: flash-high, --runtime-dir runtime/flash-high, no runtime profile)
+
+agy Binary Path:
+/home/john/.local/bin/agy
+
+agy Binary SHA-256:
+16e228cb243fa098eeb27b3b2aca963caec84e4a8ac49e3821b00c56f99f7508
+
+agy VERSION.stdout:
+1.4.1
+
+Capabilities RESULT.json:
+{
+  "status": "PASS_METADATA_CAPABILITIES_ONLY",
+  "failure": null,
+  "binaryStable": true,
+  "frozenBinary": {
+    "sha256": "16e228cb243fa098eeb27b3b2aca963caec84e4a8ac49e3821b00c56f99f7508",
+    "bytes": 221278464
+  },
+  "observedVersion": "1.4.1",
+  "model": "gemini-3.8-flash-high",
+  "effort": "high",
+  "requiredFlags": [
+    "--input-format",
+    "--output-format",
+    "--agent",
+    "--model",
+    "--effort",
+    "--disable-slash-commands",
+    "--print-timeout",
+    "--new-project"
+  ],
+  "generativeCalls": 0,
+  "qualificationCredit": 0,
+  "scope": "Metadata only; stream semantics and containment not qualified",
+  "nextRequired": "Fresh offline stream controls and exact runtime init binding"
+}
+
+Qualification (DUAL-OFFLINE-QUALIFICATION.json):
+{
+  "status": "PASS",
+  "runs": 2,
+  "totalCases": 664,
+  "run1": {"run": 1, "status": "PASS", "cases": 332},
+  "run2": {"run": 2, "status": "PASS", "cases": 332},
+  "nativeCalls": 0,
+  "providerCalls": 0
+}
+
+Host OS & Kernel:
+Linux john-laptop 7.0.0-38-generic #38~24.04.4-Ubuntu SMP PREEMPT_DYNAMIC Mon Sep 14 16:37:11 UTC 2 x86_64 x86_64 x86_64 GNU/Linux
+Distro: Linux Mint 22.3 (Zena) (Ubuntu noble derivative)
+
+================================================================================
+TRIAL 1
+================================================================================
+
+Start Time: 2026-10-23T07:05:11-07:00
+End Time:   2026-10-23T10:35:37-07:00
+
+Recorded: 64
+Executed: 63
+Stopped: 1
+  - Q-497363: RUNTIME_STOP:{"code": "UNQUALIFIED_STEP", "failureClass": "ValueError"}
+Snapshot Labels Read (S01:n): 3
+
+Receipt Summary (Trial 1):
+- Total Receipts: 64
+- Status counts:
+  * REPORT_RECEIVED_PENDING_ADJUDICATION: 63
+  * STOPPED: 1 (Q-497363)
+- Failures: [('Q-497363', {'code': 'UNQUALIFIED_STEP', 'failureClass': 'ValueError'})]
+- Closing Failures: []
+- Elapsed Seconds: min=35.725s, median=117.324s, max=485.565s
+- All processes reaped: True
+- All private home directories removed: True
+- All socket directories removed: True
+- servedAttestation: UNAVAILABLE (expected)
+- providerRequestCount: UNAVAILABLE (expected)
+
+verify_gemini_run.py Output (Trial 1):
+{
+  "corpus": "/home/john/Coding/antigravity-preflight/benchmarks/counterfactual-pairs/v3",
+  "runManifestSha256": "d853fee334b39a42d8b1b20b87a9dc27d68f108a9a4b4afa8e28c48e901ff5d2",
+  "trial": 1,
+  "casesInCorpus": 64,
+  "observations": 64,
+  "technicalStops": {
+    "RUNTIME_STOP": 1
+  },
+  "snapshotLabelsRead": 3,
+  "meanWallSeconds": 195.0,
+  "failures": [
+    "PROMPT_DELIVERY:Q-3e839b",
+    "PROMPT_DELIVERY:Q-724a88",
+    "PROMPT_DELIVERY:Q-6ec699",
+    "PROMPT_DELIVERY:Q-197d8b",
+    "PROMPT_DELIVERY:Q-6c9908",
+    "PROMPT_DELIVERY:Q-d0bb11",
+    "PROMPT_DELIVERY:Q-508856",
+    "PROMPT_DELIVERY:Q-32a558",
+    "PROMPT_DELIVERY:Q-e4f795",
+    "PROMPT_DELIVERY:Q-f93641",
+    "PROMPT_DELIVERY:Q-838035",
+    "PROMPT_DELIVERY:Q-fed3f7",
+    "PROMPT_DELIVERY:Q-9f3cdc",
+    "PROMPT_DELIVERY:Q-78beac",
+    "PROMPT_DELIVERY:Q-7b5be1",
+    "PROMPT_DELIVERY:Q-2ecfea",
+    "PROMPT_DELIVERY:Q-a4c9e3",
+    "PROMPT_DELIVERY:Q-3b301c",
+    "PROMPT_DELIVERY:Q-647927",
+    "PROMPT_DELIVERY:Q-ae5be2",
+    "PROMPT_DELIVERY:Q-25a46e",
+    "PROMPT_DELIVERY:Q-3700ad",
+    "PROMPT_DELIVERY:Q-5fca88",
+    "PROMPT_DELIVERY:Q-f79075",
+    "PROMPT_DELIVERY:Q-1ecfcc",
+    "PROMPT_DELIVERY:Q-1df131",
+    "PROMPT_DELIVERY:Q-0d2c69",
+    "PROMPT_DELIVERY:Q-b72526",
+    "PROMPT_DELIVERY:Q-b98b1c",
+    "PROMPT_DELIVERY:Q-7a89b0",
+    "PROMPT_DELIVERY:Q-e5714c",
+    "PROMPT_DELIVERY:Q-015661",
+    "PROMPT_DELIVERY:Q-f512f2",
+    "PROMPT_DELIVERY:Q-69002d",
+    "PROMPT_DELIVERY:Q-bdae23",
+    "PROMPT_DELIVERY:Q-e67782",
+    "PROMPT_DELIVERY:Q-8de063",
+    "PROMPT_DELIVERY:Q-ba33cf",
+    "PROMPT_DELIVERY:Q-b708d9",
+    "PROMPT_DELIVERY:Q-a5ab3e",
+    "PROMPT_DELIVERY:Q-8da197",
+    "PROMPT_DELIVERY:Q-715f55",
+    "PROMPT_DELIVERY:Q-542d16",
+    "PROMPT_DELIVERY:Q-04ec49",
+    "PROMPT_DELIVERY:Q-f9f119",
+    "PROMPT_DELIVERY:Q-848763",
+    "PROMPT_DELIVERY:Q-8352cb",
+    "PROMPT_DELIVERY:Q-bf6397",
+    "PROMPT_DELIVERY:Q-43b8ae",
+    "PROMPT_DELIVERY:Q-1a4150",
+    "PROMPT_DELIVERY:Q-e8114f",
+    "PROMPT_DELIVERY:Q-7eb75b",
+    "PROMPT_DELIVERY:Q-886b7b",
+    "PROMPT_DELIVERY:Q-c4d9bc",
+    "PROMPT_DELIVERY:Q-a10884",
+    "PROMPT_DELIVERY:Q-16b69f",
+    "PROMPT_DELIVERY:Q-886c82",
+    "PROMPT_DELIVERY:Q-9109d7",
+    "PROMPT_DELIVERY:Q-24fc1f",
+    "PROMPT_DELIVERY:Q-857144",
+    "PROMPT_DELIVERY:Q-3d32be",
+    "PROMPT_DELIVERY:Q-de8c32",
+    "PROMPT_DELIVERY:Q-41a9b5"
+  ],
+  "providerCalls": 0
+}
+Note on PROMPT_DELIVERY failures:
+verify_gemini_run.py line 45 checks wireBytes == len(expected_prompt). However, cli_review.py lines 235 & 273 wrap prompt in stream-JSON frame: {"event": "user", "message": {"content": ...}}\n adding 71 bytes to wireBytes and bytesWritten.
+
+================================================================================
+TRIAL 2
+================================================================================
+
+Start Time: 2026-10-23T13:12:45-07:00
+End Time:   2026-10-23T16:48:05-07:00
+
+Recorded: 64
+Executed: 64
+Stopped: 0
+Snapshot Labels Read (S01:n): 8
+
+Receipt Summary (Trial 2):
+- Total Receipts: 64
+- Status counts:
+  * REPORT_RECEIVED_PENDING_ADJUDICATION: 64
+  * STOPPED: 0
+- Failures: []
+- Closing Failures: []
+- Elapsed Seconds: min=50.869s, median=128.193s, max=530.620s
+- All processes reaped: True
+- All private home directories removed: True
+- All socket directories removed: True
+- servedAttestation: UNAVAILABLE (expected)
+- providerRequestCount: UNAVAILABLE (expected)
+
+verify_gemini_run.py Output (Trial 2):
+{
+  "corpus": "/home/john/Coding/antigravity-preflight/benchmarks/counterfactual-pairs/v3",
+  "runManifestSha256": "d853fee334b39a42d8b1b20b87a9dc27d68f108a9a4b4afa8e28c48e901ff5d2",
+  "trial": 2,
+  "casesInCorpus": 64,
+  "observations": 64,
+  "technicalStops": {},
+  "snapshotLabelsRead": 8,
+  "meanWallSeconds": 198.4,
+  "failures": [
+    "PROMPT_DELIVERY:Q-3e839b",
+    "PROMPT_DELIVERY:Q-724a88",
+    "PROMPT_DELIVERY:Q-6ec699",
+    "PROMPT_DELIVERY:Q-197d8b",
+    "PROMPT_DELIVERY:Q-6c9908",
+    "PROMPT_DELIVERY:Q-497363",
+    "PROMPT_DELIVERY:Q-d0bb11",
+    "PROMPT_DELIVERY:Q-508856",
+    "PROMPT_DELIVERY:Q-32a558",
+    "PROMPT_DELIVERY:Q-e4f795",
+    "PROMPT_DELIVERY:Q-f93641",
+    "PROMPT_DELIVERY:Q-838035",
+    "PROMPT_DELIVERY:Q-fed3f7",
+    "PROMPT_DELIVERY:Q-9f3cdc",
+    "PROMPT_DELIVERY:Q-78beac",
+    "PROMPT_DELIVERY:Q-7b5be1",
+    "PROMPT_DELIVERY:Q-2ecfea",
+    "PROMPT_DELIVERY:Q-a4c9e3",
+    "PROMPT_DELIVERY:Q-3b301c",
+    "PROMPT_DELIVERY:Q-647927",
+    "PROMPT_DELIVERY:Q-ae5be2",
+    "PROMPT_DELIVERY:Q-25a46e",
+    "PROMPT_DELIVERY:Q-3700ad",
+    "PROMPT_DELIVERY:Q-5fca88",
+    "PROMPT_DELIVERY:Q-f79075",
+    "PROMPT_DELIVERY:Q-1ecfcc",
+    "PROMPT_DELIVERY:Q-1df131",
+    "PROMPT_DELIVERY:Q-0d2c69",
+    "PROMPT_DELIVERY:Q-b72526",
+    "PROMPT_DELIVERY:Q-b98b1c",
+    "PROMPT_DELIVERY:Q-7a89b0",
+    "PROMPT_DELIVERY:Q-e5714c",
+    "PROMPT_DELIVERY:Q-015661",
+    "PROMPT_DELIVERY:Q-f512f2",
+    "PROMPT_DELIVERY:Q-69002d",
+    "PROMPT_DELIVERY:Q-bdae23",
+    "PROMPT_DELIVERY:Q-e67782",
+    "PROMPT_DELIVERY:Q-8de063",
+    "PROMPT_DELIVERY:Q-ba33cf",
+    "PROMPT_DELIVERY:Q-b708d9",
+    "PROMPT_DELIVERY:Q-a5ab3e",
+    "PROMPT_DELIVERY:Q-8da197",
+    "PROMPT_DELIVERY:Q-715f55",
+    "PROMPT_DELIVERY:Q-542d16",
+    "PROMPT_DELIVERY:Q-04ec49",
+    "PROMPT_DELIVERY:Q-f9f119",
+    "PROMPT_DELIVERY:Q-848763",
+    "PROMPT_DELIVERY:Q-8352cb",
+    "PROMPT_DELIVERY:Q-bf6397",
+    "PROMPT_DELIVERY:Q-43b8ae",
+    "PROMPT_DELIVERY:Q-1a4150",
+    "PROMPT_DELIVERY:Q-e8114f",
+    "PROMPT_DELIVERY:Q-7eb75b",
+    "PROMPT_DELIVERY:Q-886b7b",
+    "PROMPT_DELIVERY:Q-c4d9bc",
+    "PROMPT_DELIVERY:Q-a10884",
+    "PROMPT_DELIVERY:Q-16b69f",
+    "PROMPT_DELIVERY:Q-886c82",
+    "PROMPT_DELIVERY:Q-9109d7",
+    "PROMPT_DELIVERY:Q-24fc1f",
+    "PROMPT_DELIVERY:Q-857144",
+    "PROMPT_DELIVERY:Q-3d32be",
+    "PROMPT_DELIVERY:Q-de8c32",
+    "PROMPT_DELIVERY:Q-41a9b5"
+  ],
+  "providerCalls": 0
+}
+Note on PROMPT_DELIVERY failures:
+Same as Trial 1: wireBytes in receipt includes stream-JSON frame overhead (len(prompt) + 71).

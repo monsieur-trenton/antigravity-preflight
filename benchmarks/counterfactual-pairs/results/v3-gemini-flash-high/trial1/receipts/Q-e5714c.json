@@ -1,0 +1,703 @@
+{
+  "status": "REPORT_RECEIVED_PENDING_ADJUDICATION",
+  "failure": null,
+  "closingFailures": [],
+  "model": "gemini-3.8-flash-high",
+  "effort": "high",
+  "effortEvidence": "launcher_configuration",
+  "servedAttestation": "UNAVAILABLE",
+  "promptSent": true,
+  "elapsedSeconds": 209.736,
+  "invocations": {
+    "proxy": 1,
+    "native": 1
+  },
+  "retries": 0,
+  "providerRequestCount": "UNAVAILABLE",
+  "events": 92,
+  "promptDelivery": {
+    "status": "COMPLETE",
+    "wireBytes": 2491,
+    "bytesWritten": 2491,
+    "meaning": "Bytes accepted by host pipe; not proof of native consumption"
+  },
+  "eventLedger": [
+    {
+      "ordinal": 0,
+      "kind": "init",
+      "bytes": 1346
+    },
+    {
+      "ordinal": 1,
+      "kind": "step_update",
+      "bytes": 151,
+      "stepType": "user_input",
+      "state": "DONE"
+    },
+    {
+      "ordinal": 2,
+      "kind": "step_update",
+      "bytes": 185,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 3,
+      "kind": "step_update",
+      "bytes": 205,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 4,
+      "kind": "step_update",
+      "bytes": 185,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 5,
+      "kind": "step_update",
+      "bytes": 211,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 6,
+      "kind": "step_update",
+      "bytes": 197,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 7,
+      "kind": "step_update",
+      "bytes": 185,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 8,
+      "kind": "step_update",
+      "bytes": 197,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 9,
+      "kind": "step_update",
+      "bytes": 176,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 10,
+      "kind": "step_update",
+      "bytes": 186,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 11,
+      "kind": "step_update",
+      "bytes": 209,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 12,
+      "kind": "step_update",
+      "bytes": 185,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 13,
+      "kind": "step_update",
+      "bytes": 197,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 14,
+      "kind": "step_update",
+      "bytes": 181,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 15,
+      "kind": "step_update",
+      "bytes": 197,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 16,
+      "kind": "step_update",
+      "bytes": 197,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 17,
+      "kind": "step_update",
+      "bytes": 198,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 18,
+      "kind": "step_update",
+      "bytes": 197,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 19,
+      "kind": "step_update",
+      "bytes": 197,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 20,
+      "kind": "step_update",
+      "bytes": 209,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 21,
+      "kind": "step_update",
+      "bytes": 197,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 22,
+      "kind": "step_update",
+      "bytes": 197,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 23,
+      "kind": "step_update",
+      "bytes": 183,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 24,
+      "kind": "step_update",
+      "bytes": 185,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 25,
+      "kind": "step_update",
+      "bytes": 210,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 26,
+      "kind": "step_update",
+      "bytes": 197,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 27,
+      "kind": "step_update",
+      "bytes": 185,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 28,
+      "kind": "step_update",
+      "bytes": 181,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 29,
+      "kind": "step_update",
+      "bytes": 197,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 30,
+      "kind": "step_update",
+      "bytes": 185,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 31,
+      "kind": "step_update",
+      "bytes": 197,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 32,
+      "kind": "step_update",
+      "bytes": 197,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 33,
+      "kind": "step_update",
+      "bytes": 197,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 34,
+      "kind": "step_update",
+      "bytes": 198,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 35,
+      "kind": "step_update",
+      "bytes": 209,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 36,
+      "kind": "step_update",
+      "bytes": 185,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 37,
+      "kind": "step_update",
+      "bytes": 197,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 38,
+      "kind": "step_update",
+      "bytes": 193,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 39,
+      "kind": "step_update",
+      "bytes": 209,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 40,
+      "kind": "step_update",
+      "bytes": 197,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 41,
+      "kind": "step_update",
+      "bytes": 188,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 42,
+      "kind": "step_update",
+      "bytes": 210,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 43,
+      "kind": "step_update",
+      "bytes": 197,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 44,
+      "kind": "step_update",
+      "bytes": 191,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 45,
+      "kind": "step_update",
+      "bytes": 185,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 46,
+      "kind": "step_update",
+      "bytes": 209,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 47,
+      "kind": "step_update",
+      "bytes": 197,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 48,
+      "kind": "step_update",
+      "bytes": 187,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 49,
+      "kind": "step_update",
+      "bytes": 197,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 50,
+      "kind": "step_update",
+      "bytes": 197,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 51,
+      "kind": "step_update",
+      "bytes": 197,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 52,
+      "kind": "step_update",
+      "bytes": 197,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 53,
+      "kind": "step_update",
+      "bytes": 185,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 54,
+      "kind": "step_update",
+      "bytes": 185,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 55,
+      "kind": "step_update",
+      "bytes": 197,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 56,
+      "kind": "step_update",
+      "bytes": 197,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 57,
+      "kind": "step_update",
+      "bytes": 197,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 58,
+      "kind": "step_update",
+      "bytes": 185,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 59,
+      "kind": "step_update",
+      "bytes": 197,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 60,
+      "kind": "step_update",
+      "bytes": 197,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 61,
+      "kind": "step_update",
+      "bytes": 185,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 62,
+      "kind": "step_update",
+      "bytes": 211,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 63,
+      "kind": "step_update",
+      "bytes": 209,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 64,
+      "kind": "step_update",
+      "bytes": 197,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 65,
+      "kind": "step_update",
+      "bytes": 185,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 66,
+      "kind": "step_update",
+      "bytes": 197,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 67,
+      "kind": "step_update",
+      "bytes": 197,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 68,
+      "kind": "step_update",
+      "bytes": 197,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 69,
+      "kind": "step_update",
+      "bytes": 197,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 70,
+      "kind": "step_update",
+      "bytes": 185,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 71,
+      "kind": "step_update",
+      "bytes": 197,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 72,
+      "kind": "step_update",
+      "bytes": 209,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 73,
+      "kind": "step_update",
+      "bytes": 185,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 74,
+      "kind": "step_update",
+      "bytes": 197,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 75,
+      "kind": "step_update",
+      "bytes": 185,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 76,
+      "kind": "step_update",
+      "bytes": 209,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 77,
+      "kind": "step_update",
+      "bytes": 199,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 78,
+      "kind": "step_update",
+      "bytes": 185,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 79,
+      "kind": "step_update",
+      "bytes": 198,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 80,
+      "kind": "step_update",
+      "bytes": 198,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 81,
+      "kind": "step_update",
+      "bytes": 186,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 82,
+      "kind": "step_update",
+      "bytes": 197,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 83,
+      "kind": "step_update",
+      "bytes": 185,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 84,
+      "kind": "step_update",
+      "bytes": 197,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 85,
+      "kind": "step_update",
+      "bytes": 184,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 86,
+      "kind": "step_update",
+      "bytes": 197,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 87,
+      "kind": "step_update",
+      "bytes": 197,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 88,
+      "kind": "step_update",
+      "bytes": 197,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 89,
+      "kind": "step_update",
+      "bytes": 185,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 90,
+      "kind": "step_update",
+      "bytes": 325,
+      "stepType": "agent_response",
+      "state": "DONE"
+    },
+    {
+      "ordinal": 91,
+      "kind": "result",
+      "bytes": 2192
+    }
+  ],
+  "eventLedgerStorage": {
+    "entryCap": 256,
+    "storedRows": 92,
+    "omittedRows": 0,
+    "scope": "Storage only; every event is validated"
+  },
+  "transport": {
+    "stdout": {
+      "bytes": 21235,
+      "sha256": "a5152e929101edf744ce59fd14041bff88b9059e401692d98efa45eba1196c5d"
+    },
+    "stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "processes": {
+    "native": {
+      "spawned": true,
+      "reaped": true
+    },
+    "proxy": {
+      "spawned": true,
+      "reaped": true
+    }
+  },
+  "report": {
+    "sha256": "fea5039e84e120576a2f080fb6bdafb75b0f25daf0fdab3d9ba234cfaf006ea3",
+    "bytes": 1888
+  },
+  "privateHomeAbsent": true,
+  "socketDirectoryAbsent": true,
+  "qualificationCredit": 0,
+  "native": {
+    "sha256": "16e228cb243fa098eeb27b3b2aca963caec84e4a8ac49e3821b00c56f99f7508",
+    "bytes": 221278464
+  }
+}
