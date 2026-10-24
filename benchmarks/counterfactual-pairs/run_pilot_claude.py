@@ -42,6 +42,7 @@ EFFORTS = ("low", "medium", "high", "xhigh", "max")
 ABLATION = HERE / "ablation"
 DEFINED = ABLATION / "defined"
 DEFINED_GO = ABLATION / "defined-go"
+SKILL_GO = ABLATION / "skill-go"
 VERDICT_ONLY_ARMS = ("bare", "defined", "defined-go")
 BARE_VERDICTS = {"GO": "NO_BLOCKERS_FOUND", "GO_WITH_CHANGES": "CHANGES_RECOMMENDED", "NO_GO": "BLOCKERS_FOUND"}
 
@@ -56,8 +57,24 @@ def parse_bare(text):
     return {"completeness": "COMPLETE", "assessment": BARE_VERDICTS[verdict], "findings": [], "verdictRaw": verdict}
 
 
+def load_skill_go():
+    """The skill-style arm plus one pinned sentence: the skill system prompt, parser and request, with one line added after the corpus prompt."""
+    manifest_bytes = (SKILL_GO / "manifest.json").read_bytes()
+    manifest = json.loads(manifest_bytes)
+    for filename, expected in manifest["pins"].items():
+        path = SKILL_GO / filename
+        rp.need(path.is_file() and rp.sha(path.read_bytes()) == expected, "ABLATION_PIN_MISMATCH:" + filename)
+    rp.need(manifest["systemPromptSha256"] == rp.sha(SYSTEM_PROMPT.encode("utf-8")), "ABLATION_SYSTEM_PROMPT_MISMATCH")
+    sentence = (SKILL_GO / "skill-go-sentence.txt").read_text(encoding="utf-8").rstrip("\n")
+    rp.need(bool(sentence) and "\n" not in sentence, "ABLATION_SENTENCE")
+    return {"name": "skill-go", "system": SYSTEM_PROMPT, "manifestSha256": rp.sha(manifest_bytes),
+            "build": lambda prompt, lines: rp.request_text(prompt.rstrip("\n") + "\n" + sentence + "\n", lines, True), "parse": rp.parse_report}
+
+
 def load_arm(name):
     """An arm is a system prompt, a request builder and a report parser; 'skill' is the pilot 1 and 2 arm."""
+    if name == "skill-go":
+        return load_skill_go()
     if name == "skill":
         return {"name": "skill", "system": SYSTEM_PROMPT, "manifestSha256": None,
                 "build": lambda prompt, lines: rp.request_text(prompt, lines, True), "parse": rp.parse_report}
@@ -100,6 +117,7 @@ def load_run(path):
 def bind_arm_to_corpus(arm, corpus_manifest_sha, run):
     """Without a run manifest the verdict-only arms are bound to the corpus their own manifest names; with one, to the corpus the run names."""
     if run is None:
+        rp.need(arm["name"] != "skill-go", "RUN_MANIFEST_REQUIRED")  # this arm names no corpus of its own
         if arm["name"] in VERDICT_ONLY_ARMS:
             rp.need(corpus_manifest_sha == arm["corpusManifestSha256"], "ABLATION_CORPUS_MISMATCH")
         return
@@ -178,7 +196,7 @@ def main(argv=None):
     parser.add_argument("--workdir", required=True)
     parser.add_argument("--trial", type=int, default=1)
     parser.add_argument("--corpus", help="corpus directory (default: this directory, corpus v1)")
-    parser.add_argument("--arm", choices=("skill",) + VERDICT_ONLY_ARMS, default="skill",
+    parser.add_argument("--arm", choices=("skill", "skill-go") + VERDICT_ONLY_ARMS, default="skill",
                         help="skill: the pilot 1 and 2 prompt and packet (default); bare: a plain request; defined: the plain request "
                              "plus verdict definitions; defined-go: the same plus one sentence about optional suggestions; see ablation/")
     parser.add_argument("--run-manifest", help="a frozen run manifest (v3-run/manifest.json) that binds this arm to the corpus being run")

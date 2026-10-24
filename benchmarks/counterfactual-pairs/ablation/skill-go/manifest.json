@@ -1,0 +1,9 @@
+{
+  "kind": "ABLATION_SKILL_GO_ARM_FROZEN",
+  "differsFromSkillArmBy": "one line, the pinned sentence, inserted after the corpus prompt and before the snapshot",
+  "pins": {
+    "skill-go-sentence.txt": "503ff4914702464cb873f681c963b8cf092c16ae1c8acf4a8d84219a5edccdec"
+  },
+  "systemPromptSha256": "5bb08d37446ad283dfde5a9b62350644a92706e452e45974de8d28a15f95faec",
+  "providerCalls": 0
+}

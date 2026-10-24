@@ -51,6 +51,8 @@ def verify(corpus, workdir, model, effort, trials, arm_name="skill", run_manifes
             rc.bind_arm_to_corpus(arm, sha((corpus / "manifest.json").read_bytes()), run)
         except rp.Stop as error:
             failures.append(str(error))
+    elif arm_name == "skill-go":
+        failures.append("RUN_MANIFEST_REQUIRED")  # this arm names no corpus of its own
     prompt = (corpus / "prompt.txt").read_text(encoding="utf-8")
     expected_system = sha(arm["system"].encode("utf-8"))
     order = manifest["submissionOrder"]
@@ -123,7 +125,7 @@ def main(argv=None):
     parser.add_argument("--model", required=True)
     parser.add_argument("--effort", required=True)
     parser.add_argument("--trials", default="1,2")
-    parser.add_argument("--arm", choices=("skill", "bare", "defined", "defined-go"), default="skill")
+    parser.add_argument("--arm", choices=("skill", "skill-go", "bare", "defined", "defined-go"), default="skill")
     parser.add_argument("--run-manifest", help="the frozen run manifest the run was bound to; rows must carry its hash")
     args = parser.parse_args(argv)
     report = verify(Path(args.corpus).resolve(), Path(args.workdir).resolve(), args.model, args.effort,
