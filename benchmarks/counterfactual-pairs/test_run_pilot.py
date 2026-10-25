@@ -98,6 +98,17 @@ class ParserTests(unittest.TestCase):
             with self.assertRaises(rp.Stop, msg=text):
                 rp.parse_report(text)
 
+    def test_unsupported_severity_or_evidence_is_a_malformed_finding_not_a_recorded_success(self):
+        head = "MACHINE SUMMARY\nCOMPLETENESS: COMPLETE\nASSESSMENT: BLOCKERS_FOUND\n"
+        for line in ("FINDING: CRITICAL | VERIFIED | 1 | q", "FINDING: BLOCKER | CONFIRMED | 1 | q", "FINDING: blocker | VERIFIED | 1 | q"):
+            with self.assertRaises(rp.Stop, msg=line) as raised:
+                rp.parse_report(head + line + "\n")
+            self.assertEqual(str(raised.exception), "MALFORMED_FINDING")
+        for severity in sc.SEVERITIES:                       # the parser accepts exactly what the scorer accepts
+            for evidence in sc.EVIDENCE:
+                rp.parse_report(head + f"FINDING: {severity} | {evidence} | 1 | q\n")
+        self.assertEqual((set(rp.FINDING_SEVERITIES), set(rp.FINDING_EVIDENCE)), (sc.SEVERITIES, sc.EVIDENCE))
+
 
 class DriverTests(unittest.TestCase):
     def test_dry_run_makes_no_native_run_and_writes_no_ledger(self):

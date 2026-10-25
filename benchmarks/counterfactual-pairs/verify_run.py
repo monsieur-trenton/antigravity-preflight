@@ -102,6 +102,12 @@ def verify(corpus, workdir, model, effort, trials, arm_name="skill", run_manifes
                 output = json.loads((attempt / "claude-output.json").read_text(encoding="utf-8"))
                 if output.get("result", "").encode("utf-8") != review:
                     failures.append(f"REPORT_NOT_CLI_RESULT:{tag}")
+                try:  # the scored fields must be what the saved report says
+                    parsed = arm["parse"](review.decode("utf-8"))
+                    if any(parsed.get(key) != row.get(key) for key in ("assessment", "completeness", "findings", "verdictRaw") if key in parsed or key in row):
+                        failures.append(f"LEDGER_DIFFERS_FROM_REPARSE:{tag}")
+                except (rp.Stop, UnicodeError):
+                    failures.append(f"REPORT_DOES_NOT_REPARSE:{tag}")
             except (OSError, ValueError):
                 failures.append(f"EVIDENCE_MISSING:{tag}")
             if not row.get("servedModels") or not all(m.startswith(model) for m in row["servedModels"]):

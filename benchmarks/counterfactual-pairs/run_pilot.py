@@ -40,6 +40,10 @@ Write one FINDING line per finding, and none if there are no findings. Use only 
 """
 
 
+FINDING_SEVERITIES = ("BLOCKER", "RISK", "NOTE")
+FINDING_EVIDENCE = ("VERIFIED", "UNVERIFIED", "CANNOT_CHECK")
+
+
 class Stop(ValueError):
     pass
 
@@ -83,6 +87,7 @@ def parse_report(text):
             if number == "-":
                 number, quote = "0", ""
             need(number.isdigit(), "MALFORMED_FINDING")
+            need(severity in FINDING_SEVERITIES and evidence in FINDING_EVIDENCE, "MALFORMED_FINDING")  # score.py rejects a whole ledger on any other value
             findings.append({"severity": severity, "evidence": evidence, "line": int(number),
                              "quote": "" if quote == "-" else quote})
         else:
