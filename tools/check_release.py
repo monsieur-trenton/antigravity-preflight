@@ -1,8 +1,10 @@
 """Validate publication files and exact runtime pins without calling a provider."""
 import hashlib
+import io
 import json
 from pathlib import Path
 import re
+import tarfile
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -10,6 +12,12 @@ ROOT = Path(__file__).resolve().parent.parent
 def pin(path):
     body = path.read_bytes()
     return {"sha256": hashlib.sha256(body).hexdigest(), "bytes": len(body)}
+
+
+def scan_text(text, label):
+    assert not re.search(r"(?:gh[pousr]_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{30,}|-----BEGIN (?:RSA |OPENSSH |EC )?PRIVATE KEY-----)", text), ("SECRET_PATTERN", label)
+    private_paths = ("/Documents/" + "Codex/", "/.codex/" + "attachments/")
+    assert all(fragment not in text for fragment in private_paths), ("PRIVATE_PATH", label)
 
 
 def validate_asset_tree(package, files):
@@ -54,10 +62,19 @@ def main():
         assert not path.is_symlink(), ("SYMLINK", str(path.relative_to(ROOT)))
         assert path.stat().st_size < 2_000_000, ("UNEXPECTED_LARGE_FILE", path.name)
         raw = path.read_bytes()
+        if path.name == "raw-returned-archive.tar.gz":  # the one binary kind allowed: an orchestrator's returned evidence archive, scanned member by member
+            relative = path.relative_to(ROOT).parts
+            assert relative[:3] == ("benchmarks", "counterfactual-pairs", "results"), ("UNEXPECTED_BINARY", str(path.relative_to(ROOT)))
+            with tarfile.open(fileobj=io.BytesIO(raw)) as archive:
+                for member in archive:
+                    assert member.isdir() or member.isreg(), ("ARCHIVE_MEMBER_TYPE", path.name, member.name)
+                    assert not Path(member.name).is_absolute() and ".." not in Path(member.name).parts, ("ARCHIVE_MEMBER_PATH", path.name, member.name)
+                    if member.isreg():
+                        assert member.size < 2_000_000, ("UNEXPECTED_LARGE_MEMBER", path.name, member.name)
+                        scan_text(archive.extractfile(member).read().decode("utf-8"), path.name + ":" + member.name)
+            continue
         text = raw.decode("utf-8")
-        assert not re.search(r"(?:gh[pousr]_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{30,}|-----BEGIN (?:RSA |OPENSSH |EC )?PRIVATE KEY-----)", text), ("SECRET_PATTERN", path.name)
-        private_paths = ("/Documents/" + "Codex/", "/.codex/" + "attachments/")
-        assert all(fragment not in text for fragment in private_paths), ("PRIVATE_PATH", path.name)
+        scan_text(text, path.name)
         if path.suffix == ".py":
             compile(raw, str(path), "exec")
             python_count += 1

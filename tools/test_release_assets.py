@@ -19,4 +19,9 @@ with tempfile.TemporaryDirectory() as tmp:
         except ValueError:pass
         else:raise AssertionError(name)
         undo()
-print('PASS: exact asset tree and four rejection controls; no provider calls')
+for bad in ('ghp_'+'A'*30, 'github_pat_'+'B'*30, '-----BEGIN '+'RSA PRIVATE '+'KEY-----', '/Documents/'+'Codex/x'):
+    try:m.scan_text(bad,'control')
+    except AssertionError:pass
+    else:raise AssertionError('scan_text accepted '+bad[:12])
+m.scan_text('an ordinary evidence line','control')
+print('PASS: exact asset tree, four rejection controls and four content-scan controls; no provider calls')

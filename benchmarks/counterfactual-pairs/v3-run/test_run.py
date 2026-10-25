@@ -304,7 +304,20 @@ class CommittedResultsTests(unittest.TestCase):
                                      (arm, run_sha, ["claude-opus-5-5"], 0, None))
                     report = (RESULTS / arm / f"trial{trial}/reports/{r['case']}.md").read_bytes()
                     self.assertEqual(hashlib.sha256(report).hexdigest(), r["reportSha256"])
-                    self.assertTrue((RESULTS / arm / f"trial{trial}/requests/{r['case']}.txt").is_file())
+
+    def test_the_raw_returned_archive_is_the_recorded_one_and_still_verifies(self):
+        import tarfile
+        archive = RESULTS / "raw-returned-archive.tar.gz"
+        self.assertEqual(hashlib.sha256(archive.read_bytes()).hexdigest(), "234832397582cebbd2e47fd2f31f0b5fa94a4e1543fa58984031b318d7d90c0b")
+        self.assertIn("234832397582cebbd2e47fd2f31f0b5fa94a4e1543fa58984031b318d7d90c0b", (RESULTS / "README.md").read_text(encoding="utf-8"))
+        with tempfile.TemporaryDirectory() as tmp:
+            with tarfile.open(archive) as bundle:
+                bundle.extractall(tmp, filter="data")
+            for arm in ARMS:
+                report = vr.verify(V3, Path(tmp) / f"work-{arm}", "claude-opus-5-5", "high", [1, 2], arm, RUN_MANIFEST)
+                self.assertEqual(report["failures"], [], arm)
+                for trial in ("1", "2"):                       # the archive's ledgers are the committed ones
+                    self.assertEqual((Path(tmp) / f"work-{arm}/responses-trial{trial}.jsonl").read_bytes(), (RESULTS / arm / f"trial{trial}/responses.jsonl").read_bytes())
 
     def test_the_committed_analysis_is_what_the_analyser_gives_on_the_committed_ledgers(self):
         rubric = json.loads(RUBRIC_FILE.read_bytes())["families"]

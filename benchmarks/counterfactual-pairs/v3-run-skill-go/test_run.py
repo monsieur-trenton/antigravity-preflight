@@ -298,8 +298,23 @@ class CommittedResultsTests(unittest.TestCase):
                         self.assertEqual(r["armManifestSha256"], arm_sha)
                     report = (RESULTS / arm / f"trial{trial}/reports/{r['case']}.md").read_bytes()
                     self.assertEqual(hashlib.sha256(report).hexdigest(), r["reportSha256"])
-                    request = (RESULTS / arm / f"trial{trial}/requests/{r['case']}.txt").read_text(encoding="utf-8")
-                    self.assertEqual(SENTENCE in request.split("\n"), arm == "skill-go")
+
+    def test_the_raw_returned_archive_is_the_recorded_one_and_still_verifies_with_the_sentence_in_every_request(self):
+        import hashlib
+        import tarfile
+        archive = RESULTS / "raw-returned-archive.tar.gz"
+        self.assertEqual(hashlib.sha256(archive.read_bytes()).hexdigest(), "c20b84ec0f3925e0643f28861298ddf070c670db45f5b99b9f2e15a1f46b0256")
+        self.assertIn("c20b84ec0f3925e0643f28861298ddf070c670db45f5b99b9f2e15a1f46b0256", (RESULTS / "README.md").read_text(encoding="utf-8"))
+        with tempfile.TemporaryDirectory() as tmp:
+            with tarfile.open(archive) as bundle:
+                bundle.extractall(tmp, filter="data")
+            for arm in ("skill-go", "skill"):
+                report = vr.verify(V3, Path(tmp) / f"work-{arm}", "claude-opus-5-5", "high", [1, 2], arm, RUN_MANIFEST)
+                self.assertEqual(report["failures"], [], arm)
+            for request in sorted((Path(tmp) / "work-skill-go").glob("trial*/attempts/*/request.txt")):
+                self.assertIn(SENTENCE, request.read_text(encoding="utf-8").split("\n"))
+            for request in sorted((Path(tmp) / "work-skill").glob("trial*/attempts/*/request.txt")):
+                self.assertNotIn(SENTENCE, request.read_text(encoding="utf-8").split("\n"))
 
     def test_the_committed_analyses_are_what_the_analyser_gives_on_the_committed_ledgers(self):
         adjudication = json.loads((RESULTS / "adjudication.json").read_bytes())
