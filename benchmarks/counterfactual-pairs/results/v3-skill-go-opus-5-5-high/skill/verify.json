@@ -1,0 +1,28 @@
+{
+  "corpus": "/home/user/antigravity-preflight/benchmarks/counterfactual-pairs/v3",
+  "arm": "skill",
+  "runManifestSha256": "585b20e17961f7924088aa0190b988c89c6062c29c30a143e6b2b8268d132376",
+  "manifestSha256": "1ad685287cf4623dae5e8b3109554b2f0859152a28875e8ddfc4d4c5e7554202",
+  "casesInCorpus": 64,
+  "trials": {
+    "1": {
+      "observations": 64,
+      "technicalStops": {},
+      "meanWallSeconds": 16.1
+    },
+    "2": {
+      "observations": 64,
+      "technicalStops": {},
+      "meanWallSeconds": 14.9
+    }
+  },
+  "claudeVersions": [
+    "2.1.306 (Claude Code)"
+  ],
+  "servedModelsReported": [
+    "claude-opus-5-5"
+  ],
+  "totalCostUsd": 4.1931,
+  "failures": [],
+  "providerCalls": 0
+}
