@@ -1,0 +1,4 @@
+The nightly compaction step is allowed a 30 minute work window.
+On the production-class host the 40 GB input compacted at a measured 55 MB/s, which is about 12 minutes.
+If the window runs out, the step is cancelled and the cancellation is reported.
+Compaction runs on a single thread.

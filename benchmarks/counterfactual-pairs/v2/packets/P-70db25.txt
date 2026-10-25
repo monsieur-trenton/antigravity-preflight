@@ -1,0 +1,6 @@
+load_config(path) is changed to raise ConfigError when the file is missing, where it used to return None.
+It is called from schedule(), report() and the entry point main().
+schedule() and report() now catch ConfigError and use the built-in defaults.
+main() is left alone: it calls load_config(path), tests if cfg is None, prints "no config" and exits with status 2.
+The config file is plain text and smaller than 10 KB.
+There are unit tests for schedule() and report().

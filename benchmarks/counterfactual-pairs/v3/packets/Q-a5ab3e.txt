@@ -1,0 +1,8 @@
+Point-in-time recovery for the orders PostgreSQL database has to reach any moment from 14 days ago up to 5 minutes ago.
+WAL is shipped to the archive continuously, with every segment landing within 60 seconds of being written, alongside a full base backup each Sunday at 02:00 UTC.
+To recover to a given moment, the most recent base backup preceding it is loaded and archived WAL is then replayed on top until that moment.
+With one base backup per week, getting back 14 days may depend on a base backup as old as 21 days plus every WAL segment produced since.
+Retention is 7 days for base backups and archived WAL alike, with anything past that age removed by a nightly lifecycle job.
+Although the lifecycle job is allowed to delete from the backup bucket, its rule selects nothing younger than the retention limit.
+Database hosts reach the backup bucket, which sits in its own account, with rights to add objects and no rights to overwrite or remove them.
+A monthly drill recovers a scratch instance to a random moment 13 to 14 days in the past.

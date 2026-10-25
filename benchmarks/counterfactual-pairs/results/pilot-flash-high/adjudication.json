@@ -1,0 +1,48 @@
+{
+  "writtenBefore": "any score or paired comparison of this run was computed. What had been seen: the orchestrator's README (its per-case verdict table and outcome counts), the ledgers and receipts, and all 48 saved reports read in full. No score.py output existed.",
+  "integrity": {
+    "checkedByMe": "Independently of the orchestrator: both ledgers have 24 rows whose case order equals the frozen submission order; every ledger report hash equals the SHA-256 of the committed report; re-parsing every report with the committed run_pilot.parse_report reproduces every ledger row (assessment, findings, completeness) and every recorded stop; all 48 receipts say REPORT_RECEIVED_PENDING_ADJUDICATION with no failure, no closing failure, zero retries, one proxy and one native invocation, model gemini-3.8-flash-high and effort high. The corpus manifest hash equals the committed one and run_pilot.py, score.py, the packets, the oracle and the prompt are byte-identical between the run's commit and the current branch.",
+    "notAttested": "The receipts give servedAttestation UNAVAILABLE and effortEvidence launcher_configuration: unlike the Claude CLI, this route cannot report which model served a turn, so 'gemini-3.8-flash-high' is the model requested and configured, not an attested served model. Process reaping and sandbox isolation are the orchestrator's receipts and were not independently re-run.",
+    "identityDiscrepancy": "The orchestrator's identity record gives commit d935c72339b5ec3119ebaa1ff528bf09bbcc02b9 with the subject 'Use python3 -B -I across all benchmark and runtime commands'. The hash is a commit in this repository, but its subject is 'Record the defined arm's orchestrator identity report'. The hash is taken as the identity (every file the run depends on is unchanged since it); the subject is recorded as wrong in the orchestrator's record, cause unknown.",
+    "orchestratorPush": "The orchestrator pushed its evidence to this branch itself (commit b67acc3), although its brief (rule 10) said not to push, open a pull request or commit results. It touched only results/pilot-flash-high/ (101 files); nothing else changed."
+  },
+  "stopsDocumentation": {
+    "observations": [
+      {
+        "trial": 1,
+        "case": "P-97610e",
+        "code": "UNPARSEABLE_REPORT:MALFORMED_FINDING"
+      },
+      {
+        "trial": 1,
+        "case": "P-6b8046",
+        "code": "UNPARSEABLE_REPORT:MALFORMED_FINDING"
+      },
+      {
+        "trial": 1,
+        "case": "P-7a8a51",
+        "code": "UNPARSEABLE_REPORT:MALFORMED_FINDING"
+      },
+      {
+        "trial": 2,
+        "case": "P-97610e",
+        "code": "UNPARSEABLE_REPORT:MALFORMED_FINDING"
+      }
+    ],
+    "cause": "All four reports are complete, state COMPLETENESS: COMPLETE and ASSESSMENT: BLOCKERS_FOUND, and carry one FINDING line 'BLOCKER | VERIFIED | S01:3 | <exact quotation of line 3>'. The only deviation is the line field: the numbered snapshot labels each line [S01:n] and the model wrote the label S01:3 where the suffix asked for the snapshot line number. The strict parser requires digits. The model wrote bare digits in the same field in the other 19 of the run's 23 FINDING lines, including in trial 2 for two of these three cases (P-6b8046 and P-7a8a51), so this is a format inconsistency, not a different judgment.",
+    "headline": "The as-run result is the headline: these four observations are technical stops, are removed from every denominator, and are not counted as verdicts or as wrong judgments, as the scorer and the corpus rules specify.",
+    "documentedRuleView": "Beside it, a second view in which a FINDING whose line field is 'S01:<n>' is read as line <n>, and nothing else is relaxed (the quotation must still appear verbatim on that line, and every other format rule applies). It is implemented by reparse_lenient.py from the saved, hash-checked reports and written to responses-documented-rule.jsonl; the original ledgers are not touched. The rule is stated here, before any metric, and was chosen because the quotations are exact and the text 'S01:3' names line 3 unambiguously."
+  },
+  "invalidPairs": [
+    {
+      "family": "output_bytes",
+      "wordings": [
+        "A",
+        "B"
+      ],
+      "reason": "Carried over from the pilot 1 adjudication, on the packet text and independent of this reviewer. The sound plans do not bound key names, escaping or JSON overhead, and say neither whether len(output) counts bytes or characters nor, for the twins, that a failed assertion is fatal; the twins' oracle (a VERIFIED blocker on line 4) over-reads a packet that states a 900-byte value against a 1500-byte cap with a guard assertion. This reviewer's reports are consistent with that reading, not independent confirmation of it: on the twins it wrote a RISK in 3 of 4 observations (and NO_BLOCKERS_FOUND once) and judged both sound plans clean in both trials, so it did not raise the sound-plan gaps that the pilot 1 reviewer raised. The pair is shown excluded beside the all-pairs headline, never instead of it."
+    }
+  ],
+  "noOtherExclusion": "The caller/callee strict-metric objection of pilot 1 (a sound plan hedged for an unverified remark) does not arise here: this reviewer judged both caller/callee sound plans clean in both trials. No other pair, family or observation is excluded or reclassified.",
+  "reading": "Read in full. Every report was faithful to the review contract: none invented evidence; each BLOCKER cited the decisive line with an exact quotation; missing evidence was labelled RISK / UNVERIFIED and never promoted to a blocker. On required coverage the reviewer wrote a RISK, not a blocker, on both twins in both trials, saying the diff's contents are not in the snapshot, which is a defensible reading of the contract and is scored as the strict metric defines it (a changed twin needs a VERIFIED blocker on the decisive line). Judged by one reader, the corpus's author, who had seen the orchestrator's verdict table but no score."
+}

@@ -1,0 +1,885 @@
+{
+ "note": "Extracted from each observation's claude-output.json (full outputs are not kept: they carry session identifiers).",
+ "observations": [
+  {
+   "trial": 1,
+   "case": "P-08bce2",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 1647
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 1,
+   "case": "P-c7ff21",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 1044
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 1,
+   "case": "P-1795a8",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 1021
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 1,
+   "case": "P-396032",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 950
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 1,
+   "case": "P-fdbca1",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 798
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 1,
+   "case": "P-936436",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 1201
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 1,
+   "case": "P-747ce2",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 1241
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 1,
+   "case": "P-58b118",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 918
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 1,
+   "case": "P-237a35",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 520
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 1,
+   "case": "P-993a80",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 944
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 1,
+   "case": "P-88acbb",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 781
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 1,
+   "case": "P-401e87",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 721
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 1,
+   "case": "P-3fd44f",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 1050
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 1,
+   "case": "P-704166",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 1018
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 1,
+   "case": "P-f1144e",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 564
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 1,
+   "case": "P-9e0309",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 661
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 1,
+   "case": "P-2b3ff0",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 725
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 1,
+   "case": "P-4c612b",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 733
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 1,
+   "case": "P-f4195f",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 748
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 1,
+   "case": "P-110c8d",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 790
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 1,
+   "case": "P-c2522e",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 886
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 1,
+   "case": "P-7949bb",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 771
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 1,
+   "case": "P-b4a68f",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 886
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 1,
+   "case": "P-544e9e",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 990
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 1,
+   "case": "P-dc8193",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 699
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 1,
+   "case": "P-dd2de1",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 675
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 1,
+   "case": "P-e03b4b",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 1103
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 1,
+   "case": "P-b1c0f1",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 1114
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 1,
+   "case": "P-047f6c",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 719
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 1,
+   "case": "P-244d59",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 771
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 1,
+   "case": "P-63bcbf",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 735
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 1,
+   "case": "P-b95177",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 1063
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 1,
+   "case": "P-7059b1",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 928
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 1,
+   "case": "P-0ea6af",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 996
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 1,
+   "case": "P-70db25",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 970
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 1,
+   "case": "P-eac661",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 731
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 1,
+   "case": "P-9113e7",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 620
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 1,
+   "case": "P-236f74",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 1096
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 1,
+   "case": "P-ca1a36",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 802
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 1,
+   "case": "P-cdb5ca",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 686
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 2,
+   "case": "P-08bce2",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 1135
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 2,
+   "case": "P-c7ff21",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 677
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 2,
+   "case": "P-1795a8",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 1059
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 2,
+   "case": "P-396032",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 1351
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 2,
+   "case": "P-fdbca1",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 705
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 2,
+   "case": "P-936436",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 969
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 2,
+   "case": "P-747ce2",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 1291
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 2,
+   "case": "P-58b118",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 905
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 2,
+   "case": "P-237a35",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 490
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 2,
+   "case": "P-993a80",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 1017
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 2,
+   "case": "P-88acbb",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 832
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 2,
+   "case": "P-401e87",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 868
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 2,
+   "case": "P-3fd44f",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 1046
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 2,
+   "case": "P-704166",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 1068
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 2,
+   "case": "P-f1144e",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 712
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 2,
+   "case": "P-9e0309",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 601
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 2,
+   "case": "P-2b3ff0",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 662
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 2,
+   "case": "P-4c612b",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 579
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 2,
+   "case": "P-f4195f",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 911
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 2,
+   "case": "P-110c8d",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 658
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 2,
+   "case": "P-c2522e",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 847
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 2,
+   "case": "P-7949bb",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 775
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 2,
+   "case": "P-b4a68f",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 1062
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 2,
+   "case": "P-544e9e",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 933
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 2,
+   "case": "P-dc8193",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 627
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 2,
+   "case": "P-dd2de1",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 794
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 2,
+   "case": "P-e03b4b",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 1131
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 2,
+   "case": "P-b1c0f1",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 1067
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 2,
+   "case": "P-047f6c",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 691
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 2,
+   "case": "P-244d59",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 875
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 2,
+   "case": "P-63bcbf",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 815
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 2,
+   "case": "P-b95177",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 1220
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 2,
+   "case": "P-7059b1",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 817
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 2,
+   "case": "P-0ea6af",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 1081
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 2,
+   "case": "P-70db25",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 1133
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 2,
+   "case": "P-eac661",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 695
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 2,
+   "case": "P-9113e7",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 565
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 2,
+   "case": "P-236f74",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 1026
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 2,
+   "case": "P-ca1a36",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 680
+   },
+   "technicalStop": null
+  },
+  {
+   "trial": 2,
+   "case": "P-cdb5ca",
+   "safetyStops": 0,
+   "numTurns": 1,
+   "stopReason": "end_turn",
+   "outputTokensByModel": {
+    "claude-opus-5-5": 743
+   },
+   "technicalStop": null
+  }
+ ]
+}

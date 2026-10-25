@@ -1,0 +1,7 @@
+For each order, the checkout client makes one call to the capture endpoint of the payments service, which charges the customer's card.
+Under this plan a capture must never take effect more than once, since a duplicate capture bills the customer again.
+When a call times out or comes back with an HTTP 5xx status, the client sends that capture again, at most 5 more times, waiting 200 ms before the first resend and twice as long before each later one.
+The server may have completed the capture before the client's timeout fires, so a resend can reach the server for a charge that already succeeded.
+All attempts belonging to one order send an identical idempotency key, which is a UUID generated a single time when the order is made and never replaced.
+Nobody has checked whether the capture endpoint collapses repeats that share an idempotency key into one capture, and the payments team has not confirmed it either.
+Automatic retrying inside the HTTP library is switched off, which leaves the 5 resends described above as the only repeated requests.

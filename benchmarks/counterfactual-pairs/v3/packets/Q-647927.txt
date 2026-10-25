@@ -1,0 +1,7 @@
+Release 4.12 adds a unique constraint on the pair (tenant_id, email) to the customers table, which holds about 38 million rows in production.
+The release runbook says that if this constraint cannot be applied in production, the whole release is aborted and the 4.12 build does not ship.
+The migration starts with DROP INDEX IF EXISTS customers_tenant_email_uq, which removes nothing in production because no index of that name exists there yet.
+It then builds customers_tenant_email_uq with CREATE UNIQUE INDEX CONCURRENTLY and attaches it to the table as the constraint once the build finishes.
+Since release 4.9, the only code path that writes customer emails locks the tenant row first and refuses an email the tenant already has, so no duplicate pairs have been created since then.
+A GROUP BY tenant_id, email HAVING COUNT(*) > 1 query over all rows created before release 4.9 was run on the production primary and returned zero rows.
+Once the constraint is in place, the 4.12 sign-up code relies on it to return a clear error instead of creating a second account for the same email.

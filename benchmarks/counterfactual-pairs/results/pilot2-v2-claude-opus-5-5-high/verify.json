@@ -1,0 +1,26 @@
+{
+  "corpus": "benchmarks/counterfactual-pairs/v2",
+  "manifestSha256": "79facc8afe49f243009a813e63f9f77adfa284567982af2282daf9948eb6316b",
+  "casesInCorpus": 40,
+  "trials": {
+    "1": {
+      "observations": 40,
+      "technicalStops": {},
+      "meanWallSeconds": 11.8
+    },
+    "2": {
+      "observations": 40,
+      "technicalStops": {},
+      "meanWallSeconds": 12.1
+    }
+  },
+  "claudeVersions": [
+    "2.1.306 (Claude Code)"
+  ],
+  "servedModelsReported": [
+    "claude-opus-5-5"
+  ],
+  "totalCostUsd": 2.1374,
+  "failures": [],
+  "providerCalls": 0
+}

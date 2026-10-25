@@ -1,0 +1,1088 @@
+{
+  "kind": "V3_RUN_ARM_COMPARISON_NOT_A_GENERAL_ACCURACY_RATE",
+  "corpusManifestSha256": "1ad685287cf4623dae5e8b3109554b2f0859152a28875e8ddfc4d4c5e7554202",
+  "excludedFamilies": [],
+  "arms": {
+    "gemini": {
+      "arm": "gemini",
+      "observations": 128,
+      "technicalStops": {
+        "RUNTIME_STOP": 1
+      },
+      "stamps": [
+        [
+          "None",
+          "None",
+          "None"
+        ]
+      ],
+      "servedModels": [],
+      "runManifestSha256": [
+        "d853fee334b39a42d8b1b20b87a9dc27d68f108a9a4b4afa8e28c48e901ff5d2"
+      ],
+      "costUsd": 0,
+      "primary": {
+        "soundPlansGo": {
+          "count": 61,
+          "of": 63,
+          "wilson95": [
+            0.891,
+            0.991
+          ]
+        },
+        "defectTwinsNoGo": {
+          "count": 32,
+          "of": 32,
+          "wilson95": [
+            0.893,
+            1.0
+          ]
+        },
+        "evidenceGapTwinsGoWithChanges": {
+          "count": 32,
+          "of": 32,
+          "wilson95": [
+            0.893,
+            1.0
+          ]
+        }
+      },
+      "summary": {
+        "strictPairDiscrimination": {
+          "count": 61,
+          "of": 63,
+          "wilson95": [
+            0.891,
+            0.991
+          ]
+        },
+        "orderedPairDiscrimination": {
+          "count": 61,
+          "of": 63,
+          "wilson95": [
+            0.891,
+            0.991
+          ]
+        }
+      },
+      "secondary": {
+        "soundPlansBlocked": {
+          "count": 0,
+          "of": 63,
+          "wilson95": [
+            0.0,
+            0.057
+          ]
+        },
+        "soundPlansHedged": {
+          "count": 2,
+          "of": 63,
+          "wilson95": [
+            0.009,
+            0.109
+          ]
+        },
+        "evidenceGapTwinsNoGo": {
+          "count": 0,
+          "of": 32,
+          "wilson95": [
+            0.0,
+            0.107
+          ]
+        },
+        "evidenceGapTwinsGo": {
+          "count": 0,
+          "of": 32,
+          "wilson95": [
+            0.0,
+            0.107
+          ]
+        },
+        "gapNamedButDismissed": {
+          "count": 0,
+          "of": 0,
+          "wilson95": null
+        },
+        "gapNamedAmongAllEvidenceGapTwins": {
+          "count": 32,
+          "of": 32,
+          "wilson95": [
+            0.893,
+            1.0
+          ]
+        },
+        "verdictFollowsFinding": {
+          "count": 32,
+          "of": 32,
+          "wilson95": [
+            0.893,
+            1.0
+          ]
+        },
+        "verdictIdenticalAcrossTrials": {
+          "count": 61,
+          "of": 63,
+          "wilson95": [
+            0.891,
+            0.991
+          ]
+        },
+        "snapshotLabelRead": 11
+      },
+      "perFamily": {
+        "backup_window": {
+          "kind": "DEFECT",
+          "soundGo": {
+            "count": 4,
+            "of": 4,
+            "wilson95": [
+              0.51,
+              1.0
+            ]
+          },
+          "changedCorrect": {
+            "count": 4,
+            "of": 4,
+            "wilson95": [
+              0.51,
+              1.0
+            ]
+          },
+          "changedVerdicts": {
+            "GO": 0,
+            "GO_WITH_CHANGES": 0,
+            "NO_GO": 4
+          }
+        },
+        "cache_tenant_key": {
+          "kind": "DEFECT",
+          "soundGo": {
+            "count": 4,
+            "of": 4,
+            "wilson95": [
+              0.51,
+              1.0
+            ]
+          },
+          "changedCorrect": {
+            "count": 4,
+            "of": 4,
+            "wilson95": [
+              0.51,
+              1.0
+            ]
+          },
+          "changedVerdicts": {
+            "GO": 0,
+            "GO_WITH_CHANGES": 0,
+            "NO_GO": 4
+          }
+        },
+        "capacity_headroom": {
+          "kind": "UNCERTAIN",
+          "soundGo": {
+            "count": 4,
+            "of": 4,
+            "wilson95": [
+              0.51,
+              1.0
+            ]
+          },
+          "changedCorrect": {
+            "count": 4,
+            "of": 4,
+            "wilson95": [
+              0.51,
+              1.0
+            ]
+          },
+          "changedVerdicts": {
+            "GO": 0,
+            "GO_WITH_CHANGES": 4,
+            "NO_GO": 0
+          }
+        },
+        "cert_rotation": {
+          "kind": "DEFECT",
+          "soundGo": {
+            "count": 4,
+            "of": 4,
+            "wilson95": [
+              0.51,
+              1.0
+            ]
+          },
+          "changedCorrect": {
+            "count": 4,
+            "of": 4,
+            "wilson95": [
+              0.51,
+              1.0
+            ]
+          },
+          "changedVerdicts": {
+            "GO": 0,
+            "GO_WITH_CHANGES": 0,
+            "NO_GO": 4
+          }
+        },
+        "credential_logging": {
+          "kind": "DEFECT",
+          "soundGo": {
+            "count": 4,
+            "of": 4,
+            "wilson95": [
+              0.51,
+              1.0
+            ]
+          },
+          "changedCorrect": {
+            "count": 4,
+            "of": 4,
+            "wilson95": [
+              0.51,
+              1.0
+            ]
+          },
+          "changedVerdicts": {
+            "GO": 0,
+            "GO_WITH_CHANGES": 0,
+            "NO_GO": 4
+          }
+        },
+        "flag_default": {
+          "kind": "DEFECT",
+          "soundGo": {
+            "count": 4,
+            "of": 4,
+            "wilson95": [
+              0.51,
+              1.0
+            ]
+          },
+          "changedCorrect": {
+            "count": 4,
+            "of": 4,
+            "wilson95": [
+              0.51,
+              1.0
+            ]
+          },
+          "changedVerdicts": {
+            "GO": 0,
+            "GO_WITH_CHANGES": 0,
+            "NO_GO": 4
+          }
+        },
+        "lock_order": {
+          "kind": "DEFECT",
+          "soundGo": {
+            "count": 4,
+            "of": 4,
+            "wilson95": [
+              0.51,
+              1.0
+            ]
+          },
+          "changedCorrect": {
+            "count": 4,
+            "of": 4,
+            "wilson95": [
+              0.51,
+              1.0
+            ]
+          },
+          "changedVerdicts": {
+            "GO": 0,
+            "GO_WITH_CHANGES": 0,
+            "NO_GO": 4
+          }
+        },
+        "payload_limit": {
+          "kind": "UNCERTAIN",
+          "soundGo": {
+            "count": 4,
+            "of": 4,
+            "wilson95": [
+              0.51,
+              1.0
+            ]
+          },
+          "changedCorrect": {
+            "count": 4,
+            "of": 4,
+            "wilson95": [
+              0.51,
+              1.0
+            ]
+          },
+          "changedVerdicts": {
+            "GO": 0,
+            "GO_WITH_CHANGES": 4,
+            "NO_GO": 0
+          }
+        },
+        "payment_idempotency_key": {
+          "kind": "DEFECT",
+          "soundGo": {
+            "count": 4,
+            "of": 4,
+            "wilson95": [
+              0.51,
+              1.0
+            ]
+          },
+          "changedCorrect": {
+            "count": 4,
+            "of": 4,
+            "wilson95": [
+              0.51,
+              1.0
+            ]
+          },
+          "changedVerdicts": {
+            "GO": 0,
+            "GO_WITH_CHANGES": 0,
+            "NO_GO": 4
+          }
+        },
+        "rate_arithmetic": {
+          "kind": "DEFECT",
+          "soundGo": {
+            "count": 4,
+            "of": 4,
+            "wilson95": [
+              0.51,
+              1.0
+            ]
+          },
+          "changedCorrect": {
+            "count": 4,
+            "of": 4,
+            "wilson95": [
+              0.51,
+              1.0
+            ]
+          },
+          "changedVerdicts": {
+            "GO": 0,
+            "GO_WITH_CHANGES": 0,
+            "NO_GO": 4
+          }
+        },
+        "rate_limit_quota": {
+          "kind": "UNCERTAIN",
+          "soundGo": {
+            "count": 4,
+            "of": 4,
+            "wilson95": [
+              0.51,
+              1.0
+            ]
+          },
+          "changedCorrect": {
+            "count": 4,
+            "of": 4,
+            "wilson95": [
+              0.51,
+              1.0
+            ]
+          },
+          "changedVerdicts": {
+            "GO": 0,
+            "GO_WITH_CHANGES": 4,
+            "NO_GO": 0
+          }
+        },
+        "retry_idempotent": {
+          "kind": "UNCERTAIN",
+          "soundGo": {
+            "count": 4,
+            "of": 4,
+            "wilson95": [
+              0.51,
+              1.0
+            ]
+          },
+          "changedCorrect": {
+            "count": 4,
+            "of": 4,
+            "wilson95": [
+              0.51,
+              1.0
+            ]
+          },
+          "changedVerdicts": {
+            "GO": 0,
+            "GO_WITH_CHANGES": 4,
+            "NO_GO": 0
+          }
+        },
+        "rollback_window": {
+          "kind": "UNCERTAIN",
+          "soundGo": {
+            "count": 4,
+            "of": 4,
+            "wilson95": [
+              0.51,
+              1.0
+            ]
+          },
+          "changedCorrect": {
+            "count": 4,
+            "of": 4,
+            "wilson95": [
+              0.51,
+              1.0
+            ]
+          },
+          "changedVerdicts": {
+            "GO": 0,
+            "GO_WITH_CHANGES": 4,
+            "NO_GO": 0
+          }
+        },
+        "storage_access": {
+          "kind": "UNCERTAIN",
+          "soundGo": {
+            "count": 3,
+            "of": 4,
+            "wilson95": [
+              0.301,
+              0.954
+            ]
+          },
+          "changedCorrect": {
+            "count": 4,
+            "of": 4,
+            "wilson95": [
+              0.51,
+              1.0
+            ]
+          },
+          "changedVerdicts": {
+            "GO": 0,
+            "GO_WITH_CHANGES": 4,
+            "NO_GO": 0
+          }
+        },
+        "unique_constraint": {
+          "kind": "UNCERTAIN",
+          "soundGo": {
+            "count": 2,
+            "of": 3,
+            "wilson95": [
+              0.208,
+              0.939
+            ]
+          },
+          "changedCorrect": {
+            "count": 4,
+            "of": 4,
+            "wilson95": [
+              0.51,
+              1.0
+            ]
+          },
+          "changedVerdicts": {
+            "GO": 0,
+            "GO_WITH_CHANGES": 4,
+            "NO_GO": 0
+          }
+        },
+        "upgrade_compat": {
+          "kind": "UNCERTAIN",
+          "soundGo": {
+            "count": 4,
+            "of": 4,
+            "wilson95": [
+              0.51,
+              1.0
+            ]
+          },
+          "changedCorrect": {
+            "count": 4,
+            "of": 4,
+            "wilson95": [
+              0.51,
+              1.0
+            ]
+          },
+          "changedVerdicts": {
+            "GO": 0,
+            "GO_WITH_CHANGES": 4,
+            "NO_GO": 0
+          }
+        }
+      }
+    },
+    "claude-skill": {
+      "arm": "claude-skill",
+      "observations": 128,
+      "technicalStops": {},
+      "stamps": [
+        [
+          "claude-opus-5-5",
+          "high",
+          "2.1.306 (Claude Code)"
+        ]
+      ],
+      "servedModels": [
+        "claude-opus-5-5"
+      ],
+      "runManifestSha256": [
+        "3751f9acabeb2d60acfd6dd132db8079cc66c7b4ffc14a0ed7a4628d8e4d2f6a"
+      ],
+      "costUsd": 4.8083,
+      "primary": {
+        "soundPlansGo": {
+          "count": 34,
+          "of": 64,
+          "wilson95": [
+            0.411,
+            0.648
+          ]
+        },
+        "defectTwinsNoGo": {
+          "count": 32,
+          "of": 32,
+          "wilson95": [
+            0.893,
+            1.0
+          ]
+        },
+        "evidenceGapTwinsGoWithChanges": {
+          "count": 24,
+          "of": 32,
+          "wilson95": [
+            0.579,
+            0.867
+          ]
+        }
+      },
+      "summary": {
+        "strictPairDiscrimination": {
+          "count": 26,
+          "of": 64,
+          "wilson95": [
+            0.295,
+            0.529
+          ]
+        },
+        "orderedPairDiscrimination": {
+          "count": 39,
+          "of": 64,
+          "wilson95": [
+            0.487,
+            0.719
+          ]
+        }
+      },
+      "secondary": {
+        "soundPlansBlocked": {
+          "count": 0,
+          "of": 64,
+          "wilson95": [
+            0.0,
+            0.057
+          ]
+        },
+        "soundPlansHedged": {
+          "count": 30,
+          "of": 64,
+          "wilson95": [
+            0.352,
+            0.589
+          ]
+        },
+        "evidenceGapTwinsNoGo": {
+          "count": 8,
+          "of": 32,
+          "wilson95": [
+            0.133,
+            0.421
+          ]
+        },
+        "evidenceGapTwinsGo": {
+          "count": 0,
+          "of": 32,
+          "wilson95": [
+            0.0,
+            0.107
+          ]
+        },
+        "gapNamedButDismissed": {
+          "count": 0,
+          "of": 0,
+          "wilson95": null
+        },
+        "gapNamedAmongAllEvidenceGapTwins": {
+          "count": 27,
+          "of": 32,
+          "wilson95": [
+            0.682,
+            0.931
+          ]
+        },
+        "verdictFollowsFinding": {
+          "count": 32,
+          "of": 32,
+          "wilson95": [
+            0.893,
+            1.0
+          ]
+        },
+        "verdictIdenticalAcrossTrials": {
+          "count": 58,
+          "of": 64,
+          "wilson95": [
+            0.81,
+            0.956
+          ]
+        },
+        "snapshotLabelRead": 0
+      },
+      "perFamily": {
+        "backup_window": {
+          "kind": "DEFECT",
+          "soundGo": {
+            "count": 1,
+            "of": 4,
+            "wilson95": [
+              0.046,
+              0.699
+            ]
+          },
+          "changedCorrect": {
+            "count": 4,
+            "of": 4,
+            "wilson95": [
+              0.51,
+              1.0
+            ]
+          },
+          "changedVerdicts": {
+            "GO": 0,
+            "GO_WITH_CHANGES": 0,
+            "NO_GO": 4
+          }
+        },
+        "cache_tenant_key": {
+          "kind": "DEFECT",
+          "soundGo": {
+            "count": 4,
+            "of": 4,
+            "wilson95": [
+              0.51,
+              1.0
+            ]
+          },
+          "changedCorrect": {
+            "count": 4,
+            "of": 4,
+            "wilson95": [
+              0.51,
+              1.0
+            ]
+          },
+          "changedVerdicts": {
+            "GO": 0,
+            "GO_WITH_CHANGES": 0,
+            "NO_GO": 4
+          }
+        },
+        "capacity_headroom": {
+          "kind": "UNCERTAIN",
+          "soundGo": {
+            "count": 4,
+            "of": 4,
+            "wilson95": [
+              0.51,
+              1.0
+            ]
+          },
+          "changedCorrect": {
+            "count": 4,
+            "of": 4,
+            "wilson95": [
+              0.51,
+              1.0
+            ]
+          },
+          "changedVerdicts": {
+            "GO": 0,
+            "GO_WITH_CHANGES": 4,
+            "NO_GO": 0
+          }
+        },
+        "cert_rotation": {
+          "kind": "DEFECT",
+          "soundGo": {
+            "count": 0,
+            "of": 4,
+            "wilson95": [
+              0.0,
+              0.49
+            ]
+          },
+          "changedCorrect": {
+            "count": 4,
+            "of": 4,
+            "wilson95": [
+              0.51,
+              1.0
+            ]
+          },
+          "changedVerdicts": {
+            "GO": 0,
+            "GO_WITH_CHANGES": 0,
+            "NO_GO": 4
+          }
+        },
+        "credential_logging": {
+          "kind": "DEFECT",
+          "soundGo": {
+            "count": 0,
+            "of": 4,
+            "wilson95": [
+              0.0,
+              0.49
+            ]
+          },
+          "changedCorrect": {
+            "count": 4,
+            "of": 4,
+            "wilson95": [
+              0.51,
+              1.0
+            ]
+          },
+          "changedVerdicts": {
+            "GO": 0,
+            "GO_WITH_CHANGES": 0,
+            "NO_GO": 4
+          }
+        },
+        "flag_default": {
+          "kind": "DEFECT",
+          "soundGo": {
+            "count": 3,
+            "of": 4,
+            "wilson95": [
+              0.301,
+              0.954
+            ]
+          },
+          "changedCorrect": {
+            "count": 4,
+            "of": 4,
+            "wilson95": [
+              0.51,
+              1.0
+            ]
+          },
+          "changedVerdicts": {
+            "GO": 0,
+            "GO_WITH_CHANGES": 0,
+            "NO_GO": 4
+          }
+        },
+        "lock_order": {
+          "kind": "DEFECT",
+          "soundGo": {
+            "count": 4,
+            "of": 4,
+            "wilson95": [
+              0.51,
+              1.0
+            ]
+          },
+          "changedCorrect": {
+            "count": 4,
+            "of": 4,
+            "wilson95": [
+              0.51,
+              1.0
+            ]
+          },
+          "changedVerdicts": {
+            "GO": 0,
+            "GO_WITH_CHANGES": 0,
+            "NO_GO": 4
+          }
+        },
+        "payload_limit": {
+          "kind": "UNCERTAIN",
+          "soundGo": {
+            "count": 0,
+            "of": 4,
+            "wilson95": [
+              0.0,
+              0.49
+            ]
+          },
+          "changedCorrect": {
+            "count": 4,
+            "of": 4,
+            "wilson95": [
+              0.51,
+              1.0
+            ]
+          },
+          "changedVerdicts": {
+            "GO": 0,
+            "GO_WITH_CHANGES": 4,
+            "NO_GO": 0
+          }
+        },
+        "payment_idempotency_key": {
+          "kind": "DEFECT",
+          "soundGo": {
+            "count": 3,
+            "of": 4,
+            "wilson95": [
+              0.301,
+              0.954
+            ]
+          },
+          "changedCorrect": {
+            "count": 4,
+            "of": 4,
+            "wilson95": [
+              0.51,
+              1.0
+            ]
+          },
+          "changedVerdicts": {
+            "GO": 0,
+            "GO_WITH_CHANGES": 0,
+            "NO_GO": 4
+          }
+        },
+        "rate_arithmetic": {
+          "kind": "DEFECT",
+          "soundGo": {
+            "count": 4,
+            "of": 4,
+            "wilson95": [
+              0.51,
+              1.0
+            ]
+          },
+          "changedCorrect": {
+            "count": 4,
+            "of": 4,
+            "wilson95": [
+              0.51,
+              1.0
+            ]
+          },
+          "changedVerdicts": {
+            "GO": 0,
+            "GO_WITH_CHANGES": 0,
+            "NO_GO": 4
+          }
+        },
+        "rate_limit_quota": {
+          "kind": "UNCERTAIN",
+          "soundGo": {
+            "count": 4,
+            "of": 4,
+            "wilson95": [
+              0.51,
+              1.0
+            ]
+          },
+          "changedCorrect": {
+            "count": 1,
+            "of": 4,
+            "wilson95": [
+              0.046,
+              0.699
+            ]
+          },
+          "changedVerdicts": {
+            "GO": 0,
+            "GO_WITH_CHANGES": 1,
+            "NO_GO": 3
+          }
+        },
+        "retry_idempotent": {
+          "kind": "UNCERTAIN",
+          "soundGo": {
+            "count": 3,
+            "of": 4,
+            "wilson95": [
+              0.301,
+              0.954
+            ]
+          },
+          "changedCorrect": {
+            "count": 3,
+            "of": 4,
+            "wilson95": [
+              0.301,
+              0.954
+            ]
+          },
+          "changedVerdicts": {
+            "GO": 0,
+            "GO_WITH_CHANGES": 3,
+            "NO_GO": 1
+          }
+        },
+        "rollback_window": {
+          "kind": "UNCERTAIN",
+          "soundGo": {
+            "count": 0,
+            "of": 4,
+            "wilson95": [
+              0.0,
+              0.49
+            ]
+          },
+          "changedCorrect": {
+            "count": 4,
+            "of": 4,
+            "wilson95": [
+              0.51,
+              1.0
+            ]
+          },
+          "changedVerdicts": {
+            "GO": 0,
+            "GO_WITH_CHANGES": 4,
+            "NO_GO": 0
+          }
+        },
+        "storage_access": {
+          "kind": "UNCERTAIN",
+          "soundGo": {
+            "count": 0,
+            "of": 4,
+            "wilson95": [
+              0.0,
+              0.49
+            ]
+          },
+          "changedCorrect": {
+            "count": 4,
+            "of": 4,
+            "wilson95": [
+              0.51,
+              1.0
+            ]
+          },
+          "changedVerdicts": {
+            "GO": 0,
+            "GO_WITH_CHANGES": 4,
+            "NO_GO": 0
+          }
+        },
+        "unique_constraint": {
+          "kind": "UNCERTAIN",
+          "soundGo": {
+            "count": 0,
+            "of": 4,
+            "wilson95": [
+              0.0,
+              0.49
+            ]
+          },
+          "changedCorrect": {
+            "count": 4,
+            "of": 4,
+            "wilson95": [
+              0.51,
+              1.0
+            ]
+          },
+          "changedVerdicts": {
+            "GO": 0,
+            "GO_WITH_CHANGES": 4,
+            "NO_GO": 0
+          }
+        },
+        "upgrade_compat": {
+          "kind": "UNCERTAIN",
+          "soundGo": {
+            "count": 4,
+            "of": 4,
+            "wilson95": [
+              0.51,
+              1.0
+            ]
+          },
+          "changedCorrect": {
+            "count": 0,
+            "of": 4,
+            "wilson95": [
+              0.0,
+              0.49
+            ]
+          },
+          "changedVerdicts": {
+            "GO": 0,
+            "GO_WITH_CHANGES": 0,
+            "NO_GO": 4
+          }
+        }
+      }
+    }
+  },
+  "comparability": {
+    "sameModelEffortAndCliVersion": false,
+    "note": "A mismatch means the arms differ in more than the prompt bundle."
+  },
+  "comparisons": {
+    "gemini__claude-skill": {
+      "soundGo": {
+        "first": "gemini",
+        "second": "claude-skill",
+        "matchedUnits": 63,
+        "bothCount": 34,
+        "onlyFirst": 27,
+        "onlySecond": 0,
+        "exactTwoSidedSignTestP": 0.0
+      },
+      "defectNoGo": {
+        "first": "gemini",
+        "second": "claude-skill",
+        "matchedUnits": 32,
+        "bothCount": 32,
+        "onlyFirst": 0,
+        "onlySecond": 0,
+        "exactTwoSidedSignTestP": 1.0
+      },
+      "gapGwc": {
+        "first": "gemini",
+        "second": "claude-skill",
+        "matchedUnits": 32,
+        "bothCount": 24,
+        "onlyFirst": 8,
+        "onlySecond": 0,
+        "exactTwoSidedSignTestP": 0.0078
+      },
+      "strict": {
+        "first": "gemini",
+        "second": "claude-skill",
+        "matchedUnits": 63,
+        "bothCount": 26,
+        "onlyFirst": 35,
+        "onlySecond": 0,
+        "exactTwoSidedSignTestP": 0.0
+      },
+      "ordered": {
+        "first": "gemini",
+        "second": "claude-skill",
+        "matchedUnits": 63,
+        "bothCount": 39,
+        "onlyFirst": 22,
+        "onlySecond": 0,
+        "exactTwoSidedSignTestP": 0.0
+      }
+    }
+  },
+  "labels": null,
+  "providerCalls": 0
+}

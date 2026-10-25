@@ -1,0 +1,17 @@
+{
+  "writtenBefore": "any verdict count, score, rate or paired comparison of these four runs was computed. What had been seen: the orchestrator's identity record (commit, hashes, versions, per-run counts, stop counts, cost and times), the structure of the archive, and aggregate fields of the CLI outputs (turns, safety stops, permission denials, error flags, served models, cost). No report had been read and no ledger verdict printed; no score.py or analyze.py output existed.",
+  "integrity": {
+    "checkedByMe": "Independently of the orchestrator, with the committed verify_run.py (arms skill-go and skill, both trials, under the skill-go run manifest) on the returned working directories: 64 ledger rows per trial in the frozen order; every saved request equals what the frozen prompt and corpus produce (for skill-go: the skill-style request plus the one pinned sentence line); every report hash equals its ledger row; every row carries the run manifest hash 585b20e1... and the arm stamp (skill-go rows also the arm manifest hash c4648609...); every served model is claude-opus-5-5; no stop. Both arms: failures []. Across all 256 CLI outputs: one turn each, zero safety stops, zero permission denials, no error flag, one served model, the largest per-case cost $0.0612 against the $5.00 cap, which never bound.",
+    "identityRecord": "The orchestrator's record names commit f74dad00bc13f9aad03c430c4c1f0665e70d5b31, the head of this branch when the run was prepared, with the corpus, run-manifest and arm-manifest hashes equal to the committed ones, claude 2.1.306 with the binary hash the brief required, and spend cap 5.0. The orchestrator did not commit, push or edit anything in the repository.",
+    "orderAndTiming": "The preregistration calls for the four runs in one order; they were run in that order (1 skill-go trial 1, 2 skill trial 1, 3 skill trial 2, 4 skill-go trial 2) with the optional control included, but run 1 ended at 15:29 PDT on 2026-10-24 and run 2 started at 20:54, a gap of about five and a half hours; runs 2 to 4 followed each other within 70 minutes. The preregistration did not fix a maximum gap. The gap is stated here because the concurrency of the control with skill-go trial 1 is therefore looser than with trial 2.",
+    "notAttested": "Isolation is Claude CLI configuration (tools disabled, an empty working directory, an empty MCP config), not the qualified native containment, as for every earlier Claude-route arm.",
+    "cost": "Total $8.35 for four runs (skill-go $2.09 and $2.08, control $2.44 and $1.76); the brief's estimate was about $2.4 per run, $10 with the control."
+  },
+  "stopsDocumentation": {
+    "observations": [],
+    "headline": "There is no technical stop in any of the 256 observations, so there is nothing to remove from a denominator and no documented-rule view. The as-run result is the only result."
+  },
+  "invalidPairs": [],
+  "noOtherExclusion": "No pair, family, case or observation is excluded or reclassified.",
+  "readingPlan": "After the scores are computed, the preregistered reading of v3-run-skill-go/PREREGISTRATION.md. The reader is the corpus author, who has seen the scores and designed the arm. Reading can add observations; it changes no as-run number."
+}

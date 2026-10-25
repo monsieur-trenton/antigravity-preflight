@@ -1,0 +1,23 @@
+{
+  "writtenBefore": "any adjusted figure was computed; the all-pairs scores had been computed and the 16 hedged sound-plan reports, 16 of 20 trial 1 twin reports and keyword checks of trial 2 twin reports had been read",
+  "rule": "Preregistration, Exclusions and corrections: a pair may be reported as invalid only if reading the packet text alone confirms a gap in the sound plan that the reviewer's reports identify and that is verifiable from the text, not a speculative scenario.",
+  "qualifyingTest": "The sound plan's own lines show the gap, for example a stated coverage or verification claim that visibly excludes something the plan itself changes. Merely unsupported premises (stated without evidence), hypothetical failure scenarios, and design preferences do not qualify.",
+  "invalidPairs": [
+    {
+      "family": "caller_callee",
+      "wordings": ["A", "B"],
+      "reason": "Line 6 says unit tests cover schedule() and report(). main() is the only caller whose handling was changed in a way that sets the process exit status, and the plan lists no test for it. This is visible from lines 4 and 6 alone. All four sound-plan reports (2 wordings x 2 trials) identified it, two as VERIFIED RISK quoting line 6, so the CHANGES_RECOMMENDED verdicts there are warranted by the text and not hedging on speculation.",
+      "readsReports": "all four sound-plan reports for this family were read in full"
+    }
+  ],
+  "consideredAndNotInvalid": [
+    {"family": "migration_order", "reason": "Hedges were unsupported premises (the shipments claim stated without evidence), hypotheticals (locks, stopped writes, rollback when step 1 fails) and, in 2 of 4 reports, a design concern that NOT NULL on a column named shipped_at conflicts with orders created before shipping. That last concern rests on outside knowledge of the column name, not on the packet text, so it does not qualify. It is a corpus weakness to avoid in v3."},
+    {"family": "permission_chain", "reason": "Hedges concerned unstated detail (how issuance is controlled, whether the endpoint checks revocation) and hypotheticals (mis-issued or leaked tokens). Unstated detail is not a gap visible in the text; the plan states that tokens are revoked as soon as the holder leaves the group."},
+    {"family": "unit_mismatch", "reason": "The retry-amplification arithmetic (4 attempts x 5 s, about 20 s per call) follows from the text, but the plan makes no latency claim it contradicts, so it is a design observation, not a text-visible gap. The reviewer also cleared the planted unit trap correctly in every report."},
+    {"family": "ownership_authorization", "reason": "Hedges were hypotheticals (how the tag is stored, crashed runs leaking directories, path swapping before rm -rf). None is visible in the text."}
+  ],
+  "notes": [
+    "Judged by one reader (the benchmark's author) after seeing the scores. The headline remains the all-pairs result; adjusted figures are shown beside it, never instead of it.",
+    "The adjudicator also wrote the corpus, so a flaw they cannot see would also escape this adjudication."
+  ]
+}

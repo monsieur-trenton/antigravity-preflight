@@ -1,0 +1,14 @@
+{
+  "kind": "ABLATION_BARE_ARM_FROZEN",
+  "corpus": {
+    "path": "benchmarks/counterfactual-pairs/v2",
+    "manifestSha256": "79facc8afe49f243009a813e63f9f77adfa284567982af2282daf9948eb6316b"
+  },
+  "pins": {
+    "PREREGISTRATION.md": "658e40969ef7833183a80a47babb7ccb36ea55adf3f917edd66bfff4a4112423",
+    "bare-request.txt": "13e4760dcb101c98f67879e2dee6e42c39fbfa42acd11c10d1be2e67f00d5fc7",
+    "bare-system.txt": "9db26da266bd05448800db1d986281ad1a92645dba943c208cd421b97e87fb06",
+    "rubric.json": "46baeae69381ebd06dd58c6b30218b68ebad7e9cbc0b547413e3520dcfc0c461"
+  },
+  "providerCalls": 0
+}

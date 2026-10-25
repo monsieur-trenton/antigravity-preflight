@@ -1,0 +1,6 @@
+The build step writes a metadata summary to stdout, and separately keeps a debug log in a temp file that is removed on exit.
+Per the harness contract, stdout is capped at 1500 bytes per command, and a step that goes over the cap fails and aborts the release without a retry.
+The summary is compact JSON with exactly 6 fixed keys; no key is longer than 12 bytes.
+Values are ASCII-escaped and kept whole; in testing, one summary held three values of roughly 700 bytes apiece.
+The step asserts, before writing, that the encoded byte length of the output does not exceed 1500.
+The debug log never goes to stdout and does not count toward the cap.

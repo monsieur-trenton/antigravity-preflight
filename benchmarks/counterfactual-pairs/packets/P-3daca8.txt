@@ -1,0 +1,4 @@
+parse_window(start, end) is changed to return a tuple (start_ts, end_ts) rather than one integer.
+Its sole caller is schedule().
+schedule() is left as it was: window = parse_window(start, end), then window + 3600.
+A unit test checks the new return shape.

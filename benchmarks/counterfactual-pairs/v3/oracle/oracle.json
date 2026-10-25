@@ -1,0 +1,1063 @@
+{
+  "kind": "COUNTERFACTUAL_ORACLE_NEVER_SEND_TO_REVIEWER",
+  "corpus": "v3",
+  "seed": 20261023,
+  "cases": [
+    {
+      "case": "Q-2ecfea",
+      "family": "backup_window",
+      "wording": "A",
+      "role": "changed",
+      "expectedClass": "DEFECT",
+      "difficulty": "direct",
+      "decisiveLine": 5,
+      "citeAnyOf": [
+        1,
+        3,
+        4,
+        5,
+        8
+      ],
+      "mechanism": "Line 1 requires point-in-time restore back to 14 days ago, and line 4 notes that this can need a base backup up to 21 days old plus all WAL since. The twin's line 5 keeps base backups and WAL for only 7 days. Nothing older than 7 days can be restored, so the 14-day window (and the monthly 13-to-14-day drill in line 8) cannot be met."
+    },
+    {
+      "case": "Q-9109d7",
+      "family": "backup_window",
+      "wording": "A",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "difficulty": "direct",
+      "decisiveLine": 5,
+      "citeAnyOf": [
+        1,
+        3,
+        4,
+        5,
+        8
+      ],
+      "mechanism": null
+    },
+    {
+      "case": "Q-a5ab3e",
+      "family": "backup_window",
+      "wording": "B",
+      "role": "changed",
+      "expectedClass": "DEFECT",
+      "difficulty": "direct",
+      "decisiveLine": 5,
+      "citeAnyOf": [
+        1,
+        3,
+        4,
+        5,
+        8
+      ],
+      "mechanism": "Line 1 requires point-in-time restore back to 14 days ago, and line 4 notes that this can need a base backup up to 21 days old plus all WAL since. The twin's line 5 keeps base backups and WAL for only 7 days. Nothing older than 7 days can be restored, so the 14-day window (and the monthly 13-to-14-day drill in line 8) cannot be met."
+    },
+    {
+      "case": "Q-16b69f",
+      "family": "backup_window",
+      "wording": "B",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "difficulty": "direct",
+      "decisiveLine": 5,
+      "citeAnyOf": [
+        1,
+        3,
+        4,
+        5,
+        8
+      ],
+      "mechanism": null
+    },
+    {
+      "case": "Q-0d2c69",
+      "family": "cache_tenant_key",
+      "wording": "A",
+      "role": "changed",
+      "expectedClass": "DEFECT",
+      "difficulty": "inference",
+      "decisiveLine": 4,
+      "citeAnyOf": [
+        1,
+        3,
+        4,
+        7
+      ],
+      "mechanism": "The twin's cache key is \"dash:{dashboard_id}:{range}\", which leaves out tenant_id. Line 3 says dashboard IDs restart at 1 in every tenant, so dashboard 42 in tenant X and dashboard 42 in tenant Y get the same key. The cluster is shared (line 1), so whichever tenant fills the entry first has its response served to the other tenant. That breaks the isolation rule in line 7."
+    },
+    {
+      "case": "Q-886b7b",
+      "family": "cache_tenant_key",
+      "wording": "A",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "difficulty": "inference",
+      "decisiveLine": 4,
+      "citeAnyOf": [
+        1,
+        3,
+        4,
+        7
+      ],
+      "mechanism": null
+    },
+    {
+      "case": "Q-04ec49",
+      "family": "cache_tenant_key",
+      "wording": "B",
+      "role": "changed",
+      "expectedClass": "DEFECT",
+      "difficulty": "inference",
+      "decisiveLine": 4,
+      "citeAnyOf": [
+        1,
+        3,
+        4,
+        7
+      ],
+      "mechanism": "The twin's cache key is \"dash:{dashboard_id}:{range}\", which leaves out tenant_id. Line 3 says dashboard IDs restart at 1 in every tenant, so dashboard 42 in tenant X and dashboard 42 in tenant Y get the same key. The cluster is shared (line 1), so whichever tenant fills the entry first has its response served to the other tenant. That breaks the isolation rule in line 7."
+    },
+    {
+      "case": "Q-b98b1c",
+      "family": "cache_tenant_key",
+      "wording": "B",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "difficulty": "inference",
+      "decisiveLine": 4,
+      "citeAnyOf": [
+        1,
+        3,
+        4,
+        7
+      ],
+      "mechanism": null
+    },
+    {
+      "case": "Q-bf6397",
+      "family": "capacity_headroom",
+      "wording": "A",
+      "role": "changed",
+      "expectedClass": "UNCERTAIN",
+      "difficulty": "evidence_gap",
+      "decisiveLine": 4,
+      "citeAnyOf": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "mechanism": "Every nightly run must finish within the 3-hour window from 01:00 to 04:00, or it is killed and its output is discarded. In the sound plan, the measured 1.0 TB per hour on a production-class host means the largest night of 1.3 TB takes about 1.3 hours, which is about 2.3x headroom. In the twin, production-class throughput has not been measured, so nothing shows that a 1.3 TB night fits in 3 hours."
+    },
+    {
+      "case": "Q-3b301c",
+      "family": "capacity_headroom",
+      "wording": "A",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "difficulty": "evidence_gap",
+      "decisiveLine": 4,
+      "citeAnyOf": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "mechanism": null
+    },
+    {
+      "case": "Q-de8c32",
+      "family": "capacity_headroom",
+      "wording": "B",
+      "role": "changed",
+      "expectedClass": "UNCERTAIN",
+      "difficulty": "evidence_gap",
+      "decisiveLine": 4,
+      "citeAnyOf": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "mechanism": "Every nightly run must finish within the 3-hour window from 01:00 to 04:00, or it is killed and its output is discarded. In the sound plan, the measured 1.0 TB per hour on a production-class host means the largest night of 1.3 TB takes about 1.3 hours, which is about 2.3x headroom. In the twin, production-class throughput has not been measured, so nothing shows that a 1.3 TB night fits in 3 hours."
+    },
+    {
+      "case": "Q-838035",
+      "family": "capacity_headroom",
+      "wording": "B",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "difficulty": "evidence_gap",
+      "decisiveLine": 4,
+      "citeAnyOf": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "mechanism": null
+    },
+    {
+      "case": "Q-8da197",
+      "family": "cert_rotation",
+      "wording": "A",
+      "role": "changed",
+      "expectedClass": "DEFECT",
+      "difficulty": "inference",
+      "decisiveLine": 8,
+      "citeAnyOf": [
+        1,
+        2,
+        3,
+        6,
+        8
+      ],
+      "mechanism": "The twin removes 'Internal Root 2023' from the trust bundle on day 5. Lines 3 and 6 say the server keeps presenting its 'Internal Root 2023' certificate until the switch on day 7. Line 2 says clients trust only roots in their bundle and reload it within 15 minutes. So from shortly after day 5 until day 7, every client rejects the server certificate, which breaks line 1's rule that no client may lose connectivity. The safe order is to switch the server first and remove the old root afterwards."
+    },
+    {
+      "case": "Q-1df131",
+      "family": "cert_rotation",
+      "wording": "A",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "difficulty": "inference",
+      "decisiveLine": 8,
+      "citeAnyOf": [
+        1,
+        2,
+        3,
+        6,
+        8
+      ],
+      "mechanism": null
+    },
+    {
+      "case": "Q-32a558",
+      "family": "cert_rotation",
+      "wording": "B",
+      "role": "changed",
+      "expectedClass": "DEFECT",
+      "difficulty": "inference",
+      "decisiveLine": 8,
+      "citeAnyOf": [
+        1,
+        2,
+        3,
+        6,
+        8
+      ],
+      "mechanism": "The twin removes 'Internal Root 2023' from the trust bundle on day 5. Lines 3 and 6 say the server keeps presenting its 'Internal Root 2023' certificate until the switch on day 7. Line 2 says clients trust only roots in their bundle and reload it within 15 minutes. So from shortly after day 5 until day 7, every client rejects the server certificate, which breaks line 1's rule that no client may lose connectivity. The safe order is to switch the server first and remove the old root afterwards."
+    },
+    {
+      "case": "Q-3e839b",
+      "family": "cert_rotation",
+      "wording": "B",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "difficulty": "inference",
+      "decisiveLine": 8,
+      "citeAnyOf": [
+        1,
+        2,
+        3,
+        6,
+        8
+      ],
+      "mechanism": null
+    },
+    {
+      "case": "Q-e8114f",
+      "family": "credential_logging",
+      "wording": "A",
+      "role": "changed",
+      "expectedClass": "DEFECT",
+      "difficulty": "direct",
+      "decisiveLine": 5,
+      "citeAnyOf": [
+        2,
+        3,
+        5,
+        6,
+        7
+      ],
+      "mechanism": "Line 2 forbids credentials in logs, and line 3 says every request carries a bearer token in the Authorization header. The twin's line 5 writes every request header name and value at INFO but redacts only Cookie and X-Api-Key, so the Authorization value is logged. Line 6 runs production at INFO, so live bearer tokens reach the shared logs that line 7 makes searchable by every engineer."
+    },
+    {
+      "case": "Q-43b8ae",
+      "family": "credential_logging",
+      "wording": "A",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "difficulty": "direct",
+      "decisiveLine": 5,
+      "citeAnyOf": [
+        2,
+        3,
+        5,
+        6,
+        7
+      ],
+      "mechanism": null
+    },
+    {
+      "case": "Q-9f3cdc",
+      "family": "credential_logging",
+      "wording": "B",
+      "role": "changed",
+      "expectedClass": "DEFECT",
+      "difficulty": "direct",
+      "decisiveLine": 5,
+      "citeAnyOf": [
+        2,
+        3,
+        5,
+        6,
+        7
+      ],
+      "mechanism": "Line 2 forbids credentials in logs, and line 3 says every request carries a bearer token in the Authorization header. The twin's line 5 writes every request header name and value at INFO but redacts only Cookie and X-Api-Key, so the Authorization value is logged. Line 6 runs production at INFO, so live bearer tokens reach the shared logs that line 7 makes searchable by every engineer."
+    },
+    {
+      "case": "Q-c4d9bc",
+      "family": "credential_logging",
+      "wording": "B",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "difficulty": "direct",
+      "decisiveLine": 5,
+      "citeAnyOf": [
+        2,
+        3,
+        5,
+        6,
+        7
+      ],
+      "mechanism": null
+    },
+    {
+      "case": "Q-8352cb",
+      "family": "flag_default",
+      "wording": "A",
+      "role": "changed",
+      "expectedClass": "DEFECT",
+      "difficulty": "direct",
+      "decisiveLine": 3,
+      "citeAnyOf": [
+        2,
+        3,
+        4,
+        7,
+        8
+      ],
+      "mechanism": "Line 2 requires every new code path to ship switched off in production and be enabled later only by a separate, approved flag change. The twin's line 3 sets the production default of 'checkout.split_payment' to true, so the new split-payment flow ships switched on. This also contradicts lines 4, 7 and 8, which assume the flag is off in production."
+    },
+    {
+      "case": "Q-b72526",
+      "family": "flag_default",
+      "wording": "A",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "difficulty": "direct",
+      "decisiveLine": 3,
+      "citeAnyOf": [
+        2,
+        3,
+        4,
+        7,
+        8
+      ],
+      "mechanism": null
+    },
+    {
+      "case": "Q-b708d9",
+      "family": "flag_default",
+      "wording": "B",
+      "role": "changed",
+      "expectedClass": "DEFECT",
+      "difficulty": "direct",
+      "decisiveLine": 3,
+      "citeAnyOf": [
+        2,
+        3,
+        4,
+        7,
+        8
+      ],
+      "mechanism": "Line 2 requires every new code path to ship switched off in production and be enabled later only by a separate, approved flag change. The twin's line 3 sets the production default of 'checkout.split_payment' to true, so the new split-payment flow ships switched on. This also contradicts lines 4, 7 and 8, which assume the flag is off in production."
+    },
+    {
+      "case": "Q-015661",
+      "family": "flag_default",
+      "wording": "B",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "difficulty": "direct",
+      "decisiveLine": 3,
+      "citeAnyOf": [
+        2,
+        3,
+        4,
+        7,
+        8
+      ],
+      "mechanism": null
+    },
+    {
+      "case": "Q-a10884",
+      "family": "lock_order",
+      "wording": "A",
+      "role": "changed",
+      "expectedClass": "DEFECT",
+      "difficulty": "inference",
+      "decisiveLine": 3,
+      "citeAnyOf": [
+        1,
+        2,
+        3,
+        4,
+        7
+      ],
+      "mechanism": "Checkout takes stock_mu and then reserve_mu (line 2). In the twin, restock takes reserve_mu and then stock_mu, keeping the first lock while it waits for the second (line 3). The two paths run at the same time (line 4), and the locks block with no timeout (line 1). So checkout can hold stock_mu and wait for reserve_mu while restock holds reserve_mu and waits for stock_mu, and both wait forever. That is the deadlock line 7 forbids."
+    },
+    {
+      "case": "Q-197d8b",
+      "family": "lock_order",
+      "wording": "A",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "difficulty": "inference",
+      "decisiveLine": 3,
+      "citeAnyOf": [
+        1,
+        2,
+        3,
+        4,
+        7
+      ],
+      "mechanism": null
+    },
+    {
+      "case": "Q-848763",
+      "family": "lock_order",
+      "wording": "B",
+      "role": "changed",
+      "expectedClass": "DEFECT",
+      "difficulty": "inference",
+      "decisiveLine": 3,
+      "citeAnyOf": [
+        1,
+        2,
+        3,
+        4,
+        7
+      ],
+      "mechanism": "Checkout takes stock_mu and then reserve_mu (line 2). In the twin, restock takes reserve_mu and then stock_mu, keeping the first lock while it waits for the second (line 3). The two paths run at the same time (line 4), and the locks block with no timeout (line 1). So checkout can hold stock_mu and wait for reserve_mu while restock holds reserve_mu and waits for stock_mu, and both wait forever. That is the deadlock line 7 forbids."
+    },
+    {
+      "case": "Q-7a89b0",
+      "family": "lock_order",
+      "wording": "B",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "difficulty": "inference",
+      "decisiveLine": 3,
+      "citeAnyOf": [
+        1,
+        2,
+        3,
+        4,
+        7
+      ],
+      "mechanism": null
+    },
+    {
+      "case": "Q-a4c9e3",
+      "family": "payload_limit",
+      "wording": "A",
+      "role": "changed",
+      "expectedClass": "UNCERTAIN",
+      "difficulty": "evidence_gap",
+      "decisiveLine": 5,
+      "citeAnyOf": [
+        1,
+        2,
+        3,
+        5,
+        6,
+        7
+      ],
+      "mechanism": "Any request over 5,000,000 bytes is rejected whole (line 1). Rejected batches are never resent (line 6), and a missing invoice makes reconciliation fail (line 7). Batches hold 500 records whose notes field has no length limit (lines 2-3). In the sound plan, the largest record is 4,100 bytes, so a batch is at most 2,050,000 + under 1,000 bytes, about 2.4x below the limit. In the twin, record sizes have not been measured, so nothing bounds the batch size and staying under the limit is not established."
+    },
+    {
+      "case": "Q-715f55",
+      "family": "payload_limit",
+      "wording": "A",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "difficulty": "evidence_gap",
+      "decisiveLine": 5,
+      "citeAnyOf": [
+        1,
+        2,
+        3,
+        5,
+        6,
+        7
+      ],
+      "mechanism": null
+    },
+    {
+      "case": "Q-bdae23",
+      "family": "payload_limit",
+      "wording": "B",
+      "role": "changed",
+      "expectedClass": "UNCERTAIN",
+      "difficulty": "evidence_gap",
+      "decisiveLine": 5,
+      "citeAnyOf": [
+        1,
+        2,
+        3,
+        5,
+        6,
+        7
+      ],
+      "mechanism": "Any request over 5,000,000 bytes is rejected whole (line 1). Rejected batches are never resent (line 6), and a missing invoice makes reconciliation fail (line 7). Batches hold 500 records whose notes field has no length limit (lines 2-3). In the sound plan, the largest record is 4,100 bytes, so a batch is at most 2,050,000 + under 1,000 bytes, about 2.4x below the limit. In the twin, record sizes have not been measured, so nothing bounds the batch size and staying under the limit is not established."
+    },
+    {
+      "case": "Q-e4f795",
+      "family": "payload_limit",
+      "wording": "B",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "difficulty": "evidence_gap",
+      "decisiveLine": 5,
+      "citeAnyOf": [
+        1,
+        2,
+        3,
+        5,
+        6,
+        7
+      ],
+      "mechanism": null
+    },
+    {
+      "case": "Q-f79075",
+      "family": "payment_idempotency_key",
+      "wording": "A",
+      "role": "changed",
+      "expectedClass": "DEFECT",
+      "difficulty": "inference",
+      "decisiveLine": 5,
+      "citeAnyOf": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "mechanism": "Line 3 says a timed-out attempt may already have been charged, and lines 4 and 6 say the worker retries after such timeouts. In the twin, each retry carries a newly generated key, and line 2 says a key the processor has not seen always creates a new charge. So a timeout followed by a retry can charge the customer two or more times for one order, which breaks the rule in line 7."
+    },
+    {
+      "case": "Q-8de063",
+      "family": "payment_idempotency_key",
+      "wording": "A",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "difficulty": "inference",
+      "decisiveLine": 5,
+      "citeAnyOf": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "mechanism": null
+    },
+    {
+      "case": "Q-7b5be1",
+      "family": "payment_idempotency_key",
+      "wording": "B",
+      "role": "changed",
+      "expectedClass": "DEFECT",
+      "difficulty": "inference",
+      "decisiveLine": 5,
+      "citeAnyOf": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "mechanism": "Line 3 says a timed-out attempt may already have been charged, and lines 4 and 6 say the worker retries after such timeouts. In the twin, each retry carries a newly generated key, and line 2 says a key the processor has not seen always creates a new charge. So a timeout followed by a retry can charge the customer two or more times for one order, which breaks the rule in line 7."
+    },
+    {
+      "case": "Q-ae5be2",
+      "family": "payment_idempotency_key",
+      "wording": "B",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "difficulty": "inference",
+      "decisiveLine": 5,
+      "citeAnyOf": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "mechanism": null
+    },
+    {
+      "case": "Q-724a88",
+      "family": "rate_arithmetic",
+      "wording": "A",
+      "role": "changed",
+      "expectedClass": "DEFECT",
+      "difficulty": "inference",
+      "decisiveLine": 3,
+      "citeAnyOf": [
+        2,
+        3,
+        4,
+        7
+      ],
+      "mechanism": "The twin runs 12 workers, and each may send up to 5 requests in any one-second window (line 4). That allows 12 x 5 = 60 requests per second, which is over the contracted ceiling of 50 per second (line 2). Going over the ceiling suspends the key for 24 hours and also stops live checkout lookups, which breaks the requirement in line 7. The sound plan's 8 x 5 = 40 requests per second stays under 50."
+    },
+    {
+      "case": "Q-1a4150",
+      "family": "rate_arithmetic",
+      "wording": "A",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "difficulty": "inference",
+      "decisiveLine": 3,
+      "citeAnyOf": [
+        2,
+        3,
+        4,
+        7
+      ],
+      "mechanism": null
+    },
+    {
+      "case": "Q-25a46e",
+      "family": "rate_arithmetic",
+      "wording": "B",
+      "role": "changed",
+      "expectedClass": "DEFECT",
+      "difficulty": "inference",
+      "decisiveLine": 3,
+      "citeAnyOf": [
+        2,
+        3,
+        4,
+        7
+      ],
+      "mechanism": "The twin runs 12 workers, and each may send up to 5 requests in any one-second window (line 4). That allows 12 x 5 = 60 requests per second, which is over the contracted ceiling of 50 per second (line 2). Going over the ceiling suspends the key for 24 hours and also stops live checkout lookups, which breaks the requirement in line 7. The sound plan's 8 x 5 = 40 requests per second stays under 50."
+    },
+    {
+      "case": "Q-1ecfcc",
+      "family": "rate_arithmetic",
+      "wording": "B",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "difficulty": "inference",
+      "decisiveLine": 3,
+      "citeAnyOf": [
+        2,
+        3,
+        4,
+        7
+      ],
+      "mechanism": null
+    },
+    {
+      "case": "Q-d0bb11",
+      "family": "rate_limit_quota",
+      "wording": "A",
+      "role": "changed",
+      "expectedClass": "UNCERTAIN",
+      "difficulty": "evidence_gap",
+      "decisiveLine": 6,
+      "citeAnyOf": [
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "mechanism": "The account must never exceed its limits, or it is suspended and live signup lookups stop. Planned peak traffic is 5 req/s from the job (4 workers x 1.25) plus 3 req/s from signup, which is 8 req/s, and at most 240,000 + 50,000 = 290,000 requests per day. In the sound plan, the provider confirmed limits of 20 req/s and 1,000,000/day, which gives 2.5x and 3.4x headroom. In the twin, the account's actual limits are unconfirmed, so nothing shows that 8 req/s or 290,000/day stays under them."
+    },
+    {
+      "case": "Q-69002d",
+      "family": "rate_limit_quota",
+      "wording": "A",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "difficulty": "evidence_gap",
+      "decisiveLine": 6,
+      "citeAnyOf": [
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "mechanism": null
+    },
+    {
+      "case": "Q-f512f2",
+      "family": "rate_limit_quota",
+      "wording": "B",
+      "role": "changed",
+      "expectedClass": "UNCERTAIN",
+      "difficulty": "evidence_gap",
+      "decisiveLine": 6,
+      "citeAnyOf": [
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "mechanism": "The account must never exceed its limits, or it is suspended and live signup lookups stop. Planned peak traffic is 5 req/s from the job (4 workers x 1.25) plus 3 req/s from signup, which is 8 req/s, and at most 240,000 + 50,000 = 290,000 requests per day. In the sound plan, the provider confirmed limits of 20 req/s and 1,000,000/day, which gives 2.5x and 3.4x headroom. In the twin, the account's actual limits are unconfirmed, so nothing shows that 8 req/s or 290,000/day stays under them."
+    },
+    {
+      "case": "Q-6c9908",
+      "family": "rate_limit_quota",
+      "wording": "B",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "difficulty": "evidence_gap",
+      "decisiveLine": 6,
+      "citeAnyOf": [
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "mechanism": null
+    },
+    {
+      "case": "Q-508856",
+      "family": "retry_idempotent",
+      "wording": "A",
+      "role": "changed",
+      "expectedClass": "UNCERTAIN",
+      "difficulty": "evidence_gap",
+      "decisiveLine": 6,
+      "citeAnyOf": [
+        2,
+        3,
+        4,
+        6
+      ],
+      "mechanism": "The client resends a capture up to 5 times after timeouts or 5xx responses, and a timeout can follow a capture the server already applied. So the rule that no capture is applied twice holds only if the endpoint collapses repeats that share an idempotency key. In the sound plan, that behaviour is shown in staging (1,000 captures x 6 sends = exactly 1,000 charges) and confirmed by the payments team. In the twin, it has been neither checked nor confirmed."
+    },
+    {
+      "case": "Q-e67782",
+      "family": "retry_idempotent",
+      "wording": "A",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "difficulty": "evidence_gap",
+      "decisiveLine": 6,
+      "citeAnyOf": [
+        2,
+        3,
+        4,
+        6
+      ],
+      "mechanism": null
+    },
+    {
+      "case": "Q-6ec699",
+      "family": "retry_idempotent",
+      "wording": "B",
+      "role": "changed",
+      "expectedClass": "UNCERTAIN",
+      "difficulty": "evidence_gap",
+      "decisiveLine": 6,
+      "citeAnyOf": [
+        2,
+        3,
+        4,
+        6
+      ],
+      "mechanism": "The client resends a capture up to 5 times after timeouts or 5xx responses, and a timeout can follow a capture the server already applied. So the rule that no capture is applied twice holds only if the endpoint collapses repeats that share an idempotency key. In the sound plan, that behaviour is shown in staging (1,000 captures x 6 sends = exactly 1,000 charges) and confirmed by the payments team. In the twin, it has been neither checked nor confirmed."
+    },
+    {
+      "case": "Q-5fca88",
+      "family": "retry_idempotent",
+      "wording": "B",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "difficulty": "evidence_gap",
+      "decisiveLine": 6,
+      "citeAnyOf": [
+        2,
+        3,
+        4,
+        6
+      ],
+      "mechanism": null
+    },
+    {
+      "case": "Q-7eb75b",
+      "family": "rollback_window",
+      "wording": "A",
+      "role": "changed",
+      "expectedClass": "UNCERTAIN",
+      "difficulty": "evidence_gap",
+      "decisiveLine": 6,
+      "citeAnyOf": [
+        1,
+        2,
+        4,
+        6
+      ],
+      "mechanism": "Policy requires a failed release to be fully rolled back within 15 minutes of being declared failed, and a longer outage is a contractual breach (lines 2-3). The rollback is a down-migration on a 400 GB table followed by a redeploy (lines 1 and 4). In the sound plan, timed runs on a production-sized copy took at most 6 minutes, which is 2.5x headroom. In the twin, the rollback has never been timed at production size, so nothing shows it fits within 15 minutes."
+    },
+    {
+      "case": "Q-857144",
+      "family": "rollback_window",
+      "wording": "A",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "difficulty": "evidence_gap",
+      "decisiveLine": 6,
+      "citeAnyOf": [
+        1,
+        2,
+        4,
+        6
+      ],
+      "mechanism": null
+    },
+    {
+      "case": "Q-f93641",
+      "family": "rollback_window",
+      "wording": "B",
+      "role": "changed",
+      "expectedClass": "UNCERTAIN",
+      "difficulty": "evidence_gap",
+      "decisiveLine": 6,
+      "citeAnyOf": [
+        1,
+        2,
+        4,
+        6
+      ],
+      "mechanism": "Policy requires a failed release to be fully rolled back within 15 minutes of being declared failed, and a longer outage is a contractual breach (lines 2-3). The rollback is a down-migration on a 400 GB table followed by a redeploy (lines 1 and 4). In the sound plan, timed runs on a production-sized copy took at most 6 minutes, which is 2.5x headroom. In the twin, the rollback has never been timed at production size, so nothing shows it fits within 15 minutes."
+    },
+    {
+      "case": "Q-3700ad",
+      "family": "rollback_window",
+      "wording": "B",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "difficulty": "evidence_gap",
+      "decisiveLine": 6,
+      "citeAnyOf": [
+        1,
+        2,
+        4,
+        6
+      ],
+      "mechanism": null
+    },
+    {
+      "case": "Q-24fc1f",
+      "family": "storage_access",
+      "wording": "A",
+      "role": "changed",
+      "expectedClass": "UNCERTAIN",
+      "difficulty": "evidence_gap",
+      "decisiveLine": 4,
+      "citeAnyOf": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "mechanism": "The export moves to a new location and runs once as svc-export with no retry (lines 1-2). If it does not complete, the 09:00 release is blocked (line 3). In the sound plan, svc-export wrote a 1 KB object to exports-prod/nightly/ yesterday, and no policy change is pending (line 5). In the twin, nobody has attempted a write with svc-export or checked its permissions on the new bucket. Whether the export can write at all is therefore not established, and that decides whether the release ships."
+    },
+    {
+      "case": "Q-78beac",
+      "family": "storage_access",
+      "wording": "A",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "difficulty": "evidence_gap",
+      "decisiveLine": 4,
+      "citeAnyOf": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "mechanism": null
+    },
+    {
+      "case": "Q-542d16",
+      "family": "storage_access",
+      "wording": "B",
+      "role": "changed",
+      "expectedClass": "UNCERTAIN",
+      "difficulty": "evidence_gap",
+      "decisiveLine": 4,
+      "citeAnyOf": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "mechanism": "The export moves to a new location and runs once as svc-export with no retry (lines 1-2). If it does not complete, the 09:00 release is blocked (line 3). In the sound plan, svc-export wrote a 1 KB object to exports-prod/nightly/ yesterday, and no policy change is pending (line 5). In the twin, nobody has attempted a write with svc-export or checked its permissions on the new bucket. Whether the export can write at all is therefore not established, and that decides whether the release ships."
+    },
+    {
+      "case": "Q-3d32be",
+      "family": "storage_access",
+      "wording": "B",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "difficulty": "evidence_gap",
+      "decisiveLine": 4,
+      "citeAnyOf": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "mechanism": null
+    },
+    {
+      "case": "Q-41a9b5",
+      "family": "unique_constraint",
+      "wording": "A",
+      "role": "changed",
+      "expectedClass": "UNCERTAIN",
+      "difficulty": "evidence_gap",
+      "decisiveLine": 6,
+      "citeAnyOf": [
+        2,
+        5,
+        6
+      ],
+      "mechanism": "The release aborts if the unique constraint on (tenant_id, email) cannot be applied (line 2). Line 5 rules out duplicates written since 4.9. In the sound plan, line 6 rules out duplicates among rows created before 4.9, which covers every row. In the twin, nothing has checked the pre-4.9 rows for duplicates. Any duplicate among them would make CREATE UNIQUE INDEX fail and abort the release, so applying the constraint depends on a fact nobody has established."
+    },
+    {
+      "case": "Q-647927",
+      "family": "unique_constraint",
+      "wording": "A",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "difficulty": "evidence_gap",
+      "decisiveLine": 6,
+      "citeAnyOf": [
+        2,
+        5,
+        6
+      ],
+      "mechanism": null
+    },
+    {
+      "case": "Q-f9f119",
+      "family": "unique_constraint",
+      "wording": "B",
+      "role": "changed",
+      "expectedClass": "UNCERTAIN",
+      "difficulty": "evidence_gap",
+      "decisiveLine": 6,
+      "citeAnyOf": [
+        2,
+        5,
+        6
+      ],
+      "mechanism": "The release aborts if the unique constraint on (tenant_id, email) cannot be applied (line 2). Line 5 rules out duplicates written since 4.9. In the sound plan, line 6 rules out duplicates among rows created before 4.9, which covers every row. In the twin, nothing has checked the pre-4.9 rows for duplicates. Any duplicate among them would make CREATE UNIQUE INDEX fail and abort the release, so applying the constraint depends on a fact nobody has established."
+    },
+    {
+      "case": "Q-497363",
+      "family": "unique_constraint",
+      "wording": "B",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "difficulty": "evidence_gap",
+      "decisiveLine": 6,
+      "citeAnyOf": [
+        2,
+        5,
+        6
+      ],
+      "mechanism": null
+    },
+    {
+      "case": "Q-e5714c",
+      "family": "upgrade_compat",
+      "wording": "A",
+      "role": "changed",
+      "expectedClass": "UNCERTAIN",
+      "difficulty": "evidence_gap",
+      "decisiveLine": 4,
+      "citeAnyOf": [
+        2,
+        3,
+        4
+      ],
+      "mechanism": "The plan's rule is that the 14 existing callers must behave exactly as before after the upgrade from 2.8 to 3.0, because any change puts wrong due dates on invoices that cannot be recalled. In the sound plan, all 14 callers were replayed on 3.0 with full recorded inputs and produced byte-identical output. In the twin, those callers were never run on 3.0, so nothing establishes that their behaviour is unchanged."
+    },
+    {
+      "case": "Q-ba33cf",
+      "family": "upgrade_compat",
+      "wording": "A",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "difficulty": "evidence_gap",
+      "decisiveLine": 4,
+      "citeAnyOf": [
+        2,
+        3,
+        4
+      ],
+      "mechanism": null
+    },
+    {
+      "case": "Q-886c82",
+      "family": "upgrade_compat",
+      "wording": "B",
+      "role": "changed",
+      "expectedClass": "UNCERTAIN",
+      "difficulty": "evidence_gap",
+      "decisiveLine": 4,
+      "citeAnyOf": [
+        2,
+        3,
+        4
+      ],
+      "mechanism": "The plan's rule is that the 14 existing callers must behave exactly as before after the upgrade from 2.8 to 3.0, because any change puts wrong due dates on invoices that cannot be recalled. In the sound plan, all 14 callers were replayed on 3.0 with full recorded inputs and produced byte-identical output. In the twin, those callers were never run on 3.0, so nothing establishes that their behaviour is unchanged."
+    },
+    {
+      "case": "Q-fed3f7",
+      "family": "upgrade_compat",
+      "wording": "B",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "difficulty": "evidence_gap",
+      "decisiveLine": 4,
+      "citeAnyOf": [
+        2,
+        3,
+        4
+      ],
+      "mechanism": null
+    }
+  ]
+}

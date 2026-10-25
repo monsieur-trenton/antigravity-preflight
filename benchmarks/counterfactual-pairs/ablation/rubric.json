@@ -1,0 +1,15 @@
+{
+  "note": "Crude keyword proxy for 'the report names the planted mechanism'. Every group must match, case-insensitively, somewhere in the report text. Applied identically to both arms before any bare observation exists. It cannot judge reasoning; a human reads a sample.",
+  "families": {
+    "output_bytes": [["700", "2,?100"], ["1,?500"]],
+    "required_coverage": [["changed", "diff", "touched"], ["inventory", "four", "every source", "all sources", "all of the sources"]],
+    "ownership_authorization": [["nightly"], ["concurrent", "same time", "other run", "another run", "active", "overlap"]],
+    "absent_vs_null": [["null"], ["absent", "missing"], ["\\b0\\b", "zero"]],
+    "caller_callee": [["main"], ["ConfigError"], ["None", "uncaught", "unhandled", "not caught", "exception"]],
+    "deadline_arithmetic": [["\\b52\\b", "22 ?\\+ ?18 ?\\+ ?12"], ["45"]],
+    "migration_order": [["NOT NULL"], ["step 3", "before", "order"], ["step 2", "backfill"]],
+    "unit_mismatch": [["millisecond", "\\bms\\b"], ["timeout ?= ?5\\b", "5 ?ms", "5 millisecond"]],
+    "permission_chain": [["support-lead"], ["finance-admin"]],
+    "runtime_budget": [["not (been )?measured", "no throughput", "unmeasured", "measure"], ["22 ?MB/s", "40 ?GB", "30 ?min"]]
+  }
+}

@@ -1,0 +1,7 @@
+Using one API key, the address backfill sends 3.2 million rows to the vendor geocoding API.
+Under the key's contract the combined ceiling is 50 requests per second, and going over it during any one-second window gets the key suspended for 24 hours.
+Exactly 8 worker processes run side by side without coordinating with each other, and that number does not change during the run.
+A client-side limiter in each worker caps it at 5 requests in any one-second window.
+When a request fails with HTTP 500, the retry consumes the worker's own limiter allowance just like a first attempt, so retries never push a worker above its rate.
+While the backfill runs, the API key is used by no other service or job.
+Requirement: the contracted rate must never be exceeded, since a suspension would also halt live checkout address lookups for an entire day.

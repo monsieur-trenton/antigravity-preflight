@@ -1,0 +1,4 @@
+Each of the four supplied sources has to appear in the report exactly one time.
+Any report whose covered sources do not match the supplied inventory is rejected by the checker.
+The report is built by looping over only the sources touched by the diff and writing one section for each.
+If a source is absent the report is labelled INCOMPLETE and cannot be recommended for readiness.

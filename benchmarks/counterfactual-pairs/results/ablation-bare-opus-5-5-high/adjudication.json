@@ -1,0 +1,22 @@
+{
+  "writtenBefore": "any bare-arm metric was computed. What had been inspected: the run identity, the verifier output, the served models, the safety_stops field of every observation, and the endings of the four reports that had safety stops.",
+  "technicalStopCauses": {
+    "finding": "All three recorded technical stops (trial 1 P-936436, trial 1 P-704166, trial 2 P-e03b4b, all output_bytes) were labelled UNPARSEABLE_REPORT:NO_VERDICT_LINE by the driver, but each had safety_stops = 1 and num_turns = 2, and the saved report is a short apology (for example 'My previous reply was interrupted and withheld, so I won't repeat that review'). The reviewer produced no review: the reply was interrupted by the platform. They are not instruction-following failures.",
+    "treatment": "They stay technical stops, as recorded and as preregistered, and are counted in the preregistered missing-verdict-line figure. Every report that states a cause is quoted in the write-up, and the figure is never read as an instruction-following rate.",
+    "contrast": "safety_stops was 0 in all 80 skill-arm observations of pilot 2 and in all 48 observations of pilot 1, so the interruptions occurred only in the bare arm and only on output_bytes plans (4 of that family's 8 bare-arm observations)."
+  },
+  "technicalStops": [
+    {
+      "arm": "bare", "trial": 2, "case": "P-704166", "code": "MODEL_MISMATCH",
+      "reason": "Mixed-model observation. safety_stops = 2 and num_turns = 2; modelUsage shows claude-opus-4-8 produced 1,882 output tokens against 494 from the requested claude-opus-5-5, so the final review and verdict cannot be attributed to the pinned model. The v2 handoff brief states that a served model differing from the request is a recorded stop (MODEL_MISMATCH). The driver let it through because it only required the requested model to appear among the served models; that check has since been tightened. Applying the documented rule here treats the observation as the stop it should have been."
+    }
+  ],
+  "analysisViews": "The headline is the as-run ledger, scored exactly as recorded. The documented rule is applied as a second view that reclassifies the one mixed-model observation as a technical stop. Conclusions are reported only as far as they hold in both views.",
+  "otherDeviations": [
+    "The spend cap was $5.00 per case, not the $0.50 suggested in the brief. It never bound: the largest per-case cost was $0.0756 and the mean $0.0348. The cap used for pilot 2 was not recorded in its ledger.",
+    "Run on a different machine from pilot 2 (a laptop, Claude Code 2.1.306, the same version). Binary hash for pilot 2 is not recorded, so the same-binary claim cannot be made."
+  ],
+  "notes": [
+    "Judged by one reader, the benchmark's author. No bare-arm figure had been computed when this was written."
+  ]
+}

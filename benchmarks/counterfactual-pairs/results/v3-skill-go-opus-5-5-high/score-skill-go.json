@@ -1,0 +1,746 @@
+{
+  "kind": "COUNTERFACTUAL_PAIR_PILOT_SCORE_NOT_A_GENERAL_ACCURACY_RATE",
+  "corpusManifestSha256": "1ad685287cf4623dae5e8b3109554b2f0859152a28875e8ddfc4d4c5e7554202",
+  "casesInCorpus": 64,
+  "trials": {
+    "1": {
+      "observations": 64,
+      "technicalStops": 0,
+      "perFamily": {
+        "backup_window": {
+          "outcomes": {
+            "A/changed": "CORRECT",
+            "A/sound": "CORRECT",
+            "B/changed": "CORRECT",
+            "B/sound": "CORRECT"
+          },
+          "pairsDiscriminated": "2/2",
+          "pairsOrderedCalibrated": "2/2",
+          "wordingConsistent": {
+            "changed": true,
+            "sound": true
+          }
+        },
+        "cache_tenant_key": {
+          "outcomes": {
+            "A/changed": "CORRECT",
+            "A/sound": "CORRECT",
+            "B/changed": "CORRECT",
+            "B/sound": "CORRECT"
+          },
+          "pairsDiscriminated": "2/2",
+          "pairsOrderedCalibrated": "2/2",
+          "wordingConsistent": {
+            "changed": true,
+            "sound": true
+          }
+        },
+        "capacity_headroom": {
+          "outcomes": {
+            "A/changed": "CORRECT",
+            "A/sound": "CORRECT",
+            "B/changed": "CORRECT",
+            "B/sound": "CORRECT"
+          },
+          "pairsDiscriminated": "2/2",
+          "pairsOrderedCalibrated": "2/2",
+          "wordingConsistent": {
+            "changed": true,
+            "sound": true
+          }
+        },
+        "cert_rotation": {
+          "outcomes": {
+            "A/changed": "CORRECT",
+            "A/sound": "CORRECT",
+            "B/changed": "CORRECT",
+            "B/sound": "CORRECT"
+          },
+          "pairsDiscriminated": "2/2",
+          "pairsOrderedCalibrated": "2/2",
+          "wordingConsistent": {
+            "changed": true,
+            "sound": true
+          }
+        },
+        "credential_logging": {
+          "outcomes": {
+            "A/changed": "CORRECT",
+            "A/sound": "CORRECT",
+            "B/changed": "CORRECT",
+            "B/sound": "CORRECT"
+          },
+          "pairsDiscriminated": "2/2",
+          "pairsOrderedCalibrated": "2/2",
+          "wordingConsistent": {
+            "changed": true,
+            "sound": true
+          }
+        },
+        "flag_default": {
+          "outcomes": {
+            "A/changed": "CORRECT",
+            "A/sound": "CORRECT",
+            "B/changed": "CORRECT",
+            "B/sound": "CORRECT"
+          },
+          "pairsDiscriminated": "2/2",
+          "pairsOrderedCalibrated": "2/2",
+          "wordingConsistent": {
+            "changed": true,
+            "sound": true
+          }
+        },
+        "lock_order": {
+          "outcomes": {
+            "A/changed": "CORRECT",
+            "A/sound": "CORRECT",
+            "B/changed": "CORRECT",
+            "B/sound": "CORRECT"
+          },
+          "pairsDiscriminated": "2/2",
+          "pairsOrderedCalibrated": "2/2",
+          "wordingConsistent": {
+            "changed": true,
+            "sound": true
+          }
+        },
+        "payload_limit": {
+          "outcomes": {
+            "A/changed": "OVERCLAIMED",
+            "A/sound": "CORRECT",
+            "B/changed": "CORRECT",
+            "B/sound": "CORRECT"
+          },
+          "pairsDiscriminated": "1/2",
+          "pairsOrderedCalibrated": "1/2",
+          "wordingConsistent": {
+            "changed": false,
+            "sound": true
+          }
+        },
+        "payment_idempotency_key": {
+          "outcomes": {
+            "A/changed": "CORRECT",
+            "A/sound": "CORRECT",
+            "B/changed": "CORRECT",
+            "B/sound": "CORRECT"
+          },
+          "pairsDiscriminated": "2/2",
+          "pairsOrderedCalibrated": "2/2",
+          "wordingConsistent": {
+            "changed": true,
+            "sound": true
+          }
+        },
+        "rate_arithmetic": {
+          "outcomes": {
+            "A/changed": "CORRECT",
+            "A/sound": "CORRECT",
+            "B/changed": "CORRECT",
+            "B/sound": "CORRECT"
+          },
+          "pairsDiscriminated": "2/2",
+          "pairsOrderedCalibrated": "2/2",
+          "wordingConsistent": {
+            "changed": true,
+            "sound": true
+          }
+        },
+        "rate_limit_quota": {
+          "outcomes": {
+            "A/changed": "OVERCLAIMED",
+            "A/sound": "CORRECT",
+            "B/changed": "OVERCLAIMED",
+            "B/sound": "CORRECT"
+          },
+          "pairsDiscriminated": "0/2",
+          "pairsOrderedCalibrated": "0/2",
+          "wordingConsistent": {
+            "changed": true,
+            "sound": true
+          }
+        },
+        "retry_idempotent": {
+          "outcomes": {
+            "A/changed": "OVERCLAIMED",
+            "A/sound": "CORRECT",
+            "B/changed": "CORRECT",
+            "B/sound": "CORRECT"
+          },
+          "pairsDiscriminated": "1/2",
+          "pairsOrderedCalibrated": "1/2",
+          "wordingConsistent": {
+            "changed": false,
+            "sound": true
+          }
+        },
+        "rollback_window": {
+          "outcomes": {
+            "A/changed": "OVERCLAIMED",
+            "A/sound": "CORRECT",
+            "B/changed": "OVERCLAIMED",
+            "B/sound": "CORRECT"
+          },
+          "pairsDiscriminated": "0/2",
+          "pairsOrderedCalibrated": "0/2",
+          "wordingConsistent": {
+            "changed": true,
+            "sound": true
+          }
+        },
+        "storage_access": {
+          "outcomes": {
+            "A/changed": "CORRECT",
+            "A/sound": "CORRECT",
+            "B/changed": "CORRECT",
+            "B/sound": "CORRECT"
+          },
+          "pairsDiscriminated": "2/2",
+          "pairsOrderedCalibrated": "2/2",
+          "wordingConsistent": {
+            "changed": true,
+            "sound": true
+          }
+        },
+        "unique_constraint": {
+          "outcomes": {
+            "A/changed": "CORRECT",
+            "A/sound": "CORRECT",
+            "B/changed": "CORRECT",
+            "B/sound": "HEDGED"
+          },
+          "pairsDiscriminated": "1/2",
+          "pairsOrderedCalibrated": "1/2",
+          "wordingConsistent": {
+            "changed": true,
+            "sound": false
+          }
+        },
+        "upgrade_compat": {
+          "outcomes": {
+            "A/changed": "OVERCLAIMED",
+            "A/sound": "CORRECT",
+            "B/changed": "CORRECT",
+            "B/sound": "CORRECT"
+          },
+          "pairsDiscriminated": "1/2",
+          "pairsOrderedCalibrated": "1/2",
+          "wordingConsistent": {
+            "changed": false,
+            "sound": true
+          }
+        }
+      },
+      "pairDiscrimination": {
+        "count": 24,
+        "of": 32,
+        "wilson95": [
+          0.579,
+          0.867
+        ]
+      },
+      "pairOrderedCalibrated": {
+        "count": 24,
+        "of": 32,
+        "wilson95": [
+          0.579,
+          0.867
+        ]
+      },
+      "hedgedOnSoundPlans": {
+        "count": 1,
+        "of": 32,
+        "wilson95": [
+          0.006,
+          0.157
+        ]
+      },
+      "pairOrderedCalibratedByDifficulty": {
+        "direct": {
+          "count": 6,
+          "of": 6,
+          "wilson95": [
+            0.61,
+            1.0
+          ]
+        },
+        "evidence_gap": {
+          "count": 8,
+          "of": 16,
+          "wilson95": [
+            0.28,
+            0.72
+          ]
+        },
+        "inference": {
+          "count": 10,
+          "of": 10,
+          "wilson95": [
+            0.722,
+            1.0
+          ]
+        }
+      },
+      "verdictOnly": {
+        "soundClean": {
+          "count": 31,
+          "of": 32,
+          "wilson95": [
+            0.843,
+            0.994
+          ]
+        },
+        "soundBlocked": {
+          "count": 0,
+          "of": 32,
+          "wilson95": [
+            0.0,
+            0.107
+          ]
+        },
+        "soundHedged": {
+          "count": 1,
+          "of": 32,
+          "wilson95": [
+            0.006,
+            0.157
+          ]
+        },
+        "changedVerdictCorrect": {
+          "count": 25,
+          "of": 32,
+          "wilson95": [
+            0.612,
+            0.89
+          ]
+        },
+        "pairStrictVerdictOnly": {
+          "count": 24,
+          "of": 32,
+          "wilson95": [
+            0.579,
+            0.867
+          ]
+        },
+        "pairOrderedVerdictOnly": {
+          "count": 24,
+          "of": 32,
+          "wilson95": [
+            0.579,
+            0.867
+          ]
+        },
+        "note": "Verdict-only definitions identical for every arm: defect twin = BLOCKERS_FOUND, uncertainty twin = CHANGES_RECOMMENDED."
+      },
+      "falseBlockersOnSoundPlans": {
+        "count": 0,
+        "of": 32,
+        "wilson95": [
+          0.0,
+          0.107
+        ]
+      },
+      "changedPlansJudgedCorrectly": {
+        "count": 25,
+        "of": 32,
+        "wilson95": [
+          0.612,
+          0.89
+        ]
+      },
+      "unsupportedVerifiedFindings": 0,
+      "pilotGate": {
+        "unsupportedVerifiedIsZero": true,
+        "note": "Also requires complete source/question coverage and human adjudication of every mechanism."
+      },
+      "arms": [
+        "skill-go"
+      ],
+      "routes": [
+        "claude-cli"
+      ],
+      "requestedModels": [
+        "claude-opus-5-5"
+      ],
+      "servedModelsReported": [
+        "claude-opus-5-5"
+      ],
+      "casesNotObserved": []
+    },
+    "2": {
+      "observations": 64,
+      "technicalStops": 0,
+      "perFamily": {
+        "backup_window": {
+          "outcomes": {
+            "A/changed": "CORRECT",
+            "A/sound": "CORRECT",
+            "B/changed": "CORRECT",
+            "B/sound": "CORRECT"
+          },
+          "pairsDiscriminated": "2/2",
+          "pairsOrderedCalibrated": "2/2",
+          "wordingConsistent": {
+            "changed": true,
+            "sound": true
+          }
+        },
+        "cache_tenant_key": {
+          "outcomes": {
+            "A/changed": "CORRECT",
+            "A/sound": "CORRECT",
+            "B/changed": "CORRECT",
+            "B/sound": "CORRECT"
+          },
+          "pairsDiscriminated": "2/2",
+          "pairsOrderedCalibrated": "2/2",
+          "wordingConsistent": {
+            "changed": true,
+            "sound": true
+          }
+        },
+        "capacity_headroom": {
+          "outcomes": {
+            "A/changed": "CORRECT",
+            "A/sound": "CORRECT",
+            "B/changed": "CORRECT",
+            "B/sound": "CORRECT"
+          },
+          "pairsDiscriminated": "2/2",
+          "pairsOrderedCalibrated": "2/2",
+          "wordingConsistent": {
+            "changed": true,
+            "sound": true
+          }
+        },
+        "cert_rotation": {
+          "outcomes": {
+            "A/changed": "CORRECT",
+            "A/sound": "CORRECT",
+            "B/changed": "CORRECT",
+            "B/sound": "CORRECT"
+          },
+          "pairsDiscriminated": "2/2",
+          "pairsOrderedCalibrated": "2/2",
+          "wordingConsistent": {
+            "changed": true,
+            "sound": true
+          }
+        },
+        "credential_logging": {
+          "outcomes": {
+            "A/changed": "CORRECT",
+            "A/sound": "CORRECT",
+            "B/changed": "CORRECT",
+            "B/sound": "CORRECT"
+          },
+          "pairsDiscriminated": "2/2",
+          "pairsOrderedCalibrated": "2/2",
+          "wordingConsistent": {
+            "changed": true,
+            "sound": true
+          }
+        },
+        "flag_default": {
+          "outcomes": {
+            "A/changed": "CORRECT",
+            "A/sound": "CORRECT",
+            "B/changed": "CORRECT",
+            "B/sound": "CORRECT"
+          },
+          "pairsDiscriminated": "2/2",
+          "pairsOrderedCalibrated": "2/2",
+          "wordingConsistent": {
+            "changed": true,
+            "sound": true
+          }
+        },
+        "lock_order": {
+          "outcomes": {
+            "A/changed": "CORRECT",
+            "A/sound": "CORRECT",
+            "B/changed": "CORRECT",
+            "B/sound": "CORRECT"
+          },
+          "pairsDiscriminated": "2/2",
+          "pairsOrderedCalibrated": "2/2",
+          "wordingConsistent": {
+            "changed": true,
+            "sound": true
+          }
+        },
+        "payload_limit": {
+          "outcomes": {
+            "A/changed": "OVERCLAIMED",
+            "A/sound": "CORRECT",
+            "B/changed": "CORRECT",
+            "B/sound": "CORRECT"
+          },
+          "pairsDiscriminated": "1/2",
+          "pairsOrderedCalibrated": "1/2",
+          "wordingConsistent": {
+            "changed": false,
+            "sound": true
+          }
+        },
+        "payment_idempotency_key": {
+          "outcomes": {
+            "A/changed": "CORRECT",
+            "A/sound": "CORRECT",
+            "B/changed": "CORRECT",
+            "B/sound": "CORRECT"
+          },
+          "pairsDiscriminated": "2/2",
+          "pairsOrderedCalibrated": "2/2",
+          "wordingConsistent": {
+            "changed": true,
+            "sound": true
+          }
+        },
+        "rate_arithmetic": {
+          "outcomes": {
+            "A/changed": "CORRECT",
+            "A/sound": "CORRECT",
+            "B/changed": "CORRECT",
+            "B/sound": "CORRECT"
+          },
+          "pairsDiscriminated": "2/2",
+          "pairsOrderedCalibrated": "2/2",
+          "wordingConsistent": {
+            "changed": true,
+            "sound": true
+          }
+        },
+        "rate_limit_quota": {
+          "outcomes": {
+            "A/changed": "OVERCLAIMED",
+            "A/sound": "CORRECT",
+            "B/changed": "OVERCLAIMED",
+            "B/sound": "CORRECT"
+          },
+          "pairsDiscriminated": "0/2",
+          "pairsOrderedCalibrated": "0/2",
+          "wordingConsistent": {
+            "changed": true,
+            "sound": true
+          }
+        },
+        "retry_idempotent": {
+          "outcomes": {
+            "A/changed": "CORRECT",
+            "A/sound": "CORRECT",
+            "B/changed": "OVERCLAIMED",
+            "B/sound": "CORRECT"
+          },
+          "pairsDiscriminated": "1/2",
+          "pairsOrderedCalibrated": "1/2",
+          "wordingConsistent": {
+            "changed": false,
+            "sound": true
+          }
+        },
+        "rollback_window": {
+          "outcomes": {
+            "A/changed": "OVERCLAIMED",
+            "A/sound": "CORRECT",
+            "B/changed": "CORRECT",
+            "B/sound": "CORRECT"
+          },
+          "pairsDiscriminated": "1/2",
+          "pairsOrderedCalibrated": "1/2",
+          "wordingConsistent": {
+            "changed": false,
+            "sound": true
+          }
+        },
+        "storage_access": {
+          "outcomes": {
+            "A/changed": "CORRECT",
+            "A/sound": "CORRECT",
+            "B/changed": "CORRECT",
+            "B/sound": "CORRECT"
+          },
+          "pairsDiscriminated": "2/2",
+          "pairsOrderedCalibrated": "2/2",
+          "wordingConsistent": {
+            "changed": true,
+            "sound": true
+          }
+        },
+        "unique_constraint": {
+          "outcomes": {
+            "A/changed": "CORRECT",
+            "A/sound": "CORRECT",
+            "B/changed": "CORRECT",
+            "B/sound": "CORRECT"
+          },
+          "pairsDiscriminated": "2/2",
+          "pairsOrderedCalibrated": "2/2",
+          "wordingConsistent": {
+            "changed": true,
+            "sound": true
+          }
+        },
+        "upgrade_compat": {
+          "outcomes": {
+            "A/changed": "OVERCLAIMED",
+            "A/sound": "CORRECT",
+            "B/changed": "OVERCLAIMED",
+            "B/sound": "CORRECT"
+          },
+          "pairsDiscriminated": "0/2",
+          "pairsOrderedCalibrated": "0/2",
+          "wordingConsistent": {
+            "changed": true,
+            "sound": true
+          }
+        }
+      },
+      "pairDiscrimination": {
+        "count": 25,
+        "of": 32,
+        "wilson95": [
+          0.612,
+          0.89
+        ]
+      },
+      "pairOrderedCalibrated": {
+        "count": 25,
+        "of": 32,
+        "wilson95": [
+          0.612,
+          0.89
+        ]
+      },
+      "hedgedOnSoundPlans": {
+        "count": 0,
+        "of": 32,
+        "wilson95": [
+          0.0,
+          0.107
+        ]
+      },
+      "pairOrderedCalibratedByDifficulty": {
+        "direct": {
+          "count": 6,
+          "of": 6,
+          "wilson95": [
+            0.61,
+            1.0
+          ]
+        },
+        "evidence_gap": {
+          "count": 9,
+          "of": 16,
+          "wilson95": [
+            0.332,
+            0.769
+          ]
+        },
+        "inference": {
+          "count": 10,
+          "of": 10,
+          "wilson95": [
+            0.722,
+            1.0
+          ]
+        }
+      },
+      "verdictOnly": {
+        "soundClean": {
+          "count": 32,
+          "of": 32,
+          "wilson95": [
+            0.893,
+            1.0
+          ]
+        },
+        "soundBlocked": {
+          "count": 0,
+          "of": 32,
+          "wilson95": [
+            0.0,
+            0.107
+          ]
+        },
+        "soundHedged": {
+          "count": 0,
+          "of": 32,
+          "wilson95": [
+            0.0,
+            0.107
+          ]
+        },
+        "changedVerdictCorrect": {
+          "count": 25,
+          "of": 32,
+          "wilson95": [
+            0.612,
+            0.89
+          ]
+        },
+        "pairStrictVerdictOnly": {
+          "count": 25,
+          "of": 32,
+          "wilson95": [
+            0.612,
+            0.89
+          ]
+        },
+        "pairOrderedVerdictOnly": {
+          "count": 25,
+          "of": 32,
+          "wilson95": [
+            0.612,
+            0.89
+          ]
+        },
+        "note": "Verdict-only definitions identical for every arm: defect twin = BLOCKERS_FOUND, uncertainty twin = CHANGES_RECOMMENDED."
+      },
+      "falseBlockersOnSoundPlans": {
+        "count": 0,
+        "of": 32,
+        "wilson95": [
+          0.0,
+          0.107
+        ]
+      },
+      "changedPlansJudgedCorrectly": {
+        "count": 25,
+        "of": 32,
+        "wilson95": [
+          0.612,
+          0.89
+        ]
+      },
+      "unsupportedVerifiedFindings": 0,
+      "pilotGate": {
+        "unsupportedVerifiedIsZero": true,
+        "note": "Also requires complete source/question coverage and human adjudication of every mechanism."
+      },
+      "arms": [
+        "skill-go"
+      ],
+      "routes": [
+        "claude-cli"
+      ],
+      "requestedModels": [
+        "claude-opus-5-5"
+      ],
+      "servedModelsReported": [
+        "claude-opus-5-5"
+      ],
+      "casesNotObserved": []
+    }
+  },
+  "providerCalls": 0,
+  "repeatability": {
+    "count": 59,
+    "of": 64,
+    "wilson95": [
+      0.83,
+      0.966
+    ]
+  }
+}

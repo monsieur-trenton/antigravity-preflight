@@ -13,3 +13,6 @@ CLI-SYNTAX.json
 CLI-OFFLINE-CONTROLS.json
 POST-OVERFLOW-CONTROLS.json
 COMPLETION-CONTROLS.json
+
+# Keep the preserved pilot ledgers
+!benchmarks/counterfactual-pairs/results/**/*.jsonl

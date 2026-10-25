@@ -1,0 +1,7 @@
+During a build, the run makes scratch directories in /var/cache/app and deletes them at the end.
+Under the project rules, a run may remove only the scratch directories that it made itself, and never directories made by another run.
+More than one build run can be going at once.
+Every scratch directory is tagged with the run identifier of the run that makes it, which is a new random UUID for each run.
+When a run finishes, cleanup removes the directories whose tag matches that run's own identifier.
+Cleanup uses an unprivileged service account and calls rm -rf on each chosen directory.
+Each deletion is logged with its tag and path.

@@ -1,0 +1,1 @@
+My previous reply was interrupted and withheld, so I won't repeat that review. If you'd like, you can rephrase what you need or ask about a narrower part of the plan, and I'll help from there.

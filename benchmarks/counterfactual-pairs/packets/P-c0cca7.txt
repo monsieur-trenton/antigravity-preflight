@@ -1,0 +1,5 @@
+The build step prints a metadata summary to standard output.
+The harness contract caps standard output at 1500 bytes per command.
+The summary is compact JSON with at most 12 fields.
+Every field value is truncated to 64 bytes before serialization, so the summary stays under 1100 bytes.
+The step asserts len(output) <= 1500 before writing.

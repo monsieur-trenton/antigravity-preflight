@@ -18,5 +18,29 @@ jobs:
       - run: python3 -B -I tools/test_demonstrated_utility.py
       - run: python3 -B -I skills/antigravity-preflight/scripts/test_manual_citations.py
       - run: python3 -B -I benchmarks/exploratory-plan-audit/test_evaluate.py
+      - run: python3 -B -I benchmarks/fault-injection/run_faults.py --check
+      - run: python3 -B -I benchmarks/plots/test_make_figures.py
+      - run: python3 -B -I benchmarks/plots/make_figures.py --check
+      - run: python3 -B -I benchmarks/counterfactual-pairs/build_corpus.py --check
+      - run: python3 -B -I benchmarks/counterfactual-pairs/test_score.py
+      - run: python3 -B -I benchmarks/counterfactual-pairs/test_run_pilot.py
+      - run: python3 -B -I benchmarks/counterfactual-pairs/test_reparse_lenient.py
+      - run: python3 -B -I benchmarks/counterfactual-pairs/test_run_pilot_claude.py
+      - run: python3 -B -I benchmarks/counterfactual-pairs/v2/build_corpus.py --check
+      - run: python3 -B -I benchmarks/counterfactual-pairs/v2/test_corpus.py
+      - run: python3 -B -I benchmarks/counterfactual-pairs/v3/build_corpus.py --check
+      - run: python3 -B -I benchmarks/counterfactual-pairs/v3/test_corpus.py
+      - run: python3 -B -I benchmarks/counterfactual-pairs/v3-run/build_manifest.py --check
+      - run: python3 -B -I benchmarks/counterfactual-pairs/v3-run/test_run.py
+      - run: python3 -B -I benchmarks/counterfactual-pairs/v3-run-gemini/build_manifest.py --check
+      - run: python3 -B -I benchmarks/counterfactual-pairs/v3-run-gemini/test_run.py
+      - run: python3 -B -I benchmarks/counterfactual-pairs/ablation/skill-go/build_manifest.py --check
+      - run: python3 -B -I benchmarks/counterfactual-pairs/v3-run-skill-go/build_manifest.py --check
+      - run: python3 -B -I benchmarks/counterfactual-pairs/v3-run-skill-go/test_run.py
+      - run: python3 -B -I benchmarks/counterfactual-pairs/test_verify_run.py
+      - run: python3 -B -I benchmarks/counterfactual-pairs/ablation/build_manifest.py --check
+      - run: python3 -B -I benchmarks/counterfactual-pairs/ablation/defined/build_manifest.py --check
+      - run: python3 -B -I benchmarks/counterfactual-pairs/ablation/defined-go/build_manifest.py --check
+      - run: python3 -B -I benchmarks/counterfactual-pairs/ablation/test_ablation.py
       - run: python3 -B -I tools/qualify_offline.py "$RUNNER_TEMP/antigravity-offline"
       - run: python3 -B -I tools/qualify_argon_offline.py "$RUNNER_TEMP/antigravity-argon-offline"

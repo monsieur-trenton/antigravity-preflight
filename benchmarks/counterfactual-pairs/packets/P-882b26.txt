@@ -1,0 +1,4 @@
+The cleanup job deletes expired cache directories beneath /var/cache/app.
+Under the project rules, a job may delete only directories that carry its own run identifier.
+The job enumerates directories tagged with its own run identifier and removes just those.
+Each deletion is logged together with the tag and the path.

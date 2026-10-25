@@ -1,0 +1,34 @@
+{
+  "rule": "ablation/PREREGISTRATION.md, Human reading: every bare-arm report that is a missed defect twin (verdict not NO_GO) or a sound plan blocked (NO_GO) is read in full and classified. No bare sound plan was blocked, so the second set is empty.",
+  "reader": "the benchmark's author, after seeing the scores; the same person wrote the corpus",
+  "missedDefectTwins": {
+    "count": 15,
+    "readIn": "full for 7 reports (4 caller_callee, 3 migration_order); the first 2,300 characters, which include the finding and its mechanism, for 7 (absent_vs_null, required_coverage, unit_mismatch); the opening and the ending for the mixed-model report",
+    "classification": [
+      {"trial": 1, "case": "P-58b118", "family": "migration_order", "wording": "B", "verdict": "GO_WITH_CHANGES", "namesPlantedMechanism": true, "blockingOrCriticalWording": true, "quote": "Blocking issue: the steps are in the wrong order ... The fix is simple, but it is mandatory."},
+      {"trial": 1, "case": "P-c2522e", "family": "migration_order", "wording": "A", "verdict": "GO_WITH_CHANGES", "namesPlantedMechanism": true, "blockingOrCriticalWording": true, "quote": "Blocking issue: the execution order is wrong ... Step 3 will fail every time"},
+      {"trial": 2, "case": "P-c2522e", "family": "migration_order", "wording": "A", "verdict": "GO_WITH_CHANGES", "namesPlantedMechanism": true, "blockingOrCriticalWording": true, "quote": "Blocking issue: the step order guarantees failure ... This failure is certain, not a risk."},
+      {"trial": 1, "case": "P-401e87", "family": "caller_callee", "wording": "A", "verdict": "GO_WITH_CHANGES", "namesPlantedMechanism": true, "blockingOrCriticalWording": true, "quote": "Blocking issue: main() breaks"},
+      {"trial": 1, "case": "P-70db25", "family": "caller_callee", "wording": "B", "verdict": "GO_WITH_CHANGES", "namesPlantedMechanism": true, "blockingOrCriticalWording": true, "quote": "Blocking issue: main() breaks if left unchanged"},
+      {"trial": 2, "case": "P-401e87", "family": "caller_callee", "wording": "A", "verdict": "GO_WITH_CHANGES", "namesPlantedMechanism": true, "blockingOrCriticalWording": false, "quote": "Main issue: main() is now broken ... a regression in the program's public interface ... safe to proceed once main() is updated"},
+      {"trial": 2, "case": "P-70db25", "family": "caller_callee", "wording": "B", "verdict": "GO_WITH_CHANGES", "namesPlantedMechanism": true, "blockingOrCriticalWording": true, "quote": "Blocking issue: main() will break"},
+      {"trial": 1, "case": "P-88acbb", "family": "absent_vs_null", "wording": "B", "verdict": "GO_WITH_CHANGES", "namesPlantedMechanism": true, "blockingOrCriticalWording": true, "quote": "Blocking issue: null and missing discounts are merged"},
+      {"trial": 2, "case": "P-88acbb", "family": "absent_vs_null", "wording": "B", "verdict": "GO_WITH_CHANGES", "namesPlantedMechanism": true, "blockingOrCriticalWording": true, "quote": "Blocking issue: null and missing discounts are merged"},
+      {"trial": 2, "case": "P-110c8d", "family": "absent_vs_null", "wording": "A", "verdict": "GO_WITH_CHANGES", "namesPlantedMechanism": true, "blockingOrCriticalWording": true, "quote": "Blocking issue: explicit null is collapsed into 0"},
+      {"trial": 1, "case": "P-237a35", "family": "required_coverage", "wording": "A", "verdict": "GO_WITH_CHANGES", "namesPlantedMechanism": true, "blockingOrCriticalWording": true, "quote": "Critical defect: the plan iterates over the wrong set ... the plan fails in its normal operating mode"},
+      {"trial": 2, "case": "P-4c612b", "family": "required_coverage", "wording": "B", "verdict": "GO_WITH_CHANGES", "namesPlantedMechanism": true, "blockingOrCriticalWording": true, "quote": "Critical defect: the loop iterates over the wrong set"},
+      {"trial": 1, "case": "P-244d59", "family": "unit_mismatch", "wording": "A", "verdict": "GO_WITH_CHANGES", "namesPlantedMechanism": true, "blockingOrCriticalWording": true, "quote": "Blocking: the timeout is 5 ms, not 5 seconds"},
+      {"trial": 1, "case": "P-63bcbf", "family": "unit_mismatch", "wording": "B", "verdict": "GO_WITH_CHANGES", "namesPlantedMechanism": true, "blockingOrCriticalWording": true, "quote": "Critical issue: the timeout is 5 ms, not 5 seconds"},
+      {"trial": 2, "case": "P-704166", "family": "output_bytes", "wording": "A", "verdict": "GO_WITH_CHANGES", "namesPlantedMechanism": true, "blockingOrCriticalWording": false, "quote": "The core arithmetic doesn't work for the observed data ... the assertion fails, and per the contract that failure aborts the release with no retry.", "note": "The mixed-model observation (see adjudication.json): the review was produced after two safety interruptions, partly by claude-opus-4-8."}
+    ]
+  },
+  "blockedSoundPlans": {"count": 0},
+  "correctTwinsSampled": "deadline_arithmetic A (trial 1) and permission_chain A (trial 2): the reasoning is correct and complete (52 against 45 minutes with the worst case 60; a support-lead group justifying a scope that revocation never removes).",
+  "soundPlansSampled": "deadline_arithmetic A and ownership_authorization B: the reviews state 'Timing does not block this plan' and 'The core design is sound', then list recommended changes, which the bare vocabulary maps to GO_WITH_CHANGES.",
+  "exploratoryProseCount": {
+    "status": "EXPLORATORY: the heuristic was defined after reading the reports and is not preregistered. It counts a report when a heading or bold lead line contains blocking, blocker, critical, core problem or main issue, unless the line says non-blocking or none blocking.",
+    "definitionCounts": {"defectTwins": "31 of 34", "soundPlans": "3 of 39", "uncertaintyTwins": "1 of 4"},
+    "afterReadingTheHits": "One of the three sound-plan hits is a false positive of the heuristic (the heading was 'Hardening suggestions (none blocking)'). The other two are the migration plan, where the reviewer called the NOT NULL-on-shipped_at concern a blocking concern; that concern rests on the column's name, not on the packet text, and is the corpus weakness already noted in pilot 2. Corrected prose-level figures: 31 of 34 defect twins and 2 of 39 sound plans.",
+    "limits": "A keyword heuristic on headings, written by the same person who read the reports. It misses 3 defect twins (two of them were NO_GO anyway) and cannot be read as a measured rate."
+  }
+}

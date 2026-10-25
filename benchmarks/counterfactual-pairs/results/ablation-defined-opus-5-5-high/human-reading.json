@@ -1,0 +1,25 @@
+{
+  "rule": "ablation/defined/PREREGISTRATION.md, Human reading: every defined-arm defect twin without NO_GO and every sound plan with NO_GO is read in full and classified; a sample of correct twins is read for reasoning.",
+  "reader": "the benchmark's author, after seeing the scores; the same person wrote the corpus",
+  "missedDefectTwins": {"count": 0, "note": "All 35 defect twins that produced a verdict received NO_GO, and all 4 uncertainty twins received GO_WITH_CHANGES, the preregistered correct verdict. There were none to read."},
+  "blockedSoundPlans": {"count": 0, "note": "No sound plan received NO_GO in either trial (0 of 40), so none were read. This was the preregistered risk of defining NO_GO."},
+  "correctTwinsSampled": {
+    "readFirstCharacters": 1250,
+    "reports": [
+      {"trial": 1, "case": "P-401e87", "family": "caller_callee", "wording": "A", "verdict": "NO_GO", "bareArmVerdict": "GO_WITH_CHANGES", "finding": "main() left catching None while load_config now raises; exit status 1 instead of 2; test gap noted."},
+      {"trial": 1, "case": "P-58b118", "family": "migration_order", "wording": "B", "verdict": "NO_GO", "bareArmVerdict": "GO_WITH_CHANGES", "finding": "NOT NULL applied before the backfill; names the definition: \"which meets the NO_GO definition: 'the plan as written will fail'\"."},
+      {"trial": 1, "case": "P-244d59", "family": "unit_mismatch", "wording": "A", "verdict": "NO_GO", "bareArmVerdict": "GO_WITH_CHANGES", "finding": "timeout=5 is 5 ms against an 800 ms p99; retries make it worse."},
+      {"trial": 2, "case": "P-88acbb", "family": "absent_vs_null", "wording": "B", "verdict": "NO_GO", "bareArmVerdict": "GO_WITH_CHANGES", "finding": "null and absent both exported as 0; the review flag can never fire."},
+      {"trial": 1, "case": "P-237a35", "family": "required_coverage", "wording": "A", "verdict": "NO_GO", "bareArmVerdict": "GO_WITH_CHANGES", "finding": "iterates over changed sources, not the four-source inventory."},
+      {"trial": 1, "case": "P-08bce2", "family": "runtime_budget", "wording": "A", "verdict": "GO_WITH_CHANGES", "bareArmVerdict": "GO_WITH_CHANGES", "finding": "Derives the 22-23 MB/s requirement, says no measurement exists, and argues in two sections why it is neither NO_GO (nothing shows it will fail) nor GO (the plan may fail every night)."}
+    ],
+    "conclusion": "Five of the six sampled twins are ones the bare arm had missed. The reasoning and the defects found are the same as in the bare arm; the reviewer now applies the supplied definition explicitly and the verdict follows."
+  },
+  "soundPlansSampled": "absent_vs_null A (verdict GO: 'The plan is internally consistent and follows the schema') and migration_order A (verdict GO_WITH_CHANGES: 'Does it work as written? Yes ... Nothing in the plan breaks a rule it states', then recommended changes). In the bare arm the migration plan drew 'Blocking concerns' about NOT NULL on shipped_at; with definitions the same concern is filed under recommended changes.",
+  "exploratoryProseCount": {
+    "status": "EXPLORATORY, the heuristic defined after reading in the bare-arm analysis and reused unchanged here; not preregistered. It counts a report when a heading or bold lead line contains blocking, blocker, critical, core problem or main issue, unless the line says non-blocking or none blocking.",
+    "counts": {"bare": {"defectTwins": "31 of 34", "soundPlans": "2 of 39 (after removing one false positive found on reading in the bare analysis)"}, "defined": {"defectTwins": "25 of 35", "soundPlans": "0 of 40"}},
+    "limits": "The twin count fell from 31 of 34 to 25 of 35 because the defined-arm reviews use different headings (for example 'Does it work as written?'), not because they found fewer defects: all 35 named the mechanism (see the keyword rubric) and all received NO_GO. The heuristic is not comparable across prose styles and is not used for any conclusion."
+  },
+  "coverage": "Sampled reports were read for their first 1,250 characters, which include the finding and its mechanism; the two sound-plan reports for their first 900 and 1,500 characters. All other reports were checked only by the verdict and the keyword rubric."
+}

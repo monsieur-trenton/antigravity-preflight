@@ -1,0 +1,21 @@
+{
+  "kind": "V3_RUN_FROZEN",
+  "corpus": {
+    "path": "benchmarks/counterfactual-pairs/v3",
+    "manifestSha256": "1ad685287cf4623dae5e8b3109554b2f0859152a28875e8ddfc4d4c5e7554202"
+  },
+  "arms": {
+    "skill": {
+      "manifest": null,
+      "systemPromptSha256": "5bb08d37446ad283dfde5a9b62350644a92706e452e45974de8d28a15f95faec"
+    },
+    "skill-go": {
+      "manifest": "benchmarks/counterfactual-pairs/ablation/skill-go/manifest.json",
+      "manifestSha256": "c464860942d815dffebba2b454e0816b7a7755ca7c7f10ca924ac14a9b8ebacc"
+    }
+  },
+  "pins": {
+    "PREREGISTRATION.md": "3d6f0058d077d72356f4374425d0bc22aeebe2188179c84de5517030b6d70132"
+  },
+  "providerCalls": 0
+}

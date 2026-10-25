@@ -1,0 +1,7 @@
+Rendered dashboard responses from the reporting API are to be cached in one Redis cluster used jointly by all customer tenants.
+Before any request arrives at the dashboard handler, the gateway has authenticated it and stamped it with the tenant_id of the caller.
+Numbering of dashboard IDs restarts at 1 for each tenant, which means one ID such as 42 appears in many tenants and points to different data in each.
+Keys take the form "dash:{dashboard_id}:{range}", and the handler touches no key other than the one derived from the request in hand.
+Because all users of a tenant may see every dashboard of that tenant, the user ID is intentionally not part of the key.
+A cached entry lives for 300 seconds, and editing a dashboard removes its cached entries immediately.
+Isolation rule: no tenant's caller may ever receive a response that was cached for another tenant.

@@ -1,0 +1,6 @@
+The export takes the optional discount field from every order record.
+According to the schema, a missing discount means none applies, while an explicit null means it is not known.
+A missing discount is exported as 0; an explicit null is exported unchanged as null.
+Totals downstream leave out records with a null discount and flag them for review.
+Amounts of money are rounded to the nearest cent, with ties going to the even digit.
+Batches of 500 records are processed, and their order does not matter.

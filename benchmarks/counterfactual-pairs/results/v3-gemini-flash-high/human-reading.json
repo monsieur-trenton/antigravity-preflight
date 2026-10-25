@@ -1,0 +1,123 @@
+{
+  "readAfter": "adjudication.json was written, and score.json and analysis.json were computed. The reader is the corpus author, who has seen the scores. Reading can add observations; it changes no as-run number.",
+  "procedure": "As v3-run-gemini/PREREGISTRATION.md fixes it: every evidence-gap twin not judged GO_WITH_CHANGES, every defect twin without NO_GO, every sound plan not judged GO, every technical stop's report, and a sample of up to ten correct evidence-gap twins.",
+  "coverage": {
+    "evidenceGapTwinsNotGoWithChanges": {
+      "observations": 0,
+      "read": 0
+    },
+    "defectTwinsWithoutNoGo": {
+      "observations": 0,
+      "read": 0
+    },
+    "soundPlansNotGo": {
+      "observations": 2,
+      "read": 2,
+      "cases": [
+        "Q-647927 (unique_constraint A, trial 2)",
+        "Q-3d32be (storage_access B, trial 2)"
+      ]
+    },
+    "technicalStops": {
+      "observations": 1,
+      "read": 0,
+      "note": "Q-497363, trial 1: no report exists (error step); the packet was read instead. It is a sound plan whose gap-closing sentences are explicit."
+    },
+    "evidenceGapTwinSample": {
+      "observations": 10,
+      "rule": "Families in alphabetical order. Even-numbered families (capacity_headroom, rate_limit_quota, rollback_window, unique_constraint) were read in wording A, trial 1, odd-numbered ones (payload_limit, retry_idempotent, storage_access, upgrade_compat) in wording B, trial 2; then capacity_headroom in wording B, trial 2 and payload_limit in wording A, trial 1 as the two extra observations.",
+      "note": "Every one of the eight families is covered at least once; sampleAsRead lists the cases."
+    },
+    "defectTwinExtra": {
+      "observations": 5,
+      "note": "not required by the preregistration: one wording-A trial-1 twin each of rate_arithmetic, lock_order, payment_idempotency_key, cert_rotation and cache_tenant_key (the inference families), read for whether the report names the planted mechanism rather than only citing the right line",
+      "cases": [
+        "Q-724a88",
+        "Q-a10884",
+        "Q-f79075",
+        "Q-8da197",
+        "Q-0d2c69"
+      ]
+    }
+  },
+  "sampleAsRead": [
+    {
+      "case": "Q-bf6397",
+      "family": "capacity_headroom",
+      "wording": "A",
+      "trial": 1
+    },
+    {
+      "case": "Q-bdae23",
+      "family": "payload_limit",
+      "wording": "B",
+      "trial": 2
+    },
+    {
+      "case": "Q-d0bb11",
+      "family": "rate_limit_quota",
+      "wording": "A",
+      "trial": 1
+    },
+    {
+      "case": "Q-6ec699",
+      "family": "retry_idempotent",
+      "wording": "B",
+      "trial": 2
+    },
+    {
+      "case": "Q-7eb75b",
+      "family": "rollback_window",
+      "wording": "A",
+      "trial": 1
+    },
+    {
+      "case": "Q-542d16",
+      "family": "storage_access",
+      "wording": "B",
+      "trial": 2
+    },
+    {
+      "case": "Q-41a9b5",
+      "family": "unique_constraint",
+      "wording": "A",
+      "trial": 1
+    },
+    {
+      "case": "Q-886c82",
+      "family": "upgrade_compat",
+      "wording": "B",
+      "trial": 2
+    },
+    {
+      "case": "Q-de8c32",
+      "family": "capacity_headroom",
+      "wording": "B",
+      "trial": 2
+    },
+    {
+      "case": "Q-a4c9e3",
+      "family": "payload_limit",
+      "wording": "A",
+      "trial": 1
+    }
+  ],
+  "findings": {
+    "soundPlansNotGo": [
+      {
+        "case": "Q-647927",
+        "reading": "CHANGES_RECOMMENDED with one UNVERIFIED RISK on line 6: the duplicate query covered only rows created before release 4.9, and rows since then are covered by the application-level invariant of line 5, so the absence of duplicates across the whole table is not shown by a query. The report said explicitly that this is not a blocker and recommended a full-table check. This is a real, if small, residual gap in the sound plan (line 5 is a code-path argument, not a query), so the hedge is defensible and is not a false blocker. The same plan in wording B was judged Clean in trial 2 (and stopped in trial 1), and wording A was Clean in trial 1.",
+        "class": "defensible hedge on a sound plan with a small residual gap"
+      },
+      {
+        "case": "Q-3d32be",
+        "reading": "CHANGES_RECOMMENDED with one VERIFIED RISK on line 2 (a single run at 01:00 with no retry) and one UNVERIFIED RISK on line 4 (a 1 KB write test does not exercise a 30 GB write). Neither is a blocker and the report says so. Line 2 is a plain statement of the plan's own design; the 1 KB versus 30 GB point is an inference the plan text does not close. Defensible, and not a false blocker. The same wording was Clean in trial 1, and wording A was Clean in both trials."
+      }
+    ],
+    "evidenceGapTwins": "All ten sampled reports named the planted unestablished fact in their own words and quoted the plan line that states it (line 4, 5 or 6, as the oracle's decisive line), answered the question 'does the snapshot contain any blocker supported by its own text' with No, cited the review contract's rule that missing evidence is not a proven defect, and recommended changes (a measurement, a confirmation, a check) rather than blocking. None dismissed the gap; none promoted it to a blocker; none invented evidence. The machine summary was CHANGES_RECOMMENDED with one RISK finding in every one. Five of the ten labelled the finding VERIFIED and five UNVERIFIED; the reading finds both defensible because the quoted line does state the gap, and the preregistered score does not use the label for RISK findings.",
+    "defectTwins": "All five extra defect twins named the planted mechanism and its consequence, not only the line: the 12 x 5 = 60 requests per second against a 50 ceiling; the opposite lock order and the circular wait; the fresh idempotency key per retry against a processor that charges again on a new key; the day-5 root removal against a server certificate that chains to it until day 7; the cache key without tenant id against per-tenant dashboard ids. Each cited exactly one line with an exact quotation, and the rate_arithmetic report cited line 4 (the per-worker limit) where the oracle's decisive line is 3 (the worker count); both are in the case's citeAnyOf list, and the report combined them in its rationale.",
+    "reportStyle": "Every report answered the fixed question first (a Yes or No on blockers) and then, in the evidence-gap and hedged cases, wrote a RISK finding. The 'No' on the question and CHANGES_RECOMMENDED in the machine summary are consistent with the contract and are not a contradiction. Eleven of the 67 FINDING lines wrote the label S01:n in the line field (3 in trial 1, 8 in trial 2; 10 on defect twins, 1 on an evidence-gap twin) and were read as that line, as preregistered; none of them was on a line other than the one quoted.",
+    "latency": "Wall time followed the work: sound plans a mean of 117 s (median 93 s), defect twins 178 s (107 s), evidence-gap twins 364 s (366 s). The model took about three times as long on the evidence-gap twins as on the sound plans, and the fastest evidence-gap twin (210 s) took longer than the median sound plan (93 s), though 7 of 63 sound plans took longer than 210 s. That is a descriptive observation about this route, not a measured effect, and it does not separate reasoning from pattern matching."
+  },
+  "limits": "A reading by the corpus author after the scores; ten of 32 evidence-gap twins and five of 32 defect twins read in full, plus both non-Clean sound plans; the other reports were not read in full, only through their machine summaries, line citations and the keyword rubric. In every one of the eight evidence-gap families the twin states the unknown in one explicit sentence ('has not been measured', 'nobody has checked', 'have not been checked'); the sound plan states the matching fact. So the corpus tests whether the reviewer acts on a stated unknown, not whether it finds an unstated one."
+}

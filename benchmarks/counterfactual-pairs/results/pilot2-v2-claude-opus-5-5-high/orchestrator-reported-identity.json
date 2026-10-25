@@ -1,0 +1,26 @@
+{
+  "provenance": "Pasted by the owner into the session on 2026-10-22 from the orchestrator's report on the pilot 2 run, after the evidence was committed. It was not in the returned archive and cannot be checked against it, except where noted below. The pasted text is dated 2026-10-21 and is labelled 'the very first run'; it is attributed to pilot 2 because its preregistration pin equals the one in the v2 manifest, the commit is the v2 pilot brief commit, the binary and CLI version match, and the ledgers' CLI version is the same. The owner has not confirmed the attribution.",
+  "commit": "3af54f1434a749b5ecbe155604124519ee84aa6a",
+  "commitSubject": "Add run verifier and the v2 pilot handoff brief (checked in this repository)",
+  "branch": "claude/modest-gates-8eyuke",
+  "v2ManifestSha256": "79facc8afe49f243009a813e63f9f77adfa284567982af2282daf9948eb6316b",
+  "v2PreregistrationPinSha256": "ca8b7f5ba831e0ae51bfe55bb39cb5ad475907eacc1d8f7f5ad40a950df0295d",
+  "preregistrationPinMatchesV2Manifest": true,
+  "claudeBin": "/home/john/.local/bin/claude",
+  "claudeBinSha256": "520bc6c1f40af466bd03a278b5ae1af1a2938bc7de5b9e5cb15526da20d71cfe",
+  "claudeBinSha256SameAsBareArmOrchestratorMetadata": true,
+  "claudeVersion": "2.1.306 (Claude Code)",
+  "claudeVersionMatchesEveryLedgerRow": true,
+  "requestedModel": "claude-opus-5-5",
+  "effort": "high",
+  "maxBudgetUsdPerCase": 5.0,
+  "hostOs": "Linux (no hostname or kernel given)",
+  "trials": {
+    "1": {"start": "2026-10-21 07:14:20 PDT", "end": "2026-10-21 07:22:14 PDT"},
+    "2": {"start": "2026-10-21 07:23:02 PDT", "end": "2026-10-21 07:31:05 PDT"}
+  },
+  "notes": [
+    "The pasted report did not state costs, stops or the verification output; the committed ledgers and verify.json are the record for those.",
+    "Whether the host was the same machine as the bare arm's (which recorded 'john-laptop', a Linux 7.0.0 x86_64 kernel) is not established: this report gives only 'Linux'."
+  ]
+}

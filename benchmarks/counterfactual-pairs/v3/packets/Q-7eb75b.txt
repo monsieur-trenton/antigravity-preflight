@@ -1,0 +1,7 @@
+Version 7.3 of the order service ships tonight with a migration that adds the column discount_code to the orders table, which is about 400 GB in production.
+Policy requires a failed release to be fully rolled back within 15 minutes of being declared failed, as the outage clock in our largest merchant's contract runs until the previous version serves traffic again.
+Any outage longer than 15 minutes under that contract is a breach that carries a fixed penalty and must be reported to the merchant.
+Rollback is one pipeline job that starts automatically when the release is declared failed, runs the down-migration, and then redeploys version 7.2.
+The down-migration drops the discount_code column, which discards nothing 7.2 needs because 7.2 never reads or writes that column.
+The rollback job has not been timed on a production-sized copy of the database, so how long the down-migration and redeploy take at 400 GB is not known.
+The redeploy of 7.2 skips the usual canary stage, which is acceptable because 7.2 has served all production traffic for the past 30 days.

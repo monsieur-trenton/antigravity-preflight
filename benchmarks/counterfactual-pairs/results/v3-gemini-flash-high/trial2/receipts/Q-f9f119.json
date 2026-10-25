@@ -1,0 +1,94 @@
+{
+  "status": "REPORT_RECEIVED_PENDING_ADJUDICATION",
+  "failure": null,
+  "closingFailures": [],
+  "model": "gemini-3.8-flash-high",
+  "effort": "high",
+  "effortEvidence": "launcher_configuration",
+  "servedAttestation": "UNAVAILABLE",
+  "promptSent": true,
+  "elapsedSeconds": 530.62,
+  "invocations": {
+    "proxy": 1,
+    "native": 1
+  },
+  "retries": 0,
+  "providerRequestCount": "UNAVAILABLE",
+  "events": 5,
+  "promptDelivery": {
+    "status": "COMPLETE",
+    "wireBytes": 2718,
+    "bytesWritten": 2718,
+    "meaning": "Bytes accepted by host pipe; not proof of native consumption"
+  },
+  "eventLedger": [
+    {
+      "ordinal": 0,
+      "kind": "init",
+      "bytes": 1346
+    },
+    {
+      "ordinal": 1,
+      "kind": "step_update",
+      "bytes": 151,
+      "stepType": "user_input",
+      "state": "DONE"
+    },
+    {
+      "ordinal": 2,
+      "kind": "step_update",
+      "bytes": 185,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 3,
+      "kind": "step_update",
+      "bytes": 2182,
+      "stepType": "agent_response",
+      "state": "DONE"
+    },
+    {
+      "ordinal": 4,
+      "kind": "result",
+      "bytes": 2156
+    }
+  ],
+  "eventLedgerStorage": {
+    "entryCap": 256,
+    "storedRows": 5,
+    "omittedRows": 0,
+    "scope": "Storage only; every event is validated"
+  },
+  "transport": {
+    "stdout": {
+      "bytes": 6025,
+      "sha256": "4ab51252d719bb99fc7cf03d2ce831f092e069d5ba4e6ce190224823360d45f1"
+    },
+    "stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "processes": {
+    "native": {
+      "spawned": true,
+      "reaped": true
+    },
+    "proxy": {
+      "spawned": true,
+      "reaped": true
+    }
+  },
+  "report": {
+    "sha256": "67bdddecba77e0d65d8deedea0086bb191cfdd3223ec90f63d70948aae8256f4",
+    "bytes": 1849
+  },
+  "privateHomeAbsent": true,
+  "socketDirectoryAbsent": true,
+  "qualificationCredit": 0,
+  "native": {
+    "sha256": "16e228cb243fa098eeb27b3b2aca963caec84e4a8ac49e3821b00c56f99f7508",
+    "bytes": 221278464
+  }
+}

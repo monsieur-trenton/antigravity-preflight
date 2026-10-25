@@ -1,0 +1,5 @@
+Calls to the service use client library X, and its timeout setting is measured in milliseconds.
+The upstream service shows a p99 latency of 800 ms and has a documented maximum of 2 seconds.
+The call site passes timeout=5000, intended to allow 5 seconds, comfortably above the upstream's documented maximum.
+A timed-out call is idempotent and is retried up to 3 times, with exponential backoff.
+A pool of 16 worker threads makes the calls.

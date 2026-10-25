@@ -1,0 +1,15 @@
+{
+  "writtenBefore": "any defined-go-arm metric was computed. What had been inspected: the identity file, the ledger stamps, the stop codes (none), safety_stops, num_turns, stop reason and modelUsage of every observation, and the strict verifier output. No verdict had been read or counted.",
+  "integrity": {
+    "verifier": "verify_run.py --arm defined-go (strict: every served model must match the request, and a safety-interrupted observation must be recorded as a stop) reports 0 failures on both trials, run by me on the returned archive and by the orchestrator on its machine (identical figures).",
+    "observations": "80 of 80 have one turn, stop reason end_turn, no safety interruption, and claude-opus-5-5 as the only model with output tokens.",
+    "technicalStops": "0 of 80. The case that was interrupted in the bare arm in both trials and in the defined arm in trial 2 (P-704166, output_bytes) completed normally in both trials here.",
+    "identity": "The orchestrator's identity file (orchestrator-identity.txt) is complete this time: commit d935c72 (the HEAD of the branch when the run started), four manifest hashes matching the committed files, binary SHA-256 520bc6c1... (the same as the earlier arms), cap $5.00, the same host as the bare and defined arms, and the trial times."
+  },
+  "technicalStops": [],
+  "costNote": "Total $1.84 ($0.9994 and $0.8380), the cheapest of the arms.",
+  "notes": [
+    "Judged by one reader, the benchmark's author. No defined-go-arm metric had been computed when this was written.",
+    "The arm's wording was chosen after the defined arm's result, on this corpus (preregistration, first section)."
+  ]
+}

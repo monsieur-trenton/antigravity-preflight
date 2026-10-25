@@ -1,0 +1,6 @@
+Refunds may be approved only by members of the finance-admin group.
+The approve_refund endpoint lets in any caller whose token has the scope refunds:approve.
+The refunds:approve scope is put on tokens for members of finance-admin and of support-lead.
+The endpoint does no other authorization check.
+A token expires after 15 minutes and is revoked as soon as its holder leaves the group that justified the scope.
+The caller's identity is recorded in an audit log for every approval.

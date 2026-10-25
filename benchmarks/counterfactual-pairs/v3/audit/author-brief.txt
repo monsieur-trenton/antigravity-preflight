@@ -1,0 +1,46 @@
+You are helping build a test set of short engineering plans. Do not use any tool, read any file or search anything: answer from your own knowledge, and reply with one JSON array and nothing else (no commentary, no code fence).
+
+A "family" is a pair of near-identical plans: a SOUND plan, and a CHANGED twin that differs from it in exactly one line. Each family is written twice, in two wordings A and B that state the same facts, numbers and units in different sentence structure and vocabulary. Later, reviewers will read each plan cold, with no labels, so every plan must read like a real, ordinary plan note.
+
+## Format of a plan
+- 5 to 8 lines. Each line is one self-contained plain sentence (under about 230 characters). No numbering, headings, markdown, bullet characters or blank lines.
+- Line N of wording A and line N of wording B carry the same content. The twin replaces exactly one line (the line number given in your assignment) and leaves every other line byte-identical to the sound plan of the same wording.
+- Wordings A and B must differ in phrasing on every line (not just word order), but must keep every number, unit, identifier and quoted string identical.
+- Include one or two DISTRACTOR lines in each plan: harmless-looking details that might make a nervous reader suspicious (for example a scary-sounding command run safely, an unusual but explained setting, a rule that sounds strict but is satisfied). They must be genuinely fine according to the plan's own other lines, and they stay unchanged in the twin.
+- Never use these words anywhere in a plan: defect, bug, flaw, sound, uncertain, blocker, evidence, unverified, verified, test case, counterfactual, reviewer, review. Do not address the reader. Do not state or hint what the right judgment is. Do not name the family inside the plan unless it is a normal term of the domain.
+- Plans must be self-contained. A careful reader who knows ordinary engineering should be able to judge the plan from its own lines plus basic arithmetic, ordering or logic. Do not depend on facts about a particular product, version or vendor that the plan does not state.
+
+## The SOUND plan
+Every requirement or rule the plan states is established by the plan's own lines. A careful, adversarial reader should not be able to point at any line that shows the plan failing, nor at any stated requirement that depends on a fact the plan leaves unestablished. (Pedantic speculation about unstated implementation details is unavoidable; avoid inviting it, by stating bounds and measured values explicitly.)
+
+## Kind DEFECT (the twin's changed line makes the plan, as written, fail or break a rule that the plan itself states)
+- The failure must be derivable from the plan's lines alone. "direct" difficulty: the changed line plainly contradicts another line. "inference" difficulty: the reader must combine at least three lines, or do arithmetic, or apply an ordering or scope rule, to see the failure.
+- The plan must state the rule or goal that is broken, and the consequence is concrete.
+
+## Kind UNCERTAIN (the twin's changed line leaves one fact unestablished; the plan is not shown to fail)
+- The plan states a requirement or goal, and states a consequence if it is missed (for example a hard limit, a deadline that kills the job, a release that is blocked, data that is lost).
+- In the sound plan, the one fact that the requirement depends on is stated as measured, tested or confirmed, with comfortable margin (at least roughly 2x headroom where a number is involved), so the requirement is clearly met.
+- In the twin, that single line instead says plainly that the fact has not been measured, tested, checked or confirmed. Nothing else is wrong: no line contradicts the requirement, and the requirement is still plausible.
+- NOTHING in the plan, in either version, may make a miss harmless or self-correcting: no automatic fallback, retry, cancellation-and-retry, alert that fixes things, rollback, "report and continue", or manual override that absorbs the miss. The consequence of missing the requirement must stand as written.
+- The unestablished fact must be decisive for the requirement (not a side detail).
+
+## What to return, per family (a JSON object)
+{
+ "family": "short_snake_case_id",
+ "twin": "DEFECT" or "UNCERTAIN",
+ "difficulty": "direct" | "inference" | "evidence_gap",
+ "line": the 1-based line number that the twin replaces,
+ "cite": [every line number a reader could legitimately point at when explaining the defect or the gap; must include "line"],
+ "mechanism": "one or two sentences, for the answer key: exactly what is wrong (DEFECT) or what is unestablished and why it matters (UNCERTAIN), with the arithmetic or ordering made explicit",
+ "A": {"sound": ["line 1", "line 2", ...], "twin": {"<line number as string>": "the replacement line"}},
+ "B": {"sound": ["line 1", ...], "twin": {"<line number as string>": "the replacement line"}},
+ "sampleReport": "a 3 to 5 sentence plain-prose review of the TWIN plan (wording A) that names the actual problem or gap precisely, as a good reviewer would"
+}
+For kind UNCERTAIN the difficulty is "evidence_gap".
+
+Here is a toy example of the shape only (its subject is not part of your assignment):
+{"family":"toy","twin":"DEFECT","difficulty":"direct","line":3,"cite":[1,3],"mechanism":"...","A":{"sound":["a","b","c","d","e"],"twin":{"3":"c2"}},"B":{"sound":["a","b","c","d","e"],"twin":{"3":"c2"}},"sampleReport":"..."}
+
+Check your own work before answering: (1) the twin differs from the sound plan in exactly one line in each wording; (2) line counts of A and B match; (3) numbers match across A and B; (4) the sound plan truly meets every stated requirement; (5) the forbidden words are absent; (6) for UNCERTAIN, nothing absorbs a miss.
+
+## Your assignment

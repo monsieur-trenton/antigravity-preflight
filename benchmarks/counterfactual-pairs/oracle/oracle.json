@@ -1,0 +1,222 @@
+{
+  "kind": "COUNTERFACTUAL_ORACLE_NEVER_SEND_TO_REVIEWER",
+  "seed": 20261021,
+  "cases": [
+    {
+      "case": "P-59d7fb",
+      "family": "absent_vs_null",
+      "wording": "A",
+      "role": "changed",
+      "expectedClass": "DEFECT",
+      "decisiveLine": 3,
+      "mechanism": "Collapses an absent discount (none) and an explicit null (unknown) into 0, losing the distinction the schema defines."
+    },
+    {
+      "case": "P-6544fb",
+      "family": "absent_vs_null",
+      "wording": "A",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "decisiveLine": 3,
+      "mechanism": null
+    },
+    {
+      "case": "P-94be28",
+      "family": "absent_vs_null",
+      "wording": "B",
+      "role": "changed",
+      "expectedClass": "DEFECT",
+      "decisiveLine": 3,
+      "mechanism": "Collapses an absent discount (none) and an explicit null (unknown) into 0, losing the distinction the schema defines."
+    },
+    {
+      "case": "P-e14c78",
+      "family": "absent_vs_null",
+      "wording": "B",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "decisiveLine": 3,
+      "mechanism": null
+    },
+    {
+      "case": "P-6b8046",
+      "family": "caller_callee",
+      "wording": "A",
+      "role": "changed",
+      "expectedClass": "DEFECT",
+      "decisiveLine": 3,
+      "mechanism": "The caller still treats parse_window's result as one integer after it became a tuple, so window + 3600 fails."
+    },
+    {
+      "case": "P-ea57a1",
+      "family": "caller_callee",
+      "wording": "A",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "decisiveLine": 3,
+      "mechanism": null
+    },
+    {
+      "case": "P-3daca8",
+      "family": "caller_callee",
+      "wording": "B",
+      "role": "changed",
+      "expectedClass": "DEFECT",
+      "decisiveLine": 3,
+      "mechanism": "The caller still treats parse_window's result as one integer after it became a tuple, so window + 3600 fails."
+    },
+    {
+      "case": "P-381273",
+      "family": "caller_callee",
+      "wording": "B",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "decisiveLine": 3,
+      "mechanism": null
+    },
+    {
+      "case": "P-fcc070",
+      "family": "output_bytes",
+      "wording": "A",
+      "role": "changed",
+      "expectedClass": "DEFECT",
+      "decisiveLine": 4,
+      "mechanism": "No per-value bound: 12 fields of up to 900 bytes can exceed the 1500-byte cap and trip the assertion."
+    },
+    {
+      "case": "P-c0cca7",
+      "family": "output_bytes",
+      "wording": "A",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "decisiveLine": 4,
+      "mechanism": null
+    },
+    {
+      "case": "P-398544",
+      "family": "output_bytes",
+      "wording": "B",
+      "role": "changed",
+      "expectedClass": "DEFECT",
+      "decisiveLine": 4,
+      "mechanism": "No per-value bound: 12 fields of up to 900 bytes can exceed the 1500-byte cap and trip the assertion."
+    },
+    {
+      "case": "P-113ed2",
+      "family": "output_bytes",
+      "wording": "B",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "decisiveLine": 4,
+      "mechanism": null
+    },
+    {
+      "case": "P-7a8a51",
+      "family": "ownership_authorization",
+      "wording": "A",
+      "role": "changed",
+      "expectedClass": "DEFECT",
+      "decisiveLine": 3,
+      "mechanism": "Deletes every directory older than 7 days, including ones the job does not own, against the ownership rule."
+    },
+    {
+      "case": "P-5a8028",
+      "family": "ownership_authorization",
+      "wording": "A",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "decisiveLine": 3,
+      "mechanism": null
+    },
+    {
+      "case": "P-97610e",
+      "family": "ownership_authorization",
+      "wording": "B",
+      "role": "changed",
+      "expectedClass": "DEFECT",
+      "decisiveLine": 3,
+      "mechanism": "Deletes every directory older than 7 days, including ones the job does not own, against the ownership rule."
+    },
+    {
+      "case": "P-882b26",
+      "family": "ownership_authorization",
+      "wording": "B",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "decisiveLine": 3,
+      "mechanism": null
+    },
+    {
+      "case": "P-b0b834",
+      "family": "required_coverage",
+      "wording": "A",
+      "role": "changed",
+      "expectedClass": "DEFECT",
+      "decisiveLine": 3,
+      "mechanism": "The report iterates only over changed sources, so required sources are omitted from a four-source inventory."
+    },
+    {
+      "case": "P-313185",
+      "family": "required_coverage",
+      "wording": "A",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "decisiveLine": 3,
+      "mechanism": null
+    },
+    {
+      "case": "P-c3cd60",
+      "family": "required_coverage",
+      "wording": "B",
+      "role": "changed",
+      "expectedClass": "DEFECT",
+      "decisiveLine": 3,
+      "mechanism": "The report iterates only over changed sources, so required sources are omitted from a four-source inventory."
+    },
+    {
+      "case": "P-39e236",
+      "family": "required_coverage",
+      "wording": "B",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "decisiveLine": 3,
+      "mechanism": null
+    },
+    {
+      "case": "P-c6f970",
+      "family": "runtime_budget",
+      "wording": "A",
+      "role": "changed",
+      "expectedClass": "UNCERTAIN",
+      "decisiveLine": 2,
+      "mechanism": "Feasibility is unmeasured, not disproved: no throughput evidence exists, so the right judgment is uncertainty, not a verified timeout."
+    },
+    {
+      "case": "P-aa3181",
+      "family": "runtime_budget",
+      "wording": "A",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "decisiveLine": 2,
+      "mechanism": null
+    },
+    {
+      "case": "P-304538",
+      "family": "runtime_budget",
+      "wording": "B",
+      "role": "changed",
+      "expectedClass": "UNCERTAIN",
+      "decisiveLine": 2,
+      "mechanism": "Feasibility is unmeasured, not disproved: no throughput evidence exists, so the right judgment is uncertainty, not a verified timeout."
+    },
+    {
+      "case": "P-ac2234",
+      "family": "runtime_budget",
+      "wording": "B",
+      "role": "sound",
+      "expectedClass": "SOUND",
+      "decisiveLine": 2,
+      "mechanism": null
+    }
+  ]
+}

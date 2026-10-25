@@ -1,0 +1,7 @@
+The address backfill job geocodes 240,000 customer addresses through a third-party geocoding API in a single run.
+The plan's rule is that our account must never exceed its rate limits, because the provider suspends an account that goes over them, which would also stop live address lookups at signup.
+The job runs 4 worker processes, each held by a client-side limiter to 1.25 requests per second, so it sends at most 5 requests per second and finishes in about 13.3 hours.
+The signup flow uses the same account and has peaked at 3 requests per second and 50,000 requests per day over the last 6 months.
+Combined peak traffic is therefore 8 requests per second, and no single day of the run can exceed 290,000 requests.
+The provider has confirmed in writing that our account's limits are 20 requests per second and 1,000,000 requests per day.
+Failed lookups are not retried within the run, so the job never sends more than the 240,000 planned requests.

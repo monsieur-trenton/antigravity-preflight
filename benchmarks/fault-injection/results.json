@@ -1,0 +1,252 @@
+{
+  "kind": "OFFLINE_FAULT_INJECTION_MANUAL_CITATIONS",
+  "scope": "manual_citations.py check only; coverage, question, custody and model-behaviour checks are not exercised",
+  "tool": {
+    "path": "skills/antigravity-preflight/scripts/manual_citations.py",
+    "sha256": "9bf9b723381f3615e1874599b4efc7b4386ecd98cf0ceda4dc64f26dba0983dd"
+  },
+  "baseline": {
+    "status": "CITATIONS_MATCHED",
+    "citations": 2
+  },
+  "summary": {
+    "mechanicalFaults": 13,
+    "mechanicalStopped": 13,
+    "mechanicalReasonMatched": 13,
+    "mechanicalPassedThrough": 0,
+    "semanticFaults": 2,
+    "semanticPassedThroughToManualCheck": 2,
+    "notExercised": 4,
+    "providerCalls": 0
+  },
+  "faults": [
+    {
+      "id": "source_hash_drift",
+      "family": "Evidence integrity",
+      "description": "Snapshot edited after its hash was pinned",
+      "kind": "MECHANICAL",
+      "automation": "SCRIPT",
+      "expectedReason": "SOURCE_HASH_MISMATCH",
+      "observedStatus": "STOPPED",
+      "observedReason": "SOURCE_HASH_MISMATCH",
+      "layer": "PIN_AND_PATH",
+      "expectationMet": true
+    },
+    {
+      "id": "source_missing",
+      "family": "Evidence integrity",
+      "description": "Required source file is absent",
+      "kind": "MECHANICAL",
+      "automation": "SCRIPT",
+      "expectedReason": "SOURCE_NOT_REGULAR",
+      "observedStatus": "STOPPED",
+      "observedReason": "SOURCE_NOT_REGULAR",
+      "layer": "PIN_AND_PATH",
+      "expectationMet": true
+    },
+    {
+      "id": "path_escape",
+      "family": "Evidence integrity",
+      "description": "Inventory path points outside the packet",
+      "kind": "MECHANICAL",
+      "automation": "SCRIPT",
+      "expectedReason": "SOURCE_PATH_ESCAPE",
+      "observedStatus": "STOPPED",
+      "observedReason": "SOURCE_PATH_ESCAPE",
+      "layer": "PIN_AND_PATH",
+      "expectationMet": true
+    },
+    {
+      "id": "source_symlink",
+      "family": "Evidence integrity",
+      "description": "Snapshot replaced by a symlink with identical bytes",
+      "kind": "MECHANICAL",
+      "automation": "SCRIPT",
+      "expectedReason": "SOURCE_SYMLINK",
+      "observedStatus": "STOPPED",
+      "observedReason": "SOURCE_SYMLINK",
+      "layer": "PIN_AND_PATH",
+      "expectationMet": true
+    },
+    {
+      "id": "duplicate_json_key",
+      "family": "Strict parsing",
+      "description": "Ledger repeats a key to hide a value",
+      "kind": "MECHANICAL",
+      "automation": "SCRIPT",
+      "expectedReason": "DUPLICATE_JSON_KEY",
+      "observedStatus": "STOPPED",
+      "observedReason": "DUPLICATE_JSON_KEY",
+      "layer": "STRICT_PARSING",
+      "expectationMet": true
+    },
+    {
+      "id": "empty_ledger",
+      "family": "Ledger shape",
+      "description": "Report supplies no citations at all",
+      "kind": "MECHANICAL",
+      "automation": "SCRIPT",
+      "expectedReason": "EMPTY_LEDGER",
+      "observedStatus": "STOPPED",
+      "observedReason": "EMPTY_LEDGER",
+      "layer": "LEDGER_SCHEMA",
+      "expectationMet": true
+    },
+    {
+      "id": "duplicate_citation_id",
+      "family": "Ledger shape",
+      "description": "Two citations share one identifier",
+      "kind": "MECHANICAL",
+      "automation": "SCRIPT",
+      "expectedReason": "DUPLICATE_CITATION_ID",
+      "observedStatus": "STOPPED",
+      "observedReason": "DUPLICATE_CITATION_ID",
+      "layer": "LEDGER_SCHEMA",
+      "expectationMet": true
+    },
+    {
+      "id": "unknown_source",
+      "family": "Ledger shape",
+      "description": "Citation names a source that was never supplied",
+      "kind": "MECHANICAL",
+      "automation": "SCRIPT",
+      "expectedReason": "UNKNOWN_SOURCE",
+      "observedStatus": "STOPPED",
+      "observedReason": "UNKNOWN_SOURCE",
+      "layer": "LEDGER_SCHEMA",
+      "expectationMet": true
+    },
+    {
+      "id": "multiline_quote",
+      "family": "Ledger shape",
+      "description": "Quotation spans several lines",
+      "kind": "MECHANICAL",
+      "automation": "SCRIPT",
+      "expectedReason": "INVALID_QUOTE",
+      "observedStatus": "STOPPED",
+      "observedReason": "INVALID_QUOTE",
+      "layer": "LEDGER_SCHEMA",
+      "expectationMet": true
+    },
+    {
+      "id": "wrong_line",
+      "family": "Quotation",
+      "description": "Right text, wrong line coordinate",
+      "kind": "MECHANICAL",
+      "automation": "SCRIPT",
+      "expectedReason": "QUOTE_MISMATCH",
+      "observedStatus": "STOPPED",
+      "observedReason": "QUOTE_MISMATCH",
+      "layer": "LINE_AND_QUOTE",
+      "expectationMet": true
+    },
+    {
+      "id": "wrong_source",
+      "family": "Quotation",
+      "description": "Right text attributed to the wrong source",
+      "kind": "MECHANICAL",
+      "automation": "SCRIPT",
+      "expectedReason": "QUOTE_MISMATCH",
+      "observedStatus": "STOPPED",
+      "observedReason": "QUOTE_MISMATCH",
+      "layer": "LINE_AND_QUOTE",
+      "expectationMet": true
+    },
+    {
+      "id": "hallucinated_quote",
+      "family": "Quotation",
+      "description": "Paraphrase presented as a verbatim quote",
+      "kind": "MECHANICAL",
+      "automation": "SCRIPT",
+      "expectedReason": "QUOTE_MISMATCH",
+      "observedStatus": "STOPPED",
+      "observedReason": "QUOTE_MISMATCH",
+      "layer": "LINE_AND_QUOTE",
+      "expectationMet": true
+    },
+    {
+      "id": "line_out_of_range",
+      "family": "Quotation",
+      "description": "Citation beyond the end of the file",
+      "kind": "MECHANICAL",
+      "automation": "SCRIPT",
+      "expectedReason": "LINE_OUT_OF_RANGE",
+      "observedStatus": "STOPPED",
+      "observedReason": "LINE_OUT_OF_RANGE",
+      "layer": "LINE_AND_QUOTE",
+      "expectationMet": true
+    },
+    {
+      "id": "negation_dropped_quote",
+      "family": "Quotation",
+      "description": "Substring drops \"Do not\", reversing the source",
+      "kind": "SEMANTIC",
+      "automation": "SCRIPT",
+      "expectedReason": null,
+      "observedStatus": "CITATIONS_MATCHED",
+      "observedReason": null,
+      "layer": null,
+      "expectationMet": true
+    },
+    {
+      "id": "single_word_quote",
+      "family": "Quotation",
+      "description": "One-word quotation that proves almost nothing",
+      "kind": "SEMANTIC",
+      "automation": "SCRIPT",
+      "expectedReason": null,
+      "observedStatus": "CITATIONS_MATCHED",
+      "observedReason": null,
+      "layer": null,
+      "expectationMet": true
+    },
+    {
+      "id": "missing_required_source_coverage",
+      "family": "Report coverage",
+      "description": "Report never mentions a required source",
+      "kind": "MANUAL",
+      "automation": "NOT_EXERCISED",
+      "owner": "Codex coverage check (SKILL.md step 3)",
+      "observedStatus": null,
+      "observedReason": null,
+      "layer": null,
+      "expectationMet": null
+    },
+    {
+      "id": "unanswered_required_question",
+      "family": "Report coverage",
+      "description": "A required review question gets no answer",
+      "kind": "MANUAL",
+      "automation": "NOT_EXERCISED",
+      "owner": "Codex coverage check (SKILL.md step 3)",
+      "observedStatus": null,
+      "observedReason": null,
+      "layer": null,
+      "expectationMet": null
+    },
+    {
+      "id": "report_modified_after_receipt",
+      "family": "Report custody",
+      "description": "Report bytes change after they were received",
+      "kind": "MANUAL",
+      "automation": "NOT_EXERCISED",
+      "owner": "Record and compare the report hash",
+      "observedStatus": null,
+      "observedReason": null,
+      "layer": null,
+      "expectationMet": null
+    },
+    {
+      "id": "embedded_instruction_followed",
+      "family": "Model behaviour",
+      "description": "Reviewer obeys an instruction hidden in source text",
+      "kind": "MANUAL",
+      "automation": "NOT_EXERCISED",
+      "owner": "Needs live model trials (docs/testing-next.md, test 2)",
+      "observedStatus": null,
+      "observedReason": null,
+      "layer": null,
+      "expectationMet": null
+    }
+  ]
+}

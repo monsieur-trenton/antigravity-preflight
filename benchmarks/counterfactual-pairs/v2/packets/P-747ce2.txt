@@ -1,0 +1,6 @@
+The release migrates the orders table in three steps, run strictly in the order listed.
+Step 1 adds the nullable column shipped_at.
+Step 2 backfills shipped_at for every existing row from the shipments table, which has a non-null shipped_at for every order.
+Step 3 adds a NOT NULL constraint on shipped_at.
+A rollback script drops the column if any step fails.
+The table has about 2 million rows and the migration runs in a maintenance window.
