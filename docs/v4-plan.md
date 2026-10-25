@@ -1,6 +1,6 @@
 # Benchmark v4: plan (draft for the owner's decisions)
 
-Status: **a plan, not a preregistration.** Nothing here is frozen, no case exists, and no model has been called. It turns the limits of [corpus v3 and its runs](benchmark-evidence.md) into a design, and ends with the decisions the owner must make before any case is written. When they are made, the design below becomes a preregistration pinned by a manifest, as for v2 and v3.
+Status: **a plan with the owner's three decisions recorded (below), not yet a preregistration.** Nothing here is frozen, no case exists, and no model has been called. It turns the limits of [corpus v3 and its runs](benchmark-evidence.md) into a design, and ends with the decisions the owner must make before any case is written. When they are made, the design below becomes a preregistration pinned by a manifest, as for v2 and v3.
 
 ## What v3 could not tell us
 
@@ -77,8 +77,17 @@ Authoring and audit add model cost and, for a cross-family author through the na
 - **Bare Gemini arm on the native route.** The runtime embeds a packet and a fixed question; a faithful bare arm may need a wrapper that changes less than it seems to. It is tested offline first, and if it cannot be made faithful the arm is dropped and said so.
 - **Real-data track yields too few items.** Then it is reported as a pilot, not a benchmark.
 
-## Decisions the owner must make
+## Decisions made (2026-10-25)
 
-1. **Scope of v4.** Synthetic only (phases 0 to 6), synthetic plus the real-data track, or the real-data track first.
-2. **Who writes the cases.** A different model family through the native route (slower, more independent), Claude again with a cross-family audit (faster, weaker), or the owner writes a seed set that models extend.
-3. **Budget.** The Gemini hours and Claude dollars the test run may use, and whether the second Gemini trial is wanted.
+1. **Scope: synthetic corpus first** (phases 0 to 6). Benchmarks G and F stay a separate track after phase 3.
+2. **Authors: Gemini writes the cases, Claude audits them blind**, with the owner's spot check of at least a fifth. The reviewers under test then include Gemini 3.8 Flash High, so the plan must keep authoring and review apart: a different model or effort from the Flash reviewer where the owner has one (Gemini 4 Argon / High is the qualified candidate), and a statement of how close the two are if only Flash is available. Claude, the auditor, is also a reviewer arm; the audit is blind to class and the audit prompt is not the review prompt.
+3. **Budget: one Gemini trial per arm on the test split** (about 9 hours per arm) **and two Claude trials** (about $22 for both Claude arms), with a Gemini repeat only on a 48-case subset (about 5 hours more) if the first trial leaves a result within noise of a threshold.
+
+## First actions, in order
+
+1. **Probe Gemini authoring** (no cases yet). Authoring is not what the native runtime was qualified for: it is a tool-free reviewer with a fixed question and a machine-summary parser. Run one family specification through it as the prompt and read the output by hand, to decide whether the existing `cli_review.py` can be used as a plain generator (taking the saved report text) or whether a thin wrapper is needed. Owner-gated; one family; no retries.
+2. **Write the family specifications** (the four kinds above, about a dozen families in all, a fifth of them dev), each with the twin's definition, decisive-line rule, accepted citation lines and mechanism, and one worked example written by me as a format reference, not as a case.
+3. **Extend the scorer and schema** for multi-source packets and the two new metrics; the gate is that it reproduces the committed v3 scores exactly.
+4. **Write the authoring brief and the audit brief** as hand-offs, in the style of `v3-run-gemini/HANDOFF.md` (where to find things, rules, a gated helper script).
+
+Each step is a small commit on a branch from `main`; none changes a frozen file.
