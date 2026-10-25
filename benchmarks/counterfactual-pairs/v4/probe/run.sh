@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Gated helper for the authoring probe (see HANDOFF.md). Subcommands: checks | host | dry | live --go | bundle.
+# Gated helper for the authoring probe (see HANDOFF.md). Subcommands: checks | diag | host | dry | live --go | bundle.
 # One live model call in total. Stops at the first failure; never retries.
 #   ROOT  working root, new and outside the repository (default /tmp/v4probe)
 #   AGY   absolute path to the agy binary (default /home/john/.local/bin/agy)
@@ -51,6 +51,14 @@ print('HOST_OK qualification', q['status'], 'capabilities', c['status'], 'versio
       echo "host: $(uname -a)"
     } > "$ROOT/identity.txt"
     ;;
+  diag)  # no model call, no repository change: how slow is this machine right now? (the offline controls have a 0.5 s window)
+    python3 -B -I -c "
+import statistics, subprocess, sys, time, os
+times = []
+for _ in range(30):
+    t = time.monotonic(); subprocess.run([sys.executable, '-B', '-I', '-c', 'pass'], check=True); times.append((time.monotonic() - t) * 1000)
+print('DIAG python start-up ms: median %.0f, p90 %.0f, max %.0f; load average %s; cpus %d' % (statistics.median(times), sorted(times)[26], max(times), ' '.join('%.2f' % x for x in os.getloadavg()), os.cpu_count()))"
+    ;;
   dry)  # no model call
     [ -f "$ROOT/caps/RESULT.json" ] || { echo "RUN_HOST_FIRST" >&2; exit 2; }
     probe "$ROOT/dry"
@@ -78,5 +86,5 @@ print('HOST_OK qualification', q['status'], 'capabilities', c['status'], 'versio
     rm -rf "$stage"
     ls -lh "$out"
     ;;
-  *) echo "usage: run.sh checks | host | dry | live --go | bundle" >&2; exit 2;;
+  *) echo "usage: run.sh checks | diag | host | dry | live --go | bundle" >&2; exit 2;;
 esac

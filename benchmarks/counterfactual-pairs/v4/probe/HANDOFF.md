@@ -22,6 +22,14 @@ Expected values (`run.sh checks` compares them for you): `agy` at `/home/john/.l
 4. The route needs the owner's logged-in desktop session (D-Bus and Secret Service), kept awake; the call itself takes a few minutes. The call spends the owner's account credits.
 5. Do not use any other model or CLI as a substitute, and do not send anything from this machine except the final archive.
 
+## Known flake: the offline qualification (`host`)
+
+`host` runs the repository's offline qualification of the runtime (664 synthetic cases, twice). One control, `prompt_no_read`, gives the host **0.5 seconds** to see the stub child's first event; on a slow or busy machine that can elapse and the run stops with `OFFLINE_RUN_2_STOPPED`, `FULL_JSON_FRAME_ACCOUNTED`, a receipt of `DEADLINE_EXCEEDED` after about 0.5 s and `promptDelivery` `NOT_STARTED`. That is a timing control, not a defect in the runtime, and no model was called. It was seen once, on the first attempt of this probe (run 1 passed, run 2 stopped at case 190). **Do not retry on your own.** Send the output; the owner may authorize **one** rerun in a **new** `ROOT` (for example `/tmp/v4probe2`) after closing other applications, and will want `run.sh diag` output from both attempts.
+
+```bash
+$B diag        # no model call; Python start-up time and load, to compare a quiet and a busy moment
+```
+
 ## Steps (from anywhere inside your clone)
 
 ```bash

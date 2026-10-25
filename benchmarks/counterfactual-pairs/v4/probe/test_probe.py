@@ -316,6 +316,16 @@ class RunScriptTests(unittest.TestCase):
             code, out, err = self.sh("bundle", root=Path(tmp) / "empty")
             self.assertEqual((code, "NOTHING_TO_BUNDLE" in err), (1, True))
 
+    def test_diag_reports_start_up_time_and_load_without_a_model_call(self):
+        code, out, err = self.sh("diag")
+        self.assertEqual(code, 0, err)
+        self.assertRegex(out, r"DIAG python start-up ms: median \d+, p90 \d+, max \d+; load average [\d. ]+; cpus \d+")
+
+    def test_the_brief_documents_the_known_qualification_flake_and_a_single_authorized_rerun(self):
+        brief = (HERE / "HANDOFF.md").read_text(encoding="utf-8")
+        for needle in ("OFFLINE_RUN_2_STOPPED", "FULL_JSON_FRAME_ACCOUNTED", "0.5 seconds", "Do not retry on your own", "**new** `ROOT`", "$B diag"):
+            self.assertIn(needle, brief)
+
     def test_the_brief_names_the_one_call_and_the_rules(self):
         brief = (HERE / "HANDOFF.md").read_text(encoding="utf-8")
         for needle in ("One live call in total", "stop and send the exact output", "never run it twice", "live --go"):
