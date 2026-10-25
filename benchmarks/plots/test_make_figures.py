@@ -252,8 +252,10 @@ class FigureTests(unittest.TestCase):
         ET.fromstring(svg)
         self.assertEqual(data["mix"]["defined-go"]["sound"]["NO_BLOCKERS_FOUND"], 64)
         self.assertEqual(data["mix"]["skill"]["gap"], {"NO_BLOCKERS_FOUND": 0, "CHANGES_RECOMMENDED": 24, "BLOCKERS_FOUND": 8})
-        self.assertEqual(data["stops"], {"skill": 0, "defined": 0, "defined-go": 0, "gemini": 1})
-        for text in ("Claude skill-style", "Gemini skill-style", "Claude + sentence", "34 of 64 right", "61 of 63 right", "26 and 21 of 32", "waved through 1"):
+        self.assertEqual(data["mix"]["skill-go"]["gap"], {"NO_BLOCKERS_FOUND": 0, "CHANGES_RECOMMENDED": 18, "BLOCKERS_FOUND": 14})
+        self.assertEqual(data["stops"], {"skill": 0, "defined": 0, "defined-go": 0, "skill-go": 0, "gemini": 1})
+        for text in ("Claude skill-style", "Claude skill+sentence", "Claude defined+sentence", "Gemini skill-style", "34 of 64 right", "63 of 64 right", "61 of 63 right",
+                     "skill+sentence 14 of 32", "with the sentence 1"):
             self.assertIn(text, svg)
 
     def test_v3_four_reviewer_figure_refuses_a_stale_analysis(self):

@@ -272,5 +272,63 @@ class RunScriptTests(unittest.TestCase):
             self.assertIn("NOTHING_TO_BUNDLE", err)
 
 
+RESULTS = PARENT / "results/v3-skill-go-opus-5-5-high"
+EARLIER = PARENT / "results/v3-claude-opus-5-5-high"
+
+
+class CommittedResultsTests(unittest.TestCase):
+    """The committed evidence is what the write-up says it is: stamps, report hashes, scores, analysis and labels; no model calls."""
+
+    def rows(self, arm, trial):
+        return [json.loads(line) for line in (RESULTS / arm / f"trial{trial}/responses.jsonl").read_text(encoding="utf-8").splitlines() if line.strip()]
+
+    def test_every_ledger_follows_the_frozen_order_and_stamp_and_every_report_matches_its_hash(self):
+        import hashlib
+        order = json.loads((V3 / "manifest.json").read_bytes())["submissionOrder"]
+        run_sha = hashlib.sha256(RUN_MANIFEST.read_bytes()).hexdigest()
+        arm_sha = hashlib.sha256((ARM_DIR / "manifest.json").read_bytes()).hexdigest()
+        for arm in ("skill-go", "skill"):
+            for trial in (1, 2):
+                rows = self.rows(arm, trial)
+                self.assertEqual([r["case"] for r in rows], order)
+                for r in rows:
+                    self.assertEqual((r["arm"], r["runManifestSha256"], r["servedModels"], r["safetyStops"], r.get("technicalStop")),
+                                     (arm, run_sha, ["claude-opus-5-5"], 0, None))
+                    if arm == "skill-go":
+                        self.assertEqual(r["armManifestSha256"], arm_sha)
+                    report = (RESULTS / arm / f"trial{trial}/reports/{r['case']}.md").read_bytes()
+                    self.assertEqual(hashlib.sha256(report).hexdigest(), r["reportSha256"])
+                    request = (RESULTS / arm / f"trial{trial}/requests/{r['case']}.txt").read_text(encoding="utf-8")
+                    self.assertEqual(SENTENCE in request.split("\n"), arm == "skill-go")
+
+    def test_the_committed_analyses_are_what_the_analyser_gives_on_the_committed_ledgers(self):
+        adjudication = json.loads((RESULTS / "adjudication.json").read_bytes())
+        for name, arms in (("analysis", {"skill-go": RESULTS / "skill-go", "skill": RESULTS / "skill", "defined-go": EARLIER / "defined-go"}),
+                           ("analysis-vs-earlier-skill", {"skill-go": RESULTS / "skill-go", "skill": EARLIER / "skill", "defined-go": EARLIER / "defined-go"}),
+                           ("analysis-control-vs-earlier", {"skill-go": RESULTS / "skill-go", "skill": EARLIER / "skill", "skill-control": RESULTS / "skill"})):
+            fresh = an.analyze(str(V3), {k: str(v) for k, v in arms.items()}, RUBRIC, [], adjudication)
+            self.assertEqual(json.loads(json.dumps(fresh)), json.loads((RESULTS / f"{name}.json").read_bytes()), name)
+
+    def test_the_committed_scores_match_the_scorer_and_the_gate_is_zero(self):
+        sc = load("sg_score", PARENT / "score.py")
+        adjudication = json.loads((RESULTS / "adjudication.json").read_bytes())
+        for arm in ("skill-go", "skill"):
+            committed = json.loads((RESULTS / f"score-{arm}.json").read_bytes())
+            self.assertEqual(sc.score(self.rows(arm, 1) + self.rows(arm, 2), V3, adjudication), committed)
+            self.assertEqual([committed["trials"][t]["unsupportedVerifiedFindings"] for t in ("1", "2")], [0, 0])
+
+    def test_the_headline_numbers_and_labels_are_the_ones_the_write_up_states(self):
+        analysis = json.loads((RESULTS / "analysis.json").read_bytes())
+        primary = {arm: {k: v["count"] for k, v in analysis["arms"][arm]["primary"].items()} for arm in ("skill-go", "skill")}
+        self.assertEqual(primary, {"skill-go": {"soundPlansGo": 63, "defectTwinsNoGo": 32, "evidenceGapTwinsGoWithChanges": 18},
+                                   "skill": {"soundPlansGo": 35, "defectTwinsNoGo": 32, "evidenceGapTwinsGoWithChanges": 25}})
+        self.assertEqual((analysis["arms"]["skill-go"]["secondary"]["evidenceGapTwinsNoGo"]["count"], analysis["arms"]["skill-go"]["secondary"]["evidenceGapTwinsGo"]["count"]), (14, 0))
+        labels = analysis["labels"]
+        self.assertEqual((labels["soundPlanHedging"], labels["defectTwins"], labels["evidenceGapGoWithChanges"], labels["wavedThrough"], labels["overclaiming"]),
+                         ("reduced", "held", "skill better", "does not wave gaps through", "increased"))
+        self.assertEqual(labels["againstdefined-go"], {"evidenceGapGoWithChanges": "skill-go better", "soundPlansGo": "no significant difference"})
+        self.assertEqual(json.loads((RESULTS / "adjudication.json").read_bytes())["stopsDocumentation"]["observations"], [])
+
+
 if __name__ == "__main__":
     unittest.main()

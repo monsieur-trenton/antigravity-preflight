@@ -84,6 +84,6 @@ The same corpus, one trial pair each, the Gemini 3.8 Flash High native route ([r
 
 ## Next, if wanted
 
-1. **Run the skill-style prompt plus the sentence** (or the defined-verdict definition without the sentence) on the Claude route, to ask whether a verdict-calibration line can cut the 8 overclaimed twins and the 30 hedged sound plans without the `GO` cost: this is the question these three arms point at, and none of them answers it.
+1. **Run the skill-style prompt plus the sentence** (or the defined-verdict definition without the sentence) on the Claude route, to ask whether a verdict-calibration line can cut the 8 overclaimed twins and the 30 hedged sound plans without the `GO` cost: this is the question these three arms point at, and none of them answers it. (Since run: see the [skill-go results](../v3-skill-go-opus-5-5-high/README.md).)
 2. **A corpus where the unknown is not written down** and where a premise from outside the snapshot decides, since both reviewers have now hit the ceiling or the stated-unknown limit of v3.
 3. **Benchmarks A and F in the [benchmark plan](../../../../docs/benchmark-plan.md)**: this measures verdict calibration of a reviewer on a snapshot, not what the workflow gives an independent reviewer.
