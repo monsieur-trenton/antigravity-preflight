@@ -85,7 +85,7 @@ Authoring and audit add model cost and, for a cross-family author through the na
 
 ## First actions, in order
 
-1. **Probe Gemini authoring** (no cases yet). Authoring is not what the native runtime was qualified for: it is a tool-free reviewer with a fixed question and a machine-summary parser. Run one family specification through it as the prompt and read the output by hand, to decide whether the existing `cli_review.py` can be used as a plain generator (taking the saved report text) or whether a thin wrapper is needed. Owner-gated; one family; no retries.
+1. **Probe Gemini authoring** (no cases yet; the hand-off is drafted in [benchmarks/counterfactual-pairs/v4/probe](../benchmarks/counterfactual-pairs/v4/probe/PROBE.md) and has not been run). Authoring is not what the native runtime was qualified for: it is a tool-free reviewer with a fixed question and a machine-summary parser. Run one family specification through it as the prompt and read the output by hand, to decide whether the existing `cli_review.py` can be used as a plain generator (taking the saved report text) or whether a thin wrapper is needed. Owner-gated; one family; no retries.
 2. **Write the family specifications** (the four kinds above, about a dozen families in all, a fifth of them dev), each with the twin's definition, decisive-line rule, accepted citation lines and mechanism, and one worked example written by me as a format reference, not as a case.
 3. **Extend the scorer and schema** for multi-source packets and the two new metrics; the gate is that it reproduces the committed v3 scores exactly.
 4. **Write the authoring brief and the audit brief** as hand-offs, in the style of `v3-run-gemini/HANDOFF.md` (where to find things, rules, a gated helper script).

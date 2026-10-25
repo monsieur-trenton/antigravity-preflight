@@ -38,6 +38,7 @@ jobs:
       - run: python3 -B -I benchmarks/counterfactual-pairs/v3-run-skill-go/build_manifest.py --check
       - run: python3 -B -I benchmarks/counterfactual-pairs/v3-run-skill-go/test_run.py
       - run: python3 -B -I benchmarks/counterfactual-pairs/test_verify_run.py
+      - run: python3 -B -I benchmarks/counterfactual-pairs/v4/probe/test_probe.py
       - run: python3 -B -I benchmarks/counterfactual-pairs/ablation/build_manifest.py --check
       - run: python3 -B -I benchmarks/counterfactual-pairs/ablation/defined/build_manifest.py --check
       - run: python3 -B -I benchmarks/counterfactual-pairs/ablation/defined-go/build_manifest.py --check

@@ -1,0 +1,36 @@
+You are writing one test case for a benchmark that measures whether a plan reviewer notices a fact that a plan leaves out. Write plain text only. You have no tools, and nothing below is a review task: do not review anything.
+
+The case is a PAIR of plans about the same work. The SOUND plan states a decisive fact. The TWIN is the same plan with the sentence that states that fact removed, and nothing put in its place.
+
+ASSIGNMENT
+Domain: moving the public traffic of a payments API from one content delivery network to another, by changing a DNS record.
+Requirement the plan itself states, in its own words: the cutover must leave no more than five minutes in which clients can reach either the old or the new path, and the old path must be restorable within five minutes if the cutover fails.
+Decisive fact, stated only in the SOUND plan: ahead of the cutover the record's time-to-live was lowered to 60 seconds, 48 hours earlier, and a sample of public resolvers was checked and honoured it. Express this in one to three sentences, each on its own line. Whatever you write for it must be the only text that bears on how long clients keep the old address.
+Decoy, stated in BOTH plans on one line: one real but non-binding open item, for example that a cost estimate is not final, which does not affect the requirement.
+
+WRITING RULES
+1. The SOUND plan has between 32 and 44 lines. Each line is one self-contained sentence of 60 to 220 characters, written as an engineer would write a plan, with concrete names, numbers and times.
+2. Most lines are realistic detail that does not bear on the requirement: certificates, monitoring, communication to customers, ownership, change windows, rollback steps, logging. Keep it internally consistent.
+3. The TWIN is exactly the SOUND plan with the decisive-fact lines deleted. Do not reword, reorder or add any line. Do not add any hint, hedge or sentence about the missing fact. The twin must not contain an admission of anything unknown, unmeasured or to be decided, except the decoy line.
+4. Apart from the decoy line, no line of either plan may say that something is unknown, unmeasured, unconfirmed, pending or to be decided.
+5. Do not use the words twin, sound, benchmark, oracle, decisive, counterfactual, test case or omitted inside any plan line.
+6. Do not number the lines, do not use bullet characters, and do not put blank lines inside a plan.
+7. Nothing else in either plan may establish how long clients keep the old address, so that nothing in the twin makes up for the deleted lines.
+
+OUTPUT FORMAT (exactly this, with nothing before CASE-BEGIN or after CASE-END)
+CASE-BEGIN
+SOUND-BEGIN
+<the sound plan, one sentence per line>
+SOUND-END
+TWIN-BEGIN
+<the twin, one sentence per line>
+TWIN-END
+ORACLE-BEGIN
+requirement_line: <number of the sound-plan line that states the requirement, counting from 1>
+sound_fact_lines: <comma-separated numbers of the sound-plan lines that state the decisive fact>
+decoy_lines: <comma-separated numbers of the sound-plan lines that carry the decoy>
+decisive_fact: <one sentence>
+why_no_fallback: <one sentence: why nothing else in the twin bounds how long clients keep the old address>
+tempting_alternative: <one sentence: the most likely other gap a reviewer might name instead, and why it is not the decisive one>
+ORACLE-END
+CASE-END
