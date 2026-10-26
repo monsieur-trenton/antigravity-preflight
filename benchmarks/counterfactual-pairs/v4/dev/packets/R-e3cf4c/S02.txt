@@ -1,0 +1,13 @@
+Queue profile authentication-audit-stream is configured with queue type standard-concurrent, 8 partitions, ordering key none, and dead letter queue authentication-audit-dlq.
+Queue profile customer-notification-events is configured with queue type standard-concurrent, 12 partitions, ordering key user_id, and dead letter queue customer-notification-dlq.
+Queue profile inventory-reservation-records is configured with queue type fifo-ordered, 24 partitions, ordering key sku_id, and dead letter queue inventory-reservation-dlq.
+Queue profile invoice-generation-requests is configured with queue type standard-concurrent, 16 partitions, ordering key billing_id, and dead letter queue invoice-generation-dlq.
+Queue profile ledger-posting-transactions is configured with queue type fifo-ordered, 32 partitions, ordering key ledger_id, and dead letter queue ledger-posting-dlq.
+Queue profile clearing-settlement-records is configured with queue type fifo-ordered, 16 partitions, ordering key settlement_id, and dead letter queue clearing-settlement-dlq.
+Queue profile payment-reconciliation-stream is configured with queue type standard-concurrent, 16 partitions, ordering key payment_ref, and dead letter queue payment-reconciliation-dlq.
+Queue profile merchant-payout-requests is configured with queue type fifo-ordered, 8 partitions, ordering key merchant_id, and dead letter queue merchant-payout-dlq.
+Queue profile refund-disbursement-events is configured with queue type standard-concurrent, 12 partitions, ordering key refund_id, and dead letter queue refund-disbursement-dlq.
+Queue profile clearing-settlements-records is configured with queue type standard-concurrent, 16 partitions, ordering key none, and dead letter queue clearing-settlements-dlq.
+Queue profile fraud-detection-telemetry is configured with queue type standard-concurrent, 64 partitions, ordering key device_id, and dead letter queue fraud-detection-dlq.
+Queue profile subscription-renewal-stream is configured with queue type fifo-ordered, 16 partitions, ordering key account_id, and dead letter queue subscription-renewal-dlq.
+Queue profile dispute-arbitration-events is configured with queue type standard-concurrent, 8 partitions, ordering key case_id, and dead letter queue dispute-arbitration-dlq.

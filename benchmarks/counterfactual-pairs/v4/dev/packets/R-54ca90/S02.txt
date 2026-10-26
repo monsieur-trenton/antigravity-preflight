@@ -1,0 +1,9 @@
+cohort_name: cohort_internal_dogfood | cohort_type: employee_fleet | status: active_broadcast | max_devices: 1500 | owner: dogfood-ops@mobile.internal
+cohort_name: cohort_qa_automation | cohort_type: synthetic_testing | status: active_broadcast | max_devices: 3000 | owner: qa-automation@mobile.internal
+cohort_name: cohort_beta_external | cohort_type: opt_in_public | status: active_broadcast | max_devices: 12000 | owner: beta-relations@mobile.internal
+cohort_name: cohort_field_specialist | cohort_type: dynamic_specialist | status: active_broadcast | max_devices: 45000 | owner: field-ops@mobile.internal
+cohort_name: cohort_vip_preview | cohort_type: partner_allowlist | status: active_broadcast | max_devices: 8000 | owner: partner-eng@mobile.internal
+cohort_name: cohort_field_specialists | cohort_type: static_legacy_list | status: retired_archived | max_devices: 0 | owner: legacy-ops@mobile.internal
+cohort_name: cohort_regional_partners | cohort_type: commercial_partner | status: active_broadcast | max_devices: 20000 | owner: regional-eng@mobile.internal
+cohort_name: cohort_early_adopters | cohort_type: dynamic_consumer | status: active_broadcast | max_devices: 85000 | owner: growth-team@mobile.internal
+cohort_name: cohort_general_public | cohort_type: production_fleet | status: active_broadcast | max_devices: 2500000 | owner: release-team@mobile.internal

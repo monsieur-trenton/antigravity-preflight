@@ -1,0 +1,25 @@
+The schema defines column settlement_record_id as a UUID PRIMARY KEY that uniquely identifies each partner reconciliation entry.
+The schema defines column partner_batch_id as VARCHAR(64) NOT NULL to track the external batch identifier assigned by the partner.
+The schema defines column batch_sequence_number as BIGINT NOT NULL to maintain the strictly monotonic counter of inbound batches.
+The schema defines column batch_received_at as TIMESTAMPTZ NOT NULL to log the exact UTC arrival time of the incoming batch payload.
+The schema defines column batch_reconciliation_status as VARCHAR(32) NOT NULL DEFAULT 'RECEIVED' to indicate processing lifecycle.
+The schema defines column partner_batch_limit_cents as NUMERIC(14, 2) NOT NULL DEFAULT 0.00 to enforce per-batch reconciliation caps.
+The schema defines column batch_transaction_count as INTEGER NOT NULL DEFAULT 0 to record the total count of payments inside the batch.
+The schema defines column batch_gross_amount_cents as BIGINT NOT NULL DEFAULT 0 to aggregate the total debit sum of all transactions.
+The schema defines column batch_currency_code as VARCHAR(3) NOT NULL DEFAULT 'USD' to ensure compliance with clearing house standards.
+The schema defines column partner_cutoff_window_code as VARCHAR(16) NOT NULL to represent the agreed diurnal settlement trading window.
+The schema defines column partner_cutoff_timestamp as TIMESTAMPTZ NOT NULL to establish the formal closing time for partner submissions.
+The schema defines column cutoff_grace_period_seconds as INTEGER NOT NULL DEFAULT 300 to tolerate transient network transmission latency.
+The schema defines column partner_settlement_limit_cents as BIGINT NOT NULL DEFAULT 0 to establish the maximum clearing limit for batches.
+The schema defines column duplicate_window_seconds as INTEGER NOT NULL DEFAULT 86400 to define the historical deduplication timeframe.
+The schema defines column duplicate_payload_hash as VARCHAR(64) NOT NULL to detect identical payment instructions across partner batches.
+The schema defines column duplicate_record_count as INTEGER NOT NULL DEFAULT 0 to count suppressed duplicate payments during ingestion.
+The schema defines column partner_credit_tier as VARCHAR(12) NOT NULL DEFAULT 'TIER_1' to categorize collateral margin requirements.
+The schema defines column discrepancy_amount_cents as BIGINT NOT NULL DEFAULT 0 to capture variance between partner files and internal records.
+The schema defines column partner_account_number as VARCHAR(34) NOT NULL to designate the master settlement account held by the depository.
+The schema defines column clearing_channel_code as VARCHAR(24) NOT NULL DEFAULT 'FEDWIRE' to route settled funds to appropriate rails.
+The schema defines column partner_signature_hash as VARCHAR(128) NOT NULL to verify cryptographic non-repudiation on batch manifests.
+The schema defines column ingestion_host_identifier as VARCHAR(48) NOT NULL to trace which cluster worker ingested the reconciliation file.
+The schema defines column audit_checksum_value as VARCHAR(64) NOT NULL to guarantee immutable ledger integrity across periodic audits.
+The schema defines column archive_storage_status as VARCHAR(20) NOT NULL DEFAULT 'ACTIVE' to manage hot-to-cold data tier transitions.
+The schema defines column updated_at_timestamp as TIMESTAMPTZ NOT NULL to record the latest modification timestamp by automated workers.

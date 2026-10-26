@@ -1,0 +1,57 @@
+You are writing one test case for a benchmark that measures how well a plan reviewer judges a plan. Write plain text only. You have no tools, and nothing below is a review task: do not review anything.
+
+A case is a PAIR of plans about the same work: a SOUND plan and a TWIN, which is the sound plan with exactly one change. The change is described in the assignment.
+
+ASSIGNMENT
+Domain: A scheduled failover drill between two regions. Entities you may use: traffic split, data lag, runbook steps, abort criteria.
+Family: An irreversible step with no precondition check stated.
+The requirement the plan states, to be written as one testable sentence in the plan's own words: A step fails or corrupts data if a precondition on the data is false, and the plan states the failure consequence.
+What the SOUND plan contains: One to three lines stating a query, scan or dry run over production-scale data that shows the precondition holds, with its result.
+What the TWIN does: Delete exactly those lines. Nothing else establishes the precondition, and no other mechanism guarantees it.
+The line that states the requirement goes in the last third, lines 40 to 59 of the plan.
+The change goes in the last third, lines 40 to 59 of the plan (S01) (the lines to delete, counted in the sound plan).
+Length: the plan (S01) has 59 lines.
+Citation rule (for cite_lines): The requirement line, or the line that performs the step.
+No line of either plan says that anything is unknown or unmeasured; the twin simply never mentions the missing fact. decoy_lines is none. why_no_fallback must say why nothing else in the twin bounds or establishes it.
+Things to keep out of the case:
+- Avoid uniqueness-constraint on a customers table (the v3 family); vary the precondition (no nulls, ordering, size, referential integrity).
+- A write-path guarantee stated elsewhere would absorb the gap; keep it out.
+Concrete choices for you to make and keep consistent: data set and size; precondition; step it protects; consequence; what check was run.
+
+WRITING RULES
+1. Every plan line is one self-contained sentence of 60 to 220 characters, written as an engineer would write a plan, with concrete names, numbers, times and owners. No numbering, bullets, headings or blank lines, and no two lines identical.
+2. Most lines are realistic detail that does not bear on the requirement: monitoring, communication, ownership, change windows, rollback, logging, access. Keep each plan internally consistent. Leave in the ordinary small imperfections a real plan has (no rehearsal, one alert channel, a single owner); they are not what the case is about.
+3. State the requirement in the plan as one sentence from which a reader can decide, from the plan alone, whether the plan meets it. Do not copy the assignment's wording; use the plan's own words, concrete to the domain.
+4. The twin differs from the sound plan by exactly the change the assignment names and by nothing else: do not reword, reorder or add any other line, and add no hint, hedge or sentence about the change.
+5. Apart from the open-item lines the assignment names (if it names any), no line of either plan may say that something is unknown, unmeasured, unconfirmed, pending, undecided or not final.
+6. Do not use the words twin, sound, benchmark, oracle, decisive, counterfactual, test case or omitted in any plan line.
+7. Nothing else in the twin may make up for the change: whatever the change removes or breaks must not be bounded, implied, excused or made harmless anywhere else in either source.
+8. Places are assigned, not chosen. Count lines from 1 in each source. Put each line in the third of the source that the assignment gives.
+
+OUTPUT FORMAT (exactly this, with nothing before CASE-BEGIN or after CASE-END)
+CASE-BEGIN
+SOUND-S01-BEGIN
+<the sound plan, plan S01, one sentence per line>
+SOUND-S01-END
+TWIN-S01-BEGIN
+<the twin, plan S01, one sentence per line>
+TWIN-S01-END
+ORACLE-BEGIN
+requirement_line: <...>
+cite_lines: <...>
+decoy_lines: <...>
+mechanism: <...>
+why_no_fallback: <...>
+bait_notes: <...>
+rubric_keywords: <...>
+ORACLE-END
+CASE-END
+
+ORACLE FIELDS (line numbers are those of the SOUND plan, written as S01:n or S02:n except requirement_line, which is a bare S01 number)
+requirement_line: the line that states the requirement.
+cite_lines: one to four lines a reviewer could cite to show the problem, as the assignment's citation rule says; for an edit this must include the edited line.
+decoy_lines: the open-item lines the assignment asks for, or the word none.
+mechanism: one or two sentences saying exactly what is wrong or missing in the twin and why it matters to the requirement.
+why_no_fallback: one sentence, written as a claim about the changed plan alone (it will be shown to a reader who sees only that plan), saying that nothing in the plan bounds, establishes or makes up for what the change took away or broke; without the words twin, sound, benchmark, oracle, counterfactual or test case. The word none when the assignment does not ask for it.
+bait_notes: two or three ordinary nitpicks a reviewer could raise about the plans that are not the point of the case, separated by |.
+rubric_keywords: one to three groups of lowercase words that a reviewer's report would use when it names the point of the case, a group being comma-separated and groups separated by ;. Each group must contain at least one word that occurs in the sound plan or reference.

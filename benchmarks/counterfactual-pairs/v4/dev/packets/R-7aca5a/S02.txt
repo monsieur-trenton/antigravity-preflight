@@ -1,0 +1,14 @@
+Directory governance registry entry GRP-001 specifies group sso-core-operations with group_type cloud_security and session_lifetime 480 minutes.
+Directory governance registry entry GRP-002 specifies group sso-breakglass-admins with group_type cloud_security and session_lifetime 60 minutes.
+Directory governance registry entry GRP-003 specifies group sso-breakglass-admin with group_type cloud_security and session_lifetime 60 minutes.
+Directory governance registry entry GRP-004 specifies group sso-security-engineers with group_type cloud_security and session_lifetime 240 minutes.
+Directory governance registry entry GRP-005 specifies group sso-workplace-support with group_type onprem_synced and session_lifetime 480 minutes.
+Directory governance registry entry GRP-006 specifies group sso-database-admins with group_type cloud_security and session_lifetime 120 minutes.
+Directory governance registry entry GRP-007 specifies group sso-network-auditors with group_type onprem_synced and session_lifetime 360 minutes.
+Directory governance registry entry GRP-008 specifies group sso-finance-managers with group_type onprem_synced and session_lifetime 480 minutes.
+Directory governance registry entry GRP-009 specifies group sso-breakglass-emergency with group_type cloud_security and session_lifetime 30 minutes.
+Directory governance registry entry GRP-010 specifies group sso-pipeline-deployers with group_type cloud_security and session_lifetime 180 minutes.
+Directory governance registry entry GRP-011 specifies group sso-contractor-staff with group_type onprem_synced and session_lifetime 240 minutes.
+Directory governance registry entry GRP-012 specifies group sso-platform-architects with group_type cloud_security and session_lifetime 480 minutes.
+Directory governance registry entry GRP-013 specifies group sso-compliance-officers with group_type onprem_synced and session_lifetime 360 minutes.
+Directory governance registry entry GRP-014 specifies group sso-incident-commanders with group_type cloud_security and session_lifetime 120 minutes.

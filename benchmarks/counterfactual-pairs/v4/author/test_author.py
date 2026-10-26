@@ -756,6 +756,69 @@ class DriverTests(unittest.TestCase):
             self.assertEqual((code, out["reason"]), (1, "BAD_LIMITS"))
 
 
+DEV_AUTHORING = V4 / "dev-authoring"
+DEV_CORPUS = V4 / "dev"
+
+
+class CommittedDevAuthoringTests(unittest.TestCase):
+    """The committed dev authoring evidence is what the write-up describes: prompts rebuild exactly, reports hash to the ledger, every accepted report passes the
+    checks again, receipts are clean, and the built dev corpus is reproduced from the accepted reports."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.rows = [json.loads(line) for line in (DEV_AUTHORING / "calls.jsonl").read_text(encoding="utf-8").splitlines() if line.strip()]
+
+    def test_the_ledger_covers_every_pair_and_records_every_attempt(self):
+        pairs = [i["pair"] for i in DOCS["dev"]["instances"]]
+        self.assertEqual(sorted({r["pair"] for r in self.rows}), sorted(pairs))
+        self.assertEqual((len(self.rows), sum(r["accepted"] for r in self.rows)), (27, 24))
+        for pair in pairs:
+            own = [r for r in self.rows if r["pair"] == pair]
+            self.assertEqual([r["attempt"] for r in own], list(range(1, len(own) + 1)))
+            self.assertEqual([r["accepted"] for r in own], [False] * (len(own) - 1) + [True])
+            self.assertTrue((DEV_AUTHORING / "accepted" / f"{pair}.A.md").is_file())
+        self.assertEqual({r["runManifestSha256"] for r in self.rows}, {rp.sha((PARENT / "v3-run-gemini/manifest.json").read_bytes())})
+
+    def test_prompts_rebuild_exactly_and_reports_hash_to_the_ledger(self):
+        for r in self.rows:
+            instance = next(i for i in DOCS["dev"]["instances"] if i["pair"] == r["pair"])
+            f = prompts.family_of(instance)
+            prompt = (DEV_AUTHORING / "prompts" / f"{r['pair']}.A.txt").read_bytes()
+            self.assertEqual(prompt, prompts.author_prompt(instance, f, prompts.domain_of(instance)).encode("utf-8"))
+            self.assertEqual((rp.sha(prompt), len(prompt)), (r["promptSha256"], r["promptBytes"]))
+            call = DEV_AUTHORING / "calls" / f"{r['pair']}-author-a{r['attempt']}"
+            report = (call / "REPORT.md").read_bytes()
+            self.assertEqual((rp.sha(report), len(report)), (r["reportSha256"], r["reportBytes"]))
+            result, _ = ca.analyse(report.decode("utf-8"), instance, f)
+            self.assertEqual((result["allPassed"], sorted(k for k, ok in result["checks"].items() if not ok)), (r["allPassed"], r["failedChecks"]))
+            self.assertEqual(r["accepted"], r["allPassed"])
+            if r["accepted"]:
+                self.assertEqual((DEV_AUTHORING / "accepted" / f"{r['pair']}.A.md").read_bytes(), report)
+
+    def test_every_receipt_is_clean_and_unretried(self):
+        binary = json.loads((PARENT / "v3-run-gemini/manifest.json").read_bytes())["binary"]["sha256"]
+        for r in self.rows:
+            self.assertIsNone(r["technicalStop"])
+            receipt = json.loads((DEV_AUTHORING / "calls" / f"{r['pair']}-author-a{r['attempt']}" / "CLI-RECEIPT.json").read_bytes())
+            self.assertEqual((receipt["status"], receipt["failure"], receipt["closingFailures"], receipt["retries"], receipt["invocations"]),
+                             ("REPORT_RECEIVED_PENDING_ADJUDICATION", None, [], 0, {"proxy": 1, "native": 1}))
+            self.assertEqual((receipt["native"]["sha256"], receipt["report"]["sha256"]), (binary, r["reportSha256"]))
+            self.assertEqual((r["receipt"]["model"], r["receipt"]["servedAttestation"]), ("gemini-3.8-flash-high", "UNAVAILABLE"))
+
+    def test_the_three_failed_first_attempts_are_the_recorded_ones(self):
+        failed = sorted((r["pair"], tuple(r["failedChecks"])) for r in self.rows if not r["accepted"])
+        self.assertEqual(sorted(c for _, c in failed), [("NO_ADMISSIONS_OUTSIDE_OPEN_ITEMS",), ("RUBRIC_GROUNDED_IN_THE_PLAN",), ("RUBRIC_GROUNDED_IN_THE_PLAN",)])
+        self.assertTrue(all(r["attempt"] == 1 for r in self.rows if not r["accepted"]))
+
+    def test_the_committed_dev_corpus_is_reproduced_from_the_accepted_reports(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            manifest = bc.build("dev", DEV_AUTHORING / "accepted", Path(tmp) / "out")
+            self.assertEqual(manifest, json.loads((DEV_CORPUS / "manifest.json").read_bytes()))
+            self.assertEqual((Path(tmp) / "out/oracle/oracle.json").read_bytes(), (DEV_CORPUS / "oracle/oracle.json").read_bytes())
+        corpus = s4.Corpus(DEV_CORPUS)
+        self.assertEqual((len(corpus.oracle), manifest["pairs"], manifest["dropped"]), (48, 24, []))
+
+
 class RunScriptTests(unittest.TestCase):
     """The gated helper script: its pinned expectations match the repository, it refuses ungated live calls and its stages need the host stage first."""
     SCRIPT = HERE / "run.sh"

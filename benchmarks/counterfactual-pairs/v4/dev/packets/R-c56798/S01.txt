@@ -1,0 +1,50 @@
+Incident commander Marcus Bell will open the migration bridge on Slack channel #cutover-audit at 22:00 UTC.
+Lead platform engineer Priya Sharma will verify cluster administrative access to the production EKS cluster prod-useast1-eks.
+Reliability engineer Tomoko Sato will silence routine pager alerts for the audit-dispatcher virtual machine auto-scaling group at 22:15 UTC.
+System administrator Dave Clark will confirm that the container image repository contains the audited image tag dispatcher-v3.8.2.
+Security specialist Elena Rostova will verify the cryptographic checksum of container image dispatcher-v3.8.2 against the registry manifest.
+Dave Clark will inspect the base image vulnerability scan results in Amazon ECR to confirm zero critical CVE vulnerabilities.
+Platform engineer Priya Sharma will review the Kubernetes worker node capacity to ensure forty available vCPU cores in node group ng-core-a.
+Infrastructure lead Ryan Miller will verify that memory capacity reservations allocate ninety-six gigabytes across worker nodes in ng-core-b.
+Priya Sharma will apply the Kubernetes ConfigMap audit-worker-config containing updated runtime flags and service discovery endpoints.
+Tomoko Sato will inject production database credentials into the cluster using SealedSecret audit-db-secret at 22:45 UTC.
+Application engineer Keith Vance will configure the HTTP readiness health check with an initial delay of ten seconds on port 8080.
+Keith Vance will verify that the container liveness health check probe polls endpoint /healthz every fifteen seconds with a five-second timeout.
+Operations analyst Rachel Gomez will record the baseline CPU utilization of 42 percent across the twelve EC2 c5.2xlarge virtual machines.
+Rachel Gomez will confirm that legacy VM telemetry streaming to Datadog dashboard 4912 reports a steady state of 18,500 events per second.
+Network engineer Frank Torres will validate security group ingress rules allowing container pods to communicate with Redis cluster cache-prod-01.
+System administrator Dave Clark will back up the current virtual machine environment configuration files to S3 bucket ops-migration-backups.
+Database administrator Sarah Jenkins will verify read-only replicas db-read-01 and db-read-02 maintain replication lag below one millisecond.
+Marcus Bell will announce a database write-quiesce window across all internal client teams in Slack channel #cutover-audit at 23:30 UTC.
+Sarah Jenkins will pause upstream ingestion pipelines to halt new incoming audit events into Aurora database cluster db-primary.
+Running the irreversible in-place compaction utility compact_payloads.py will permanently corrupt audit records if any legacy row in audit_events contains a null tenant identifier.
+Data engineer Liam Vance ran an exhaustive validation query across all 8,420,000 rows in the production audit_events table at 01:30 UTC.
+The validation query returned zero records with a null tenant identifier across the full dataset, verifying that the prerequisite is satisfied.
+Liam Vance will execute compact_payloads.py directly against primary database cluster db-primary at 02:00 UTC to finalize table compaction.
+Database administrator Sarah Jenkins will verify that the script compact_payloads.py exits with return code zero and reports zero dropped rows.
+Priya Sharma will apply the Kubernetes deployment manifest deploying twenty-four container pod replicas of dispatcher-v3.8.2.
+Keith Vance will confirm all twenty-four container pods transition to the Ready state within ninety seconds of manifest application.
+Tomoko Sato will review pod startup logs in CloudWatch to ensure configuration parameters loaded from audit-worker-config without errors.
+Platform engineer Priya Sharma will verify that the container pod readiness health checks begin serving internal traffic on port 8080.
+Tomoko Sato will check container memory usage to verify each replica operates within the requested limit of two gigabytes.
+Network engineer Frank Torres will update Route53 private hosted zone weights to route twenty-five percent of inbound traffic to container pods.
+Rachel Gomez will monitor Prometheus request latency percentiles for container pods during the initial twenty-five percent traffic stage.
+Keith Vance will confirm the p99 latency on container endpoint /process remains below thirty-five milliseconds during the initial stage.
+Frank Torres will increase Route53 DNS weighted routing to direct fifty percent of production ingress traffic to the container pods.
+Marcus Bell will poll the migration team on Slack bridge #cutover-audit before advancing container traffic routing beyond fifty percent.
+Frank Torres will shift Route53 traffic weights to send one hundred percent of production ingress traffic to the Kubernetes ingress controller.
+Rachel Gomez will verify that virtual machine CPU utilization drops to idle levels below four percent across all twelve EC2 instances.
+Tomoko Sato will configure Horizontal Pod Autoscaler hpa-audit-worker with a minimum of sixteen and a maximum of forty-eight container replicas.
+Priya Sharma will simulate synthetic load spikes to verify that the autoscaler dynamically scales container capacity up to thirty replicas.
+Sarah Jenkins will resume upstream ingestion pipelines to allow live event publishing to Aurora cluster db-primary at 04:30 UTC.
+Rachel Gomez will verify that end-to-end event throughput matches the historical baseline of 18,500 events processed per second.
+Keith Vance will inspect container pod logs in Grafana Loki to confirm error rates remain below zero point zero one percent.
+Tomoko Sato will re-enable production alert routing on PagerDuty escalation policy platform-oncall at 05:00 UTC.
+System administrator Dave Clark will stop the systemd service unit audit-dispatcher.service across all twelve legacy virtual machines.
+Dave Clark will take final snapshot backups of the EBS root volumes attached to the twelve legacy virtual machines.
+Infrastructure lead Ryan Miller will terminate the twelve EC2 c5.2xlarge virtual machine instances in AWS region us-east-1.
+Ryan Miller will delete the legacy auto-scaling group asg-audit-dispatcher and associated launch templates from the AWS account.
+Priya Sharma will archive the old virtual machine Ansible deployment playbooks into the historical branch of repository infra-deploy.
+Marcus Bell will post the successful cutover confirmation summary to engineering channel #all-tech at 05:45 UTC.
+Rachel Gomez will export forty-eight hours of Grafana performance dashboards to long-term compliance storage bucket ops-audit-metrics.
+Marcus Bell will formally close the migration incident bridge and release all on-call engineering team members at 06:00 UTC.

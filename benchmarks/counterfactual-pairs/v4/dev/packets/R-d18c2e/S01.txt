@@ -1,0 +1,44 @@
+Lead systems architect Elena Rostova opens the migration bridge at 00:30 UTC on November 14 in the primary operations room.
+Security engineer David Kim confirms that all 140 backend service teams received the scheduled maintenance notification 48 hours prior.
+Site reliability engineer Marcus Vance locks the deployment pipeline at 00:45 UTC to prevent configuration drifts across all clusters.
+Elena Rostova verifies that the migration channel on Slack has 52 active responders present before granting formal clearance.
+Database administrator Priya Patel captures a full snapshot of the legacy MongoDB credentials cluster to volume snap-09a8b12f.
+Marcus Vance verifies the snapshot integrity by mounting volume snap-09a8b12f to temporary recovery host rec-04 in us-east-1.
+Security analyst Carlos Gomez initiates continuous audit streaming to the central Datadog dashboard `mon-sec-migration`.
+David Kim configures Datadog threshold monitor 8821 to trigger an alert if legacy decryption error rates exceed 0.5 percent.
+Carlos Gomez confirms that audit logs for all 8,450 secret paths stream directly into the immutable S3 archive bucket `sec-audit-prod`.
+Infrastructure engineer Rachel Adams provisions the dedicated AWS Secrets Manager instance `asm-prod-useast1-01` via Terraform.
+Rachel Adams applies KMS customer managed key `arn:aws:kms:us-east-1:102938475610:key/sec-key-01` to the target secrets manager.
+David Kim validates that the KMS key policy grants administrative permissions strictly to IAM role `SecOpsMigrationAdminRole`.
+Elena Rostova confirms read replicas for the legacy vault cluster are operational across availability zones us-east-1a and us-east-1b.
+Marcus Vance sets the local memory cache duration to 300 seconds across all running service pods via ConfigMap `vault-client-cfg`.
+Priya Patel verifies read-only replica lag on the legacy secrets database measures below 12 milliseconds at 01:15 UTC.
+David Kim tests connectivity between the staging ECS cluster and the new secrets manager target endpoint over private VPC endpoints.
+Rachel Adams maps all 8,450 legacy secret paths to the hierarchical target schema `/prod/services/<team>/<secret-name>`.
+Elena Rostova reviews the namespace translation matrix `path-mappings-v2.json` to confirm that all 140 service domains match.
+Security engineer Carlos Gomez binds 140 Kubernetes service accounts to their corresponding IAM access roles using IRSA annotations.
+David Kim verifies that IAM role `arn:aws:iam::102938475610:role/payments-service-secrets-role` resolves to target path `/prod/payments`.
+Marcus Vance deploys the automated credential rotation daemon `rotate-worker-v3` as a daemonset across all production worker nodes.
+Rachel Adams provisions the automated rotation Lambda `arn:aws:lambda:us-east-1:102938475610:function:rotate-secret-v1` in us-east-1.
+Carlos Gomez runs a dry run rotation test on non-critical canary secret `/prod/tools/canary-token` to verify Lambda invocation.
+Marcus Vance confirms that the canary secret successfully rotated without throwing errors in CloudWatch log group `/aws/lambda/rotate`.
+Priya Patel configures the dual-write proxy layer at 01:45 UTC to mirror upcoming legacy credential updates to secondary storage.
+David Kim confirms that the dual-write proxy logs zero dropped packets across 10,000 simulated client requests in staging.
+Elena Rostova conducts an operational checkpoint at 02:00 UTC with all team leads before entering the migration window.
+Carlos Gomez adjusts network security group `sg-secrets-mgr-prod` to allow inbound traffic on port 443 strictly from internal subnets.
+Rachel Adams enables KMS access auditing in AWS CloudTrail for all incoming decrypt and generate-data-key API calls.
+Marcus Vance sets the application client cache duration to 900 seconds across all service environments to prepare for cutover.
+Elena Rostova activates read-only maintenance mode on the legacy MongoDB credentials store at 02:15 UTC to freeze modifications.
+Priya Patel exports all 8,450 production secrets from the legacy database to encrypted staging volume `vol-staging-export-01`.
+David Kim validates that access roles in `roles-prod.json` map to valid IAM role ARNs for all 8,450 exported secret paths.
+All 8,450 legacy secret payloads must not exceed 64 KiB, because the irreversible bulk ingestion step truncates oversized values and permanently corrupts application credentials.
+Marcus Vance executes a payload size scan script `scan_secret_sizes.py` across all 8,450 exported records on volume `vol-staging-export-01` at 02:30 UTC.
+The scan script confirms that the maximum payload size across all 8,450 secrets is 38.4 KiB, verifying that zero secrets violate the 64 KiB limit.
+At 02:45 UTC, Rachel Adams executes the irreversible bulk ingestion script `import_secrets.py` to write all 8,450 secrets directly into AWS Secrets Manager.
+David Kim verifies through AWS CloudTrail that all 8,450 secret entries were created under their target paths in AWS Secrets Manager.
+Carlos Gomez enables the 30-day automated credential rotation schedule across all imported database secrets via CLI command `enable-rotation`.
+Elena Rostova switches the DNS alias `secrets.prod.internal` to point to the new secrets manager interface at 03:15 UTC.
+Marcus Vance monitors application error rates and decrypt latency across all 140 services for 30 minutes following the DNS cutover.
+David Kim permanently revokes legacy access roles and terminates read-write tokens for the deprecated MongoDB credentials store.
+Priya Patel unmounts staging volume `vol-staging-export-01` and releases temporary recovery host rec-04 at 04:00 UTC.
+Elena Rostova posts the successful migration sign-off to Slack channel `#prod-deployments` and closes the bridge at 04:15 UTC.

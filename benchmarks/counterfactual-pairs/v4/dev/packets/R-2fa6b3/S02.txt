@@ -1,0 +1,24 @@
+Authoritative zone entry dev-rec-1001 registers auth.dev.payments.net as record type A targeting 198.51.100.10 with ttl 300 under active routing.
+Authoritative zone entry dev-rec-1002 registers vault.dev.payments.net as record type A targeting 198.51.100.12 with ttl 300 under active routing.
+Authoritative zone entry dev-rec-1003 registers billing.dev.payments.net as record type CNAME targeting legacy-edge.cloudcdn.dev with ttl 300.
+Authoritative zone entry dev-rec-1004 registers api-checkout.dev.payments.net as record type CNAME targeting legacy-edge.cloudcdn.dev with ttl 300.
+Authoritative zone entry dev-rec-1005 registers webhook.dev.payments.net as record type CNAME targeting legacy-edge.cloudcdn.dev with ttl 300.
+Authoritative zone entry dev-rec-1006 registers portal.dev.payments.net as record type A targeting 198.51.100.18 with ttl 300 under active routing.
+Authoritative zone entry dev-rec-1007 registers receipt.dev.payments.net as record type CNAME targeting legacy-edge.cloudcdn.dev with ttl 300.
+Authoritative zone entry dev-rec-1008 registers ledger.dev.payments.net as record type A targeting 198.51.100.22 with ttl 300 under active routing.
+Authoritative zone entry dev-rec-1009 registers dispute.dev.payments.net as record type CNAME targeting legacy-edge.cloudcdn.dev with ttl 300.
+Authoritative zone entry dev-rec-1010 registers report.dev.payments.net as record type A targeting 198.51.100.25 with ttl 300 under active routing.
+Authoritative zone entry dev-rec-1011 registers token.dev.payments.net as record type A targeting 198.51.100.28 with ttl 300 under active routing.
+Authoritative zone entry dev-rec-1012 registers notify.dev.payments.net as record type CNAME targeting legacy-edge.cloudcdn.dev with ttl 300.
+Authoritative zone entry dev-rec-1013 registers settlement.dev.payments.net as record type A targeting 198.51.100.32 with ttl 300 under active routing.
+Authoritative zone entry dev-rec-1014 registers api-checkouts.dev.payments.net as record type CNAME targeting legacy-edge.cloudcdn.dev with ttl 300.
+Authoritative zone entry dev-rec-1015 registers invoice.dev.payments.net as record type CNAME targeting legacy-edge.cloudcdn.dev with ttl 300.
+Authoritative zone entry dev-rec-1016 registers capture.dev.payments.net as record type A targeting 198.51.100.35 with ttl 300 under active routing.
+Authoritative zone entry dev-rec-1017 registers refund.dev.payments.net as record type CNAME targeting legacy-edge.cloudcdn.dev with ttl 300.
+Authoritative zone entry dev-rec-1018 registers payout.dev.payments.net as record type A targeting 198.51.100.38 with ttl 300 under active routing.
+Authoritative zone entry dev-rec-1019 registers card.dev.payments.net as record type A targeting 198.51.100.40 with ttl 300 under active routing.
+Authoritative zone entry dev-rec-1020 registers dispute-notify.dev.payments.net as record type CNAME targeting legacy-edge.cloudcdn.dev with ttl 300.
+Authoritative zone entry dev-rec-1021 registers analytics.dev.payments.net as record type A targeting 198.51.100.50 with ttl 300 under active routing.
+Authoritative zone entry dev-rec-1022 registers merchant.dev.payments.net as record type CNAME targeting legacy-edge.cloudcdn.dev with ttl 300.
+Authoritative zone entry dev-rec-1023 registers gateway-status.dev.payments.net as record type A targeting 198.51.100.55 with ttl 300 under active routing.
+Authoritative zone entry dev-rec-1024 registers internal-proxy.dev.payments.net as record type A targeting 198.51.100.60 with ttl 300 under active routing.

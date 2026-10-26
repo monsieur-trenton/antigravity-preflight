@@ -1,0 +1,3102 @@
+{
+ "cases": [
+  {
+   "case": "R-2fa6b3",
+   "pair": "N-ba0d02",
+   "family": "schema_state",
+   "kind": "cross_source_defect",
+   "domain": "payments_api_cdn_cutover",
+   "wording": "A",
+   "role": "sound",
+   "expectedClass": "SOUND",
+   "expectedVerdict": "GO",
+   "difficulty": "inference",
+   "sources": [
+    {
+     "id": "S01",
+     "role": "plan",
+     "lines": 40
+    },
+    {
+     "id": "S02",
+     "role": "reference",
+     "lines": 24
+    }
+   ],
+   "requirement": {
+    "source": "S01",
+    "line": 31
+   },
+   "citeAnyOf": [],
+   "changed": {
+    "type": "edited",
+    "source": "S02",
+    "lines": [
+     4
+    ],
+    "positionBucket": "early"
+   },
+   "decoyLines": [],
+   "mechanism": null,
+   "whyNoFallback": null,
+   "baitNotes": [
+    "Only a single engineer Marcus Vance is assigned to perform and verify the DNS record update during the cutover window",
+    "The migration plan routes all operational alerting through a single Slack channel dev-payments-cutover without PagerDuty integration",
+    "No staging rehearsal is scheduled in a lower environment prior to executing the dev cutover"
+   ],
+   "rubricKeywords": [
+    [
+     "cname",
+     "record type",
+     "a record"
+    ],
+    [
+     "api-checkout.dev.payments.net",
+     "authoritative",
+     "inventory"
+    ],
+    [
+     "assumption",
+     "dev zone",
+     "fastedge"
+    ]
+   ]
+  },
+  {
+   "case": "R-d53fa1",
+   "pair": "N-d0d08d",
+   "family": "open_item_scope",
+   "kind": "decoy_pair",
+   "domain": "feature_flag_rollout",
+   "wording": "A",
+   "role": "sound",
+   "expectedClass": "SOUND",
+   "expectedVerdict": "GO",
+   "difficulty": "decoy",
+   "sources": [
+    {
+     "id": "S01",
+     "role": "plan",
+     "lines": 60
+    }
+   ],
+   "requirement": {
+    "source": "S01",
+    "line": 4
+   },
+   "citeAnyOf": [],
+   "changed": {
+    "type": "edited",
+    "source": "S01",
+    "lines": [
+     8
+    ],
+    "positionBucket": "early"
+   },
+   "decoyLines": [
+    {
+     "source": "S01",
+     "line": 28
+    }
+   ],
+   "mechanism": null,
+   "whyNoFallback": null,
+   "baitNotes": [
+    "Elena Rostova is the sole engineer assigned to monitor error rate alerts during all cohort expansions",
+    "The plan uses a single Slack channel rather than automated paging for rollback notifications",
+    "No dry run of the kill switch script is scheduled prior to the initial canary rollout"
+   ],
+   "rubricKeywords": [
+    [
+     "billing reconciliation worker",
+     "scope"
+    ],
+    [
+     "unconfirmed",
+     "batch flush interval"
+    ],
+    [
+     "cohort traffic",
+     "operational settings"
+    ]
+   ]
+  },
+  {
+   "case": "R-c94c90",
+   "pair": "N-90d970",
+   "family": "omitted_precondition_check",
+   "kind": "omitted_unknown",
+   "domain": "email_provider_migration",
+   "wording": "A",
+   "role": "changed",
+   "expectedClass": "UNCERTAIN",
+   "expectedVerdict": "GO_WITH_CHANGES",
+   "difficulty": "omission",
+   "sources": [
+    {
+     "id": "S01",
+     "role": "plan",
+     "lines": 44
+    }
+   ],
+   "requirement": {
+    "source": "S01",
+    "line": 19
+   },
+   "citeAnyOf": [
+    {
+     "source": "S01",
+     "line": 19
+    },
+    {
+     "source": "S01",
+     "line": 32
+    }
+   ],
+   "changed": {
+    "type": "deleted",
+    "source": "S01",
+    "lines": [
+     10,
+     11
+    ],
+    "positionBucket": "early"
+   },
+   "decoyLines": [],
+   "mechanism": "The verification scan that confirms legacy suppression records have no null category fields is missing, leaving the precondition unverified before running the bulk import. Without this check, encountering null values will cause the provider API to abort mid-stream and permanently corrupt the suppression registry.",
+   "whyNoFallback": "No database schema constraints, write-path validations, or pre-upload filtering routines exist in the plan to guarantee that the 420,000 legacy records contain non-null bounce categories prior to ingestion.",
+   "baitNotes": [
+    "MX record TTL is lowered to three hundred seconds only two hours prior to cutover rather than twenty-four hours in advance",
+    "A single engineer executes the DNS cutover without requiring a secondary approver on the change ticket",
+    "Rollback capability relies on the legacy provider account remaining active for only twenty-four hours."
+   ],
+   "rubricKeywords": [
+    [
+     "validation scan",
+     "null bounce_category",
+     "suppression records"
+    ],
+    [
+     "precondition check",
+     "bulk ingestion",
+     "suppression registry"
+    ]
+   ]
+  },
+  {
+   "case": "R-f6b2c6",
+   "pair": "N-5770ac",
+   "family": "schema_state",
+   "kind": "cross_source_defect",
+   "domain": "kubernetes_node_pool_migration",
+   "wording": "A",
+   "role": "sound",
+   "expectedClass": "SOUND",
+   "expectedVerdict": "GO",
+   "difficulty": "inference",
+   "sources": [
+    {
+     "id": "S01",
+     "role": "plan",
+     "lines": 37
+    },
+    {
+     "id": "S02",
+     "role": "reference",
+     "lines": 25
+    }
+   ],
+   "requirement": {
+    "source": "S01",
+    "line": 5
+   },
+   "citeAnyOf": [],
+   "changed": {
+    "type": "edited",
+    "source": "S02",
+    "lines": [
+     21
+    ],
+    "positionBucket": "late"
+   },
+   "decoyLines": [],
+   "mechanism": null,
+   "whyNoFallback": null,
+   "baitNotes": [
+    "Maintenance window has no dry run rehearsal scheduled",
+    "Single Slack alert channel is used without secondary paging escalation",
+    "Rachel Adams is listed as sole secondary approver without a backup reviewer"
+   ],
+   "rubricKeywords": [
+    [
+     "pdb-payment-settlement",
+     "minavailable",
+     "maxunavailable"
+    ],
+    [
+     "eviction",
+     "drain",
+     "pod disruption budget"
+    ],
+    [
+     "k8s-m5-prod-03",
+     "disruption"
+    ]
+   ]
+  },
+  {
+   "case": "R-bc5f51",
+   "pair": "N-f32098",
+   "family": "schema_state",
+   "kind": "cross_source_defect",
+   "domain": "search_index_rebuild",
+   "wording": "A",
+   "role": "sound",
+   "expectedClass": "SOUND",
+   "expectedVerdict": "GO",
+   "difficulty": "inference",
+   "sources": [
+    {
+     "id": "S01",
+     "role": "plan",
+     "lines": 41
+    },
+    {
+     "id": "S02",
+     "role": "reference",
+     "lines": 18
+    }
+   ],
+   "requirement": {
+    "source": "S01",
+    "line": 33
+   },
+   "citeAnyOf": [],
+   "changed": {
+    "type": "edited",
+    "source": "S02",
+    "lines": [
+     9
+    ],
+    "positionBucket": "middle"
+   },
+   "decoyLines": [],
+   "mechanism": null,
+   "whyNoFallback": null,
+   "baitNotes": [
+    "The plan routes all operational alerts and incident escalations to a single Slack webhook channel without a secondary paging service fallback",
+    "No pre-migration rehearsal or dry-run verification is conducted on staging prior to initiating the production rebuild",
+    "A single database engineer is assigned to execute every index management step without an explicit secondary peer reviewer"
+   ],
+   "rubricKeywords": [
+    [
+     "catalog_products_v3",
+     "unallocated",
+     "exists"
+    ],
+    [
+     "target index",
+     "put request",
+     "creation conflict"
+    ],
+    [
+     "cluster listing",
+     "already active",
+     "primary shards"
+    ]
+   ]
+  },
+  {
+   "case": "R-52384b",
+   "pair": "N-102a76",
+   "family": "omitted_precondition_check",
+   "kind": "omitted_unknown",
+   "domain": "build_system_change",
+   "wording": "A",
+   "role": "sound",
+   "expectedClass": "SOUND",
+   "expectedVerdict": "GO",
+   "difficulty": "omission",
+   "sources": [
+    {
+     "id": "S01",
+     "role": "plan",
+     "lines": 38
+    }
+   ],
+   "requirement": {
+    "source": "S01",
+    "line": 2
+   },
+   "citeAnyOf": [],
+   "changed": {
+    "type": "deleted",
+    "source": "S01",
+    "lines": [
+     3,
+     4
+    ],
+    "positionBucket": "early"
+   },
+   "decoyLines": [],
+   "mechanism": null,
+   "whyNoFallback": null,
+   "baitNotes": [
+    "Build health alerts in the Slack channel are silenced for the entire maintenance window rather than dynamically adjusted",
+    "Only a single engineer is assigned to run the compaction script and verify database integrity",
+    "The performance read query validates only 5,000 keys out of over 14 million records"
+   ],
+   "rubricKeywords": [
+    [
+     "compaction",
+     "null",
+     "target identifier",
+     "precondition"
+    ],
+    [
+     "scan",
+     "integrity",
+     "artifact records",
+     "corrupt"
+    ],
+    [
+     "irreversible",
+     "cache index",
+     "rebuild cascade"
+    ]
+   ]
+  },
+  {
+   "case": "R-f5e1df",
+   "pair": "N-f9a801",
+   "family": "schema_state",
+   "kind": "cross_source_defect",
+   "domain": "reconciliation_job",
+   "wording": "A",
+   "role": "changed",
+   "expectedClass": "DEFECT",
+   "expectedVerdict": "NO_GO",
+   "difficulty": "inference",
+   "sources": [
+    {
+     "id": "S01",
+     "role": "plan",
+     "lines": 50
+    },
+    {
+     "id": "S02",
+     "role": "reference",
+     "lines": 25
+    }
+   ],
+   "requirement": {
+    "source": "S01",
+    "line": 25
+   },
+   "citeAnyOf": [
+    {
+     "source": "S01",
+     "line": 8
+    },
+    {
+     "source": "S02",
+     "line": 13
+    }
+   ],
+   "changed": {
+    "type": "edited",
+    "source": "S01",
+    "lines": [
+     8
+    ],
+    "positionBucket": "early"
+   },
+   "decoyLines": [],
+   "mechanism": "The plan step configures the settlement check assuming partner_settlement_limit_cents is of type NUMERIC(14, 2), but the schema listing in S02 defines it as BIGINT. This directly contradicts the listed database schema state and violates the requirement that all batch validation steps conform to S02 column definitions.",
+   "whyNoFallback": null,
+   "baitNotes": [
+    "The plan relies on a single conference call channel for all operational deployment communication",
+    "Database lock acquisition lacks an automated backoff and retry mechanism if the advisory lock cannot be immediately obtained",
+    "Synthetic validation uses only ten transactions rather than executing a full pre-cutover rehearsal with production-sized batches"
+   ],
+   "rubricKeywords": [
+    [
+     "partner_settlement_limit_cents",
+     "bigint",
+     "numeric"
+    ],
+    [
+     "column",
+     "data type",
+     "mismatch"
+    ],
+    [
+     "schema",
+     "contradiction",
+     "partner_batch_limit_cents"
+    ]
+   ]
+  },
+  {
+   "case": "R-e1dbe6",
+   "pair": "N-b8603d",
+   "family": "schema_state",
+   "kind": "cross_source_defect",
+   "domain": "message_queue_consumer_scaling",
+   "wording": "A",
+   "role": "sound",
+   "expectedClass": "SOUND",
+   "expectedVerdict": "GO",
+   "difficulty": "inference",
+   "sources": [
+    {
+     "id": "S01",
+     "role": "plan",
+     "lines": 43
+    },
+    {
+     "id": "S02",
+     "role": "reference",
+     "lines": 13
+    }
+   ],
+   "requirement": {
+    "source": "S01",
+    "line": 5
+   },
+   "citeAnyOf": [],
+   "changed": {
+    "type": "edited",
+    "source": "S01",
+    "lines": [
+     21
+    ],
+    "positionBucket": "middle"
+   },
+   "decoyLines": [],
+   "mechanism": null,
+   "whyNoFallback": null,
+   "baitNotes": [
+    "Alerting rules are silenced globally across the entire maintenance window rather than queue-by-queue during individual consumer updates",
+    "Marcus Vance is assigned as the sole operator executing multiple critical tuning steps without a dedicated secondary reviewer",
+    "The plan lacks an automated canary rollback trigger if consumer lag spikes during batch size increases"
+   ],
+   "rubricKeywords": [
+    [
+     "clearing-settlement-records",
+     "fifo-ordered",
+     "standard-concurrent"
+    ],
+    [
+     "ordering key",
+     "partition count",
+     "batch size"
+    ],
+    [
+     "queue type",
+     "s02",
+     "mismatch"
+    ]
+   ]
+  },
+  {
+   "case": "R-89054d",
+   "pair": "N-5770ac",
+   "family": "schema_state",
+   "kind": "cross_source_defect",
+   "domain": "kubernetes_node_pool_migration",
+   "wording": "A",
+   "role": "changed",
+   "expectedClass": "DEFECT",
+   "expectedVerdict": "NO_GO",
+   "difficulty": "inference",
+   "sources": [
+    {
+     "id": "S01",
+     "role": "plan",
+     "lines": 37
+    },
+    {
+     "id": "S02",
+     "role": "reference",
+     "lines": 25
+    }
+   ],
+   "requirement": {
+    "source": "S01",
+    "line": 5
+   },
+   "citeAnyOf": [
+    {
+     "source": "S01",
+     "line": 29
+    },
+    {
+     "source": "S02",
+     "line": 21
+    }
+   ],
+   "changed": {
+    "type": "edited",
+    "source": "S02",
+    "lines": [
+     21
+    ],
+    "positionBucket": "late"
+   },
+   "decoyLines": [],
+   "mechanism": "In the twin, S02 line 21 defines pdb-payment-settlement with policy type minAvailable permitting zero disruptions instead of maxUnavailable. This contradicts the requirement and causes the drain step for node k8s-m5-prod-03 at S01:29 to fail because the eviction API blocks pod evacuation.",
+   "whyNoFallback": null,
+   "baitNotes": [
+    "Maintenance window has no dry run rehearsal scheduled",
+    "Single Slack alert channel is used without secondary paging escalation",
+    "Rachel Adams is listed as sole secondary approver without a backup reviewer"
+   ],
+   "rubricKeywords": [
+    [
+     "pdb-payment-settlement",
+     "minavailable",
+     "maxunavailable"
+    ],
+    [
+     "eviction",
+     "drain",
+     "pod disruption budget"
+    ],
+    [
+     "k8s-m5-prod-03",
+     "disruption"
+    ]
+   ]
+  },
+  {
+   "case": "R-e3cf4c",
+   "pair": "N-b8603d",
+   "family": "schema_state",
+   "kind": "cross_source_defect",
+   "domain": "message_queue_consumer_scaling",
+   "wording": "A",
+   "role": "changed",
+   "expectedClass": "DEFECT",
+   "expectedVerdict": "NO_GO",
+   "difficulty": "inference",
+   "sources": [
+    {
+     "id": "S01",
+     "role": "plan",
+     "lines": 43
+    },
+    {
+     "id": "S02",
+     "role": "reference",
+     "lines": 13
+    }
+   ],
+   "requirement": {
+    "source": "S01",
+    "line": 5
+   },
+   "citeAnyOf": [
+    {
+     "source": "S01",
+     "line": 21
+    },
+    {
+     "source": "S02",
+     "line": 6
+    }
+   ],
+   "changed": {
+    "type": "edited",
+    "source": "S01",
+    "lines": [
+     21
+    ],
+    "positionBucket": "middle"
+   },
+   "decoyLines": [],
+   "mechanism": "Step 21 assumes that clearing-settlement-records is a standard-concurrent queue without ordering keys, which contradicts S02:6 where it is cataloged as fifo-ordered with ordering key settlement_id. This mismatch causes invalid concurrency scaling past the 16 available partitions and invalidates message ordering guarantees.",
+   "whyNoFallback": null,
+   "baitNotes": [
+    "Alerting rules are silenced globally across the entire maintenance window rather than queue-by-queue during individual consumer updates",
+    "Marcus Vance is assigned as the sole operator executing multiple critical tuning steps without a dedicated secondary reviewer",
+    "The plan lacks an automated canary rollback trigger if consumer lag spikes during batch size increases"
+   ],
+   "rubricKeywords": [
+    [
+     "clearing-settlement-records",
+     "fifo-ordered",
+     "standard-concurrent"
+    ],
+    [
+     "ordering key",
+     "partition count",
+     "batch size"
+    ],
+    [
+     "queue type",
+     "s02",
+     "mismatch"
+    ]
+   ]
+  },
+  {
+   "case": "R-e93919",
+   "pair": "N-fc68f6",
+   "family": "open_item_scope",
+   "kind": "decoy_pair",
+   "domain": "api_version_deprecation",
+   "wording": "A",
+   "role": "changed",
+   "expectedClass": "UNCERTAIN",
+   "expectedVerdict": "GO_WITH_CHANGES",
+   "difficulty": "decoy",
+   "sources": [
+    {
+     "id": "S01",
+     "role": "plan",
+     "lines": 60
+    }
+   ],
+   "requirement": {
+    "source": "S01",
+    "line": 26
+   },
+   "citeAnyOf": [
+    {
+     "source": "S01",
+     "line": 8
+    },
+    {
+     "source": "S01",
+     "line": 15
+    }
+   ],
+   "changed": {
+    "type": "edited",
+    "source": "S01",
+    "lines": [
+     8
+    ],
+    "positionBucket": "early"
+   },
+   "decoyLines": [
+    {
+     "source": "S01",
+     "line": 15
+    }
+   ],
+   "mechanism": "Line S01:8 brings the legacy protocol translation shim into scope for this deprecation release, but line S01:15 leaves its worker thread allocations and buffer limits pending hardware validation. This directly violates the requirement on line S01:26 that every component included in the scope of the release must possess fully approved operational parameters and completely finalized configuration values.",
+   "whyNoFallback": "No subsequent operational step or fallback procedure in the plan defines approved worker thread limits or buffer values for the legacy protocol translation shim before execution begins.",
+   "baitNotes": [
+    "All rollback procedures rely on a manual configuration revert instead of an automated pipeline trigger",
+    "Marcus Vance is designated as the sole primary on-call engineer for post-cutover alerts without a secondary backup",
+    "The deprecation timeline lacks a staging rehearsal window prior to production execution."
+   ],
+   "rubricKeywords": [
+    [
+     "translation shim",
+     "in scope",
+     "pending"
+    ],
+    [
+     "hardware validation",
+     "unapproved parameters"
+    ],
+    [
+     "operational parameters",
+     "configuration values"
+    ]
+   ]
+  },
+  {
+   "case": "R-653eb5",
+   "pair": "N-4b040d",
+   "family": "open_item_scope",
+   "kind": "decoy_pair",
+   "domain": "rate_limit_policy_change",
+   "wording": "A",
+   "role": "sound",
+   "expectedClass": "SOUND",
+   "expectedVerdict": "GO",
+   "difficulty": "decoy",
+   "sources": [
+    {
+     "id": "S01",
+     "role": "plan",
+     "lines": 51
+    }
+   ],
+   "requirement": {
+    "source": "S01",
+    "line": 42
+   },
+   "citeAnyOf": [],
+   "changed": {
+    "type": "edited",
+    "source": "S01",
+    "lines": [
+     24
+    ],
+    "positionBucket": "middle"
+   },
+   "decoyLines": [
+    {
+     "source": "S01",
+     "line": 8
+    }
+   ],
+   "mechanism": null,
+   "whyNoFallback": null,
+   "baitNotes": [
+    "The rollout procedure relies on a single maintenance bridge channel without an automated secondary communication path",
+    "No rehearsal window is scheduled before applying rate-limit rules to production traffic",
+    "Only one engineer is assigned to monitor latency metrics during the canary shifts."
+   ],
+   "rubricKeywords": [
+    [
+     "client notice dispatcher",
+     "in scope",
+     "out of scope"
+    ],
+    [
+     "pending validation",
+     "approved operational specifications"
+    ],
+    [
+     "delivery retry schedule",
+     "rate-limit policy deployment"
+    ]
+   ]
+  },
+  {
+   "case": "R-237c3b",
+   "pair": "N-9cc72c",
+   "family": "open_item_scope",
+   "kind": "decoy_pair",
+   "domain": "nightly_batch_etl",
+   "wording": "A",
+   "role": "changed",
+   "expectedClass": "UNCERTAIN",
+   "expectedVerdict": "GO_WITH_CHANGES",
+   "difficulty": "decoy",
+   "sources": [
+    {
+     "id": "S01",
+     "role": "plan",
+     "lines": 40
+    }
+   ],
+   "requirement": {
+    "source": "S01",
+    "line": 4
+   },
+   "citeAnyOf": [
+    {
+     "source": "S01",
+     "line": 8
+    },
+    {
+     "source": "S01",
+     "line": 32
+    }
+   ],
+   "changed": {
+    "type": "edited",
+    "source": "S01",
+    "lines": [
+     32
+    ],
+    "positionBucket": "late"
+   },
+   "decoyLines": [
+    {
+     "source": "S01",
+     "line": 8
+    }
+   ],
+   "mechanism": "The changed plan brings the fx_rate_enrichment_module into deployment scope while its replay checkpoints remain unconfirmed from an earlier storage migration. This breaches the requirement that every warehouse ingestion module included in the deployment scope must have confirmed replay checkpoints before job execution.",
+   "whyNoFallback": "No subsequent step in the deployment plan verifies the replay checkpoints for the fx_rate_enrichment_module or provides an alternative validation mechanism before execution begins.",
+   "baitNotes": [
+    "All database rollback procedures rely entirely on David Kim without a designated secondary engineer",
+    "The staging cluster snapshot is retained for only twelve hours rather than a full billing cycle",
+    "Telemetry alerts route exclusively to a single Slack channel without automated pager escalation"
+   ],
+   "rubricKeywords": [
+    [
+     "fx_rate_enrichment_module",
+     "scope",
+     "checkpoints"
+    ],
+    [
+     "unconfirmed",
+     "replay",
+     "deployment"
+    ],
+    [
+     "requirement",
+     "out of scope",
+     "in scope"
+    ]
+   ]
+  },
+  {
+   "case": "R-bc5cc9",
+   "pair": "N-e889b3",
+   "family": "schema_state",
+   "kind": "cross_source_defect",
+   "domain": "database_major_upgrade",
+   "wording": "A",
+   "role": "changed",
+   "expectedClass": "DEFECT",
+   "expectedVerdict": "NO_GO",
+   "difficulty": "inference",
+   "sources": [
+    {
+     "id": "S01",
+     "role": "plan",
+     "lines": 31
+    },
+    {
+     "id": "S02",
+     "role": "reference",
+     "lines": 18
+    }
+   ],
+   "requirement": {
+    "source": "S01",
+    "line": 14
+   },
+   "citeAnyOf": [
+    {
+     "source": "S01",
+     "line": 25
+    },
+    {
+     "source": "S02",
+     "line": 9
+    }
+   ],
+   "changed": {
+    "type": "edited",
+    "source": "S01",
+    "lines": [
+     25
+    ],
+    "positionBucket": "late"
+   },
+   "decoyLines": [],
+   "mechanism": "Line 25 drops user group analytics_pipeline_worker, which S02:9 lists as retaining 18 active member assignments across reporting database schemas. This directly contradicts the requirement in line 14 that every dropped user group must possess zero active member assignments in directory listing S02.",
+   "whyNoFallback": null,
+   "baitNotes": [
+    "The plan assigns all catalog cleanup and execution commands to a single engineer Marcus Vance without a designated peer reviewer.",
+    "Incident communications and window status updates rely solely on a single Slack channel #db-cutover without PagerDuty or email notifications.",
+    "Autovacuum is disabled across all schemas during structural updates without specifying a schedule to restore original autovacuum thresholds."
+   ],
+   "rubricKeywords": [
+    [
+     "analytics_pipeline_worker",
+     "member assignments"
+    ],
+    [
+     "user group",
+     "catalog cleanup"
+    ],
+    [
+     "active assignments",
+     "directory listing"
+    ]
+   ]
+  },
+  {
+   "case": "R-eb2d87",
+   "pair": "N-b6780a",
+   "family": "omitted_precondition_check",
+   "kind": "omitted_unknown",
+   "domain": "secrets_manager_migration",
+   "wording": "A",
+   "role": "changed",
+   "expectedClass": "UNCERTAIN",
+   "expectedVerdict": "GO_WITH_CHANGES",
+   "difficulty": "omission",
+   "sources": [
+    {
+     "id": "S01",
+     "role": "plan",
+     "lines": 42
+    }
+   ],
+   "requirement": {
+    "source": "S01",
+    "line": 34
+   },
+   "citeAnyOf": [
+    {
+     "source": "S01",
+     "line": 34
+    },
+    {
+     "source": "S01",
+     "line": 35
+    }
+   ],
+   "changed": {
+    "type": "deleted",
+    "source": "S01",
+    "lines": [
+     35,
+     36
+    ],
+    "positionBucket": "late"
+   },
+   "decoyLines": [],
+   "mechanism": "The plan requires all secret payloads to measure under 64 KiB because the irreversible bulk ingestion script permanently truncates oversized values, but the twin deletes the pre-migration scan confirming that no production secrets exceed this limit. Without this precondition check, oversized secret payloads will be truncated and permanently corrupted during ingestion without any opportunity for recovery.",
+   "whyNoFallback": "Nothing in the plan verifies legacy payload sizes, limits write lengths upstream, or provides validation before executing the irreversible bulk ingestion script.",
+   "baitNotes": [
+    "Application client cache duration of 900 seconds introduces a fifteen-minute propagation delay during emergency cutover",
+    "The alert escalation path routes exclusively through a single Slack channel without secondary paging",
+    "Snapshot restoration is verified on a single temporary recovery host without multi-region failover testing"
+   ],
+   "rubricKeywords": [
+    [
+     "payload size",
+     "64 kib",
+     "scan"
+    ],
+    [
+     "bulk ingestion",
+     "irreversible",
+     "truncate"
+    ],
+    [
+     "precondition",
+     "verification",
+     "corrupt"
+    ]
+   ]
+  },
+  {
+   "case": "R-d18c2e",
+   "pair": "N-b6780a",
+   "family": "omitted_precondition_check",
+   "kind": "omitted_unknown",
+   "domain": "secrets_manager_migration",
+   "wording": "A",
+   "role": "sound",
+   "expectedClass": "SOUND",
+   "expectedVerdict": "GO",
+   "difficulty": "omission",
+   "sources": [
+    {
+     "id": "S01",
+     "role": "plan",
+     "lines": 44
+    }
+   ],
+   "requirement": {
+    "source": "S01",
+    "line": 34
+   },
+   "citeAnyOf": [],
+   "changed": {
+    "type": "deleted",
+    "source": "S01",
+    "lines": [
+     35,
+     36
+    ],
+    "positionBucket": "late"
+   },
+   "decoyLines": [],
+   "mechanism": null,
+   "whyNoFallback": null,
+   "baitNotes": [
+    "Application client cache duration of 900 seconds introduces a fifteen-minute propagation delay during emergency cutover",
+    "The alert escalation path routes exclusively through a single Slack channel without secondary paging",
+    "Snapshot restoration is verified on a single temporary recovery host without multi-region failover testing"
+   ],
+   "rubricKeywords": [
+    [
+     "payload size",
+     "64 kib",
+     "scan"
+    ],
+    [
+     "bulk ingestion",
+     "irreversible",
+     "truncate"
+    ],
+    [
+     "precondition",
+     "verification",
+     "corrupt"
+    ]
+   ]
+  },
+  {
+   "case": "R-d08a12",
+   "pair": "N-9c5803",
+   "family": "omitted_precondition_check",
+   "kind": "omitted_unknown",
+   "domain": "log_pipeline_vendor_switch",
+   "wording": "A",
+   "role": "changed",
+   "expectedClass": "UNCERTAIN",
+   "expectedVerdict": "GO_WITH_CHANGES",
+   "difficulty": "omission",
+   "sources": [
+    {
+     "id": "S01",
+     "role": "plan",
+     "lines": 31
+    }
+   ],
+   "requirement": {
+    "source": "S01",
+    "line": 16
+   },
+   "citeAnyOf": [
+    {
+     "source": "S01",
+     "line": 16
+    },
+    {
+     "source": "S01",
+     "line": 24
+    }
+   ],
+   "changed": {
+    "type": "deleted",
+    "source": "S01",
+    "lines": [
+     24,
+     25
+    ],
+    "positionBucket": "late"
+   },
+   "decoyLines": [],
+   "mechanism": "The plan executes an irreversible bulk migration of 140 TB of historical log archives into the new vendor lakehouse without verifying that the records contain non-null tenant identifiers and timestamps. If any records in the archive contain null values, the ingestion job will fail and corrupt the target partition tables, violating the stated data integrity precondition.",
+   "whyNoFallback": "Nothing in the plan performs a schema validation scan, dry run, or query on the historical archive data before execution, and no upstream pipeline guarantee ensures the absence of null tenant identifiers or timestamps in the legacy storage.",
+   "baitNotes": [
+    "A single engineer is assigned to configure PagerDuty alerting policies and monitor ingestion progress without a designated secondary reviewer",
+    "The plan relies on a single Slack channel for incident communication without a secondary out-of-band bridge",
+    "The worker pool scaling to 16 instances occurs directly in production without a prior rehearsal in the staging cluster"
+   ],
+   "rubricKeywords": [
+    [
+     "historical archives",
+     "validation scan",
+     "null tenant"
+    ],
+    [
+     "precondition",
+     "corrupt partition",
+     "lakehouse"
+    ],
+    [
+     "athena",
+     "bulk migration",
+     "dry run"
+    ]
+   ]
+  },
+  {
+   "case": "R-616254",
+   "pair": "N-b4a14c",
+   "family": "open_item_scope",
+   "kind": "decoy_pair",
+   "domain": "warehouse_schema_change",
+   "wording": "A",
+   "role": "sound",
+   "expectedClass": "SOUND",
+   "expectedVerdict": "GO",
+   "difficulty": "decoy",
+   "sources": [
+    {
+     "id": "S01",
+     "role": "plan",
+     "lines": 41
+    }
+   ],
+   "requirement": {
+    "source": "S01",
+    "line": 16
+   },
+   "citeAnyOf": [],
+   "changed": {
+    "type": "edited",
+    "source": "S01",
+    "lines": [
+     7
+    ],
+    "positionBucket": "early"
+   },
+   "decoyLines": [
+    {
+     "source": "S01",
+     "line": 21
+    }
+   ],
+   "mechanism": null,
+   "whyNoFallback": null,
+   "baitNotes": [
+    "Signoff from Elena Rostova before cutover is obtained verbally rather than via a formal ticket approval",
+    "The backfill verification relies on a single row count parity check and manual checksum comparison without automated schema drift alerts",
+    "Rollback relies entirely on a seven-day backup table rather than an automated rehearsal-tested downgrade script"
+   ],
+   "rubricKeywords": [
+    [
+     "scope",
+     "in scope",
+     "out of scope"
+    ],
+    [
+     "unconfirmed",
+     "pending",
+     "column types"
+    ],
+    [
+     "bi_revenue_reporting_view",
+     "consumer",
+     "views"
+    ]
+   ]
+  },
+  {
+   "case": "R-ae561a",
+   "pair": "N-9cc72c",
+   "family": "open_item_scope",
+   "kind": "decoy_pair",
+   "domain": "nightly_batch_etl",
+   "wording": "A",
+   "role": "sound",
+   "expectedClass": "SOUND",
+   "expectedVerdict": "GO",
+   "difficulty": "decoy",
+   "sources": [
+    {
+     "id": "S01",
+     "role": "plan",
+     "lines": 40
+    }
+   ],
+   "requirement": {
+    "source": "S01",
+    "line": 4
+   },
+   "citeAnyOf": [],
+   "changed": {
+    "type": "edited",
+    "source": "S01",
+    "lines": [
+     32
+    ],
+    "positionBucket": "late"
+   },
+   "decoyLines": [
+    {
+     "source": "S01",
+     "line": 8
+    }
+   ],
+   "mechanism": null,
+   "whyNoFallback": null,
+   "baitNotes": [
+    "All database rollback procedures rely entirely on David Kim without a designated secondary engineer",
+    "The staging cluster snapshot is retained for only twelve hours rather than a full billing cycle",
+    "Telemetry alerts route exclusively to a single Slack channel without automated pager escalation"
+   ],
+   "rubricKeywords": [
+    [
+     "fx_rate_enrichment_module",
+     "scope",
+     "checkpoints"
+    ],
+    [
+     "unconfirmed",
+     "replay",
+     "deployment"
+    ],
+    [
+     "requirement",
+     "out of scope",
+     "in scope"
+    ]
+   ]
+  },
+  {
+   "case": "R-6858a9",
+   "pair": "N-90d970",
+   "family": "omitted_precondition_check",
+   "kind": "omitted_unknown",
+   "domain": "email_provider_migration",
+   "wording": "A",
+   "role": "sound",
+   "expectedClass": "SOUND",
+   "expectedVerdict": "GO",
+   "difficulty": "omission",
+   "sources": [
+    {
+     "id": "S01",
+     "role": "plan",
+     "lines": 46
+    }
+   ],
+   "requirement": {
+    "source": "S01",
+    "line": 21
+   },
+   "citeAnyOf": [],
+   "changed": {
+    "type": "deleted",
+    "source": "S01",
+    "lines": [
+     10,
+     11
+    ],
+    "positionBucket": "early"
+   },
+   "decoyLines": [],
+   "mechanism": null,
+   "whyNoFallback": null,
+   "baitNotes": [
+    "MX record TTL is lowered to three hundred seconds only two hours prior to cutover rather than twenty-four hours in advance",
+    "A single engineer executes the DNS cutover without requiring a secondary approver on the change ticket",
+    "Rollback capability relies on the legacy provider account remaining active for only twenty-four hours."
+   ],
+   "rubricKeywords": [
+    [
+     "validation scan",
+     "null bounce_category",
+     "suppression records"
+    ],
+    [
+     "precondition check",
+     "bulk ingestion",
+     "suppression registry"
+    ]
+   ]
+  },
+  {
+   "case": "R-94f0b7",
+   "pair": "N-f9a801",
+   "family": "schema_state",
+   "kind": "cross_source_defect",
+   "domain": "reconciliation_job",
+   "wording": "A",
+   "role": "sound",
+   "expectedClass": "SOUND",
+   "expectedVerdict": "GO",
+   "difficulty": "inference",
+   "sources": [
+    {
+     "id": "S01",
+     "role": "plan",
+     "lines": 50
+    },
+    {
+     "id": "S02",
+     "role": "reference",
+     "lines": 25
+    }
+   ],
+   "requirement": {
+    "source": "S01",
+    "line": 25
+   },
+   "citeAnyOf": [],
+   "changed": {
+    "type": "edited",
+    "source": "S01",
+    "lines": [
+     8
+    ],
+    "positionBucket": "early"
+   },
+   "decoyLines": [],
+   "mechanism": null,
+   "whyNoFallback": null,
+   "baitNotes": [
+    "The plan relies on a single conference call channel for all operational deployment communication",
+    "Database lock acquisition lacks an automated backoff and retry mechanism if the advisory lock cannot be immediately obtained",
+    "Synthetic validation uses only ten transactions rather than executing a full pre-cutover rehearsal with production-sized batches"
+   ],
+   "rubricKeywords": [
+    [
+     "partner_settlement_limit_cents",
+     "bigint",
+     "numeric"
+    ],
+    [
+     "column",
+     "data type",
+     "mismatch"
+    ],
+    [
+     "schema",
+     "contradiction",
+     "partner_batch_limit_cents"
+    ]
+   ]
+  },
+  {
+   "case": "R-7d578d",
+   "pair": "N-a9e9f9",
+   "family": "omitted_precondition_check",
+   "kind": "omitted_unknown",
+   "domain": "multi_region_failover_drill",
+   "wording": "A",
+   "role": "sound",
+   "expectedClass": "SOUND",
+   "expectedVerdict": "GO",
+   "difficulty": "omission",
+   "sources": [
+    {
+     "id": "S01",
+     "role": "plan",
+     "lines": 59
+    }
+   ],
+   "requirement": {
+    "source": "S01",
+    "line": 42
+   },
+   "citeAnyOf": [],
+   "changed": {
+    "type": "deleted",
+    "source": "S01",
+    "lines": [
+     45,
+     46
+    ],
+    "positionBucket": "late"
+   },
+   "decoyLines": [],
+   "mechanism": null,
+   "whyNoFallback": null,
+   "baitNotes": [
+    "The failover bridge relies on a single incident voice channel without an out-of-band communication backup",
+    "Automated rollback scripts are loaded onto a single bastion host without redundant runner infrastructure",
+    "The post-promotion synthetic transactions do not specify a target sample volume or concurrency level."
+   ],
+   "rubricKeywords": [
+    [
+     "orphaned records",
+     "settlement_entries",
+     "referential integrity"
+    ],
+    [
+     "integrity query",
+     "dry run",
+     "precondition"
+    ],
+    [
+     "cluster promotion",
+     "ledger reconciliation",
+     "corruption"
+    ]
+   ]
+  },
+  {
+   "case": "R-abec66",
+   "pair": "N-ba0d02",
+   "family": "schema_state",
+   "kind": "cross_source_defect",
+   "domain": "payments_api_cdn_cutover",
+   "wording": "A",
+   "role": "changed",
+   "expectedClass": "DEFECT",
+   "expectedVerdict": "NO_GO",
+   "difficulty": "inference",
+   "sources": [
+    {
+     "id": "S01",
+     "role": "plan",
+     "lines": 40
+    },
+    {
+     "id": "S02",
+     "role": "reference",
+     "lines": 24
+    }
+   ],
+   "requirement": {
+    "source": "S01",
+    "line": 31
+   },
+   "citeAnyOf": [
+    {
+     "source": "S01",
+     "line": 18
+    },
+    {
+     "source": "S02",
+     "line": 4
+    }
+   ],
+   "changed": {
+    "type": "edited",
+    "source": "S02",
+    "lines": [
+     4
+    ],
+    "positionBucket": "early"
+   },
+   "decoyLines": [],
+   "mechanism": "In TWIN-S02 line 4, api-checkout.dev.payments.net is listed as an A record rather than a CNAME record, directly contradicting step S01:18 which assumes an existing CNAME record can be retargeted to the new edge provider. This violates the cutover procedure's explicit requirement that the domain entry in the authoritative zone inventory S02 is provisioned as an active CNAME record.",
+   "whyNoFallback": null,
+   "baitNotes": [
+    "Only a single engineer Marcus Vance is assigned to perform and verify the DNS record update during the cutover window",
+    "The migration plan routes all operational alerting through a single Slack channel dev-payments-cutover without PagerDuty integration",
+    "No staging rehearsal is scheduled in a lower environment prior to executing the dev cutover"
+   ],
+   "rubricKeywords": [
+    [
+     "cname",
+     "record type",
+     "a record"
+    ],
+    [
+     "api-checkout.dev.payments.net",
+     "authoritative",
+     "inventory"
+    ],
+    [
+     "assumption",
+     "dev zone",
+     "fastedge"
+    ]
+   ]
+  },
+  {
+   "case": "R-54ca90",
+   "pair": "N-8fbc5c",
+   "family": "schema_state",
+   "kind": "cross_source_defect",
+   "domain": "mobile_app_staged_release",
+   "wording": "A",
+   "role": "changed",
+   "expectedClass": "DEFECT",
+   "expectedVerdict": "NO_GO",
+   "difficulty": "inference",
+   "sources": [
+    {
+     "id": "S01",
+     "role": "plan",
+     "lines": 31
+    },
+    {
+     "id": "S02",
+     "role": "reference",
+     "lines": 9
+    }
+   ],
+   "requirement": {
+    "source": "S01",
+    "line": 22
+   },
+   "citeAnyOf": [
+    {
+     "source": "S01",
+     "line": 26
+    },
+    {
+     "source": "S02",
+     "line": 6
+    }
+   ],
+   "changed": {
+    "type": "edited",
+    "source": "S01",
+    "lines": [
+     26
+    ],
+    "positionBucket": "late"
+   },
+   "decoyLines": [],
+   "mechanism": "In line 26, the plan targets user group cohort_field_specialists, which S02:6 registers with status retired_archived instead of active_broadcast. This contradicts the line 22 requirement that all staged rollout target groups maintain active_broadcast status, deploying the twenty-five percent allocation to a decommissioned cohort.",
+   "whyNoFallback": null,
+   "baitNotes": [
+    "The plan routes all crash and rollback alerts through a single Slack channel (#mobile-release-v418) without automated PagerDuty paging fallback",
+    "Release engineer Marcus Vance is assigned as the sole operator executing all five manual rollout percentage increments",
+    "The forced upgrade to minimum version v4.17.0 is enacted directly in production remote configuration without a pre-deployment staging environment rehearsal"
+   ],
+   "rubricKeywords": [
+    [
+     "cohort_field_specialists",
+     "retired_archived",
+     "status"
+    ],
+    [
+     "cohort_field_specialist",
+     "active_broadcast",
+     "user group"
+    ],
+    [
+     "staged rollout",
+     "percentage",
+     "listing s02"
+    ]
+   ]
+  },
+  {
+   "case": "R-b4ed4d",
+   "pair": "N-8fbc5c",
+   "family": "schema_state",
+   "kind": "cross_source_defect",
+   "domain": "mobile_app_staged_release",
+   "wording": "A",
+   "role": "sound",
+   "expectedClass": "SOUND",
+   "expectedVerdict": "GO",
+   "difficulty": "inference",
+   "sources": [
+    {
+     "id": "S01",
+     "role": "plan",
+     "lines": 31
+    },
+    {
+     "id": "S02",
+     "role": "reference",
+     "lines": 9
+    }
+   ],
+   "requirement": {
+    "source": "S01",
+    "line": 22
+   },
+   "citeAnyOf": [],
+   "changed": {
+    "type": "edited",
+    "source": "S01",
+    "lines": [
+     26
+    ],
+    "positionBucket": "late"
+   },
+   "decoyLines": [],
+   "mechanism": null,
+   "whyNoFallback": null,
+   "baitNotes": [
+    "The plan routes all crash and rollback alerts through a single Slack channel (#mobile-release-v418) without automated PagerDuty paging fallback",
+    "Release engineer Marcus Vance is assigned as the sole operator executing all five manual rollout percentage increments",
+    "The forced upgrade to minimum version v4.17.0 is enacted directly in production remote configuration without a pre-deployment staging environment rehearsal"
+   ],
+   "rubricKeywords": [
+    [
+     "cohort_field_specialists",
+     "retired_archived",
+     "status"
+    ],
+    [
+     "cohort_field_specialist",
+     "active_broadcast",
+     "user group"
+    ],
+    [
+     "staged rollout",
+     "percentage",
+     "listing s02"
+    ]
+   ]
+  },
+  {
+   "case": "R-9ec66c",
+   "pair": "N-9c5803",
+   "family": "omitted_precondition_check",
+   "kind": "omitted_unknown",
+   "domain": "log_pipeline_vendor_switch",
+   "wording": "A",
+   "role": "sound",
+   "expectedClass": "SOUND",
+   "expectedVerdict": "GO",
+   "difficulty": "omission",
+   "sources": [
+    {
+     "id": "S01",
+     "role": "plan",
+     "lines": 33
+    }
+   ],
+   "requirement": {
+    "source": "S01",
+    "line": 16
+   },
+   "citeAnyOf": [],
+   "changed": {
+    "type": "deleted",
+    "source": "S01",
+    "lines": [
+     24,
+     25
+    ],
+    "positionBucket": "late"
+   },
+   "decoyLines": [],
+   "mechanism": null,
+   "whyNoFallback": null,
+   "baitNotes": [
+    "A single engineer is assigned to configure PagerDuty alerting policies and monitor ingestion progress without a designated secondary reviewer",
+    "The plan relies on a single Slack channel for incident communication without a secondary out-of-band bridge",
+    "The worker pool scaling to 16 instances occurs directly in production without a prior rehearsal in the staging cluster"
+   ],
+   "rubricKeywords": [
+    [
+     "historical archives",
+     "validation scan",
+     "null tenant"
+    ],
+    [
+     "precondition",
+     "corrupt partition",
+     "lakehouse"
+    ],
+    [
+     "athena",
+     "bulk migration",
+     "dry run"
+    ]
+   ]
+  },
+  {
+   "case": "R-e8c7a7",
+   "pair": "N-102a76",
+   "family": "omitted_precondition_check",
+   "kind": "omitted_unknown",
+   "domain": "build_system_change",
+   "wording": "A",
+   "role": "changed",
+   "expectedClass": "UNCERTAIN",
+   "expectedVerdict": "GO_WITH_CHANGES",
+   "difficulty": "omission",
+   "sources": [
+    {
+     "id": "S01",
+     "role": "plan",
+     "lines": 36
+    }
+   ],
+   "requirement": {
+    "source": "S01",
+    "line": 2
+   },
+   "citeAnyOf": [
+    {
+     "source": "S01",
+     "line": 2
+    },
+    {
+     "source": "S01",
+     "line": 16
+    }
+   ],
+   "changed": {
+    "type": "deleted",
+    "source": "S01",
+    "lines": [
+     3,
+     4
+    ],
+    "positionBucket": "early"
+   },
+   "decoyLines": [],
+   "mechanism": "The plan lacks the pre-migration integrity scan verifying that all 14.28 million artifact records contain non-null target identifiers before running pack_catalog_v3.sh. Without this verification, executing the irreversible compaction script risks corrupting the cache index and triggering a catastrophic cold-rebuild cascade as stated in the plan's requirement.",
+   "whyNoFallback": "The plan executes the catalog compaction script without performing any prior scan, dry run, or catalog query to confirm that artifact records lack null target identifiers, and none of the runtime metric checks or post-migration read validations prevent or revert the irreversible index corruption.",
+   "baitNotes": [
+    "Build health alerts in the Slack channel are silenced for the entire maintenance window rather than dynamically adjusted",
+    "Only a single engineer is assigned to run the compaction script and verify database integrity",
+    "The performance read query validates only 5,000 keys out of over 14 million records"
+   ],
+   "rubricKeywords": [
+    [
+     "compaction",
+     "null",
+     "target identifier",
+     "precondition"
+    ],
+    [
+     "scan",
+     "integrity",
+     "artifact records",
+     "corrupt"
+    ],
+    [
+     "irreversible",
+     "cache index",
+     "rebuild cascade"
+    ]
+   ]
+  },
+  {
+   "case": "R-76dffb",
+   "pair": "N-93366f",
+   "family": "open_item_scope",
+   "kind": "decoy_pair",
+   "domain": "object_storage_lifecycle_change",
+   "wording": "A",
+   "role": "sound",
+   "expectedClass": "SOUND",
+   "expectedVerdict": "GO",
+   "difficulty": "decoy",
+   "sources": [
+    {
+     "id": "S01",
+     "role": "plan",
+     "lines": 58
+    }
+   ],
+   "requirement": {
+    "source": "S01",
+    "line": 55
+   },
+   "citeAnyOf": [],
+   "changed": {
+    "type": "edited",
+    "source": "S01",
+    "lines": [
+     49
+    ],
+    "positionBucket": "late"
+   },
+   "decoyLines": [
+    {
+     "source": "S01",
+     "line": 40
+    }
+   ],
+   "mechanism": null,
+   "whyNoFallback": null,
+   "baitNotes": [
+    "The rollback procedure relies entirely on manual diff inspection rather than an automated script",
+    "No dry-run rehearsal is scheduled in a staging environment prior to the production window",
+    "Notifications are routed to a single Slack channel without an automated paging fallback"
+   ],
+   "rubricKeywords": [
+    [
+     "legal-hold",
+     "in scope",
+     "prefix"
+    ],
+    [
+     "pending",
+     "approval",
+     "retention days"
+    ],
+    [
+     "requirement",
+     "lifecycle update"
+    ]
+   ]
+  },
+  {
+   "case": "R-68ba18",
+   "pair": "N-ab7473",
+   "family": "open_item_scope",
+   "kind": "decoy_pair",
+   "domain": "dependency_major_upgrade",
+   "wording": "A",
+   "role": "changed",
+   "expectedClass": "UNCERTAIN",
+   "expectedVerdict": "GO_WITH_CHANGES",
+   "difficulty": "decoy",
+   "sources": [
+    {
+     "id": "S01",
+     "role": "plan",
+     "lines": 32
+    }
+   ],
+   "requirement": {
+    "source": "S01",
+    "line": 16
+   },
+   "citeAnyOf": [
+    {
+     "source": "S01",
+     "line": 24
+    },
+    {
+     "source": "S01",
+     "line": 30
+    }
+   ],
+   "changed": {
+    "type": "edited",
+    "source": "S01",
+    "lines": [
+     24
+    ],
+    "positionBucket": "late"
+   },
+   "decoyLines": [
+    {
+     "source": "S01",
+     "line": 30
+    }
+   ],
+   "mechanism": "Editing the scope statement brings the audit-archiver component into scope even though its serialization schema remains pending approval. This directly violates the requirement that every component touched by the upgrade must have an approved serialization schema before deployment.",
+   "whyNoFallback": "No subsequent task, test run, or approval step in the plan supplies or confirms the pending serialization schema for the audit-archiver component.",
+   "baitNotes": [
+    "The rollback procedure relies entirely on a single on-call engineer without an assigned backup",
+    "Alert notifications for latency regressions are routed to a single Slack channel without pager escalation",
+    "The staging deployment schedule does not include an advance dry-run rehearsal prior to the production change window"
+   ],
+   "rubricKeywords": [
+    [
+     "audit-archiver",
+     "in scope",
+     "out of scope"
+    ],
+    [
+     "pending",
+     "serialization schema",
+     "approval"
+    ],
+    [
+     "requirement",
+     "touched",
+     "component"
+    ]
+   ]
+  },
+  {
+   "case": "R-12b20f",
+   "pair": "N-3f18f1",
+   "family": "open_item_scope",
+   "kind": "decoy_pair",
+   "domain": "customer_data_export",
+   "wording": "A",
+   "role": "sound",
+   "expectedClass": "SOUND",
+   "expectedVerdict": "GO",
+   "difficulty": "decoy",
+   "sources": [
+    {
+     "id": "S01",
+     "role": "plan",
+     "lines": 35
+    }
+   ],
+   "requirement": {
+    "source": "S01",
+    "line": 29
+   },
+   "citeAnyOf": [],
+   "changed": {
+    "type": "edited",
+    "source": "S01",
+    "lines": [
+     21
+    ],
+    "positionBucket": "middle"
+   },
+   "decoyLines": [
+    {
+     "source": "S01",
+     "line": 14
+    }
+   ],
+   "mechanism": null,
+   "whyNoFallback": null,
+   "baitNotes": [
+    "Rollback execution relies on an automated failure threshold without a pre-deployment rollback rehearsal",
+    "Alerting escalations route solely to Slack channel #ops-alerts with no secondary paging service",
+    "Database connection pool resizing is assigned to a single administrator without a designated secondary engineer"
+   ],
+   "rubricKeywords": [
+    [
+     "export retention lifecycle service",
+     "in scope"
+    ],
+    [
+     "customer archive purge schedule",
+     "pending sign-off"
+    ],
+    [
+     "governance sign-offs",
+     "touched"
+    ]
+   ]
+  },
+  {
+   "case": "R-602bc9",
+   "pair": "N-93366f",
+   "family": "open_item_scope",
+   "kind": "decoy_pair",
+   "domain": "object_storage_lifecycle_change",
+   "wording": "A",
+   "role": "changed",
+   "expectedClass": "UNCERTAIN",
+   "expectedVerdict": "GO_WITH_CHANGES",
+   "difficulty": "decoy",
+   "sources": [
+    {
+     "id": "S01",
+     "role": "plan",
+     "lines": 58
+    }
+   ],
+   "requirement": {
+    "source": "S01",
+    "line": 55
+   },
+   "citeAnyOf": [
+    {
+     "source": "S01",
+     "line": 40
+    },
+    {
+     "source": "S01",
+     "line": 49
+    }
+   ],
+   "changed": {
+    "type": "edited",
+    "source": "S01",
+    "lines": [
+     49
+    ],
+    "positionBucket": "late"
+   },
+   "decoyLines": [
+    {
+     "source": "S01",
+     "line": 40
+    }
+   ],
+   "mechanism": "Editing line 49 brings the legal-hold prefix into scope for the lifecycle update while its retention days remain unconfirmed. This causes the plan to touch a prefix that lacks approved retention settings, directly violating the requirement.",
+   "whyNoFallback": "No other line in the plan defines, approves, or provides a default retention duration for the legal-hold prefix before the lifecycle update is executed.",
+   "baitNotes": [
+    "The rollback procedure relies entirely on manual diff inspection rather than an automated script",
+    "No dry-run rehearsal is scheduled in a staging environment prior to the production window",
+    "Notifications are routed to a single Slack channel without an automated paging fallback"
+   ],
+   "rubricKeywords": [
+    [
+     "legal-hold",
+     "in scope",
+     "prefix"
+    ],
+    [
+     "pending",
+     "approval",
+     "retention days"
+    ],
+    [
+     "requirement",
+     "lifecycle update"
+    ]
+   ]
+  },
+  {
+   "case": "R-f53063",
+   "pair": "N-fc68f6",
+   "family": "open_item_scope",
+   "kind": "decoy_pair",
+   "domain": "api_version_deprecation",
+   "wording": "A",
+   "role": "sound",
+   "expectedClass": "SOUND",
+   "expectedVerdict": "GO",
+   "difficulty": "decoy",
+   "sources": [
+    {
+     "id": "S01",
+     "role": "plan",
+     "lines": 60
+    }
+   ],
+   "requirement": {
+    "source": "S01",
+    "line": 26
+   },
+   "citeAnyOf": [],
+   "changed": {
+    "type": "edited",
+    "source": "S01",
+    "lines": [
+     8
+    ],
+    "positionBucket": "early"
+   },
+   "decoyLines": [
+    {
+     "source": "S01",
+     "line": 15
+    }
+   ],
+   "mechanism": null,
+   "whyNoFallback": null,
+   "baitNotes": [
+    "All rollback procedures rely on a manual configuration revert instead of an automated pipeline trigger",
+    "Marcus Vance is designated as the sole primary on-call engineer for post-cutover alerts without a secondary backup",
+    "The deprecation timeline lacks a staging rehearsal window prior to production execution."
+   ],
+   "rubricKeywords": [
+    [
+     "translation shim",
+     "in scope",
+     "pending"
+    ],
+    [
+     "hardware validation",
+     "unapproved parameters"
+    ],
+    [
+     "operational parameters",
+     "configuration values"
+    ]
+   ]
+  },
+  {
+   "case": "R-2f74e3",
+   "pair": "N-b4a14c",
+   "family": "open_item_scope",
+   "kind": "decoy_pair",
+   "domain": "warehouse_schema_change",
+   "wording": "A",
+   "role": "changed",
+   "expectedClass": "UNCERTAIN",
+   "expectedVerdict": "GO_WITH_CHANGES",
+   "difficulty": "decoy",
+   "sources": [
+    {
+     "id": "S01",
+     "role": "plan",
+     "lines": 41
+    }
+   ],
+   "requirement": {
+    "source": "S01",
+    "line": 16
+   },
+   "citeAnyOf": [
+    {
+     "source": "S01",
+     "line": 7
+    },
+    {
+     "source": "S01",
+     "line": 21
+    }
+   ],
+   "changed": {
+    "type": "edited",
+    "source": "S01",
+    "lines": [
+     7
+    ],
+    "positionBucket": "early"
+   },
+   "decoyLines": [
+    {
+     "source": "S01",
+     "line": 21
+    }
+   ],
+   "mechanism": "Bringing the bi_revenue_reporting_view component into scope for the schema change violates the requirement because its target column types remain unconfirmed. Executing the migration with an in-scope component lacking finalized column type specifications risks deploying unverified schema changes to downstream consumers.",
+   "whyNoFallback": "Although the plan details DDL scripts and validation steps for the primary table and other dependent views, it contains no later task, approval, or fallback procedure that resolves or finalizes the column types for bi_revenue_reporting_view.",
+   "baitNotes": [
+    "Signoff from Elena Rostova before cutover is obtained verbally rather than via a formal ticket approval",
+    "The backfill verification relies on a single row count parity check and manual checksum comparison without automated schema drift alerts",
+    "Rollback relies entirely on a seven-day backup table rather than an automated rehearsal-tested downgrade script"
+   ],
+   "rubricKeywords": [
+    [
+     "scope",
+     "in scope",
+     "out of scope"
+    ],
+    [
+     "unconfirmed",
+     "pending",
+     "column types"
+    ],
+    [
+     "bi_revenue_reporting_view",
+     "consumer",
+     "views"
+    ]
+   ]
+  },
+  {
+   "case": "R-dbb865",
+   "pair": "N-f32098",
+   "family": "schema_state",
+   "kind": "cross_source_defect",
+   "domain": "search_index_rebuild",
+   "wording": "A",
+   "role": "changed",
+   "expectedClass": "DEFECT",
+   "expectedVerdict": "NO_GO",
+   "difficulty": "inference",
+   "sources": [
+    {
+     "id": "S01",
+     "role": "plan",
+     "lines": 41
+    },
+    {
+     "id": "S02",
+     "role": "reference",
+     "lines": 18
+    }
+   ],
+   "requirement": {
+    "source": "S01",
+    "line": 33
+   },
+   "citeAnyOf": [
+    {
+     "source": "S01",
+     "line": 11
+    },
+    {
+     "source": "S02",
+     "line": 9
+    }
+   ],
+   "changed": {
+    "type": "edited",
+    "source": "S02",
+    "lines": [
+     9
+    ],
+    "positionBucket": "middle"
+   },
+   "decoyLines": [],
+   "mechanism": "In S02:9, target index catalog_products_v3 is listed as already active on cluster-alpha with twelve primary shards rather than unallocated. This contradicts the creation step at S01:11 and violates requirement S01:33, causing the HTTP PUT index creation call to fail with a resource conflict.",
+   "whyNoFallback": null,
+   "baitNotes": [
+    "The plan routes all operational alerts and incident escalations to a single Slack webhook channel without a secondary paging service fallback",
+    "No pre-migration rehearsal or dry-run verification is conducted on staging prior to initiating the production rebuild",
+    "A single database engineer is assigned to execute every index management step without an explicit secondary peer reviewer"
+   ],
+   "rubricKeywords": [
+    [
+     "catalog_products_v3",
+     "unallocated",
+     "exists"
+    ],
+    [
+     "target index",
+     "put request",
+     "creation conflict"
+    ],
+    [
+     "cluster listing",
+     "already active",
+     "primary shards"
+    ]
+   ]
+  },
+  {
+   "case": "R-2ec850",
+   "pair": "N-e889b3",
+   "family": "schema_state",
+   "kind": "cross_source_defect",
+   "domain": "database_major_upgrade",
+   "wording": "A",
+   "role": "sound",
+   "expectedClass": "SOUND",
+   "expectedVerdict": "GO",
+   "difficulty": "inference",
+   "sources": [
+    {
+     "id": "S01",
+     "role": "plan",
+     "lines": 31
+    },
+    {
+     "id": "S02",
+     "role": "reference",
+     "lines": 18
+    }
+   ],
+   "requirement": {
+    "source": "S01",
+    "line": 14
+   },
+   "citeAnyOf": [],
+   "changed": {
+    "type": "edited",
+    "source": "S01",
+    "lines": [
+     25
+    ],
+    "positionBucket": "late"
+   },
+   "decoyLines": [],
+   "mechanism": null,
+   "whyNoFallback": null,
+   "baitNotes": [
+    "The plan assigns all catalog cleanup and execution commands to a single engineer Marcus Vance without a designated peer reviewer.",
+    "Incident communications and window status updates rely solely on a single Slack channel #db-cutover without PagerDuty or email notifications.",
+    "Autovacuum is disabled across all schemas during structural updates without specifying a schedule to restore original autovacuum thresholds."
+   ],
+   "rubricKeywords": [
+    [
+     "analytics_pipeline_worker",
+     "member assignments"
+    ],
+    [
+     "user group",
+     "catalog cleanup"
+    ],
+    [
+     "active assignments",
+     "directory listing"
+    ]
+   ]
+  },
+  {
+   "case": "R-308a49",
+   "pair": "N-c42f85",
+   "family": "omitted_precondition_check",
+   "kind": "omitted_unknown",
+   "domain": "vm_to_container_migration",
+   "wording": "A",
+   "role": "changed",
+   "expectedClass": "UNCERTAIN",
+   "expectedVerdict": "GO_WITH_CHANGES",
+   "difficulty": "omission",
+   "sources": [
+    {
+     "id": "S01",
+     "role": "plan",
+     "lines": 48
+    }
+   ],
+   "requirement": {
+    "source": "S01",
+    "line": 20
+   },
+   "citeAnyOf": [
+    {
+     "source": "S01",
+     "line": 20
+    },
+    {
+     "source": "S01",
+     "line": 21
+    }
+   ],
+   "changed": {
+    "type": "deleted",
+    "source": "S01",
+    "lines": [
+     21,
+     22
+    ],
+    "positionBucket": "middle"
+   },
+   "decoyLines": [],
+   "mechanism": "The plan executes an irreversible in-place table compaction script without verifying that legacy audit event rows contain no null tenant identifiers. If any existing records violate this precondition, the compaction script will permanently corrupt production audit records.",
+   "whyNoFallback": "Nothing in the plan validates legacy records against null values or establishes schema conformity before the compaction script runs directly against the production database.",
+   "baitNotes": [
+    "The plan lacks a staging environment execution of the container cutover before touching production",
+    "The traffic shift relies on Route53 DNS weighted routing which can be delayed by client-side DNS caching",
+    "Telemetry monitoring relies on a single Slack channel and one engineer for migration bridge coordination"
+   ],
+   "rubricKeywords": [
+    [
+     "compact_payloads.py",
+     "irreversible",
+     "corrupt"
+    ],
+    [
+     "null",
+     "tenant identifier",
+     "validation query"
+    ],
+    [
+     "prerequisite",
+     "table compaction",
+     "scan"
+    ]
+   ]
+  },
+  {
+   "case": "R-1a89b2",
+   "pair": "N-d0d08d",
+   "family": "open_item_scope",
+   "kind": "decoy_pair",
+   "domain": "feature_flag_rollout",
+   "wording": "A",
+   "role": "changed",
+   "expectedClass": "UNCERTAIN",
+   "expectedVerdict": "GO_WITH_CHANGES",
+   "difficulty": "decoy",
+   "sources": [
+    {
+     "id": "S01",
+     "role": "plan",
+     "lines": 60
+    }
+   ],
+   "requirement": {
+    "source": "S01",
+    "line": 4
+   },
+   "citeAnyOf": [
+    {
+     "source": "S01",
+     "line": 8
+    },
+    {
+     "source": "S01",
+     "line": 28
+    }
+   ],
+   "changed": {
+    "type": "edited",
+    "source": "S01",
+    "lines": [
+     8
+    ],
+    "positionBucket": "early"
+   },
+   "decoyLines": [
+    {
+     "source": "S01",
+     "line": 28
+    }
+   ],
+   "mechanism": "Bringing the billing reconciliation worker into scope causes the staged rollout to include a component with an unconfirmed batch flush interval. This violates the requirement that every component touched by the staged rollout must have all operational settings confirmed prior to routing cohort traffic.",
+   "whyNoFallback": "No subsequent task in the plan validates, configures, or overrides the billing reconciliation worker's batch flush interval before cohort rollout commences.",
+   "baitNotes": [
+    "Elena Rostova is the sole engineer assigned to monitor error rate alerts during all cohort expansions",
+    "The plan uses a single Slack channel rather than automated paging for rollback notifications",
+    "No dry run of the kill switch script is scheduled prior to the initial canary rollout"
+   ],
+   "rubricKeywords": [
+    [
+     "billing reconciliation worker",
+     "scope"
+    ],
+    [
+     "unconfirmed",
+     "batch flush interval"
+    ],
+    [
+     "cohort traffic",
+     "operational settings"
+    ]
+   ]
+  },
+  {
+   "case": "R-c56798",
+   "pair": "N-c42f85",
+   "family": "omitted_precondition_check",
+   "kind": "omitted_unknown",
+   "domain": "vm_to_container_migration",
+   "wording": "A",
+   "role": "sound",
+   "expectedClass": "SOUND",
+   "expectedVerdict": "GO",
+   "difficulty": "omission",
+   "sources": [
+    {
+     "id": "S01",
+     "role": "plan",
+     "lines": 50
+    }
+   ],
+   "requirement": {
+    "source": "S01",
+    "line": 20
+   },
+   "citeAnyOf": [],
+   "changed": {
+    "type": "deleted",
+    "source": "S01",
+    "lines": [
+     21,
+     22
+    ],
+    "positionBucket": "middle"
+   },
+   "decoyLines": [],
+   "mechanism": null,
+   "whyNoFallback": null,
+   "baitNotes": [
+    "The plan lacks a staging environment execution of the container cutover before touching production",
+    "The traffic shift relies on Route53 DNS weighted routing which can be delayed by client-side DNS caching",
+    "Telemetry monitoring relies on a single Slack channel and one engineer for migration bridge coordination"
+   ],
+   "rubricKeywords": [
+    [
+     "compact_payloads.py",
+     "irreversible",
+     "corrupt"
+    ],
+    [
+     "null",
+     "tenant identifier",
+     "validation query"
+    ],
+    [
+     "prerequisite",
+     "table compaction",
+     "scan"
+    ]
+   ]
+  },
+  {
+   "case": "R-7aca5a",
+   "pair": "N-466973",
+   "family": "schema_state",
+   "kind": "cross_source_defect",
+   "domain": "identity_provider_switch",
+   "wording": "A",
+   "role": "sound",
+   "expectedClass": "SOUND",
+   "expectedVerdict": "GO",
+   "difficulty": "inference",
+   "sources": [
+    {
+     "id": "S01",
+     "role": "plan",
+     "lines": 49
+    },
+    {
+     "id": "S02",
+     "role": "reference",
+     "lines": 14
+    }
+   ],
+   "requirement": {
+    "source": "S01",
+    "line": 22
+   },
+   "citeAnyOf": [],
+   "changed": {
+    "type": "edited",
+    "source": "S02",
+    "lines": [
+     3
+    ],
+    "positionBucket": "early"
+   },
+   "decoyLines": [],
+   "mechanism": null,
+   "whyNoFallback": null,
+   "baitNotes": [
+    "Rollback protocol RB-01 relies entirely on a single engineer for database re-enablement",
+    "Operational incident communications route through a single Slack channel without redundant SMS alerting",
+    "The schedule contains no dedicated dry-run rehearsal before starting live maintenance"
+   ],
+   "rubricKeywords": [
+    [
+     "sso-breakglass-admin",
+     "group_type",
+     "cloud_security"
+    ],
+    [
+     "onprem_synced",
+     "directory",
+     "listing"
+    ],
+    [
+     "policy",
+     "binding",
+     "mismatch"
+    ]
+   ]
+  },
+  {
+   "case": "R-1c8c19",
+   "pair": "N-4aedf1",
+   "family": "omitted_precondition_check",
+   "kind": "omitted_unknown",
+   "domain": "backup_restore_verification",
+   "wording": "A",
+   "role": "sound",
+   "expectedClass": "SOUND",
+   "expectedVerdict": "GO",
+   "difficulty": "omission",
+   "sources": [
+    {
+     "id": "S01",
+     "role": "plan",
+     "lines": 44
+    }
+   ],
+   "requirement": {
+    "source": "S01",
+    "line": 32
+   },
+   "citeAnyOf": [],
+   "changed": {
+    "type": "deleted",
+    "source": "S01",
+    "lines": [
+     7,
+     8
+    ],
+    "positionBucket": "early"
+   },
+   "decoyLines": [],
+   "mechanism": null,
+   "whyNoFallback": null,
+   "baitNotes": [
+    "Marcus Vance serves as both the incident commander and the primary database administrator, concentrating operational responsibilities onto a single individual.",
+    "Status communications rely entirely on a single Slack channel without an out-of-band paging fallback.",
+    "The procedure lacks a preliminary dry-run rehearsal on a smaller non-production staging instance prior to full target execution."
+   ],
+   "rubricKeywords": [
+    [
+     "orphaned journal entries",
+     "referential integrity",
+     "foreign key"
+    ],
+    [
+     "irreversible",
+     "precondition check",
+     "catalog"
+    ],
+    [
+     "scan",
+     "production snapshot",
+     "validation"
+    ]
+   ]
+  },
+  {
+   "case": "R-21df26",
+   "pair": "N-ab7473",
+   "family": "open_item_scope",
+   "kind": "decoy_pair",
+   "domain": "dependency_major_upgrade",
+   "wording": "A",
+   "role": "sound",
+   "expectedClass": "SOUND",
+   "expectedVerdict": "GO",
+   "difficulty": "decoy",
+   "sources": [
+    {
+     "id": "S01",
+     "role": "plan",
+     "lines": 32
+    }
+   ],
+   "requirement": {
+    "source": "S01",
+    "line": 16
+   },
+   "citeAnyOf": [],
+   "changed": {
+    "type": "edited",
+    "source": "S01",
+    "lines": [
+     24
+    ],
+    "positionBucket": "late"
+   },
+   "decoyLines": [
+    {
+     "source": "S01",
+     "line": 30
+    }
+   ],
+   "mechanism": null,
+   "whyNoFallback": null,
+   "baitNotes": [
+    "The rollback procedure relies entirely on a single on-call engineer without an assigned backup",
+    "Alert notifications for latency regressions are routed to a single Slack channel without pager escalation",
+    "The staging deployment schedule does not include an advance dry-run rehearsal prior to the production change window"
+   ],
+   "rubricKeywords": [
+    [
+     "audit-archiver",
+     "in scope",
+     "out of scope"
+    ],
+    [
+     "pending",
+     "serialization schema",
+     "approval"
+    ],
+    [
+     "requirement",
+     "touched",
+     "component"
+    ]
+   ]
+  },
+  {
+   "case": "R-4844da",
+   "pair": "N-3f18f1",
+   "family": "open_item_scope",
+   "kind": "decoy_pair",
+   "domain": "customer_data_export",
+   "wording": "A",
+   "role": "changed",
+   "expectedClass": "UNCERTAIN",
+   "expectedVerdict": "GO_WITH_CHANGES",
+   "difficulty": "decoy",
+   "sources": [
+    {
+     "id": "S01",
+     "role": "plan",
+     "lines": 35
+    }
+   ],
+   "requirement": {
+    "source": "S01",
+    "line": 29
+   },
+   "citeAnyOf": [
+    {
+     "source": "S01",
+     "line": 14
+    },
+    {
+     "source": "S01",
+     "line": 21
+    }
+   ],
+   "changed": {
+    "type": "edited",
+    "source": "S01",
+    "lines": [
+     21
+    ],
+    "positionBucket": "middle"
+   },
+   "decoyLines": [
+    {
+     "source": "S01",
+     "line": 14
+    }
+   ],
+   "mechanism": "The changed plan places the export retention lifecycle service into scope for the maintenance release while its customer archive purge schedule is still pending sign-off from the data governance board. This violates the requirement that every component touched by the release must have fully approved operational parameters and complete governance sign-offs prior to rollout.",
+   "whyNoFallback": "Nothing else in the plan resolves the pending governance sign-off or establishes an authorized customer archive purge schedule for the export retention lifecycle service prior to deployment.",
+   "baitNotes": [
+    "Rollback execution relies on an automated failure threshold without a pre-deployment rollback rehearsal",
+    "Alerting escalations route solely to Slack channel #ops-alerts with no secondary paging service",
+    "Database connection pool resizing is assigned to a single administrator without a designated secondary engineer"
+   ],
+   "rubricKeywords": [
+    [
+     "export retention lifecycle service",
+     "in scope"
+    ],
+    [
+     "customer archive purge schedule",
+     "pending sign-off"
+    ],
+    [
+     "governance sign-offs",
+     "touched"
+    ]
+   ]
+  },
+  {
+   "case": "R-3b36bf",
+   "pair": "N-4b040d",
+   "family": "open_item_scope",
+   "kind": "decoy_pair",
+   "domain": "rate_limit_policy_change",
+   "wording": "A",
+   "role": "changed",
+   "expectedClass": "UNCERTAIN",
+   "expectedVerdict": "GO_WITH_CHANGES",
+   "difficulty": "decoy",
+   "sources": [
+    {
+     "id": "S01",
+     "role": "plan",
+     "lines": 51
+    }
+   ],
+   "requirement": {
+    "source": "S01",
+    "line": 42
+   },
+   "citeAnyOf": [
+    {
+     "source": "S01",
+     "line": 8
+    },
+    {
+     "source": "S01",
+     "line": 24
+    }
+   ],
+   "changed": {
+    "type": "edited",
+    "source": "S01",
+    "lines": [
+     24
+    ],
+    "positionBucket": "middle"
+   },
+   "decoyLines": [
+    {
+     "source": "S01",
+     "line": 8
+    }
+   ],
+   "mechanism": "The changed plan brings the client notice dispatcher into scope for the deployment even though its delivery retry schedule is pending validation, which violates the requirement that all in-scope components must have fully approved operational specifications before execution begins.",
+   "whyNoFallback": "Nothing in the deployment procedure resolves the pending validation of the delivery retry schedule or supplies fallback parameters for the client notice dispatcher.",
+   "baitNotes": [
+    "The rollout procedure relies on a single maintenance bridge channel without an automated secondary communication path",
+    "No rehearsal window is scheduled before applying rate-limit rules to production traffic",
+    "Only one engineer is assigned to monitor latency metrics during the canary shifts."
+   ],
+   "rubricKeywords": [
+    [
+     "client notice dispatcher",
+     "in scope",
+     "out of scope"
+    ],
+    [
+     "pending validation",
+     "approved operational specifications"
+    ],
+    [
+     "delivery retry schedule",
+     "rate-limit policy deployment"
+    ]
+   ]
+  },
+  {
+   "case": "R-32c6c4",
+   "pair": "N-466973",
+   "family": "schema_state",
+   "kind": "cross_source_defect",
+   "domain": "identity_provider_switch",
+   "wording": "A",
+   "role": "changed",
+   "expectedClass": "DEFECT",
+   "expectedVerdict": "NO_GO",
+   "difficulty": "inference",
+   "sources": [
+    {
+     "id": "S01",
+     "role": "plan",
+     "lines": 49
+    },
+    {
+     "id": "S02",
+     "role": "reference",
+     "lines": 14
+    }
+   ],
+   "requirement": {
+    "source": "S01",
+    "line": 22
+   },
+   "citeAnyOf": [
+    {
+     "source": "S01",
+     "line": 27
+    },
+    {
+     "source": "S02",
+     "line": 3
+    }
+   ],
+   "changed": {
+    "type": "edited",
+    "source": "S02",
+    "lines": [
+     3
+    ],
+    "positionBucket": "early"
+   },
+   "decoyLines": [],
+   "mechanism": "Directory listing entry S02:3 classifies sso-breakglass-admin as an onprem_synced group rather than cloud_security. This contradicts the requirement at S01:22 that all administrative groups receiving SSO policy bindings must be cloud_security, causing Marcus Vance's binding step at S01:27 to fail against the listed directory state.",
+   "whyNoFallback": null,
+   "baitNotes": [
+    "Rollback protocol RB-01 relies entirely on a single engineer for database re-enablement",
+    "Operational incident communications route through a single Slack channel without redundant SMS alerting",
+    "The schedule contains no dedicated dry-run rehearsal before starting live maintenance"
+   ],
+   "rubricKeywords": [
+    [
+     "sso-breakglass-admin",
+     "group_type",
+     "cloud_security"
+    ],
+    [
+     "onprem_synced",
+     "directory",
+     "listing"
+    ],
+    [
+     "policy",
+     "binding",
+     "mismatch"
+    ]
+   ]
+  },
+  {
+   "case": "R-df96e0",
+   "pair": "N-19a280",
+   "family": "omitted_precondition_check",
+   "kind": "omitted_unknown",
+   "domain": "ci_runner_fleet_replacement",
+   "wording": "A",
+   "role": "sound",
+   "expectedClass": "SOUND",
+   "expectedVerdict": "GO",
+   "difficulty": "omission",
+   "sources": [
+    {
+     "id": "S01",
+     "role": "plan",
+     "lines": 39
+    }
+   ],
+   "requirement": {
+    "source": "S01",
+    "line": 6
+   },
+   "citeAnyOf": [],
+   "changed": {
+    "type": "deleted",
+    "source": "S01",
+    "lines": [
+     19,
+     20
+    ],
+    "positionBucket": "middle"
+   },
+   "decoyLines": [],
+   "mechanism": null,
+   "whyNoFallback": null,
+   "baitNotes": [
+    "The plan relies on a single security engineer to execute both secret rotations and the irreversible purge script without requiring a peer review sign-off",
+    "Queue time alerts notify only a single Slack channel rather than paging on-call engineers directly through PagerDuty",
+    "There is no staging environment rehearsal scheduled prior to the production fleet cutover window"
+   ],
+   "rubricKeywords": [
+    [
+     "precondition",
+     "purge",
+     "legacy",
+     "vault"
+    ],
+    [
+     "secrets",
+     "query",
+     "scan",
+     "bindings"
+    ],
+    [
+     "credential",
+     "corrupt",
+     "irreversible",
+     "verification"
+    ]
+   ]
+  },
+  {
+   "case": "R-ce90f7",
+   "pair": "N-19a280",
+   "family": "omitted_precondition_check",
+   "kind": "omitted_unknown",
+   "domain": "ci_runner_fleet_replacement",
+   "wording": "A",
+   "role": "changed",
+   "expectedClass": "UNCERTAIN",
+   "expectedVerdict": "GO_WITH_CHANGES",
+   "difficulty": "omission",
+   "sources": [
+    {
+     "id": "S01",
+     "role": "plan",
+     "lines": 37
+    }
+   ],
+   "requirement": {
+    "source": "S01",
+    "line": 6
+   },
+   "citeAnyOf": [
+    {
+     "source": "S01",
+     "line": 6
+    },
+    {
+     "source": "S01",
+     "line": 29
+    }
+   ],
+   "changed": {
+    "type": "deleted",
+    "source": "S01",
+    "lines": [
+     19,
+     20
+    ],
+    "positionBucket": "middle"
+   },
+   "decoyLines": [],
+   "mechanism": "The plan executes an irreversible purge of the legacy fleet secrets engine without first verifying that all repository secret bindings have migrated away from legacy vault paths. If any unmigrated secret paths remain, the purge will cause runner token exchange to fail and corrupt pipeline credential caches as stated in the plan's requirement.",
+   "whyNoFallback": "No automated validation step, database constraint, fallback resolution, or pre-migration scan exists in the plan to guarantee that repository secret bindings are free of legacy vault references before the irreversible purge runs.",
+   "baitNotes": [
+    "The plan relies on a single security engineer to execute both secret rotations and the irreversible purge script without requiring a peer review sign-off",
+    "Queue time alerts notify only a single Slack channel rather than paging on-call engineers directly through PagerDuty",
+    "There is no staging environment rehearsal scheduled prior to the production fleet cutover window"
+   ],
+   "rubricKeywords": [
+    [
+     "precondition",
+     "purge",
+     "legacy",
+     "vault"
+    ],
+    [
+     "secrets",
+     "query",
+     "scan",
+     "bindings"
+    ],
+    [
+     "credential",
+     "corrupt",
+     "irreversible",
+     "verification"
+    ]
+   ]
+  },
+  {
+   "case": "R-22493d",
+   "pair": "N-4aedf1",
+   "family": "omitted_precondition_check",
+   "kind": "omitted_unknown",
+   "domain": "backup_restore_verification",
+   "wording": "A",
+   "role": "changed",
+   "expectedClass": "UNCERTAIN",
+   "expectedVerdict": "GO_WITH_CHANGES",
+   "difficulty": "omission",
+   "sources": [
+    {
+     "id": "S01",
+     "role": "plan",
+     "lines": 42
+    }
+   ],
+   "requirement": {
+    "source": "S01",
+    "line": 30
+   },
+   "citeAnyOf": [
+    {
+     "source": "S01",
+     "line": 30
+    },
+    {
+     "source": "S01",
+     "line": 33
+    }
+   ],
+   "changed": {
+    "type": "deleted",
+    "source": "S01",
+    "lines": [
+     7,
+     8
+    ],
+    "positionBucket": "early"
+   },
+   "decoyLines": [],
+   "mechanism": "The plan deletes the referential integrity scan that verified zero orphaned records in the production dataset before running the irreversible foreign key constraint script. Without this precondition check, executing the irreversible script risks catastrophic failure and system catalog corruption on the restore target if any orphaned rows exist.",
+   "whyNoFallback": "The plan contains no other data integrity scans, foreign key checks, or schema validation queries prior to constraint enforcement, leaving referential consistency completely unverified before running the irreversible catalog modification.",
+   "baitNotes": [
+    "Marcus Vance serves as both the incident commander and the primary database administrator, concentrating operational responsibilities onto a single individual.",
+    "Status communications rely entirely on a single Slack channel without an out-of-band paging fallback.",
+    "The procedure lacks a preliminary dry-run rehearsal on a smaller non-production staging instance prior to full target execution."
+   ],
+   "rubricKeywords": [
+    [
+     "orphaned journal entries",
+     "referential integrity",
+     "foreign key"
+    ],
+    [
+     "irreversible",
+     "precondition check",
+     "catalog"
+    ],
+    [
+     "scan",
+     "production snapshot",
+     "validation"
+    ]
+   ]
+  },
+  {
+   "case": "R-7ef1bf",
+   "pair": "N-a9e9f9",
+   "family": "omitted_precondition_check",
+   "kind": "omitted_unknown",
+   "domain": "multi_region_failover_drill",
+   "wording": "A",
+   "role": "changed",
+   "expectedClass": "UNCERTAIN",
+   "expectedVerdict": "GO_WITH_CHANGES",
+   "difficulty": "omission",
+   "sources": [
+    {
+     "id": "S01",
+     "role": "plan",
+     "lines": 57
+    }
+   ],
+   "requirement": {
+    "source": "S01",
+    "line": 42
+   },
+   "citeAnyOf": [
+    {
+     "source": "S01",
+     "line": 42
+    },
+    {
+     "source": "S01",
+     "line": 48
+    }
+   ],
+   "changed": {
+    "type": "deleted",
+    "source": "S01",
+    "lines": [
+     45,
+     46
+    ],
+    "positionBucket": "late"
+   },
+   "decoyLines": [],
+   "mechanism": "The plan executes an irreversible promotion of the secondary database cluster without running any integrity scan or dry-run query over the 140 million settlement rows. Because the stated requirement warns that promoting with orphaned records will corrupt downstream ledger reconciliation tables, failing to verify referential integrity risks permanent data corruption.",
+   "whyNoFallback": "While the plan tracks replication lag down to zero transactions and takes a storage snapshot, no query, constraint validation, or dry run anywhere in the plan inspects the 140 million settlement rows for orphaned records prior to the irreversible cluster promotion.",
+   "baitNotes": [
+    "The failover bridge relies on a single incident voice channel without an out-of-band communication backup",
+    "Automated rollback scripts are loaded onto a single bastion host without redundant runner infrastructure",
+    "The post-promotion synthetic transactions do not specify a target sample volume or concurrency level."
+   ],
+   "rubricKeywords": [
+    [
+     "orphaned records",
+     "settlement_entries",
+     "referential integrity"
+    ],
+    [
+     "integrity query",
+     "dry run",
+     "precondition"
+    ],
+    [
+     "cluster promotion",
+     "ledger reconciliation",
+     "corruption"
+    ]
+   ]
+  }
+ ]
+}
