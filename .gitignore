@@ -16,3 +16,4 @@ COMPLETION-CONTROLS.json
 
 # Keep the preserved pilot ledgers
 !benchmarks/counterfactual-pairs/results/**/*.jsonl
+!benchmarks/counterfactual-pairs/v4/**/*.jsonl
