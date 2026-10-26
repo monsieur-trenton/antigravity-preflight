@@ -74,7 +74,7 @@ def analyse(corpus, rows):
         kind = oracle[twin]["kind"]
         reasons, flags, incomplete = [], [], []
         answers = {"sound": rows.get(f"member:{sound}"), "twin": rows.get(f"member:{twin}"), "pair": rows.get(f"pair:{pair}"), "claim": rows.get(f"claim:{twin}")}
-        needed = ["sound", "twin", "pair"] + (["claim"] if kind in GAP_KINDS else [])
+        needed = ["sound", "twin", "pair"] + (["claim"] if kind in GAP_KINDS and oracle[twin]["changed"]["type"] == "deleted" else [])
         for name in needed:
             if not clean(answers[name]):
                 incomplete.append(name)
@@ -138,6 +138,7 @@ def spot_sample(corpus, fraction=SPOT_FRACTION):
 
 SPOT_QUESTIONS = """QUESTIONS FOR THE OWNER (answer in spot-answers.json under this file's number)
 needsChange: "X", "Y", "BOTH" or "NEITHER", the plan that cannot be carried out as written, or neither
+problem: for the plan you named, "DEFECT" if its text contradicts itself or the reference (a line, or a number, breaks what another line says), or "UNESTABLISHED" if nothing is contradicted but a fact that the plan's own requirement needs is not established anywhere in the text; "NONE" if you named neither
 why: one sentence
 oneEdit: true if one plan is the other with exactly one edit (one line edited in place, or one to three lines deleted) and nothing else, otherwise false
 otherProblems: lines, if any, that are unknown or contradictory for some other reason
@@ -157,13 +158,16 @@ def write_spot(corpus, out_dir):
         x, y = (cases["sound"], cases["changed"]) if x_sound else (cases["changed"], cases["sound"])
         body = text.replace("{X}", audit_prompts.numbered(sources_of(x))).replace("{Y}", audit_prompts.numbered(sources_of(y)))
         (out / f"{number:02d}.txt").write_text(body.rstrip() + "\n\n" + SPOT_QUESTIONS, encoding="utf-8")
-        index[f"{number:02d}"] = {"pair": pair, "twin": "Y" if x_sound else "X"}
+        index[f"{number:02d}"] = {"pair": pair, "twin": "Y" if x_sound else "X", "twinClass": corpus.oracle[cases["changed"]]["expectedClass"]}
     (out / "spot-index.json").write_text(json.dumps(index, indent=1) + "\n", encoding="utf-8")
     return index
 
 
+PROBLEM = {"DEFECT": "DEFECT", "UNCERTAIN": "UNESTABLISHED"}
+
+
 def score_spot(index, answers):
-    right_choice = one_edit = total = 0
+    right_choice = one_edit = right_problem = total = 0
     disagree = []
     for number, key in sorted(index.items()):
         a = answers.get(number)
@@ -172,12 +176,15 @@ def score_spot(index, answers):
         total += 1
         ok_choice = a.get("needsChange") == key["twin"]
         ok_edit = a.get("oneEdit") is True
+        ok_problem = ok_choice and a.get("problem") == PROBLEM[key["twinClass"]]
         right_choice += ok_choice
         one_edit += ok_edit
-        if not (ok_choice and ok_edit):
-            disagree.append({"file": number, "pair": key["pair"], "needsChange": a.get("needsChange"), "oneEdit": a.get("oneEdit")})
+        right_problem += ok_problem
+        if not (ok_choice and ok_edit and ok_problem):
+            disagree.append({"file": number, "pair": key["pair"], "needsChange": a.get("needsChange"), "oneEdit": a.get("oneEdit"), "problem": a.get("problem"),
+                             "oracleProblem": PROBLEM[key["twinClass"]]})
     return {"kind": "V4_OWNER_SPOT_CHECK", "sampled": len(index), "answered": total, "needsChangeMatchesOracle": rate(right_choice, total), "oneEditConfirmed": rate(one_edit, total),
-            "disagreements": disagree, "clean": total == len(index) and not disagree}
+            "problemKindMatchesOracle": rate(right_problem, total), "disagreements": disagree, "clean": total == len(index) and not disagree}
 
 
 def main(argv):

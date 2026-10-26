@@ -1,0 +1,91 @@
+Below are two written plans, X and Y, about the same work. Each is given as numbered sources: S01 is the plan and, when present, S02 is a reference excerpt that the plan is subject to. Lines are numbered within their source and cited as S01:<n> or S02:<n>. The two plans are the same except for one change in one of them, or they may differ in more than that.
+
+Decide which of the two, if either, needs a change before it can be carried out, and whether one plan is the other with exactly one edit and nothing else (one line edited in place, or one to three lines deleted, with nothing added, moved or reworded).
+
+PLAN X
+=== S01 (the plan) ===
+[S01:1] DevOps lead Elena Rostova will initiate the maintenance window for the shared Bazel remote cache cluster on Saturday, November 7 at 01:00 UTC.
+[S01:2] Executing the irreversible catalog compaction script will permanently corrupt the cache index if any artifact entry contains a null target identifier, forcing a full rebuild cascade across all CI runners.
+[S01:3] Marcus Vance will verify read-write access to the staging deployment repository and log into bastion host jump-01.infra.internal at 00:30 UTC.
+[S01:4] Infrastructure coordinator Liam Chen will place the GitHub Actions runner pools into draining mode at 00:45 UTC to prevent incoming jobs from scheduling during compaction.
+[S01:5] Build engineer Sarah Jenkins will silence build health alerts in the #ci-infra-ops Slack channel for the duration of the scheduled ninety-minute maintenance window.
+[S01:6] Elena Rostova will announce the start of the cache maintenance window on the internal developer broadcast channel at 00:55 UTC before locking repository merges.
+[S01:7] Liam Chen will apply a temporary branch protection policy on the main branch at 01:00 UTC to block new pull request merges and suppress required checks.
+[S01:8] Marcus Vance will record baseline disk read and write throughput metrics on database storage pool vol-0a8f9c11 at 01:05 UTC.
+[S01:9] Sarah Jenkins will verify that the database cluster replication lag across secondary replicas remains below fifty milliseconds before isolating the nodes.
+[S01:10] Liam Chen will route incoming Bazel cache requests to an external fallback mirror with read-only permissions at 01:10 UTC to maintain baseline pull speeds.
+[S01:11] Marcus Vance will stop the primary cache ingestion daemon on host cache-srv-01.infra.internal at 01:15 UTC to freeze write traffic.
+[S01:12] Sarah Jenkins will inspect active network socket connections on port 9092 to verify that all runner write streams have cleanly terminated.
+[S01:13] Elena Rostova will confirm that Prometheus metric cache_connected_writers drops to zero before Marcus Vance executes the database modifications.
+[S01:14] Marcus Vance will elevate shell privileges on cache-srv-01.infra.internal using temporary authorization token AUTH-9941 at 01:20 UTC.
+[S01:15] Sarah Jenkins will verify that storage volume vol-0a8f9c11 maintains at least 180 gigabytes of unallocated disk headroom for temp compaction tables.
+[S01:16] Marcus Vance will execute the irreversible catalog compaction script pack_catalog_v3.sh against the primary database cluster at 01:25 UTC.
+[S01:17] Sarah Jenkins will stream compaction execution logs from /var/log/cache_pack.log to Datadog dashboard ci-cache-migration during execution.
+[S01:18] Marcus Vance will track the table compaction progress indicator until all 14,280,000 artifact pointers have been rewritten into the packed format.
+[S01:19] Marcus Vance will verify that the compaction command exits with return code 0 and records zero unhandled processing exceptions in the log file.
+[S01:20] Sarah Jenkins will execute a performance read query against 5,000 randomly selected artifact keys at 01:50 UTC to validate index pointer resolution.
+[S01:21] Marcus Vance will confirm that average lookup latency across the sample set stays under 1.8 milliseconds before approving service re-enablement.
+[S01:22] Liam Chen will restart the cache ingestion daemon service on cache-srv-01.infra.internal at 02:00 UTC and verify systemd service unit health.
+[S01:23] Sarah Jenkins will dispatch ten synthetic smoke-test compilation targets to dedicated runner pool ci-runner-perf-01 at 02:05 UTC.
+[S01:24] Marcus Vance will monitor Prometheus metric cache_hit_ratio to verify that synthetic smoke-test queries register valid cache hits above 95 percent.
+[S01:25] Liam Chen will switch the DNS routing pointer for cache.build.internal back to the primary cache server cluster at 02:15 UTC.
+[S01:26] Sarah Jenkins will disable read-only routing on the fallback cache mirror at 02:20 UTC and deallocate the temporary proxy instance.
+[S01:27] Elena Rostova will re-enable job scheduling across all GitHub Actions runner pools at 02:22 UTC and monitor queue ingestion latency.
+[S01:28] Liam Chen will remove the temporary branch protection policy from the main branch at 02:25 UTC to restore regular pull request merge traffic.
+[S01:29] Marcus Vance will verify that required checks on pull request PR-41002 evaluate successfully using the compacted cache index at 02:30 UTC.
+[S01:30] Sarah Jenkins will re-enable automated alert notifications in the #ci-infra-ops channel and restore standard PagerDuty escalation policies.
+[S01:31] Elena Rostova will post a completion notification to the engineering organization on Slack channel #eng-announcements at 02:35 UTC.
+[S01:32] Marcus Vance will archive migration runbooks, script outputs, and execution metrics to internal wiki page infra-wiki.internal/cache-pack-v3 at 02:40 UTC.
+[S01:33] Sarah Jenkins will configure automated daily index health checks in Datadog monitor MON-7731 to track ongoing cache lookup performance.
+[S01:34] Liam Chen will monitor runner CPU utilization and queue depth on the Grafana overview dashboard until 03:30 UTC to ensure system stability.
+[S01:35] Marcus Vance will archive the pre-maintenance performance baselines and storage metrics on Monday, November 9 at 10:00 UTC.
+[S01:36] Elena Rostova will conduct a post-implementation review meeting with the CI infrastructure team on Monday, November 9 at 14:00 UTC.
+
+PLAN Y
+=== S01 (the plan) ===
+[S01:1] DevOps lead Elena Rostova will initiate the maintenance window for the shared Bazel remote cache cluster on Saturday, November 7 at 01:00 UTC.
+[S01:2] Executing the irreversible catalog compaction script will permanently corrupt the cache index if any artifact entry contains a null target identifier, forcing a full rebuild cascade across all CI runners.
+[S01:3] Database specialist Marcus Vance ran a read-only integrity scan across all 14,280,000 artifact records in the production cache metadata store on November 5 at 16:30 UTC.
+[S01:4] The pre-migration scan completed successfully with zero null target identifiers found across the entire 14.28 million record catalog, confirming the data satisfies the migration precondition.
+[S01:5] Marcus Vance will verify read-write access to the staging deployment repository and log into bastion host jump-01.infra.internal at 00:30 UTC.
+[S01:6] Infrastructure coordinator Liam Chen will place the GitHub Actions runner pools into draining mode at 00:45 UTC to prevent incoming jobs from scheduling during compaction.
+[S01:7] Build engineer Sarah Jenkins will silence build health alerts in the #ci-infra-ops Slack channel for the duration of the scheduled ninety-minute maintenance window.
+[S01:8] Elena Rostova will announce the start of the cache maintenance window on the internal developer broadcast channel at 00:55 UTC before locking repository merges.
+[S01:9] Liam Chen will apply a temporary branch protection policy on the main branch at 01:00 UTC to block new pull request merges and suppress required checks.
+[S01:10] Marcus Vance will record baseline disk read and write throughput metrics on database storage pool vol-0a8f9c11 at 01:05 UTC.
+[S01:11] Sarah Jenkins will verify that the database cluster replication lag across secondary replicas remains below fifty milliseconds before isolating the nodes.
+[S01:12] Liam Chen will route incoming Bazel cache requests to an external fallback mirror with read-only permissions at 01:10 UTC to maintain baseline pull speeds.
+[S01:13] Marcus Vance will stop the primary cache ingestion daemon on host cache-srv-01.infra.internal at 01:15 UTC to freeze write traffic.
+[S01:14] Sarah Jenkins will inspect active network socket connections on port 9092 to verify that all runner write streams have cleanly terminated.
+[S01:15] Elena Rostova will confirm that Prometheus metric cache_connected_writers drops to zero before Marcus Vance executes the database modifications.
+[S01:16] Marcus Vance will elevate shell privileges on cache-srv-01.infra.internal using temporary authorization token AUTH-9941 at 01:20 UTC.
+[S01:17] Sarah Jenkins will verify that storage volume vol-0a8f9c11 maintains at least 180 gigabytes of unallocated disk headroom for temp compaction tables.
+[S01:18] Marcus Vance will execute the irreversible catalog compaction script pack_catalog_v3.sh against the primary database cluster at 01:25 UTC.
+[S01:19] Sarah Jenkins will stream compaction execution logs from /var/log/cache_pack.log to Datadog dashboard ci-cache-migration during execution.
+[S01:20] Marcus Vance will track the table compaction progress indicator until all 14,280,000 artifact pointers have been rewritten into the packed format.
+[S01:21] Marcus Vance will verify that the compaction command exits with return code 0 and records zero unhandled processing exceptions in the log file.
+[S01:22] Sarah Jenkins will execute a performance read query against 5,000 randomly selected artifact keys at 01:50 UTC to validate index pointer resolution.
+[S01:23] Marcus Vance will confirm that average lookup latency across the sample set stays under 1.8 milliseconds before approving service re-enablement.
+[S01:24] Liam Chen will restart the cache ingestion daemon service on cache-srv-01.infra.internal at 02:00 UTC and verify systemd service unit health.
+[S01:25] Sarah Jenkins will dispatch ten synthetic smoke-test compilation targets to dedicated runner pool ci-runner-perf-01 at 02:05 UTC.
+[S01:26] Marcus Vance will monitor Prometheus metric cache_hit_ratio to verify that synthetic smoke-test queries register valid cache hits above 95 percent.
+[S01:27] Liam Chen will switch the DNS routing pointer for cache.build.internal back to the primary cache server cluster at 02:15 UTC.
+[S01:28] Sarah Jenkins will disable read-only routing on the fallback cache mirror at 02:20 UTC and deallocate the temporary proxy instance.
+[S01:29] Elena Rostova will re-enable job scheduling across all GitHub Actions runner pools at 02:22 UTC and monitor queue ingestion latency.
+[S01:30] Liam Chen will remove the temporary branch protection policy from the main branch at 02:25 UTC to restore regular pull request merge traffic.
+[S01:31] Marcus Vance will verify that required checks on pull request PR-41002 evaluate successfully using the compacted cache index at 02:30 UTC.
+[S01:32] Sarah Jenkins will re-enable automated alert notifications in the #ci-infra-ops channel and restore standard PagerDuty escalation policies.
+[S01:33] Elena Rostova will post a completion notification to the engineering organization on Slack channel #eng-announcements at 02:35 UTC.
+[S01:34] Marcus Vance will archive migration runbooks, script outputs, and execution metrics to internal wiki page infra-wiki.internal/cache-pack-v3 at 02:40 UTC.
+[S01:35] Sarah Jenkins will configure automated daily index health checks in Datadog monitor MON-7731 to track ongoing cache lookup performance.
+[S01:36] Liam Chen will monitor runner CPU utilization and queue depth on the Grafana overview dashboard until 03:30 UTC to ensure system stability.
+[S01:37] Marcus Vance will archive the pre-maintenance performance baselines and storage metrics on Monday, November 9 at 10:00 UTC.
+[S01:38] Elena Rostova will conduct a post-implementation review meeting with the CI infrastructure team on Monday, November 9 at 14:00 UTC.
+
+End your answer with exactly this block and nothing after it:
+AUDIT-BEGIN
+NEEDS_CHANGE: X | Y | BOTH | NEITHER
+WHY: <one sentence>
+ONE_EDIT: YES | NO
+DIFFERENCE: <one sentence saying exactly what differs between X and Y>
+AUDIT-END

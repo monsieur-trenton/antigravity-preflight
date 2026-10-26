@@ -1,0 +1,91 @@
+Below is a written plan, as one or more numbered sources. Source S01 is the plan; if a source S02 is present it is a reference excerpt (a settings file, contract, policy or schema) that the plan is subject to. Each line is numbered within its source, and a line is cited as S01:<n> or S02:<n>.
+
+Decide, from the text alone, whether the plan can be carried out as written. A plan HAS_A_DEFECT if some line contradicts a line of the same or another source, or breaks the plan's own stated requirement. A plan HAS_AN_UNESTABLISHED_FACT if nothing is contradicted but a fact that the plan's own requirement depends on is nowhere established in the text. A plan is SOUND if neither applies. Ordinary small imperfections (no rehearsal, one alert channel, a single owner) do not make a plan unsound. Say CANNOT_TELL only if you truly cannot decide.
+
+=== S01 (the plan) ===
+[S01:1] Release manager Rachel Diaz will initiate the production deployment bridge on conference channel seven at 01:00 UTC to coordinate the partner cutover.
+[S01:2] Systems engineer Priya Patel will verify that all primary and standby PostgreSQL database replicas exhibit replication lag below two seconds.
+[S01:3] Database administrator Carlos Ortiz will take a manual snapshot of the partner settlement ledger database before executing any migration tasks.
+[S01:4] Release manager Rachel Diaz will notify the partner operations desk via email that the scheduled four-hour reconciliation maintenance window has begun.
+[S01:5] Systems engineer Priya Patel will pause the inbound partner payment ingestion gateway workers to prevent new transaction batches from entering the queue.
+[S01:6] Backend engineer Marcus Vance will drain the existing transaction queues and verify that zero unacknowledged reconciliation messages remain in transit.
+[S01:7] Database administrator Carlos Ortiz will acquire an advisory lock on the settlement ledger tables to prevent concurrent schema alterations during cutover.
+[S01:8] Backend engineer Marcus Vance will configure the settlement threshold check to evaluate partner_settlement_limit_cents as a NUMERIC(14, 2) value before clearing payment batches.
+[S01:9] Database administrator Carlos Ortiz will create a temporary backup table named partner_ledger_staging_backup to preserve the current state of intraday records.
+[S01:10] QA lead Dominic Green will execute read-only schema validation queries to confirm that all existing table indexes are healthy and ready for batch workload.
+[S01:11] Backend engineer Marcus Vance will verify that the deduplication cache in Redis has synchronized all transaction keys from the preceding business day.
+[S01:12] Systems engineer Priya Patel will verify that Prometheus scrapers and Grafana dashboards for the reconciliation service report green status on all metrics.
+[S01:13] Database administrator Carlos Ortiz will set statement timeout limits to twenty seconds for all transactional queries run during the maintenance window.
+[S01:14] Backend engineer Marcus Vance will confirm that the cryptographic public keys for partner batch signature verification are current and loaded in memory.
+[S01:15] Compliance officer Sarah Jenkins will verify that the batch audit trail logging bucket in object storage is accessible and enforces write-once retention.
+[S01:16] Release manager Rachel Diaz will log the completion of all pre-cutover checks in the deployment tracker and authorize the execution of core migration steps.
+[S01:17] Database administrator Carlos Ortiz will apply the schema migration patch v4.2 to add optimized lookup indexes on batch received timestamps.
+[S01:18] Backend engineer Marcus Vance will deploy the updated payment reconciliation worker binary to the production Kubernetes cluster using a rolling update.
+[S01:19] Systems engineer Priya Patel will monitor pod restarts and verify that all six reconciliation worker pods transition to ready status within four minutes.
+[S01:20] QA lead Dominic Green will send a synthetic test batch containing ten non-settling transactions to validate that the worker pods parse payloads correctly.
+[S01:21] Backend engineer Marcus Vance will confirm that the duplicate detection engine correctly identifies duplicate transactions using the duplicate payload hash.
+[S01:22] Database administrator Carlos Ortiz will verify that table locks have been released and that queries execute within the expected fifty millisecond baseline.
+[S01:23] Systems engineer Priya Patel will enable the cutoff scheduler daemon to manage partner window transitions according to the diurnal settlement schedule.
+[S01:24] Compliance officer Sarah Jenkins will review the automated integrity checksums generated during synthetic batch processing to confirm audit compliance.
+[S01:25] Every batch validation task and schema migration step in this cutover must strictly conform to the existing column definitions and data types recorded in settlement schema excerpt S02.
+[S01:26] Backend engineer Marcus Vance will verify that the batch transaction counter increments accurately when processing multi-item partner settlement files.
+[S01:27] Database administrator Carlos Ortiz will analyze the query execution plan for partner settlement limit checks to ensure index scans are used rather than sequential scans.
+[S01:28] QA lead Dominic Green will verify that transactions exceeding the diurnal cutoff timestamp trigger the appropriate grace period extension logic in the workers.
+[S01:29] Systems engineer Priya Patel will verify that the dead letter queue receives zero rejected records during the initial synthetic batch validation phase.
+[S01:30] Backend engineer Marcus Vance will enable batch aggregation routines that calculate gross debit and credit sums across the ingested settlement entries.
+[S01:31] Database administrator Carlos Ortiz will run vacuum analyze on the partner settlement ledger table to refresh query planner statistics for production traffic.
+[S01:32] Compliance officer Sarah Jenkins will verify that partner account numbers and sensitive routing details remain masked in all diagnostic application logs.
+[S01:33] Release manager Rachel Diaz will confirm with the partner operations liaison that both organizations are prepared to resume live batch transmission.
+[S01:34] Systems engineer Priya Patel will unpause the inbound partner payment ingestion gateway workers and restore regular polling intervals at 03:15 UTC.
+[S01:35] Backend engineer Marcus Vance will monitor the live ingestion stream to verify that the first production batch is ingested and parsed without errors.
+[S01:36] Database administrator Carlos Ortiz will monitor database connection pool utilization to ensure total active connections remain below sixty percent of capacity.
+[S01:37] QA lead Dominic Green will inspect the reconciliation audit table to confirm that discrepancy amounts remain at zero for all cleared live transactions.
+[S01:38] Systems engineer Priya Patel will verify that container memory utilization across all reconciliation worker pods stabilizes below forty percent of limit.
+[S01:39] Backend engineer Marcus Vance will confirm that batch reconciliation status updates transition cleanly from received to reconciled in the database table.
+[S01:40] Compliance officer Sarah Jenkins will inspect the partner signature verification logs to confirm that all live batches pass cryptographic authentication.
+[S01:41] Database administrator Carlos Ortiz will drop the temporary staging table partner_ledger_staging_backup after confirming live data integrity.
+[S01:42] QA lead Dominic Green will verify that partner cutoff notifications are successfully generated and transmitted at the conclusion of the hourly clearing cycle.
+[S01:43] Systems engineer Priya Patel will confirm that error rate alerts on the reconciliation notification channel remain quiet during peak batch processing.
+[S01:44] Backend engineer Marcus Vance will verify that the duplicate detection cache successfully filters simulated redundant records submitted by partner test rigs.
+[S01:45] Release manager Rachel Diaz will conduct a status poll with engineering leads to confirm that all post-deployment operational acceptance criteria are satisfied.
+[S01:46] Database administrator Carlos Ortiz will archive the migration execution logs and schema diff artifacts into the centralized infrastructure repository.
+[S01:47] Systems engineer Priya Patel will restore standard Prometheus scraping frequencies and reset diagnostic log levels from debug to informational across all pods.
+[S01:48] Compliance officer Sarah Jenkins will log formal regulatory sign-off in the compliance management system to document successful completion of the deployment.
+[S01:49] Release manager Rachel Diaz will send the cutover completion notice to partner stakeholders and corporate executive leadership via the change announcement list.
+[S01:50] Release manager Rachel Diaz will close the production deployment bridge and release all on-call engineers from deployment standby at 04:30 UTC.
+=== S02 (the reference excerpt) ===
+[S02:1] The schema defines column settlement_record_id as a UUID PRIMARY KEY that uniquely identifies each partner reconciliation entry.
+[S02:2] The schema defines column partner_batch_id as VARCHAR(64) NOT NULL to track the external batch identifier assigned by the partner.
+[S02:3] The schema defines column batch_sequence_number as BIGINT NOT NULL to maintain the strictly monotonic counter of inbound batches.
+[S02:4] The schema defines column batch_received_at as TIMESTAMPTZ NOT NULL to log the exact UTC arrival time of the incoming batch payload.
+[S02:5] The schema defines column batch_reconciliation_status as VARCHAR(32) NOT NULL DEFAULT 'RECEIVED' to indicate processing lifecycle.
+[S02:6] The schema defines column partner_batch_limit_cents as NUMERIC(14, 2) NOT NULL DEFAULT 0.00 to enforce per-batch reconciliation caps.
+[S02:7] The schema defines column batch_transaction_count as INTEGER NOT NULL DEFAULT 0 to record the total count of payments inside the batch.
+[S02:8] The schema defines column batch_gross_amount_cents as BIGINT NOT NULL DEFAULT 0 to aggregate the total debit sum of all transactions.
+[S02:9] The schema defines column batch_currency_code as VARCHAR(3) NOT NULL DEFAULT 'USD' to ensure compliance with clearing house standards.
+[S02:10] The schema defines column partner_cutoff_window_code as VARCHAR(16) NOT NULL to represent the agreed diurnal settlement trading window.
+[S02:11] The schema defines column partner_cutoff_timestamp as TIMESTAMPTZ NOT NULL to establish the formal closing time for partner submissions.
+[S02:12] The schema defines column cutoff_grace_period_seconds as INTEGER NOT NULL DEFAULT 300 to tolerate transient network transmission latency.
+[S02:13] The schema defines column partner_settlement_limit_cents as BIGINT NOT NULL DEFAULT 0 to establish the maximum clearing limit for batches.
+[S02:14] The schema defines column duplicate_window_seconds as INTEGER NOT NULL DEFAULT 86400 to define the historical deduplication timeframe.
+[S02:15] The schema defines column duplicate_payload_hash as VARCHAR(64) NOT NULL to detect identical payment instructions across partner batches.
+[S02:16] The schema defines column duplicate_record_count as INTEGER NOT NULL DEFAULT 0 to count suppressed duplicate payments during ingestion.
+[S02:17] The schema defines column partner_credit_tier as VARCHAR(12) NOT NULL DEFAULT 'TIER_1' to categorize collateral margin requirements.
+[S02:18] The schema defines column discrepancy_amount_cents as BIGINT NOT NULL DEFAULT 0 to capture variance between partner files and internal records.
+[S02:19] The schema defines column partner_account_number as VARCHAR(34) NOT NULL to designate the master settlement account held by the depository.
+[S02:20] The schema defines column clearing_channel_code as VARCHAR(24) NOT NULL DEFAULT 'FEDWIRE' to route settled funds to appropriate rails.
+[S02:21] The schema defines column partner_signature_hash as VARCHAR(128) NOT NULL to verify cryptographic non-repudiation on batch manifests.
+[S02:22] The schema defines column ingestion_host_identifier as VARCHAR(48) NOT NULL to trace which cluster worker ingested the reconciliation file.
+[S02:23] The schema defines column audit_checksum_value as VARCHAR(64) NOT NULL to guarantee immutable ledger integrity across periodic audits.
+[S02:24] The schema defines column archive_storage_status as VARCHAR(20) NOT NULL DEFAULT 'ACTIVE' to manage hot-to-cold data tier transitions.
+[S02:25] The schema defines column updated_at_timestamp as TIMESTAMPTZ NOT NULL to record the latest modification timestamp by automated workers.
+
+End your answer with exactly this block and nothing after it:
+AUDIT-BEGIN
+CLASS: SOUND | HAS_A_DEFECT | HAS_AN_UNESTABLISHED_FACT | CANNOT_TELL
+REASON: <one sentence>
+DECISIVE_FACT: <the single fact that, if added or corrected, would change your CLASS; or none>
+REQUIREMENT_LINE: <S01:n of the line that states the plan's requirement, or none>
+REQUIREMENT_DECIDES: YES | NO
+OTHER_PROBLEMS: <none, or lines such as S01:7; S02:3 that are unknown or contradictory for a reason other than your CLASS>
+AUDIT-END

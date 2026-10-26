@@ -1,0 +1,44 @@
+Below is a written plan, as numbered sources: S01 is the plan and, when present, S02 is a reference excerpt. Lines are numbered within their source and cited as S01:<n> or S02:<n>.
+
+The plan's author makes this claim about it: "Nothing in the plan performs a schema validation scan, dry run, or query on the historical archive data before execution, and no upstream pipeline guarantee ensures the absence of null tenant identifiers or timestamps in the legacy storage."
+
+Check the claim against the text. It holds only if no line anywhere in the plan or the excerpt bounds, establishes, implies or makes harmless what the claim says is missing. Quote the lines that contradict it, if any.
+
+=== S01 (the plan) ===
+[S01:1] Incident commander Rachel Adams opens the cutover war room in Slack channel #telemetry-cutover on October 25 at 21:00 UTC.
+[S01:2] Observability lead Carlos Mendez notifies all core engineering teams via email that the telemetry vendor cutover window has begun.
+[S01:3] Systems engineer Liam Thorne verifies network connectivity and TLS handshakes from the primary AWS VPC to Grafana Cloud ingestion endpoints.
+[S01:4] DevOps engineer Marcus Vance confirms that 1,400 OpenTelemetry Collector daemonset agents are running version 0.98.0 across all production clusters.
+[S01:5] Marcus Vance configures the OpenTelemetry Collector sampling pipeline to enforce a 15 percent head-sampling rate on standard HTTP access logs.
+[S01:6] Lead telemetry engineer Sarah Chen verifies that the 100 percent sampling override rule for HTTP 5xx error traces is active across all edge gateways.
+[S01:7] Carlos Mendez runs the validation script test_rules.py to confirm that 380 converted Prometheus alert rules are loaded into the Grafana Alerting engine.
+[S01:8] Site reliability engineer Priya Desai routes primary PagerDuty alerting policies to the Grafana Alerting webhook endpoint with a 3-minute fallback delay.
+[S01:9] Sarah Chen monitors the dual-shipping metrics pipeline to confirm that Grafana Cloud receives 4.2 million metric points per second without backpressure.
+[S01:10] Liam Thorne verifies that disk buffers on all gateway nodes maintain under 15 percent queue capacity during peak streaming ingestion.
+[S01:11] Marcus Vance confirms that the legacy Datadog agent daemonset CPU utilization remains capped at 200 millicores during the dual-shipping phase.
+[S01:12] Sarah Chen cross-checks live dashboard queries between legacy Datadog and Grafana Cloud to verify that error rates match within 0.1 percent.
+[S01:13] Priya Desai validates that 30-day retention policies are correctly configured in Grafana Mimir for production metric namespaces.
+[S01:14] Liam Thorne increases memory limits for the telemetry ingestion proxy pods in namespace telemetry-prod from 4 gigabytes to 8 gigabytes.
+[S01:15] Carlos Mendez locks modification permissions on all legacy alert rules in the Datadog console to prevent configuration drift during migration.
+[S01:16] The irreversible bulk migration of historical retention archives into the new vendor lakehouse will corrupt target partition tables and terminate the job if any records contain null tenant IDs or null timestamps.
+[S01:17] Sarah Chen verifies that the target S3 bucket s3://telemetry-lakehouse-prod has write permissions granted to IAM role telemetry-migrator-prod.
+[S01:18] Marcus Vance checks that the migration worker pod pool in namespace telemetry-batch is scaled to 16 executor instances on c6i.4xlarge nodes.
+[S01:19] Priya Desai confirms that historical archive read throttles on legacy bucket s3://telemetry-retention-us-east-1 are raised to 10,000 GET requests per second.
+[S01:20] Liam Thorne configures Prometheus scrape jobs to monitor memory consumption and network egress across all 16 migration worker pods.
+[S01:21] Carlos Mendez notifies the data compliance team in Slack channel #telemetry-governance that the archive migration execution window is active.
+[S01:22] Rachel Adams verifies that the backup snapshot of the new lakehouse catalog metadata store completed successfully at 01:30 UTC.
+[S01:23] Liam Thorne verifies that network egress bandwidth from AWS us-east-1 to the new vendor lakehouse endpoint remains below 25 gigabits per second.
+[S01:24] Marcus Vance initiates the irreversible bulk migration script migrate_archives.py at 02:00 UTC to transfer the 140 TB archive into the new lakehouse.
+[S01:25] Priya Desai monitors the ingestion progress in Grafana dashboard Telemetry Migration Overview to verify steady throughput of 450 megabytes per second.
+[S01:26] Sarah Chen queries the first 50 million migrated records in the new lakehouse to verify schema parity and field indexing without mismatch errors.
+[S01:27] Liam Thorne scales down the legacy Datadog agent daemonset replica count to zero across all staging and development clusters at 04:00 UTC.
+[S01:28] Marcus Vance updates production DNS records for the log forwarding endpoints to route remaining internal agents exclusively to Grafana Cloud.
+[S01:29] Carlos Mendez verifies that all 380 Grafana alert rules receive healthy evaluation heartbeats and zero missing metric alarms at 05:00 UTC.
+[S01:30] Priya Desai archives the migration execution logs and worker diagnostic outputs to s3://telemetry-audit-prod-us-east-1 for compliance records.
+[S01:31] Rachel Adams announces the successful completion of the vendor cutover in Slack channel #telemetry-cutover and closes the war room at 06:00 UTC.
+
+End your answer with exactly this block and nothing after it:
+AUDIT-BEGIN
+CLAIM_HOLDS: YES | NO
+CONTRADICTING_LINES: <none, or lines such as S01:7; S01:12>
+AUDIT-END

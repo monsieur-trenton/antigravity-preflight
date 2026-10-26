@@ -1,0 +1,73 @@
+Below is a written plan, as one or more numbered sources. Source S01 is the plan; if a source S02 is present it is a reference excerpt (a settings file, contract, policy or schema) that the plan is subject to. Each line is numbered within its source, and a line is cited as S01:<n> or S02:<n>.
+
+Decide, from the text alone, whether the plan can be carried out as written. A plan HAS_A_DEFECT if some line contradicts a line of the same or another source, or breaks the plan's own stated requirement. A plan HAS_AN_UNESTABLISHED_FACT if nothing is contradicted but a fact that the plan's own requirement depends on is nowhere established in the text. A plan is SOUND if neither applies. Ordinary small imperfections (no rehearsal, one alert channel, a single owner) do not make a plan unsound. Say CANNOT_TELL only if you truly cannot decide.
+
+=== S01 (the plan) ===
+[S01:1] Lead storage engineer Marcus Vance will initiate the maintenance session for bucket finance-vault-primary at 02:00 UTC.
+[S01:2] Storage administrator Elena Rostova will log into bastion host bastion-prod-01 to verify AWS CLI credentials.
+[S01:3] Security lead Priya Patel will confirm that IAM role StorageLifecycleManagerRole possesses the required PutLifecycleConfiguration permissions.
+[S01:4] Nathan Chen will export the existing lifecycle configuration XML to s3-config-backup-20261114.json at 02:05 UTC.
+[S01:5] Elena Rostova will verify the MD5 checksum of the exported configuration file against hash record a1b2c3d4e5f67890.
+[S01:6] Marcus Vance will post the change start announcement to Slack channel #storage-ops-notifications at 02:10 UTC.
+[S01:7] Backup administrator David Kim will inspect the cross-region replication status between us-east-1 and us-west-2.
+[S01:8] David Kim will verify that replication metrics show zero replication latency for the finance-vault-backup destination bucket.
+[S01:9] Elena Rostova will query CloudWatch alarm S3ReplicationErrorsAlarm to ensure no active alerts exist prior to modification.
+[S01:10] Nathan Chen will record current S3 API request rates on finance-vault-primary using metric dashboard dash-storage-04.
+[S01:11] Priya Patel will verify that object lock settings remain enabled in compliance mode for all protected prefixes.
+[S01:12] Marcus Vance will lock concurrent deployment pipelines via Jenkins job freeze-storage-deployments at 02:15 UTC.
+[S01:13] Elena Rostova will confirm that no active batch operations are processing objects in bucket finance-vault-primary.
+[S01:14] Nathan Chen will enable detailed S3 server access logging directed to target bucket finance-vault-access-logs.
+[S01:15] David Kim will snapshot the metadata catalog database aurora-s3-catalog-01 at 02:20 UTC before applying changes.
+[S01:16] Priya Patel will validate that KMS key arn:aws:kms:us-east-1:123456789012:key/s3-key-01 is accessible by the lifecycle worker.
+[S01:17] Marcus Vance will notify the incident response team on bridge line 415-555-0199 that lifecycle rule edits are commencing.
+[S01:18] Elena Rostova will check that the storage tier transition destination is set to Glacier Flexible Retrieval for historical records.
+[S01:19] Nathan Chen will verify that network egress bandwidth from us-east-1 remains below 400 megabits per second.
+[S01:20] Elena Rostova will generate the new lifecycle policy JSON file policy-update-20261114.json in directory /opt/storage/policies.
+[S01:21] Marcus Vance will configure rule rule-raw-events to transition objects under prefix raw-events/ to Standard-IA after 30 days.
+[S01:22] Marcus Vance will configure rule-raw-events to expire all objects under prefix raw-events/ after exactly 90 retention days.
+[S01:23] Priya Patel will verify that the 90 retention days policy for prefix raw-events/ complies with data retention standard POL-SEC-101.
+[S01:24] Elena Rostova will configure rule rule-system-logs to transition objects under prefix system-logs/ to Glacier Instant Retrieval at 60 days.
+[S01:25] Elena Rostova will set the expiration timeline for prefix system-logs/ to exactly 180 retention days in rule rule-system-logs.
+[S01:26] David Kim will ensure that replication rule repl-logs replicates all noncurrent versions of system-logs/ to us-west-2.
+[S01:27] Marcus Vance will configure rule rule-invoices to transition objects under prefix invoices/ to Glacier Flexible Retrieval at 365 days.
+[S01:28] Marcus Vance will set the permanent expiration threshold for prefix invoices/ to 2555 retention days matching the 7-year legal tax standard.
+[S01:29] Rachel Adams will verify that the 2555 retention days specification for prefix invoices/ satisfies statutory audit guidelines.
+[S01:30] Elena Rostova will configure rule rule-reports to transition objects under prefix reports/ to Standard-IA after 45 days.
+[S01:31] Elena Rostova will set the expiration rule for prefix reports/ to 365 retention days in policy-update-20261114.json.
+[S01:32] Priya Patel will verify that abort incomplete multipart upload actions are set to 7 days across all active rules.
+[S01:33] David Kim will confirm that cross-region replication for prefix invoices/ preserves object tags and replication status.
+[S01:34] Nathan Chen will run AWS CLI command aws s3api put-bucket-lifecycle-configuration with flag --dry-run at 02:45 UTC.
+[S01:35] Elena Rostova will inspect the CLI dry-run output log dryrun-output.log to ensure zero syntax errors are reported.
+[S01:36] Marcus Vance will review the diff between current rules and policy-update-20261114.json in change ticket CHG-88204.
+[S01:37] Priya Patel will confirm that no lifecycle rules remove existing legal hold protections on tagged objects.
+[S01:38] Nathan Chen will capture a baseline count of 14,250,000 objects across all prefixes in finance-vault-primary at 02:50 UTC.
+[S01:39] Rachel Adams will review the regulatory hold compliance matrix document COMP-DOC-2026-B with legal counsel at 02:55 UTC.
+[S01:40] The lifecycle retention days parameter for the legal-hold prefix remains pending compliance team approval.
+[S01:41] David Kim will verify that replication for the legal-hold prefix to us-west-2 maintains identical object versions.
+[S01:42] Priya Patel will verify that AWS CloudTrail trail trail-storage-audit is actively logging S3 data events for all buckets.
+[S01:43] Elena Rostova will execute the production CLI command to apply policy-update-20261114.json to finance-vault-primary at 03:00 UTC.
+[S01:44] Nathan Chen will monitor CloudWatch metric 5XXErrors on finance-vault-primary for 10 minutes following rule deployment.
+[S01:45] Marcus Vance will verify that the HTTP response code from the PutBucketLifecycleConfiguration call is 200 OK.
+[S01:46] Elena Rostova will download the active lifecycle configuration from AWS to active-rules-applied.json at 03:15 UTC.
+[S01:47] David Kim will compare active-rules-applied.json with policy-update-20261114.json using the diff utility on bastion-prod-01.
+[S01:48] Rachel Adams will verify that all applied rule identifiers match change record CHG-88204 in ServiceNow at 03:20 UTC.
+[S01:49] The legal-hold prefix is out of scope for this lifecycle configuration update.
+[S01:50] Nathan Chen will check that replication latency between us-east-1 and us-west-2 remains under 15 seconds at 03:25 UTC.
+[S01:51] Priya Patel will run security script test-object-lock.py to ensure legal hold status on existing objects remains intact.
+[S01:52] David Kim will execute a test restore of 10 sample objects from Glacier Flexible Retrieval to verify retrieval workflows.
+[S01:53] Elena Rostova will confirm that no unexpected object deletion events appear in CloudWatch metric NumberOfObjects.
+[S01:54] Marcus Vance will record the post-deployment configuration state in Confluence wiki page DOC-9941 at 03:30 UTC.
+[S01:55] All object storage prefixes touched by this lifecycle update must have approved retention days before execution proceeds.
+[S01:56] Elena Rostova will notify team lead Marcus Vance that all post-deployment validation checks have completed successfully.
+[S01:57] Nathan Chen will re-enable scheduled deployment pipelines in Jenkins job freeze-storage-deployments at 03:35 UTC.
+[S01:58] Marcus Vance will send the change completion email to distribution list storage-announcements@internal.example.com at 03:40 UTC.
+
+End your answer with exactly this block and nothing after it:
+AUDIT-BEGIN
+CLASS: SOUND | HAS_A_DEFECT | HAS_AN_UNESTABLISHED_FACT | CANNOT_TELL
+REASON: <one sentence>
+DECISIVE_FACT: <the single fact that, if added or corrected, would change your CLASS; or none>
+REQUIREMENT_LINE: <S01:n of the line that states the plan's requirement, or none>
+REQUIREMENT_DECIDES: YES | NO
+OTHER_PROBLEMS: <none, or lines such as S01:7; S02:3 that are unknown or contradictory for a reason other than your CLASS>
+AUDIT-END

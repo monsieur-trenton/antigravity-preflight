@@ -1,0 +1,119 @@
+Below are two written plans, X and Y, about the same work. Each is given as numbered sources: S01 is the plan and, when present, S02 is a reference excerpt that the plan is subject to. Lines are numbered within their source and cited as S01:<n> or S02:<n>. The two plans are the same except for one change in one of them, or they may differ in more than that.
+
+Decide which of the two, if either, needs a change before it can be carried out, and whether one plan is the other with exactly one edit and nothing else (one line edited in place, or one to three lines deleted, with nothing added, moved or reworded).
+
+PLAN X
+=== S01 (the plan) ===
+[S01:1] Lead SRE Marcus Vance will initiate the maintenance bridge at 01:45 UTC on October 28 to coordinate the rate-limit policy migration.
+[S01:2] Traffic Engineering Lead Priya Patel will verify that all edge Envoy proxies are routing traffic normally across regions us-east-1 and eu-west-1.
+[S01:3] API Gateway Engineer Elena Rostova will silence non-critical tier quota alerts in Datadog channel alert-gateway-prod from 02:00 UTC until 04:30 UTC.
+[S01:4] Security Lead David Kim will validate that mTLS certificates between edge proxies and the tier authorization service remain valid through 2027.
+[S01:5] Network Operations Specialist Carlos Mendez will verify baseline P99 latency across all public REST endpoints at 34 milliseconds before updates begin.
+[S01:6] Database Administrator Chloe Bennett will inspect the primary Redis cluster redis-ratelimit-prod-01 to confirm that memory utilization is at 42 percent.
+[S01:7] Product Manager Sarah Jenkins will post the start notice to the developer status portal status.api.acme.com at exactly 01:55 UTC.
+[S01:8] The delivery retry schedule for rate-limit exhaustion warnings in the client notice dispatcher is pending validation by the partner integrations team.
+[S01:9] Elena Rostova will check that customer account tier mappings for Free, Standard, and Enterprise tiers are synchronized in Postgres table api_tiers.
+[S01:10] Marcus Vance will verify that Redis cluster redis-ratelimit-prod-01 has 16 operational shards ready to store token-bucket counters.
+[S01:11] Priya Patel will confirm that automated canary analysis thresholds in Spinnaker pipeline canary-ratelimit-v2 are set to abort on a 0.5 percent error spike.
+[S01:12] Systems Engineer Liam O'Connor will take a snapshot of the Envoy edge cluster configuration in repository git-gateway-configs at commit sha-8f3a9d.
+[S01:13] Carlos Mendez will verify that the backup gateway cluster gateway-edge-standby is warmed and capable of receiving 100000 requests per second.
+[S01:14] David Kim will inspect firewall rules on port 6379 to confirm that only authorized gateway nodes can connect to the Redis rate-limiting instances.
+[S01:15] Sarah Jenkins will verify that external developer documentation for the new header specifications has been staged on docs.api.acme.com.
+[S01:16] Elena Rostova will confirm that edge gateway container image envoy-ratelimit:v3.12.0 is cached locally on all 48 edge hosts in us-east-1.
+[S01:17] Marcus Vance will record baseline CPU utilization of 28 percent across the edge fleet in the release logbook at 01:58 UTC.
+[S01:18] At 02:00 UTC, Marcus Vance will issue the execution approval over Slack channel bridge-rate-limit-migration.
+[S01:19] Elena Rostova will deploy the updated token-bucket rate-limiting filter configuration to canary cluster gateway-canary-01.
+[S01:20] Priya Patel will shift 5 percent of live ingress traffic to gateway-canary-01 using Route53 weighted record sets at 02:05 UTC.
+[S01:21] Elena Rostova will verify that the Free tier enforcement applies a sustained limit of 60 requests per minute with a burst capacity of 10 requests.
+[S01:22] Liam O'Connor will verify that the Standard tier enforcement applies a sustained limit of 600 requests per minute with a burst capacity of 50 requests.
+[S01:23] Carlos Mendez will verify that the Enterprise tier enforcement applies a sustained limit of 3000 requests per minute with a burst capacity of 200 requests.
+[S01:24] The client notice dispatcher component is in scope for this rate-limit policy deployment.
+[S01:25] David Kim will inspect outgoing HTTP response headers on canary requests to confirm the presence of RateLimit-Limit and RateLimit-Remaining.
+[S01:26] Elena Rostova will execute a simulated burst of 15 requests on a Free tier API key to trigger HTTP 429 Too Many Requests responses.
+[S01:27] Liam O'Connor will verify that HTTP 429 responses contain the Retry-After header populated with the correct integer backoff in seconds.
+[S01:28] Carlos Mendez will monitor Datadog dashboard dash-ratelimit-live for five minutes to confirm that Redis counter latency remains below 1.8 milliseconds.
+[S01:29] Priya Patel will increase the canary traffic allocation to 25 percent across all us-east-1 edge nodes at 02:20 UTC.
+[S01:30] Elena Rostova will check that the RateLimit-Reset header accurately reflects the Unix timestamp of the start of the next minute window.
+[S01:31] David Kim will verify that unauthorized requests lacking an API key receive standard HTTP 401 Unauthorized responses rather than rate-limit errors.
+[S01:32] Priya Patel will increase the canary traffic allocation to 100 percent across us-east-1 edge nodes at 02:35 UTC.
+[S01:33] Marcus Vance will verify that the edge proxy error rate remains below 0.02 percent after full traffic cutover in us-east-1.
+[S01:34] Elena Rostova will deploy the new rate-limit policy configuration to all 32 edge gateway hosts in eu-west-1 at 02:45 UTC.
+[S01:35] Liam O'Connor will verify that token-bucket synchronization across Redis replication nodes in eu-west-1 exhibits replication lag under 15 milliseconds.
+[S01:36] Carlos Mendez will verify that the P99 latency for rate-limited requests across eu-west-1 remains below 38 milliseconds at 03:00 UTC.
+[S01:37] David Kim will inspect the security audit log audit-ratelimit.log to confirm that tier quota violation events are properly indexed in Elasticsearch.
+[S01:38] Sarah Jenkins will verify that evaluation accounts on Free, Standard, and Enterprise tiers display accurate real-time quota metrics in the developer portal.
+[S01:39] Elena Rostova will verify that automated tier degradation rules correctly reject traffic bursts exceeding 200 percent of configured limits.
+[S01:40] Priya Patel will verify that health checks on endpoint https://api.acme.com/health/ratelimit return HTTP 200 OK from all 80 edge nodes.
+[S01:41] Marcus Vance will verify that CPU consumption on redis-ratelimit-prod-01 remains stable below 55 percent at 03:15 UTC.
+[S01:42] All service components in scope for this rate-limit policy deployment must have fully approved operational specifications before execution begins.
+[S01:43] Elena Rostova will execute script verify-tier-overrides.sh to verify that custom Enterprise tier overrides persist through policy reloads.
+[S01:44] Carlos Mendez will confirm that the alert routing policy in PagerDuty service api-rate-limiting is set to page the on-call engineer for any 5xx surge.
+[S01:45] David Kim will confirm that API key hashing salt rotation scripts remain unaffected by the new Redis rate-limiting key format.
+[S01:46] Sarah Jenkins will verify that automated email notifications to tier account owners reaching 80 percent quota are enabled for the billing cycle.
+[S01:47] Liam O'Connor will archive the pre-migration Redis dump snapshot to S3 bucket s3://acme-ratelimit-backups/2026-10-28/ at 03:30 UTC.
+[S01:48] Elena Rostova will unmute tier quota alerts in Datadog channel alert-gateway-prod at 03:35 UTC.
+[S01:49] Priya Patel will review global traffic distribution across us-east-1 and eu-west-1 to verify balanced loads at 03:40 UTC.
+[S01:50] Sarah Jenkins will publish the maintenance completion announcement on status.api.acme.com at 03:45 UTC.
+[S01:51] Marcus Vance will close the maintenance bridge bridge-rate-limit-migration and sign off on the change ticket CHG-88412 at 03:50 UTC.
+
+PLAN Y
+=== S01 (the plan) ===
+[S01:1] Lead SRE Marcus Vance will initiate the maintenance bridge at 01:45 UTC on October 28 to coordinate the rate-limit policy migration.
+[S01:2] Traffic Engineering Lead Priya Patel will verify that all edge Envoy proxies are routing traffic normally across regions us-east-1 and eu-west-1.
+[S01:3] API Gateway Engineer Elena Rostova will silence non-critical tier quota alerts in Datadog channel alert-gateway-prod from 02:00 UTC until 04:30 UTC.
+[S01:4] Security Lead David Kim will validate that mTLS certificates between edge proxies and the tier authorization service remain valid through 2027.
+[S01:5] Network Operations Specialist Carlos Mendez will verify baseline P99 latency across all public REST endpoints at 34 milliseconds before updates begin.
+[S01:6] Database Administrator Chloe Bennett will inspect the primary Redis cluster redis-ratelimit-prod-01 to confirm that memory utilization is at 42 percent.
+[S01:7] Product Manager Sarah Jenkins will post the start notice to the developer status portal status.api.acme.com at exactly 01:55 UTC.
+[S01:8] The delivery retry schedule for rate-limit exhaustion warnings in the client notice dispatcher is pending validation by the partner integrations team.
+[S01:9] Elena Rostova will check that customer account tier mappings for Free, Standard, and Enterprise tiers are synchronized in Postgres table api_tiers.
+[S01:10] Marcus Vance will verify that Redis cluster redis-ratelimit-prod-01 has 16 operational shards ready to store token-bucket counters.
+[S01:11] Priya Patel will confirm that automated canary analysis thresholds in Spinnaker pipeline canary-ratelimit-v2 are set to abort on a 0.5 percent error spike.
+[S01:12] Systems Engineer Liam O'Connor will take a snapshot of the Envoy edge cluster configuration in repository git-gateway-configs at commit sha-8f3a9d.
+[S01:13] Carlos Mendez will verify that the backup gateway cluster gateway-edge-standby is warmed and capable of receiving 100000 requests per second.
+[S01:14] David Kim will inspect firewall rules on port 6379 to confirm that only authorized gateway nodes can connect to the Redis rate-limiting instances.
+[S01:15] Sarah Jenkins will verify that external developer documentation for the new header specifications has been staged on docs.api.acme.com.
+[S01:16] Elena Rostova will confirm that edge gateway container image envoy-ratelimit:v3.12.0 is cached locally on all 48 edge hosts in us-east-1.
+[S01:17] Marcus Vance will record baseline CPU utilization of 28 percent across the edge fleet in the release logbook at 01:58 UTC.
+[S01:18] At 02:00 UTC, Marcus Vance will issue the execution approval over Slack channel bridge-rate-limit-migration.
+[S01:19] Elena Rostova will deploy the updated token-bucket rate-limiting filter configuration to canary cluster gateway-canary-01.
+[S01:20] Priya Patel will shift 5 percent of live ingress traffic to gateway-canary-01 using Route53 weighted record sets at 02:05 UTC.
+[S01:21] Elena Rostova will verify that the Free tier enforcement applies a sustained limit of 60 requests per minute with a burst capacity of 10 requests.
+[S01:22] Liam O'Connor will verify that the Standard tier enforcement applies a sustained limit of 600 requests per minute with a burst capacity of 50 requests.
+[S01:23] Carlos Mendez will verify that the Enterprise tier enforcement applies a sustained limit of 3000 requests per minute with a burst capacity of 200 requests.
+[S01:24] The client notice dispatcher component is out of scope for this rate-limit policy deployment.
+[S01:25] David Kim will inspect outgoing HTTP response headers on canary requests to confirm the presence of RateLimit-Limit and RateLimit-Remaining.
+[S01:26] Elena Rostova will execute a simulated burst of 15 requests on a Free tier API key to trigger HTTP 429 Too Many Requests responses.
+[S01:27] Liam O'Connor will verify that HTTP 429 responses contain the Retry-After header populated with the correct integer backoff in seconds.
+[S01:28] Carlos Mendez will monitor Datadog dashboard dash-ratelimit-live for five minutes to confirm that Redis counter latency remains below 1.8 milliseconds.
+[S01:29] Priya Patel will increase the canary traffic allocation to 25 percent across all us-east-1 edge nodes at 02:20 UTC.
+[S01:30] Elena Rostova will check that the RateLimit-Reset header accurately reflects the Unix timestamp of the start of the next minute window.
+[S01:31] David Kim will verify that unauthorized requests lacking an API key receive standard HTTP 401 Unauthorized responses rather than rate-limit errors.
+[S01:32] Priya Patel will increase the canary traffic allocation to 100 percent across us-east-1 edge nodes at 02:35 UTC.
+[S01:33] Marcus Vance will verify that the edge proxy error rate remains below 0.02 percent after full traffic cutover in us-east-1.
+[S01:34] Elena Rostova will deploy the new rate-limit policy configuration to all 32 edge gateway hosts in eu-west-1 at 02:45 UTC.
+[S01:35] Liam O'Connor will verify that token-bucket synchronization across Redis replication nodes in eu-west-1 exhibits replication lag under 15 milliseconds.
+[S01:36] Carlos Mendez will verify that the P99 latency for rate-limited requests across eu-west-1 remains below 38 milliseconds at 03:00 UTC.
+[S01:37] David Kim will inspect the security audit log audit-ratelimit.log to confirm that tier quota violation events are properly indexed in Elasticsearch.
+[S01:38] Sarah Jenkins will verify that evaluation accounts on Free, Standard, and Enterprise tiers display accurate real-time quota metrics in the developer portal.
+[S01:39] Elena Rostova will verify that automated tier degradation rules correctly reject traffic bursts exceeding 200 percent of configured limits.
+[S01:40] Priya Patel will verify that health checks on endpoint https://api.acme.com/health/ratelimit return HTTP 200 OK from all 80 edge nodes.
+[S01:41] Marcus Vance will verify that CPU consumption on redis-ratelimit-prod-01 remains stable below 55 percent at 03:15 UTC.
+[S01:42] All service components in scope for this rate-limit policy deployment must have fully approved operational specifications before execution begins.
+[S01:43] Elena Rostova will execute script verify-tier-overrides.sh to verify that custom Enterprise tier overrides persist through policy reloads.
+[S01:44] Carlos Mendez will confirm that the alert routing policy in PagerDuty service api-rate-limiting is set to page the on-call engineer for any 5xx surge.
+[S01:45] David Kim will confirm that API key hashing salt rotation scripts remain unaffected by the new Redis rate-limiting key format.
+[S01:46] Sarah Jenkins will verify that automated email notifications to tier account owners reaching 80 percent quota are enabled for the billing cycle.
+[S01:47] Liam O'Connor will archive the pre-migration Redis dump snapshot to S3 bucket s3://acme-ratelimit-backups/2026-10-28/ at 03:30 UTC.
+[S01:48] Elena Rostova will unmute tier quota alerts in Datadog channel alert-gateway-prod at 03:35 UTC.
+[S01:49] Priya Patel will review global traffic distribution across us-east-1 and eu-west-1 to verify balanced loads at 03:40 UTC.
+[S01:50] Sarah Jenkins will publish the maintenance completion announcement on status.api.acme.com at 03:45 UTC.
+[S01:51] Marcus Vance will close the maintenance bridge bridge-rate-limit-migration and sign off on the change ticket CHG-88412 at 03:50 UTC.
+
+End your answer with exactly this block and nothing after it:
+AUDIT-BEGIN
+NEEDS_CHANGE: X | Y | BOTH | NEITHER
+WHY: <one sentence>
+ONE_EDIT: YES | NO
+DIFFERENCE: <one sentence saying exactly what differs between X and Y>
+AUDIT-END

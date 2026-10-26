@@ -1,7 +1,7 @@
 """Run the blind audit of a built v4 corpus through the Claude CLI: one tool-free turn per call, never retried; no oracle class reaches a request.
 
 Calls (wording A only): `member` for every case shown alone, `pair` for every pair with the two members unlabelled in a seed-determined order, and `claim` for every gap
-twin of an omitted-unknown or decoy pair, which shows the author's own why-no-fallback sentence against the twin. The questions are those of SPEC.md. Without --execute it only
+twin made by a deletion (an omitted-unknown pair or an absorbed-open-item pair; for an edit the claim has no object), which shows the author's own why-no-fallback sentence against the twin. The questions are those of SPEC.md. Without --execute it only
 writes the requests (no model call). With --execute it makes at most --max-calls calls; a call with any recorded outcome, including a stop, is never run again.
 
 The route is the Claude CLI (`claude -p --tools ''` in a fresh empty directory), as for the Claude review arms: its isolation is configuration, not containment.
@@ -53,7 +53,7 @@ def schedule(corpus):
             continue
         pairs.setdefault(record["pair"], {})[record["role"]] = case
         calls.append((f"member:{case}", "member", case, audit_prompts.member_request(sources_of(case))))
-        if record["role"] == "changed" and record["kind"] in GAP_KINDS:
+        if record["role"] == "changed" and record["kind"] in GAP_KINDS and record["changed"]["type"] == "deleted":
             calls.append((f"claim:{case}", "claim", case, audit_prompts.claim_request(sources_of(case), record["whyNoFallback"])))
     for pair, cases in sorted(pairs.items()):
         calls.append((f"pair:{pair}", "pair", pair, audit_prompts.pair_request(seed, pair, sources_of(cases["sound"]), sources_of(cases["changed"]))))

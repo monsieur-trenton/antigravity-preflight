@@ -1,0 +1,30 @@
+# Blind audit of the dev corpus
+
+The first live use of [the audit tooling](../audit/HANDOFF.md): 88 calls to Claude Opus 5.5 (requested; every call served `claude-opus-5-5`) through the Claude CLI on the 48-case [dev corpus](../dev/) (manifest `426427b4…972f`), run by the owner's orchestrator at commit `fa30b2e`, zero stops, $4.79 and 19 minutes in all (median 12.8 s a call). Every call is a member alone (48), a pair with the plans unlabelled (24) or, for the 16 twins that were shown beside the author's why-no-fallback sentence, a claim check (16). **One auditor model of the family that also serves as a reviewer arm, one author model, one split; the audit prompts are not the review prompt. Nothing here measures a reviewer, and the auditor's class labels are an opinion that a person has to settle where it disagrees with the oracle.**
+
+[audit-report.json](audit-report.json) is `audit_report.py report` on [audit-answers.jsonl](audit-answers.jsonl); [attempts/](attempts/) holds every request, answer and CLI output.
+
+## Result against the oracle
+
+| | Pairs | Passed | Passed with something to read | Sent to review |
+| --- | --- | --- | --- | --- |
+| Omitted precondition (8) | 8 | 2 | 4 | 2 |
+| Cross-source schema state (8) | 8 | 3 | 5 | 0 |
+| Open-item scope (8) | 8 | 0 | 0 | **8** |
+| All | 24 | 5 | 9 | 10 |
+
+Members whose class the auditor recovered: 36 of 48. By role: cross-source 16 of 16; omitted precondition twins 8 of 8 and sound plans 6 of 8; scope sound plans 6 of 8 and **scope twins 0 of 8**. In every pair the auditor chose the intended twin and said it was one edit and nothing else (24 of 24 on both). The first-pass agreement is 14 of 24 pairs, far below v3's 64 of 64 on the intended class, and it is not to be rounded up: the 10 are rewritten or dropped and re-audited before this split is frozen.
+
+## What the disagreements are (my reading of the answers and the plan lines)
+
+1. **Two omitted-precondition sound plans are not sound; the auditor is right.** N-102a76: the only scan is dated about 33 hours before the irreversible step, with ingestion still writing in between, so the precondition is not established at execution time. N-4aedf1: the scan covers the production snapshot, but the constraint is enforced on the restored target after point-in-time replay, a different object. Both are second unestablished facts in a plan that was supposed to have none. They are the authors' errors, and the family hazards must say that the check covers the object the step acts on and is taken after the last write that could change it.
+2. **All eight scope twins are read as defects.** The auditor says the twin's own lines contradict its requirement ("every in-scope component must have approved settings", "this component is in scope", "its setting remains pending"). The specification calls this an unestablished fact (the approval could still arrive), and the authors' own mechanism sentences say "violates the requirement". In one pair (N-d0d08d) the plan itself puts the confirmation at 14:00 UTC and the cohort traffic at 10:00 UTC, which is a plain contradiction. In others (for example N-ab7473, "pending approval from the governance lead", no time) it is arguable. Two things cannot be separated here: the specification may be wrong for this family (the twin is a defect, and the case is a defect with a decoy in its sound plan), or the auditor, a model of the family whose overclaiming of stated unknowns was the main finding of the v3 Claude runs, is overclaiming. The owner's spot check carries the tie-break: it now asks the problem kind (DEFECT or UNESTABLISHED) as well as which plan needs a change. The same structure sits in the test family `open_item_becomes_decisive`.
+3. **Two scope sound plans carry a second gap.** N-93366f (the other prefixes' retention days are nowhere shown as approved although the requirement covers every touched prefix) and N-9cc72c (an in-scope module's checkpoints are "planned to be enabled", never confirmed). A decoy plan must carry exactly one open item; these carry another. For a third, N-b4a14c, the auditor says the requirement does not decide the verdict, which I have not read.
+4. **Cross-source: clean on the questions that decide a class.** All sound plans recovered as sound, all twins as defects, the correct plan chosen. The auditor lists many "other problem" lines (nine of the pairs are `PASS_WITH_READ`); I read those for three pairs and they are the near-name entities and ordinary plan detail the auditor was examining, not second faults. It is a noisy flag, not evidence of a fault; the owner's sample is the check.
+5. **The claim check does not fit an edit.** For a scope twin the "contradicting lines" are the edit itself and the requirement, which is trivially true (N-4b040d). The claim has an object only when lines are deleted. The driver and the report now schedule it only for deleted gaps (omitted unknown, absorbed open item); the eight scope claim calls in this run were made as originally scheduled and are not used.
+
+## Decisions this leaves open
+
+- **The scope family** (and `open_item_becomes_decisive` in test): a person decides after the spot check whether its twin is a defect (then the family moves to `defect`-class twins with a decoy in the sound plan, and the decoy-discipline metric stays) or whether the family is rewritten so that the twin states nothing about when approval happens.
+- **The ten pairs to rewrite or drop**, and the hazard sentences that go into the family specifications for the next authoring batch (dev only; nothing here touches the test split).
+- **Cross-family audit.** An audit by a model that does not share the Claude reviewer's habits would answer item 2 better than a person can; the Gemini route could serve as a second auditor for the contested pairs.

@@ -1,0 +1,45 @@
+Below is a written plan, as numbered sources: S01 is the plan and, when present, S02 is a reference excerpt. Lines are numbered within their source and cited as S01:<n> or S02:<n>.
+
+The plan's author makes this claim about it: "No subsequent task, test run, or approval step in the plan supplies or confirms the pending serialization schema for the audit-archiver component."
+
+Check the claim against the text. It holds only if no line anywhere in the plan or the excerpt bounds, establishes, implies or makes harmless what the claim says is missing. Quote the lines that contradict it, if any.
+
+=== S01 (the plan) ===
+[S01:1] Elena Rostova will initiate the maintenance window at 02:00 UTC on October 28 to upgrade the core Netty transport dependency from version 4.1.94 to 4.1.112.
+[S01:2] Marcus Vance will notify all upstream checkout-service and billing-service callers in the #platform-releases Slack channel fifteen minutes before traffic diversion.
+[S01:3] David Kim will verify that network routing rules on border ingress proxy envoy-01 redirect sixty percent of inbound traffic to secondary cluster us-east-2.
+[S01:4] Priya Patel will validate that automated regression test coverage across all Netty channel pipeline handlers exceeds ninety-two percent before proceeding.
+[S01:5] Jordan Lee will export baseline connection multiplexing metrics from Prometheus host prom-auth-01 showing steady-state latency of twelve milliseconds.
+[S01:6] Rachel Gomez will capture heap memory dumps from authentication gateway node auth-gw-01 to establish pre-migration baseline resource utilization.
+[S01:7] David Kim will freeze deployment pipelines in Jenkins server ci-build-04 to prevent concurrent container deployments during the sixty-minute window.
+[S01:8] Marcus Vance will verify that telemetry agent datadog-agent-02 is collecting socket buffer pool allocations at five-second sampling intervals.
+[S01:9] Elena Rostova will confirm that failover DNS records for auth-api.internal have their time-to-live values lowered to sixty seconds on Route53.
+[S01:10] Rachel Gomez will inspect access control policies on vault-cluster-01 to ensure that deployment service account svc-deploy has valid lease tokens.
+[S01:11] Priya Patel will apply the Netty library version 4.1.112 artifact to the staging branch in repository auth-service-core under commit hash 7a8f3b2.
+[S01:12] Jordan Lee will execute the integration test suite covering connection keepalive behaviours across six downstream authentication handler pools.
+[S01:13] David Kim will deploy the upgraded transport library to the token-validator, session-cache, and credential-store components on staging host stg-auth-01.
+[S01:14] Elena Rostova has verified and signed off that the token-validator, session-cache, and credential-store components have approved serialization schemas.
+[S01:15] Marcus Vance will execute synthetic load tests generating eight thousand requests per second against the staging endpoint to evaluate retry behaviours.
+[S01:16] Every service component touched by this dependency upgrade must have an approved serialization schema before deployment to staging.
+[S01:17] Rachel Gomez will verify that HTTP/2 stream multiplexing behaviours between token-validator and session-cache show zero dropped frames over ten minutes.
+[S01:18] Priya Patel will inspect automated test coverage reports on SonarQube dashboard sq-auth-01 confirming ninety-five percent branch coverage for session-cache.
+[S01:19] David Kim will execute chaos injection tests on cluster stg-auth-01 by dropping ten percent of network packets on port 8443 for three minutes.
+[S01:20] Marcus Vance will verify that token-validator p99 response times remain under fifteen milliseconds during the chaos injection test interval.
+[S01:21] Elena Rostova will sign off on the staging validation checklist after confirming error rates remain below zero point zero one percent.
+[S01:22] David Kim will execute the production rollout order by updating canary instance auth-prod-canary-01 in region us-east-1 at 02:45 UTC.
+[S01:23] Jordan Lee will monitor canary cluster error rates in Datadog monitor mon-9921 for twenty minutes before clearing wider production deployment.
+[S01:24] Marcus Vance confirms that the audit-archiver component is in scope for this dependency upgrade.
+[S01:25] Elena Rostova will execute the secondary rollout order across four production worker nodes in region us-west-2 at 03:15 UTC.
+[S01:26] Priya Patel will monitor callers from account-service and order-service to verify that HTTP status code 500 responses do not exceed zero.
+[S01:27] David Kim will verify that mutual TLS certificates on port 9443 between auth nodes and downstream services remain valid for forty days.
+[S01:28] Rachel Gomez will stream application logs from all production pods to Elasticsearch index auth-logs-prod-2026 for anomaly detection.
+[S01:29] Marcus Vance will initiate the rollback script rollback-netty.sh to restore version 4.1.94 if p99 latency exceeds twenty-five milliseconds.
+[S01:30] The serialization schema for the audit-archiver component remains pending approval from data governance lead Sarah Chen.
+[S01:31] Jordan Lee will archive deployment telemetry artifacts and socket statistics to S3 bucket s3://infra-auth-deploy-logs-01 at 03:45 UTC.
+[S01:32] Elena Rostova will post the final maintenance window completion notice to callers in the #platform-releases Slack channel at 04:00 UTC.
+
+End your answer with exactly this block and nothing after it:
+AUDIT-BEGIN
+CLAIM_HOLDS: YES | NO
+CONTRADICTING_LINES: <none, or lines such as S01:7; S01:12>
+AUDIT-END

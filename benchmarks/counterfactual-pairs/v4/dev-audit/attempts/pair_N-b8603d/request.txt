@@ -1,0 +1,131 @@
+Below are two written plans, X and Y, about the same work. Each is given as numbered sources: S01 is the plan and, when present, S02 is a reference excerpt that the plan is subject to. Lines are numbered within their source and cited as S01:<n> or S02:<n>. The two plans are the same except for one change in one of them, or they may differ in more than that.
+
+Decide which of the two, if either, needs a change before it can be carried out, and whether one plan is the other with exactly one edit and nothing else (one line edited in place, or one to three lines deleted, with nothing added, moved or reworded).
+
+PLAN X
+=== S01 (the plan) ===
+[S01:1] Lead systems engineer Marcus Vance initiates the maintenance window at 02:00 UTC for queue consumer resizing.
+[S01:2] Marcus Vance posts the maintenance notification to Slack channel #ops-data-pipelines and alerts duty managers.
+[S01:3] Operations engineer Chloe Adams verifies that the deployment service account possesses active cluster admin rights.
+[S01:4] Marcus Vance confirms that message broker cluster CPU and memory headroom metrics remain comfortably below 45 percent.
+[S01:5] All consumer count modifications and batch size changes in this plan assume the exact queue type, partition count, and dead letter targets cataloged in the S02 configuration listing.
+[S01:6] Chloe Adams records baseline consumer lag metrics across all production ingress message queues in Datadog.
+[S01:7] Site reliability engineer Liam Patel inspects existing dead letter queue backlogs to ensure zero unhandled items.
+[S01:8] Liam Patel silences non-critical PagerDuty queue lag alerts for the duration of the scheduled maintenance window.
+[S01:9] Marcus Vance verifies low network latency between Kubernetes worker nodes and message broker partition leaders.
+[S01:10] Chloe Adams captures a snapshot of current consumer group offset commits for all active queue partitions.
+[S01:11] Liam Patel suspends Kubernetes horizontal pod autoscaling policies for all target consumer worker microservices.
+[S01:12] Marcus Vance checks producer ingress rates to ensure aggregate publish volume stays stable near 4,200 events per second.
+[S01:13] Chloe Adams establishes a persistent connection pool audit logger in Elasticsearch for consumer telemetry.
+[S01:14] Liam Patel verifies that schema registry endpoints respond within 15 milliseconds across all operational nodes.
+[S01:15] Marcus Vance increases authentication-audit-stream consumer group workers from 4 pods to 8 pods across 8 partitions.
+[S01:16] Chloe Adams raises customer-notification-events consumer batch size from 20 to 50 messages to drain current lag.
+[S01:17] Liam Patel adjusts inventory-reservation-records consumer batch size to 25 items across all 24 queue partitions.
+[S01:18] Marcus Vance monitors inventory-reservation-dlq to ensure no malformed batches get routed to dead letters.
+[S01:19] Chloe Adams scales invoice-generation-requests consumer group concurrency to 16 worker pods to match partition count.
+[S01:20] Liam Patel tunes ledger-posting-transactions consumer batch size to 15 messages to respect strict ordering keys.
+[S01:21] Marcus Vance caps consumer concurrency for clearing-settlement-records at 64 workers and batch size at 100 items assuming the queue type is standard-concurrent without ordering keys.
+[S01:22] Chloe Adams observes consumer lag on payment-reconciliation-stream while scaling worker pods from 8 to 16 replicas.
+[S01:23] Liam Patel adjusts the consumer poll timeout parameter to 250 milliseconds on merchant-payout-requests workers.
+[S01:24] Marcus Vance increases consumer batch size on refund-disbursement-events to 30 messages per polling cycle.
+[S01:25] Chloe Adams verifies that message counts on refund-disbursement-dlq remain at zero following the batch size change.
+[S01:26] Liam Patel scales fraud-detection-telemetry consumer workers to 64 pods to utilize all 64 available partitions.
+[S01:27] Marcus Vance configures subscription-renewal-stream consumer batch size to 20 messages per worker thread.
+[S01:28] Chloe Adams verifies consumer commit acknowledgments on dispute-arbitration-events workers across 8 partitions.
+[S01:29] Liam Patel confirms that total aggregate consumer lag across all modified queues has dropped below 500 messages.
+[S01:30] Marcus Vance audits broker partition rebalances to ensure zero worker pod disconnects occurred during deployment.
+[S01:31] Chloe Adams inspects dead letter queue depths across all pipelines to verify that no messages were rejected.
+[S01:32] Liam Patel inspects consumer logs on clearing-settlement-records to ensure ordering keys were processed in sequence.
+[S01:33] Marcus Vance re-enables Kubernetes horizontal pod autoscaling policies for all adjusted consumer deployments.
+[S01:34] Chloe Adams unsilences PagerDuty alert monitors for consumer lag thresholds and dead letter message arrivals.
+[S01:35] Liam Patel dispatches synthetic test messages through the ingestion pipeline to validate end-to-end processing.
+[S01:36] Marcus Vance confirms that average CPU utilization across all consumer worker pods remains below 65 percent.
+[S01:37] Chloe Adams verifies that automated dead letter alerts are functional and correctly routed to on-call channels.
+[S01:38] Liam Patel archives consumer tuning performance metrics and rebalance logs to cloud bucket s3-ops-logs.
+[S01:39] Marcus Vance posts a rollout completion status message to the engineering Slack channel #ops-data-pipelines.
+[S01:40] Chloe Adams reviews message consumption rates on Grafana dashboard dashboard-queue-health for stability.
+[S01:41] Liam Patel confirms with data lead Sarah Jenkins that downstream database tables reflect all processed messages.
+[S01:42] Marcus Vance transfers queue telemetry monitoring duties to the overnight on-call engineer Daniel Ortiz.
+[S01:43] Chloe Adams closes operational ticket CHG-88421 in Jira after attaching verified lag and throughput graphs.
+=== S02 (the reference excerpt) ===
+[S02:1] Queue profile authentication-audit-stream is configured with queue type standard-concurrent, 8 partitions, ordering key none, and dead letter queue authentication-audit-dlq.
+[S02:2] Queue profile customer-notification-events is configured with queue type standard-concurrent, 12 partitions, ordering key user_id, and dead letter queue customer-notification-dlq.
+[S02:3] Queue profile inventory-reservation-records is configured with queue type fifo-ordered, 24 partitions, ordering key sku_id, and dead letter queue inventory-reservation-dlq.
+[S02:4] Queue profile invoice-generation-requests is configured with queue type standard-concurrent, 16 partitions, ordering key billing_id, and dead letter queue invoice-generation-dlq.
+[S02:5] Queue profile ledger-posting-transactions is configured with queue type fifo-ordered, 32 partitions, ordering key ledger_id, and dead letter queue ledger-posting-dlq.
+[S02:6] Queue profile clearing-settlement-records is configured with queue type fifo-ordered, 16 partitions, ordering key settlement_id, and dead letter queue clearing-settlement-dlq.
+[S02:7] Queue profile payment-reconciliation-stream is configured with queue type standard-concurrent, 16 partitions, ordering key payment_ref, and dead letter queue payment-reconciliation-dlq.
+[S02:8] Queue profile merchant-payout-requests is configured with queue type fifo-ordered, 8 partitions, ordering key merchant_id, and dead letter queue merchant-payout-dlq.
+[S02:9] Queue profile refund-disbursement-events is configured with queue type standard-concurrent, 12 partitions, ordering key refund_id, and dead letter queue refund-disbursement-dlq.
+[S02:10] Queue profile clearing-settlements-records is configured with queue type standard-concurrent, 16 partitions, ordering key none, and dead letter queue clearing-settlements-dlq.
+[S02:11] Queue profile fraud-detection-telemetry is configured with queue type standard-concurrent, 64 partitions, ordering key device_id, and dead letter queue fraud-detection-dlq.
+[S02:12] Queue profile subscription-renewal-stream is configured with queue type fifo-ordered, 16 partitions, ordering key account_id, and dead letter queue subscription-renewal-dlq.
+[S02:13] Queue profile dispute-arbitration-events is configured with queue type standard-concurrent, 8 partitions, ordering key case_id, and dead letter queue dispute-arbitration-dlq.
+
+PLAN Y
+=== S01 (the plan) ===
+[S01:1] Lead systems engineer Marcus Vance initiates the maintenance window at 02:00 UTC for queue consumer resizing.
+[S01:2] Marcus Vance posts the maintenance notification to Slack channel #ops-data-pipelines and alerts duty managers.
+[S01:3] Operations engineer Chloe Adams verifies that the deployment service account possesses active cluster admin rights.
+[S01:4] Marcus Vance confirms that message broker cluster CPU and memory headroom metrics remain comfortably below 45 percent.
+[S01:5] All consumer count modifications and batch size changes in this plan assume the exact queue type, partition count, and dead letter targets cataloged in the S02 configuration listing.
+[S01:6] Chloe Adams records baseline consumer lag metrics across all production ingress message queues in Datadog.
+[S01:7] Site reliability engineer Liam Patel inspects existing dead letter queue backlogs to ensure zero unhandled items.
+[S01:8] Liam Patel silences non-critical PagerDuty queue lag alerts for the duration of the scheduled maintenance window.
+[S01:9] Marcus Vance verifies low network latency between Kubernetes worker nodes and message broker partition leaders.
+[S01:10] Chloe Adams captures a snapshot of current consumer group offset commits for all active queue partitions.
+[S01:11] Liam Patel suspends Kubernetes horizontal pod autoscaling policies for all target consumer worker microservices.
+[S01:12] Marcus Vance checks producer ingress rates to ensure aggregate publish volume stays stable near 4,200 events per second.
+[S01:13] Chloe Adams establishes a persistent connection pool audit logger in Elasticsearch for consumer telemetry.
+[S01:14] Liam Patel verifies that schema registry endpoints respond within 15 milliseconds across all operational nodes.
+[S01:15] Marcus Vance increases authentication-audit-stream consumer group workers from 4 pods to 8 pods across 8 partitions.
+[S01:16] Chloe Adams raises customer-notification-events consumer batch size from 20 to 50 messages to drain current lag.
+[S01:17] Liam Patel adjusts inventory-reservation-records consumer batch size to 25 items across all 24 queue partitions.
+[S01:18] Marcus Vance monitors inventory-reservation-dlq to ensure no malformed batches get routed to dead letters.
+[S01:19] Chloe Adams scales invoice-generation-requests consumer group concurrency to 16 worker pods to match partition count.
+[S01:20] Liam Patel tunes ledger-posting-transactions consumer batch size to 15 messages to respect strict ordering keys.
+[S01:21] Marcus Vance caps consumer concurrency for clearing-settlement-records at 16 workers and batch size at 10 items because the queue type is fifo-ordered with ordering key settlement_id.
+[S01:22] Chloe Adams observes consumer lag on payment-reconciliation-stream while scaling worker pods from 8 to 16 replicas.
+[S01:23] Liam Patel adjusts the consumer poll timeout parameter to 250 milliseconds on merchant-payout-requests workers.
+[S01:24] Marcus Vance increases consumer batch size on refund-disbursement-events to 30 messages per polling cycle.
+[S01:25] Chloe Adams verifies that message counts on refund-disbursement-dlq remain at zero following the batch size change.
+[S01:26] Liam Patel scales fraud-detection-telemetry consumer workers to 64 pods to utilize all 64 available partitions.
+[S01:27] Marcus Vance configures subscription-renewal-stream consumer batch size to 20 messages per worker thread.
+[S01:28] Chloe Adams verifies consumer commit acknowledgments on dispute-arbitration-events workers across 8 partitions.
+[S01:29] Liam Patel confirms that total aggregate consumer lag across all modified queues has dropped below 500 messages.
+[S01:30] Marcus Vance audits broker partition rebalances to ensure zero worker pod disconnects occurred during deployment.
+[S01:31] Chloe Adams inspects dead letter queue depths across all pipelines to verify that no messages were rejected.
+[S01:32] Liam Patel inspects consumer logs on clearing-settlement-records to ensure ordering keys were processed in sequence.
+[S01:33] Marcus Vance re-enables Kubernetes horizontal pod autoscaling policies for all adjusted consumer deployments.
+[S01:34] Chloe Adams unsilences PagerDuty alert monitors for consumer lag thresholds and dead letter message arrivals.
+[S01:35] Liam Patel dispatches synthetic test messages through the ingestion pipeline to validate end-to-end processing.
+[S01:36] Marcus Vance confirms that average CPU utilization across all consumer worker pods remains below 65 percent.
+[S01:37] Chloe Adams verifies that automated dead letter alerts are functional and correctly routed to on-call channels.
+[S01:38] Liam Patel archives consumer tuning performance metrics and rebalance logs to cloud bucket s3-ops-logs.
+[S01:39] Marcus Vance posts a rollout completion status message to the engineering Slack channel #ops-data-pipelines.
+[S01:40] Chloe Adams reviews message consumption rates on Grafana dashboard dashboard-queue-health for stability.
+[S01:41] Liam Patel confirms with data lead Sarah Jenkins that downstream database tables reflect all processed messages.
+[S01:42] Marcus Vance transfers queue telemetry monitoring duties to the overnight on-call engineer Daniel Ortiz.
+[S01:43] Chloe Adams closes operational ticket CHG-88421 in Jira after attaching verified lag and throughput graphs.
+=== S02 (the reference excerpt) ===
+[S02:1] Queue profile authentication-audit-stream is configured with queue type standard-concurrent, 8 partitions, ordering key none, and dead letter queue authentication-audit-dlq.
+[S02:2] Queue profile customer-notification-events is configured with queue type standard-concurrent, 12 partitions, ordering key user_id, and dead letter queue customer-notification-dlq.
+[S02:3] Queue profile inventory-reservation-records is configured with queue type fifo-ordered, 24 partitions, ordering key sku_id, and dead letter queue inventory-reservation-dlq.
+[S02:4] Queue profile invoice-generation-requests is configured with queue type standard-concurrent, 16 partitions, ordering key billing_id, and dead letter queue invoice-generation-dlq.
+[S02:5] Queue profile ledger-posting-transactions is configured with queue type fifo-ordered, 32 partitions, ordering key ledger_id, and dead letter queue ledger-posting-dlq.
+[S02:6] Queue profile clearing-settlement-records is configured with queue type fifo-ordered, 16 partitions, ordering key settlement_id, and dead letter queue clearing-settlement-dlq.
+[S02:7] Queue profile payment-reconciliation-stream is configured with queue type standard-concurrent, 16 partitions, ordering key payment_ref, and dead letter queue payment-reconciliation-dlq.
+[S02:8] Queue profile merchant-payout-requests is configured with queue type fifo-ordered, 8 partitions, ordering key merchant_id, and dead letter queue merchant-payout-dlq.
+[S02:9] Queue profile refund-disbursement-events is configured with queue type standard-concurrent, 12 partitions, ordering key refund_id, and dead letter queue refund-disbursement-dlq.
+[S02:10] Queue profile clearing-settlements-records is configured with queue type standard-concurrent, 16 partitions, ordering key none, and dead letter queue clearing-settlements-dlq.
+[S02:11] Queue profile fraud-detection-telemetry is configured with queue type standard-concurrent, 64 partitions, ordering key device_id, and dead letter queue fraud-detection-dlq.
+[S02:12] Queue profile subscription-renewal-stream is configured with queue type fifo-ordered, 16 partitions, ordering key account_id, and dead letter queue subscription-renewal-dlq.
+[S02:13] Queue profile dispute-arbitration-events is configured with queue type standard-concurrent, 8 partitions, ordering key case_id, and dead letter queue dispute-arbitration-dlq.
+
+End your answer with exactly this block and nothing after it:
+AUDIT-BEGIN
+NEEDS_CHANGE: X | Y | BOTH | NEITHER
+WHY: <one sentence>
+ONE_EDIT: YES | NO
+DIFFERENCE: <one sentence saying exactly what differs between X and Y>
+AUDIT-END

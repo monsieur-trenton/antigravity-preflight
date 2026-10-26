@@ -1,0 +1,133 @@
+Below are two written plans, X and Y, about the same work. Each is given as numbered sources: S01 is the plan and, when present, S02 is a reference excerpt that the plan is subject to. Lines are numbered within their source and cited as S01:<n> or S02:<n>. The two plans are the same except for one change in one of them, or they may differ in more than that.
+
+Decide which of the two, if either, needs a change before it can be carried out, and whether one plan is the other with exactly one edit and nothing else (one line edited in place, or one to three lines deleted, with nothing added, moved or reworded).
+
+PLAN X
+=== S01 (the plan) ===
+[S01:1] Incident commander Sarah Chen opens the regional failover bridge on incident voice channel at 01:45 UTC before the scheduled maintenance window.
+[S01:2] Site reliability engineer Elena Rostova confirms all pre-drill communication notices were dispatched to executive stakeholders at 01:50 UTC.
+[S01:3] Network engineer David Kim establishes the dedicated telemetry dashboard displaying real-time cross-region packet drop and latency metrics.
+[S01:4] Platform operations director Marcus Vance confirms the change freeze is active across all core banking infrastructure until 06:00 UTC.
+[S01:5] Site reliability engineer Elena Rostova logs baseline performance metrics for payment ingress services across us-east-1 and us-west-2.
+[S01:6] Database administrator Maya Lin verifies that asynchronous physical replication between us-east-1 and us-west-2 is running smoothly.
+[S01:7] Security engineer Rachel Gomez confirms that failover credentials and temporary elevated access tokens for engineers expire at 05:30 UTC.
+[S01:8] Network engineer David Kim checks the health status of all secondary load balancers in us-west-2 and logs zero anomalous gateway alerts.
+[S01:9] Incident commander Sarah Chen reviews the operational runbook steps with all regional infrastructure leads prior to initial execution.
+[S01:10] Site reliability engineer Elena Rostova confirms automated rollback scripts are loaded into the bastion host runner at 02:00 UTC.
+[S01:11] Network engineer David Kim adjusts the Route 53 weighted DNS records to shift 10 percent of public API traffic toward us-west-2 at 02:05 UTC.
+[S01:12] Site reliability engineer Elena Rostova monitors edge Envoy proxy latencies in us-west-2 and reports steady response times under 45 milliseconds.
+[S01:13] Application engineer Carlos Mendez inspects payment processing worker queues in us-east-1 to ensure background jobs are processing normally.
+[S01:14] Database administrator Maya Lin verifies that the replication stream between regions maintains a data lag of less than 80 milliseconds.
+[S01:15] Incident commander Sarah Chen confirms that runbook steps for phase one traffic migration have achieved the intended steady-state metrics.
+[S01:16] Network engineer David Kim increases the Route 53 weighted traffic split to route 30 percent of customer traffic to us-west-2 at 02:15 UTC.
+[S01:17] Site reliability engineer Elena Rostova tracks cross-region error rates on the payment ingress gateway and logs an average rate of 0.01 percent.
+[S01:18] Database administrator Maya Lin monitors the replica write buffer in us-west-2 and confirms that storage throughput remains below 65 percent.
+[S01:19] Application engineer Carlos Mendez drains non-critical batch processing queues in us-east-1 to prepare for downstream service redirection.
+[S01:20] Network engineer David Kim adjusts the global traffic split to route 60 percent of active consumer traffic into us-west-2 at 02:25 UTC.
+[S01:21] Site reliability engineer Elena Rostova verifies that ingress CPU utilization across us-west-2 compute clusters stabilizes at 48 percent.
+[S01:22] Database administrator Maya Lin checks the secondary PostgreSQL cluster in us-west-2 and confirms zero replication lag spikes above 120 milliseconds.
+[S01:23] Incident commander Sarah Chen reviews abort criteria with system leads, noting that an error rate exceeding 0.5 percent requires immediate rollback.
+[S01:24] Network engineer David Kim updates ingress load balancer weights to complete an 80 percent traffic split to us-west-2 at 02:35 UTC.
+[S01:25] Site reliability engineer Elena Rostova observes stable API response envelopes with 99th percentile latencies remaining below 110 milliseconds.
+[S01:26] Database administrator Maya Lin verifies that data lag on the primary replication stream measures 42 milliseconds at 02:40 UTC.
+[S01:27] Application engineer Carlos Mendez pauses asynchronous event publishing on us-east-1 Kafka topics to ensure all producer buffers flush cleanly.
+[S01:28] Site reliability engineer Elena Rostova verifies that the abort criteria monitoring daemon in us-west-2 reports zero critical service alerts.
+[S01:29] Network engineer David Kim sets Route 53 weights to deliver 100 percent of public ingress traffic to us-west-2 endpoints at 02:45 UTC.
+[S01:30] Incident commander Sarah Chen verifies that the runbook steps for full edge ingress diversion are completely accomplished at 02:48 UTC.
+[S01:31] Application engineer Carlos Mendez places the payment ingestion service in us-east-1 into drain mode to clear remaining in-flight requests.
+[S01:32] Database administrator Maya Lin checks that data lag between the us-east-1 primary and us-west-2 secondary drops to zero bytes at 02:50 UTC.
+[S01:33] Incident commander Sarah Chen enforces the abort criteria threshold mandating that any persistent data lag over 500 milliseconds cancels failover.
+[S01:34] Site reliability engineer Elena Rostova confirms that edge proxies in us-east-1 have successfully drained all active TCP client sessions.
+[S01:35] Database administrator Maya Lin places the primary Aurora PostgreSQL database in us-east-1 into read-only mode at 02:52 UTC.
+[S01:36] Application engineer Carlos Mendez verifies that all application connection pools in us-east-1 transition cleanly to read-only semantics.
+[S01:37] Database administrator Maya Lin issues a final transaction log flush command to push all committed write-ahead logs toward us-west-2.
+[S01:38] Site reliability engineer Elena Rostova confirms that zero write transactions have landed in us-east-1 during the preceding three minutes.
+[S01:39] Database administrator Maya Lin validates that the secondary cluster in us-west-2 has applied the final log sequence number at 02:55 UTC.
+[S01:40] Incident commander Sarah Chen confirms that regional network routing tables in us-west-2 have propagated to all secondary transit gateways.
+[S01:41] Database administrator Maya Lin verifies that replication data lag between the two regions remains exactly zero transactions.
+[S01:42] Promoting the secondary database cluster to standalone primary requires zero orphaned records across the 140 million settlement rows, as promoting with orphans will corrupt downstream ledger reconciliation tables.
+[S01:43] Incident commander Sarah Chen confirms that failover abort criteria thresholds are continuously tracked across all dashboard widgets.
+[S01:44] Application engineer Carlos Mendez stops all downstream reconciliation consumers in us-west-2 ahead of database role reassignment.
+[S01:45] Database administrator Maya Lin runs the production integrity query over all 140 million records in settlement_entries to confirm zero orphaned foreign keys exist against settlement_batches.
+[S01:46] The production integrity scan completes in three minutes with zero orphaned records reported across all partitions, confirming that referential integrity holds before promotion.
+[S01:47] Security engineer Rachel Gomez confirms that encrypted audit logging remains active across all administrative sessions at 02:57 UTC.
+[S01:48] Incident commander Sarah Chen gives formal verbal approval on the bridge to proceed with the primary database promotion sequence.
+[S01:49] Database administrator Maya Lin executes a point-in-time storage snapshot of the us-west-2 cluster prior to executing the promotion.
+[S01:50] Database administrator Maya Lin triggers the irreversible promotion command to detach the us-west-2 Aurora cluster from replication and establish it as the read-write primary.
+[S01:51] Network engineer David Kim remaps the internal database service discovery DNS records to point application drivers to us-west-2 at 03:00 UTC.
+[S01:52] Application engineer Carlos Mendez restarts the payment ingress connection pools to re-establish active write sessions in us-west-2.
+[S01:53] Site reliability engineer Elena Rostova runs automated synthetic payment transactions against us-west-2 to confirm write functionality.
+[S01:54] Database administrator Maya Lin confirms that new write transactions commit successfully with replication disabled on the promoted cluster.
+[S01:55] Application engineer Carlos Mendez re-enables background payment worker pools and consumer processes in us-west-2 at 03:05 UTC.
+[S01:56] Site reliability engineer Elena Rostova monitors post-promotion abort criteria and confirms that error rates remain well below 0.05 percent.
+[S01:57] Application engineer Carlos Mendez starts downstream settlement reconciliation jobs against the newly promoted primary at 03:10 UTC.
+[S01:58] Incident commander Sarah Chen announces the successful completion of the primary regional cutover phase to leadership at 03:15 UTC.
+[S01:59] Platform operations director Marcus Vance concludes the drill and transitions the operational bridge into standard monitoring mode.
+
+PLAN Y
+=== S01 (the plan) ===
+[S01:1] Incident commander Sarah Chen opens the regional failover bridge on incident voice channel at 01:45 UTC before the scheduled maintenance window.
+[S01:2] Site reliability engineer Elena Rostova confirms all pre-drill communication notices were dispatched to executive stakeholders at 01:50 UTC.
+[S01:3] Network engineer David Kim establishes the dedicated telemetry dashboard displaying real-time cross-region packet drop and latency metrics.
+[S01:4] Platform operations director Marcus Vance confirms the change freeze is active across all core banking infrastructure until 06:00 UTC.
+[S01:5] Site reliability engineer Elena Rostova logs baseline performance metrics for payment ingress services across us-east-1 and us-west-2.
+[S01:6] Database administrator Maya Lin verifies that asynchronous physical replication between us-east-1 and us-west-2 is running smoothly.
+[S01:7] Security engineer Rachel Gomez confirms that failover credentials and temporary elevated access tokens for engineers expire at 05:30 UTC.
+[S01:8] Network engineer David Kim checks the health status of all secondary load balancers in us-west-2 and logs zero anomalous gateway alerts.
+[S01:9] Incident commander Sarah Chen reviews the operational runbook steps with all regional infrastructure leads prior to initial execution.
+[S01:10] Site reliability engineer Elena Rostova confirms automated rollback scripts are loaded into the bastion host runner at 02:00 UTC.
+[S01:11] Network engineer David Kim adjusts the Route 53 weighted DNS records to shift 10 percent of public API traffic toward us-west-2 at 02:05 UTC.
+[S01:12] Site reliability engineer Elena Rostova monitors edge Envoy proxy latencies in us-west-2 and reports steady response times under 45 milliseconds.
+[S01:13] Application engineer Carlos Mendez inspects payment processing worker queues in us-east-1 to ensure background jobs are processing normally.
+[S01:14] Database administrator Maya Lin verifies that the replication stream between regions maintains a data lag of less than 80 milliseconds.
+[S01:15] Incident commander Sarah Chen confirms that runbook steps for phase one traffic migration have achieved the intended steady-state metrics.
+[S01:16] Network engineer David Kim increases the Route 53 weighted traffic split to route 30 percent of customer traffic to us-west-2 at 02:15 UTC.
+[S01:17] Site reliability engineer Elena Rostova tracks cross-region error rates on the payment ingress gateway and logs an average rate of 0.01 percent.
+[S01:18] Database administrator Maya Lin monitors the replica write buffer in us-west-2 and confirms that storage throughput remains below 65 percent.
+[S01:19] Application engineer Carlos Mendez drains non-critical batch processing queues in us-east-1 to prepare for downstream service redirection.
+[S01:20] Network engineer David Kim adjusts the global traffic split to route 60 percent of active consumer traffic into us-west-2 at 02:25 UTC.
+[S01:21] Site reliability engineer Elena Rostova verifies that ingress CPU utilization across us-west-2 compute clusters stabilizes at 48 percent.
+[S01:22] Database administrator Maya Lin checks the secondary PostgreSQL cluster in us-west-2 and confirms zero replication lag spikes above 120 milliseconds.
+[S01:23] Incident commander Sarah Chen reviews abort criteria with system leads, noting that an error rate exceeding 0.5 percent requires immediate rollback.
+[S01:24] Network engineer David Kim updates ingress load balancer weights to complete an 80 percent traffic split to us-west-2 at 02:35 UTC.
+[S01:25] Site reliability engineer Elena Rostova observes stable API response envelopes with 99th percentile latencies remaining below 110 milliseconds.
+[S01:26] Database administrator Maya Lin verifies that data lag on the primary replication stream measures 42 milliseconds at 02:40 UTC.
+[S01:27] Application engineer Carlos Mendez pauses asynchronous event publishing on us-east-1 Kafka topics to ensure all producer buffers flush cleanly.
+[S01:28] Site reliability engineer Elena Rostova verifies that the abort criteria monitoring daemon in us-west-2 reports zero critical service alerts.
+[S01:29] Network engineer David Kim sets Route 53 weights to deliver 100 percent of public ingress traffic to us-west-2 endpoints at 02:45 UTC.
+[S01:30] Incident commander Sarah Chen verifies that the runbook steps for full edge ingress diversion are completely accomplished at 02:48 UTC.
+[S01:31] Application engineer Carlos Mendez places the payment ingestion service in us-east-1 into drain mode to clear remaining in-flight requests.
+[S01:32] Database administrator Maya Lin checks that data lag between the us-east-1 primary and us-west-2 secondary drops to zero bytes at 02:50 UTC.
+[S01:33] Incident commander Sarah Chen enforces the abort criteria threshold mandating that any persistent data lag over 500 milliseconds cancels failover.
+[S01:34] Site reliability engineer Elena Rostova confirms that edge proxies in us-east-1 have successfully drained all active TCP client sessions.
+[S01:35] Database administrator Maya Lin places the primary Aurora PostgreSQL database in us-east-1 into read-only mode at 02:52 UTC.
+[S01:36] Application engineer Carlos Mendez verifies that all application connection pools in us-east-1 transition cleanly to read-only semantics.
+[S01:37] Database administrator Maya Lin issues a final transaction log flush command to push all committed write-ahead logs toward us-west-2.
+[S01:38] Site reliability engineer Elena Rostova confirms that zero write transactions have landed in us-east-1 during the preceding three minutes.
+[S01:39] Database administrator Maya Lin validates that the secondary cluster in us-west-2 has applied the final log sequence number at 02:55 UTC.
+[S01:40] Incident commander Sarah Chen confirms that regional network routing tables in us-west-2 have propagated to all secondary transit gateways.
+[S01:41] Database administrator Maya Lin verifies that replication data lag between the two regions remains exactly zero transactions.
+[S01:42] Promoting the secondary database cluster to standalone primary requires zero orphaned records across the 140 million settlement rows, as promoting with orphans will corrupt downstream ledger reconciliation tables.
+[S01:43] Incident commander Sarah Chen confirms that failover abort criteria thresholds are continuously tracked across all dashboard widgets.
+[S01:44] Application engineer Carlos Mendez stops all downstream reconciliation consumers in us-west-2 ahead of database role reassignment.
+[S01:45] Security engineer Rachel Gomez confirms that encrypted audit logging remains active across all administrative sessions at 02:57 UTC.
+[S01:46] Incident commander Sarah Chen gives formal verbal approval on the bridge to proceed with the primary database promotion sequence.
+[S01:47] Database administrator Maya Lin executes a point-in-time storage snapshot of the us-west-2 cluster prior to executing the promotion.
+[S01:48] Database administrator Maya Lin triggers the irreversible promotion command to detach the us-west-2 Aurora cluster from replication and establish it as the read-write primary.
+[S01:49] Network engineer David Kim remaps the internal database service discovery DNS records to point application drivers to us-west-2 at 03:00 UTC.
+[S01:50] Application engineer Carlos Mendez restarts the payment ingress connection pools to re-establish active write sessions in us-west-2.
+[S01:51] Site reliability engineer Elena Rostova runs automated synthetic payment transactions against us-west-2 to confirm write functionality.
+[S01:52] Database administrator Maya Lin confirms that new write transactions commit successfully with replication disabled on the promoted cluster.
+[S01:53] Application engineer Carlos Mendez re-enables background payment worker pools and consumer processes in us-west-2 at 03:05 UTC.
+[S01:54] Site reliability engineer Elena Rostova monitors post-promotion abort criteria and confirms that error rates remain well below 0.05 percent.
+[S01:55] Application engineer Carlos Mendez starts downstream settlement reconciliation jobs against the newly promoted primary at 03:10 UTC.
+[S01:56] Incident commander Sarah Chen announces the successful completion of the primary regional cutover phase to leadership at 03:15 UTC.
+[S01:57] Platform operations director Marcus Vance concludes the drill and transitions the operational bridge into standard monitoring mode.
+
+End your answer with exactly this block and nothing after it:
+AUDIT-BEGIN
+NEEDS_CHANGE: X | Y | BOTH | NEITHER
+WHY: <one sentence>
+ONE_EDIT: YES | NO
+DIFFERENCE: <one sentence saying exactly what differs between X and Y>
+AUDIT-END

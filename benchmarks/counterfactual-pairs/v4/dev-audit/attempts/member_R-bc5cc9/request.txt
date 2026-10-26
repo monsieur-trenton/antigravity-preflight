@@ -1,0 +1,65 @@
+Below is a written plan, as one or more numbered sources. Source S01 is the plan; if a source S02 is present it is a reference excerpt (a settings file, contract, policy or schema) that the plan is subject to. Each line is numbered within its source, and a line is cited as S01:<n> or S02:<n>.
+
+Decide, from the text alone, whether the plan can be carried out as written. A plan HAS_A_DEFECT if some line contradicts a line of the same or another source, or breaks the plan's own stated requirement. A plan HAS_AN_UNESTABLISHED_FACT if nothing is contradicted but a fact that the plan's own requirement depends on is nowhere established in the text. A plan is SOUND if neither applies. Ordinary small imperfections (no rehearsal, one alert channel, a single owner) do not make a plan unsound. Say CANNOT_TELL only if you truly cannot decide.
+
+=== S01 (the plan) ===
+[S01:1] Lead database administrator Elena Rostova initiates the major engine version upgrade for primary cluster db-prod-01 at 02:00 UTC.
+[S01:2] Infrastructure engineer Marcus Vance opens the maintenance bridge in Slack channel #db-cutover and alerts stakeholder teams.
+[S01:3] Operations coordinator Sarah Chen establishes the formal four-hour maintenance window spanning from 02:00 UTC to 06:00 UTC.
+[S01:4] Senior site reliability engineer David Ortiz pauses background ingestion queues in Apache Kafka to halt new write traffic.
+[S01:5] Elena Rostova sets the global connection pools on PgBouncer proxy hosts to pause mode to prevent incoming client queries.
+[S01:6] Database engineer Marcus Vance confirms client connections on connection pools drop to zero across all front-end nodes.
+[S01:7] Elena Rostova issues a clean transaction checkpoint on primary instance db-prod-01 to flush dirty buffers to persistent disk.
+[S01:8] David Ortiz halts streaming replication processes across read replicas db-replica-01 and db-replica-02 to freeze replica state.
+[S01:9] Marcus Vance records the final write-ahead log flush position 0/7B8A920 across both read replicas to ensure identical state.
+[S01:10] Sarah Chen executes a physical snapshot backup of primary volume vol-db-prod-root and logs snapshot id snap-09418a72b.
+[S01:11] Elena Rostova verifies that postgis, pg_stat_statements, and uuid-ossp extensions compile against the new engine release.
+[S01:12] Marcus Vance executes the engine binary pre-upgrade check utility pg_upgrade --check against the cluster data directory.
+[S01:13] David Ortiz captures schema metadata catalog dumps to local storage path /var/backups/upgrade-precheck-metadata.sql.
+[S01:14] Database administrator Marcus Vance ensures that every legacy user group dropped during pre-upgrade catalog cleanup has zero active member assignments shown in the directory listing S02.
+[S01:15] Elena Rostova runs the database extension upgrade scripts to advance pg_stat_statements to package version 1.10.
+[S01:16] David Ortiz disables autovacuum daemons on all application schemas to avoid catalog locks during structural modifications.
+[S01:17] Marcus Vance drops deprecated temporary maintenance tables staging_import_temp and sync_event_stage from schema public.
+[S01:18] Sarah Chen verifies that no active replication slots exist on db-prod-01 that would prevent engine catalog migration.
+[S01:19] Elena Rostova removes legacy procedural language handler plperl from the cluster catalog to avoid library linking errors.
+[S01:20] David Ortiz archives database parameter configuration group pg-param-v14 to local repository /etc/postgresql/backup.
+[S01:21] Elena Rostova terminates the PostgreSQL server daemon on primary node db-prod-01 to prepare for binary execution.
+[S01:22] Marcus Vance starts the database cluster in single-user maintenance mode on local socket /var/run/postgresql.
+[S01:23] Marcus Vance revokes public schema execution permissions from legacy operational roles to clean up catalog permissions.
+[S01:24] Marcus Vance drops the obsolete user group legacy_etl_batch_operators which has zero active assignments in S02.
+[S01:25] Database administrator Marcus Vance drops the obsolete user group analytics_pipeline_worker to finalize catalog cleanup.
+[S01:26] Elena Rostova executes the pg_upgrade binary in link mode using 8 parallel worker jobs to convert database files.
+[S01:27] David Ortiz restarts the upgraded PostgreSQL service on db-prod-01 and runs analyze_new_cluster.sh to rebuild stats.
+[S01:28] Marcus Vance recreates replication slots and reattaches read replicas db-replica-01 and db-replica-02 via streaming sync.
+[S01:29] Elena Rostova checks replication lag between primary db-prod-01 and read replicas to verify zero byte divergence.
+[S01:30] Elena Rostova re-enables PgBouncer connection pools and routes application traffic back to the primary instance at 04:15 UTC.
+[S01:31] Sarah Chen confirms application health metrics in Datadog and closes the maintenance window in Slack at 04:30 UTC.
+=== S02 (the reference excerpt) ===
+[S02:1] User group billing_admin_roster maintains 4 active member assignments across payment processing schemas.
+[S02:2] User group customer_support_tier1 maintains 12 active member assignments across customer service schemas.
+[S02:3] User group customer_support_tier2 maintains 8 active member assignments across escalation account schemas.
+[S02:4] User group warehouse_fulfillment_ops maintains 15 active member assignments across inventory logistics schemas.
+[S02:5] User group finance_audit_inspectors maintains 6 active member assignments across general ledger tables.
+[S02:6] User group marketing_attribution_readers maintains 9 active member assignments across promotional campaign schemas.
+[S02:7] User group external_contractor_readonly maintains 0 active member assignments across legacy migration views.
+[S02:8] User group data_science_modelers maintains 11 active member assignments across exploratory feature tables.
+[S02:9] User group analytics_pipeline_worker maintains 18 active member assignments across reporting database schemas.
+[S02:10] User group security_incident_handlers maintains 5 active member assignments across authentication event schemas.
+[S02:11] User group platform_telemetry_writers maintains 14 active member assignments across streaming metrics tables.
+[S02:12] User group legacy_etl_batch_operators maintains 0 active member assignments across deprecated ingest schemas.
+[S02:13] User group analytics_pipeline_workers maintains 0 active member assignments across reporting database schemas.
+[S02:14] User group inventory_replenishment_service maintains 7 active member assignments across procurement warehouse tables.
+[S02:15] User group notification_dispatch_service maintains 16 active member assignments across outbound communication tables.
+[S02:16] User group partner_integration_gateway maintains 3 active member assignments across external endpoint schemas.
+[S02:17] User group settlement_reconciliation_agent maintains 0 active member assignments across merchant payout schemas.
+[S02:18] User group core_infrastructure_superusers maintains 2 active member assignments across cluster management schemas.
+
+End your answer with exactly this block and nothing after it:
+AUDIT-BEGIN
+CLASS: SOUND | HAS_A_DEFECT | HAS_AN_UNESTABLISHED_FACT | CANNOT_TELL
+REASON: <one sentence>
+DECISIVE_FACT: <the single fact that, if added or corrected, would change your CLASS; or none>
+REQUIREMENT_LINE: <S01:n of the line that states the plan's requirement, or none>
+REQUIREMENT_DECIDES: YES | NO
+OTHER_PROBLEMS: <none, or lines such as S01:7; S02:3 that are unknown or contradictory for a reason other than your CLASS>
+AUDIT-END

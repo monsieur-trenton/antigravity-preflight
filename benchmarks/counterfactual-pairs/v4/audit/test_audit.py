@@ -88,11 +88,18 @@ class RequestTests(unittest.TestCase):
     def tearDownClass(cls):
         cls.tmp.cleanup()
 
+    def test_a_claim_check_is_scheduled_only_for_a_deleted_gap(self):
+        claims = [c for c in self.calls if c[1] == "claim"]
+        self.assertTrue(all(self.corpus.oracle[c[2]]["changed"]["type"] == "deleted" and self.corpus.oracle[c[2]]["kind"] == "omitted_unknown" for c in claims))
+        edits = [r for r in self.corpus.oracle.values() if r["kind"] == "decoy_pair" and r["role"] == "changed"]
+        self.assertEqual(len(edits), 8)
+        self.assertFalse({c[2] for c in claims} & {r["case"] for r in edits})
+
     def test_the_schedule_covers_every_member_pair_and_gap_claim_once(self):
         by_type = {}
         for call_id, call_type, subject, request in self.calls:
             by_type.setdefault(call_type, []).append(call_id)
-        self.assertEqual({k: len(v) for k, v in by_type.items()}, {"member": 48, "pair": 24, "claim": 16})
+        self.assertEqual({k: len(v) for k, v in by_type.items()}, {"member": 48, "pair": 24, "claim": 8})
         self.assertEqual(len({c[0] for c in self.calls}), len(self.calls))
 
     def test_the_order_does_not_follow_the_class_or_the_kind(self):
@@ -197,8 +204,8 @@ class DriverTests(unittest.TestCase):
     def test_a_dry_run_writes_every_request_and_calls_nothing(self):
         with tempfile.TemporaryDirectory() as tmp:
             code, summary = self.run_audit(tmp, self.stub(tmp))
-            self.assertEqual((code, summary["status"], summary["callsScheduled"], summary["prepared"], summary["providerCalls"]), (0, "DRY_RUN_PREPARED_ONLY", 88, 88, 0))
-            self.assertEqual(len(list((Path(tmp) / "work/dry-requests").iterdir())), 88)
+            self.assertEqual((code, summary["status"], summary["callsScheduled"], summary["prepared"], summary["providerCalls"]), (0, "DRY_RUN_PREPARED_ONLY", 80, 80, 0))
+            self.assertEqual(len(list((Path(tmp) / "work/dry-requests").iterdir())), 80)
             self.assertFalse((Path(tmp) / "stub-count").exists())
 
     def test_calls_are_recorded_parsed_and_bounded_by_max_calls(self):
@@ -336,7 +343,7 @@ class ReportTests(unittest.TestCase):
         self.assertIn(pair, ar.analyse(self.corpus, rows)["needsAPersonsRead"])
 
     def test_missing_or_stopped_calls_make_a_pair_incomplete_not_a_pass(self):
-        pair = self.pairs("decoy_pair")[0]
+        pair = self.pairs("omitted_unknown")[0]
         cases = ar.pairs_of(self.corpus)[pair]
         rows = perfect_ledger(self.corpus)
         del rows[f"claim:{cases['changed']}"]
@@ -406,19 +413,26 @@ class SpotCheckTests(unittest.TestCase):
     def test_scoring_the_owners_answers(self):
         with tempfile.TemporaryDirectory() as tmp:
             index = ar.write_spot(self.corpus, Path(tmp) / "spot")
-            right = {n: {"needsChange": k["twin"], "oneEdit": True} for n, k in index.items()}
+            problem = {"DEFECT": "DEFECT", "UNCERTAIN": "UNESTABLISHED"}
+            right = {n: {"needsChange": k["twin"], "oneEdit": True, "problem": problem[k["twinClass"]]} for n, k in index.items()}
             self.assertTrue(ar.score_spot(index, right)["clean"])
             wrong = dict(right)
             first = sorted(index)[0]
-            wrong[first] = {"needsChange": "X" if index[first]["twin"] == "Y" else "Y", "oneEdit": True}
+            wrong[first] = {"needsChange": "X" if index[first]["twin"] == "Y" else "Y", "oneEdit": True, "problem": right[first]["problem"]}
             result = ar.score_spot(index, wrong)
             self.assertFalse(result["clean"])
             self.assertEqual([d["file"] for d in result["disagreements"]], [first])
             partial = {first: right[first]}
             self.assertFalse(ar.score_spot(index, partial)["clean"])
             not_one = dict(right)
-            not_one[first] = {"needsChange": index[first]["twin"], "oneEdit": False}
+            not_one[first] = {"needsChange": index[first]["twin"], "oneEdit": False, "problem": right[first]["problem"]}
             self.assertFalse(ar.score_spot(index, not_one)["clean"])
+            other = dict(right)
+            other[first] = dict(right[first], problem="UNESTABLISHED" if right[first]["problem"] == "DEFECT" else "DEFECT")
+            result = ar.score_spot(index, other)
+            self.assertEqual((result["clean"], result["problemKindMatchesOracle"]["count"], result["disagreements"][0]["oracleProblem"]),
+                             (False, len(index) - 1, right[first]["problem"]))
+            self.assertEqual(result["needsChangeMatchesOracle"]["count"], len(index))
 
     def test_the_command_line_spot_and_spot_score(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -427,7 +441,7 @@ class SpotCheckTests(unittest.TestCase):
                 self.assertEqual(ar.main(["spot", "--corpus", str(self.out), "--out", str(Path(tmp) / "spot")]), 0)
                 index = json.loads((Path(tmp) / "spot/spot-index.json").read_text())
                 answers = Path(tmp) / "answers.json"
-                answers.write_text(json.dumps({n: {"needsChange": k["twin"], "oneEdit": True} for n, k in index.items()}))
+                answers.write_text(json.dumps({n: {"needsChange": k["twin"], "oneEdit": True, "problem": {"DEFECT": "DEFECT", "UNCERTAIN": "UNESTABLISHED"}[k["twinClass"]]} for n, k in index.items()}))
                 self.assertEqual(ar.main(["spot-score", "--corpus", str(self.out), "--index", str(Path(tmp) / "spot/spot-index.json"), "--answers", str(answers)]), 0)
             self.assertTrue(json.loads(out.getvalue().split("\n", 1)[1])["clean"])
 

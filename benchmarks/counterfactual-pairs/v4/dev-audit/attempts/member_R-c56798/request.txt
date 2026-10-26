@@ -1,0 +1,65 @@
+Below is a written plan, as one or more numbered sources. Source S01 is the plan; if a source S02 is present it is a reference excerpt (a settings file, contract, policy or schema) that the plan is subject to. Each line is numbered within its source, and a line is cited as S01:<n> or S02:<n>.
+
+Decide, from the text alone, whether the plan can be carried out as written. A plan HAS_A_DEFECT if some line contradicts a line of the same or another source, or breaks the plan's own stated requirement. A plan HAS_AN_UNESTABLISHED_FACT if nothing is contradicted but a fact that the plan's own requirement depends on is nowhere established in the text. A plan is SOUND if neither applies. Ordinary small imperfections (no rehearsal, one alert channel, a single owner) do not make a plan unsound. Say CANNOT_TELL only if you truly cannot decide.
+
+=== S01 (the plan) ===
+[S01:1] Incident commander Marcus Bell will open the migration bridge on Slack channel #cutover-audit at 22:00 UTC.
+[S01:2] Lead platform engineer Priya Sharma will verify cluster administrative access to the production EKS cluster prod-useast1-eks.
+[S01:3] Reliability engineer Tomoko Sato will silence routine pager alerts for the audit-dispatcher virtual machine auto-scaling group at 22:15 UTC.
+[S01:4] System administrator Dave Clark will confirm that the container image repository contains the audited image tag dispatcher-v3.8.2.
+[S01:5] Security specialist Elena Rostova will verify the cryptographic checksum of container image dispatcher-v3.8.2 against the registry manifest.
+[S01:6] Dave Clark will inspect the base image vulnerability scan results in Amazon ECR to confirm zero critical CVE vulnerabilities.
+[S01:7] Platform engineer Priya Sharma will review the Kubernetes worker node capacity to ensure forty available vCPU cores in node group ng-core-a.
+[S01:8] Infrastructure lead Ryan Miller will verify that memory capacity reservations allocate ninety-six gigabytes across worker nodes in ng-core-b.
+[S01:9] Priya Sharma will apply the Kubernetes ConfigMap audit-worker-config containing updated runtime flags and service discovery endpoints.
+[S01:10] Tomoko Sato will inject production database credentials into the cluster using SealedSecret audit-db-secret at 22:45 UTC.
+[S01:11] Application engineer Keith Vance will configure the HTTP readiness health check with an initial delay of ten seconds on port 8080.
+[S01:12] Keith Vance will verify that the container liveness health check probe polls endpoint /healthz every fifteen seconds with a five-second timeout.
+[S01:13] Operations analyst Rachel Gomez will record the baseline CPU utilization of 42 percent across the twelve EC2 c5.2xlarge virtual machines.
+[S01:14] Rachel Gomez will confirm that legacy VM telemetry streaming to Datadog dashboard 4912 reports a steady state of 18,500 events per second.
+[S01:15] Network engineer Frank Torres will validate security group ingress rules allowing container pods to communicate with Redis cluster cache-prod-01.
+[S01:16] System administrator Dave Clark will back up the current virtual machine environment configuration files to S3 bucket ops-migration-backups.
+[S01:17] Database administrator Sarah Jenkins will verify read-only replicas db-read-01 and db-read-02 maintain replication lag below one millisecond.
+[S01:18] Marcus Bell will announce a database write-quiesce window across all internal client teams in Slack channel #cutover-audit at 23:30 UTC.
+[S01:19] Sarah Jenkins will pause upstream ingestion pipelines to halt new incoming audit events into Aurora database cluster db-primary.
+[S01:20] Running the irreversible in-place compaction utility compact_payloads.py will permanently corrupt audit records if any legacy row in audit_events contains a null tenant identifier.
+[S01:21] Data engineer Liam Vance ran an exhaustive validation query across all 8,420,000 rows in the production audit_events table at 01:30 UTC.
+[S01:22] The validation query returned zero records with a null tenant identifier across the full dataset, verifying that the prerequisite is satisfied.
+[S01:23] Liam Vance will execute compact_payloads.py directly against primary database cluster db-primary at 02:00 UTC to finalize table compaction.
+[S01:24] Database administrator Sarah Jenkins will verify that the script compact_payloads.py exits with return code zero and reports zero dropped rows.
+[S01:25] Priya Sharma will apply the Kubernetes deployment manifest deploying twenty-four container pod replicas of dispatcher-v3.8.2.
+[S01:26] Keith Vance will confirm all twenty-four container pods transition to the Ready state within ninety seconds of manifest application.
+[S01:27] Tomoko Sato will review pod startup logs in CloudWatch to ensure configuration parameters loaded from audit-worker-config without errors.
+[S01:28] Platform engineer Priya Sharma will verify that the container pod readiness health checks begin serving internal traffic on port 8080.
+[S01:29] Tomoko Sato will check container memory usage to verify each replica operates within the requested limit of two gigabytes.
+[S01:30] Network engineer Frank Torres will update Route53 private hosted zone weights to route twenty-five percent of inbound traffic to container pods.
+[S01:31] Rachel Gomez will monitor Prometheus request latency percentiles for container pods during the initial twenty-five percent traffic stage.
+[S01:32] Keith Vance will confirm the p99 latency on container endpoint /process remains below thirty-five milliseconds during the initial stage.
+[S01:33] Frank Torres will increase Route53 DNS weighted routing to direct fifty percent of production ingress traffic to the container pods.
+[S01:34] Marcus Bell will poll the migration team on Slack bridge #cutover-audit before advancing container traffic routing beyond fifty percent.
+[S01:35] Frank Torres will shift Route53 traffic weights to send one hundred percent of production ingress traffic to the Kubernetes ingress controller.
+[S01:36] Rachel Gomez will verify that virtual machine CPU utilization drops to idle levels below four percent across all twelve EC2 instances.
+[S01:37] Tomoko Sato will configure Horizontal Pod Autoscaler hpa-audit-worker with a minimum of sixteen and a maximum of forty-eight container replicas.
+[S01:38] Priya Sharma will simulate synthetic load spikes to verify that the autoscaler dynamically scales container capacity up to thirty replicas.
+[S01:39] Sarah Jenkins will resume upstream ingestion pipelines to allow live event publishing to Aurora cluster db-primary at 04:30 UTC.
+[S01:40] Rachel Gomez will verify that end-to-end event throughput matches the historical baseline of 18,500 events processed per second.
+[S01:41] Keith Vance will inspect container pod logs in Grafana Loki to confirm error rates remain below zero point zero one percent.
+[S01:42] Tomoko Sato will re-enable production alert routing on PagerDuty escalation policy platform-oncall at 05:00 UTC.
+[S01:43] System administrator Dave Clark will stop the systemd service unit audit-dispatcher.service across all twelve legacy virtual machines.
+[S01:44] Dave Clark will take final snapshot backups of the EBS root volumes attached to the twelve legacy virtual machines.
+[S01:45] Infrastructure lead Ryan Miller will terminate the twelve EC2 c5.2xlarge virtual machine instances in AWS region us-east-1.
+[S01:46] Ryan Miller will delete the legacy auto-scaling group asg-audit-dispatcher and associated launch templates from the AWS account.
+[S01:47] Priya Sharma will archive the old virtual machine Ansible deployment playbooks into the historical branch of repository infra-deploy.
+[S01:48] Marcus Bell will post the successful cutover confirmation summary to engineering channel #all-tech at 05:45 UTC.
+[S01:49] Rachel Gomez will export forty-eight hours of Grafana performance dashboards to long-term compliance storage bucket ops-audit-metrics.
+[S01:50] Marcus Bell will formally close the migration incident bridge and release all on-call engineering team members at 06:00 UTC.
+
+End your answer with exactly this block and nothing after it:
+AUDIT-BEGIN
+CLASS: SOUND | HAS_A_DEFECT | HAS_AN_UNESTABLISHED_FACT | CANNOT_TELL
+REASON: <one sentence>
+DECISIVE_FACT: <the single fact that, if added or corrected, would change your CLASS; or none>
+REQUIREMENT_LINE: <S01:n of the line that states the plan's requirement, or none>
+REQUIREMENT_DECIDES: YES | NO
+OTHER_PROBLEMS: <none, or lines such as S01:7; S02:3 that are unknown or contradictory for a reason other than your CLASS>
+AUDIT-END

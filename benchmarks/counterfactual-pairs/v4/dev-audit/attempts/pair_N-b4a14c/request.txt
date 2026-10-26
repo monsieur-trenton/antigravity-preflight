@@ -1,0 +1,99 @@
+Below are two written plans, X and Y, about the same work. Each is given as numbered sources: S01 is the plan and, when present, S02 is a reference excerpt that the plan is subject to. Lines are numbered within their source and cited as S01:<n> or S02:<n>. The two plans are the same except for one change in one of them, or they may differ in more than that.
+
+Decide which of the two, if either, needs a change before it can be carried out, and whether one plan is the other with exactly one edit and nothing else (one line edited in place, or one to three lines deleted, with nothing added, moved or reworded).
+
+PLAN X
+=== S01 (the plan) ===
+[S01:1] Lead engineer Maya Lin will initiate the schema migration for the shared dw_orders_fact table at 02:00 UTC on Saturday.
+[S01:2] Database administrator Carlos Gomez will lock direct write access to the dw_orders_fact table fifteen minutes prior to cutover.
+[S01:3] Carlos Gomez will verify that all active warehouse ingestion pipelines for dw_orders_fact are paused in Apache Airflow.
+[S01:4] Platform engineer Sarah Chen will capture a full snapshot backup of the current dw_orders_fact table in Google Cloud Storage.
+[S01:5] Data engineer Liam Ortiz will confirm the GCS snapshot checksum against the production metadata catalog before proceeding.
+[S01:6] Maya Lin will broadcast the maintenance start notification to the analytics-engineering Slack channel at 01:50 UTC.
+[S01:7] The bi_revenue_reporting_view downstream consumer layer is strictly out of scope for this warehouse schema change window.
+[S01:8] Carlos Gomez will create the staging table dw_orders_fact_v2 with the updated schema definitions in the analytics schema.
+[S01:9] Liam Ortiz will execute the DDL script to alter order_amount from FLOAT to NUMERIC(18,4) and transaction_id to BIGINT.
+[S01:10] Sarah Chen will configure query timeout limits of twenty minutes for all DDL operations on the analytics cluster.
+[S01:11] Maya Lin will verify that table permissions for service account sa-bi-reader are preserved across the staging environment.
+[S01:12] Carlos Gomez will grant temporary write privileges on dw_orders_fact_v2 to the data backfill orchestration worker role.
+[S01:13] Data quality engineer Priya Patel will enable schema change audit logging in the Snowflake enterprise administrative console.
+[S01:14] Liam Ortiz will validate column default values and nullable constraints on the staging table against the migration specification.
+[S01:15] Sarah Chen will allocate dedicated Snowflake warehouse size X-Large to run the initial schema validation queries.
+[S01:16] All warehouse components touched by this schema migration must have fully confirmed column types before any DDL script is executed.
+[S01:17] Carlos Gomez will monitor warehouse cluster compute resource utilization during the metadata catalog synchronization.
+[S01:18] Liam Ortiz will run the automated Great Expectations test suite covering the primary key uniqueness constraints on dw_orders_fact_v2.
+[S01:19] Priya Patel will review test suite execution results and publish the validation artifact to the shared compliance repository.
+[S01:20] Carlos Gomez will establish an exclusive table-level metadata lock before initiating the historical backfill job.
+[S01:21] Target column types for bi_revenue_reporting_view remain unconfirmed pending final signoff from Marcus Vance.
+[S01:22] Liam Ortiz will launch the PySpark backfill pipeline to copy ninety days of partition data into dw_orders_fact_v2.
+[S01:23] Carlos Gomez will monitor the backfill job progress through the central Datadog warehouse orchestration dashboard.
+[S01:24] Priya Patel will verify that row count parity between dw_orders_fact and dw_orders_fact_v2 matches exactly at 184,290,115 rows.
+[S01:25] Sarah Chen will check that disk spillover to remote storage remains below ten gigabytes throughout the backfill execution.
+[S01:26] Liam Ortiz will execute checksum comparisons across numeric columns between the legacy table and the newly created staging table.
+[S01:27] Maya Lin will obtain verbal signoff from billing operations owner Elena Rostova before executing the table swap.
+[S01:28] Carlos Gomez will execute the atomic swap command to replace dw_orders_fact with dw_orders_fact_v2 at 04:30 UTC.
+[S01:29] Maya Lin will notify the business intelligence team in Slack channel bi-announcements that table cutover has concluded.
+[S01:30] Sarah Chen will update the downstream consumer alias pointers in the corporate data catalog to target the updated table.
+[S01:31] Liam Ortiz will recompile dependent views core_sales_summary_view and monthly_orders_mv against the modified schema.
+[S01:32] Priya Patel will run canary dashboard queries in Tableau to confirm response latency remains under four seconds.
+[S01:33] Carlos Gomez will restore write access for all automated ETL ingestion roles in the Snowflake authorization matrix.
+[S01:34] Sarah Chen will re-enable the paused Airflow directed acyclic graphs for real-time order stream ingestion at 05:00 UTC.
+[S01:35] Liam Ortiz will observe ingestion streaming lag metrics in Datadog for thirty minutes to verify zero queue accumulation.
+[S01:36] Priya Patel will execute sample analytical aggregation queries comparing current output with pre-migration baseline numbers.
+[S01:37] Carlos Gomez will retain the old dw_orders_fact table under the archival name dw_orders_fact_backup_20261026 for seven days.
+[S01:38] Sarah Chen will release the dedicated Snowflake X-Large warehouse cluster and revert compute allocation to standard Small.
+[S01:39] Maya Lin will update the internal engineering wiki documentation to reflect the new column definitions and decimal precision.
+[S01:40] Liam Ortiz will archive the PySpark backfill execution logs to the corporate audit S3 bucket for regulatory compliance.
+[S01:41] Maya Lin will publish the final migration completion report to the engineering-leadership distribution list at 06:00 UTC.
+
+PLAN Y
+=== S01 (the plan) ===
+[S01:1] Lead engineer Maya Lin will initiate the schema migration for the shared dw_orders_fact table at 02:00 UTC on Saturday.
+[S01:2] Database administrator Carlos Gomez will lock direct write access to the dw_orders_fact table fifteen minutes prior to cutover.
+[S01:3] Carlos Gomez will verify that all active warehouse ingestion pipelines for dw_orders_fact are paused in Apache Airflow.
+[S01:4] Platform engineer Sarah Chen will capture a full snapshot backup of the current dw_orders_fact table in Google Cloud Storage.
+[S01:5] Data engineer Liam Ortiz will confirm the GCS snapshot checksum against the production metadata catalog before proceeding.
+[S01:6] Maya Lin will broadcast the maintenance start notification to the analytics-engineering Slack channel at 01:50 UTC.
+[S01:7] The bi_revenue_reporting_view downstream consumer layer is strictly in scope for this warehouse schema change window.
+[S01:8] Carlos Gomez will create the staging table dw_orders_fact_v2 with the updated schema definitions in the analytics schema.
+[S01:9] Liam Ortiz will execute the DDL script to alter order_amount from FLOAT to NUMERIC(18,4) and transaction_id to BIGINT.
+[S01:10] Sarah Chen will configure query timeout limits of twenty minutes for all DDL operations on the analytics cluster.
+[S01:11] Maya Lin will verify that table permissions for service account sa-bi-reader are preserved across the staging environment.
+[S01:12] Carlos Gomez will grant temporary write privileges on dw_orders_fact_v2 to the data backfill orchestration worker role.
+[S01:13] Data quality engineer Priya Patel will enable schema change audit logging in the Snowflake enterprise administrative console.
+[S01:14] Liam Ortiz will validate column default values and nullable constraints on the staging table against the migration specification.
+[S01:15] Sarah Chen will allocate dedicated Snowflake warehouse size X-Large to run the initial schema validation queries.
+[S01:16] All warehouse components touched by this schema migration must have fully confirmed column types before any DDL script is executed.
+[S01:17] Carlos Gomez will monitor warehouse cluster compute resource utilization during the metadata catalog synchronization.
+[S01:18] Liam Ortiz will run the automated Great Expectations test suite covering the primary key uniqueness constraints on dw_orders_fact_v2.
+[S01:19] Priya Patel will review test suite execution results and publish the validation artifact to the shared compliance repository.
+[S01:20] Carlos Gomez will establish an exclusive table-level metadata lock before initiating the historical backfill job.
+[S01:21] Target column types for bi_revenue_reporting_view remain unconfirmed pending final signoff from Marcus Vance.
+[S01:22] Liam Ortiz will launch the PySpark backfill pipeline to copy ninety days of partition data into dw_orders_fact_v2.
+[S01:23] Carlos Gomez will monitor the backfill job progress through the central Datadog warehouse orchestration dashboard.
+[S01:24] Priya Patel will verify that row count parity between dw_orders_fact and dw_orders_fact_v2 matches exactly at 184,290,115 rows.
+[S01:25] Sarah Chen will check that disk spillover to remote storage remains below ten gigabytes throughout the backfill execution.
+[S01:26] Liam Ortiz will execute checksum comparisons across numeric columns between the legacy table and the newly created staging table.
+[S01:27] Maya Lin will obtain verbal signoff from billing operations owner Elena Rostova before executing the table swap.
+[S01:28] Carlos Gomez will execute the atomic swap command to replace dw_orders_fact with dw_orders_fact_v2 at 04:30 UTC.
+[S01:29] Maya Lin will notify the business intelligence team in Slack channel bi-announcements that table cutover has concluded.
+[S01:30] Sarah Chen will update the downstream consumer alias pointers in the corporate data catalog to target the updated table.
+[S01:31] Liam Ortiz will recompile dependent views core_sales_summary_view and monthly_orders_mv against the modified schema.
+[S01:32] Priya Patel will run canary dashboard queries in Tableau to confirm response latency remains under four seconds.
+[S01:33] Carlos Gomez will restore write access for all automated ETL ingestion roles in the Snowflake authorization matrix.
+[S01:34] Sarah Chen will re-enable the paused Airflow directed acyclic graphs for real-time order stream ingestion at 05:00 UTC.
+[S01:35] Liam Ortiz will observe ingestion streaming lag metrics in Datadog for thirty minutes to verify zero queue accumulation.
+[S01:36] Priya Patel will execute sample analytical aggregation queries comparing current output with pre-migration baseline numbers.
+[S01:37] Carlos Gomez will retain the old dw_orders_fact table under the archival name dw_orders_fact_backup_20261026 for seven days.
+[S01:38] Sarah Chen will release the dedicated Snowflake X-Large warehouse cluster and revert compute allocation to standard Small.
+[S01:39] Maya Lin will update the internal engineering wiki documentation to reflect the new column definitions and decimal precision.
+[S01:40] Liam Ortiz will archive the PySpark backfill execution logs to the corporate audit S3 bucket for regulatory compliance.
+[S01:41] Maya Lin will publish the final migration completion report to the engineering-leadership distribution list at 06:00 UTC.
+
+End your answer with exactly this block and nothing after it:
+AUDIT-BEGIN
+NEEDS_CHANGE: X | Y | BOTH | NEITHER
+WHY: <one sentence>
+ONE_EDIT: YES | NO
+DIFFERENCE: <one sentence saying exactly what differs between X and Y>
+AUDIT-END

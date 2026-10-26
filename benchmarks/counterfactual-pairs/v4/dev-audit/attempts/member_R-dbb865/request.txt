@@ -1,0 +1,75 @@
+Below is a written plan, as one or more numbered sources. Source S01 is the plan; if a source S02 is present it is a reference excerpt (a settings file, contract, policy or schema) that the plan is subject to. Each line is numbered within its source, and a line is cited as S01:<n> or S02:<n>.
+
+Decide, from the text alone, whether the plan can be carried out as written. A plan HAS_A_DEFECT if some line contradicts a line of the same or another source, or breaks the plan's own stated requirement. A plan HAS_AN_UNESTABLISHED_FACT if nothing is contradicted but a fact that the plan's own requirement depends on is nowhere established in the text. A plan is SOUND if neither applies. Ordinary small imperfections (no rehearsal, one alert channel, a single owner) do not make a plan unsound. Say CANNOT_TELL only if you truly cannot decide.
+
+=== S01 (the plan) ===
+[S01:1] The production search maintenance window will begin promptly at 01:00 UTC on Sunday, October 25, 2026, under the supervision of lead architect Marcus Vance.
+[S01:2] Operations engineer David Kim will post the change window commencement notice in the shared Slack channel #search-reindex-alerts before touching any cluster systems.
+[S01:3] Database engineer Elena Rostova will establish SSH bastion tunnels into cluster-alpha master nodes to ensure reliable administrative connectivity during the operation.
+[S01:4] System administrator Rachel Adams will verify that all data node CPU utilizations on cluster-alpha are currently resting below 25 percent before initialization begins.
+[S01:5] David Kim will inspect cluster health via endpoint /_cluster/health and confirm that the cluster status is green with zero unassigned or relocating shards.
+[S01:6] Operations engineer David Kim will confirm that the current live index catalog_products_v2 is receiving search queries under alias catalog_search_live.
+[S01:7] Lead architect Marcus Vance will verify that the legacy product index catalog_product_v3 remains untouched on cluster-alpha throughout the maintenance window.
+[S01:8] Elena Rostova will export the full JSON mapping schema for catalog search documents from Git repository search-configs at commit hash 7f8b9a1 to local disk.
+[S01:9] Rachel Adams will adjust the cluster-wide transient watermarks to allow temporary disk utilization spikes up to 85 percent during document ingestion.
+[S01:10] Marcus Vance will notify the client application engineering teams in channel #search-reindex-alerts that index schema preparation is starting on cluster-alpha.
+[S01:11] At 01:30 UTC, database engineer Elena Rostova will execute an HTTP PUT request to initialize target index catalog_products_v3 with twelve primary shards and zero replica shards.
+[S01:12] Elena Rostova will update settings on catalog_products_v3 to set refresh_interval to minus one, disabling periodic shard refreshes during the heavy ingestion phase.
+[S01:13] Rachel Adams will set index.translog.durability to async and increase flush_threshold_size to 2gb on catalog_products_v3 to maximize bulk ingestion throughput.
+[S01:14] David Kim will monitor Elasticsearch logs on all three master nodes to verify that catalog_products_v3 primary shard allocations complete without warnings.
+[S01:15] At 01:45 UTC, Elena Rostova will initiate the asynchronous reindex task from catalog_products_v2 to catalog_products_v3 with a throttled reindex rate of 5000 requests per second.
+[S01:16] Elena Rostova will store the returned task identifier in local environment variable TASK_ID and log the value to channel #search-reindex-alerts for tracking.
+[S01:17] David Kim will query the task management API endpoint /_tasks/$TASK_ID every ten minutes to log current document count progress and throttling latency.
+[S01:18] Rachel Adams will observe JVM heap memory consumption across data nodes to guarantee garbage collection pause durations stay strictly under 200 milliseconds.
+[S01:19] Marcus Vance will verify through Kibana metrics that downstream search request latency on the live alias catalog_search_live experiences no degradation.
+[S01:20] Elena Rostova will confirm task completion when the reindex task status reports zero remaining documents and a total processed count of 45200000 records.
+[S01:21] At 03:15 UTC, Elena Rostova will configure number_of_replicas to one on catalog_products_v3 to trigger replica shard allocation across secondary data nodes.
+[S01:22] Elena Rostova will restore the index setting refresh_interval to thirty seconds on catalog_products_v3 to re-enable normal search refresh intervals.
+[S01:23] Rachel Adams will set index.translog.durability back to request on catalog_products_v3 to ensure standard transactional write safety for upcoming updates.
+[S01:24] David Kim will monitor cluster shard recovery progress until all twelve replica shards on catalog_products_v3 report active green status across the cluster.
+[S01:25] At 03:45 UTC, Elena Rostova will execute an atomic alias swap API call to atomically point alias catalog_search_live from catalog_products_v2 to catalog_products_v3.
+[S01:26] David Kim will inspect live production query routing headers to verify that all subsequent client queries against catalog_search_live hit catalog_products_v3.
+[S01:27] Rachel Adams will observe real-time search response codes on ingress proxies for fifteen minutes to verify that error rates remain at absolute zero percent.
+[S01:28] Elena Rostova will retain legacy index catalog_products_v2 in read-only state for twenty-four hours rather than deleting it immediately, ensuring rapid rollback capability.
+[S01:29] David Kim will set index.blocks.write to true on catalog_products_v2 to prevent accidental write operations while it remains in stand-by status.
+[S01:30] Rachel Adams will re-enable automatic index snapshot policies for cluster-alpha via endpoint /_snapshot/daily_backup to resume regular cluster backups.
+[S01:31] Marcus Vance will review the reindex throughput metrics and record the effective document ingestion rate of 4850 docs per second in the post-migration wiki.
+[S01:32] David Kim will clean up temporary shell environment variables and close all background task polling loops on the bastion server.
+[S01:33] Every provisioning step in this procedure assumes that each target index scheduled for creation is shown as completely unallocated in the referenced cluster listing S02 to avoid collision.
+[S01:34] Elena Rostova will confirm that no orphaned batch processes hold open locks or snapshot repositories against cluster-alpha.
+[S01:35] Rachel Adams will restore default cluster disk watermark thresholds to 80 percent low watermark and 85 percent high watermark.
+[S01:36] David Kim will execute a suite of fifty automated verification search queries against alias catalog_search_live to validate query precision and recall.
+[S01:37] Elena Rostova will verify that search indexing pipelines connected to Apache Kafka consumers resume document streaming to catalog_search_live without lag.
+[S01:38] Rachel Adams will inspect log aggregators to ensure that no rejected execution exceptions or bulk queue pool saturations occurred during migration.
+[S01:39] Marcus Vance will post the formal maintenance window completion notification to Slack channel #search-reindex-alerts at 04:30 UTC.
+[S01:40] David Kim will update the technical runbook documentation in Confluence to record the final shard allocation and configuration parameters.
+[S01:41] Marcus Vance will archive all bastion session command logs to the compliant audit S3 bucket audit-search-ops-2026 before closing the window.
+=== S02 (the reference excerpt) ===
+[S02:1] Index entry accounts_search_v1 is active on cluster-alpha with 4 primary shards, 1 replica shard, and routes queries for alias accounts_live.
+[S02:2] Index entry audit_logs_2026_10 is active on cluster-alpha with 8 primary shards, 1 replica shard, and routes queries for alias audit_current.
+[S02:3] Index entry blog_posts_v2 is active on cluster-alpha with 2 primary shards, 1 replica shard, and routes queries for alias blog_search_live.
+[S02:4] Index entry catalog_product_v3 is active on cluster-alpha with 6 primary shards, 1 replica shard, and routes queries for alias archive_product_live.
+[S02:5] Index entry catalog_products_v1 is closed on cluster-alpha with 12 primary shards, 0 replica shards, and has no associated active aliases.
+[S02:6] Index entry catalog_products_v2 is active on cluster-alpha with 12 primary shards, 1 replica shard, and routes queries for alias catalog_search_live.
+[S02:7] Index entry catalog_categories_v2 is active on cluster-alpha with 4 primary shards, 1 replica shard, and routes queries for alias category_search_live.
+[S02:8] Index entry catalog_reviews_v1 is active on cluster-alpha with 6 primary shards, 1 replica shard, and routes queries for alias reviews_search_live.
+[S02:9] Index entry catalog_products_v3 is active on cluster-alpha with 12 primary shards, 1 replica shard, and routes queries for alias catalog_products_stage.
+[S02:10] Index entry customer_profiles_v4 is active on cluster-alpha with 8 primary shards, 1 replica shard, and routes queries for alias customers_live.
+[S02:11] Index entry inventory_locations_v1 is active on cluster-alpha with 4 primary shards, 1 replica shard, and routes queries for alias inventory_live.
+[S02:12] Index entry merchant_stores_v2 is active on cluster-alpha with 4 primary shards, 1 replica shard, and routes queries for alias merchants_live.
+[S02:13] Index entry order_history_2026_q3 is active on cluster-alpha with 16 primary shards, 1 replica shard, and routes queries for alias order_history_live.
+[S02:14] Index entry payment_transactions_v2 is active on cluster-alpha with 10 primary shards, 1 replica shard, and routes queries for alias payments_search_live.
+[S02:15] Index entry search_telemetry_2026_43 is active on cluster-alpha with 6 primary shards, 0 replica shards, and routes queries for alias telemetry_current.
+[S02:16] Index entry shipping_rates_v1 is active on cluster-alpha with 2 primary shards, 1 replica shard, and routes queries for alias shipping_rates_live.
+[S02:17] Index entry supplier_feed_v3 is active on cluster-alpha with 6 primary shards, 1 replica shard, and routes queries for alias suppliers_live.
+[S02:18] Index entry user_sessions_v1 is active on cluster-alpha with 8 primary shards, 1 replica shard, and routes queries for alias sessions_active.
+
+End your answer with exactly this block and nothing after it:
+AUDIT-BEGIN
+CLASS: SOUND | HAS_A_DEFECT | HAS_AN_UNESTABLISHED_FACT | CANNOT_TELL
+REASON: <one sentence>
+DECISIVE_FACT: <the single fact that, if added or corrected, would change your CLASS; or none>
+REQUIREMENT_LINE: <S01:n of the line that states the plan's requirement, or none>
+REQUIREMENT_DECIDES: YES | NO
+OTHER_PROBLEMS: <none, or lines such as S01:7; S02:3 that are unknown or contradictory for a reason other than your CLASS>
+AUDIT-END

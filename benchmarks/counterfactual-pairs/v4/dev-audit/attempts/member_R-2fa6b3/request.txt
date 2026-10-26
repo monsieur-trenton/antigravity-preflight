@@ -1,0 +1,80 @@
+Below is a written plan, as one or more numbered sources. Source S01 is the plan; if a source S02 is present it is a reference excerpt (a settings file, contract, policy or schema) that the plan is subject to. Each line is numbered within its source, and a line is cited as S01:<n> or S02:<n>.
+
+Decide, from the text alone, whether the plan can be carried out as written. A plan HAS_A_DEFECT if some line contradicts a line of the same or another source, or breaks the plan's own stated requirement. A plan HAS_AN_UNESTABLISHED_FACT if nothing is contradicted but a fact that the plan's own requirement depends on is nowhere established in the text. A plan is SOUND if neither applies. Ordinary small imperfections (no rehearsal, one alert channel, a single owner) do not make a plan unsound. Say CANNOT_TELL only if you truly cannot decide.
+
+=== S01 (the plan) ===
+[S01:1] At 01:00 UTC, Marcus Vance will open the migration bridge on channel #dev-payments-cutover and log the start of the CDN transition window.
+[S01:2] At 01:05 UTC, Sarah Chen will verify that the payments dev API origin cluster at 10.0.12.50 reports healthy on HTTP port 8443.
+[S01:3] At 01:10 UTC, David Kim will export the authoritative dev DNS zone dataset to backup file dev-zone-backup-20261026.json for recovery.
+[S01:4] At 01:15 UTC, Elena Rostova will verify that Prometheus dashboard payments-dev-edge displays baseline ingress latency below 45 milliseconds.
+[S01:5] At 01:20 UTC, Priya Patel will complete a baseline synthetic smoke pass of 50 payment transactions against the legacy CloudCDN endpoint.
+[S01:6] At 01:25 UTC, Liam Walker will inspect TLS certificates on the FastEdge distribution to confirm that SAN covers dev.payments.net domains.
+[S01:7] At 01:30 UTC, Marcus Vance will lower the time-to-live setting for api-checkout.dev.payments.net from 300 seconds to 60 seconds in Route53.
+[S01:8] At 01:35 UTC, David Kim will query recursive resolvers 8.8.8.8 and 1.1.1.1 to confirm the 60-second time-to-live has propagated globally.
+[S01:9] At 01:40 UTC, Sarah Chen will verify that the FastEdge distribution origin pool is configured with the dev gateway IP 10.0.12.50 on port 8443.
+[S01:10] At 01:45 UTC, Sarah Chen will confirm that the legacy mock endpoint api-checkouts.dev.payments.net remains untouched during this migration window.
+[S01:11] At 02:00 UTC, Liam Walker will execute a cache pre-warming script sending 200 synthetic payment payload requests to new-edge.fastedge.dev.
+[S01:12] At 02:15 UTC, Elena Rostova will verify that the cache pre-warming pass achieved a 100 percent HTTP 200 response rate on the new edge host.
+[S01:13] At 02:30 UTC, David Kim will verify that dev VPC internal resolver 10.20.0.15 is caching DNS records according to the lowered 60-second TTL.
+[S01:14] At 02:45 UTC, Priya Patel will verify that the dev payments ledger service at 10.0.14.22 shows zero unacknowledged webhook events.
+[S01:15] At 03:00 UTC, Marcus Vance will announce the formal cutover commencement to engineering teams in Slack channel #dev-payments-cutover.
+[S01:16] At 03:05 UTC, Sarah Chen will place the payment transaction simulator into read-only mode to prevent state changes during the DNS switch.
+[S01:17] At 03:10 UTC, Elena Rostova will tag the deployment start time in Datadog dashboard payments-dev-routing for telemetry correlation.
+[S01:18] At 03:15 UTC, Marcus Vance will update the existing CNAME record for api-checkout.dev.payments.net to point to new-edge.fastedge.dev.
+[S01:19] At 03:18 UTC, Marcus Vance will commit the DNS changes to the infrastructure repository with change ticket reference CHG-88421.
+[S01:20] At 03:20 UTC, David Kim will query internal resolver 10.20.0.15 to verify that api-checkout.dev.payments.net resolves to new-edge.fastedge.dev.
+[S01:21] At 03:25 UTC, David Kim will query public resolvers 8.8.8.8 and 1.1.1.1 to verify that the CNAME target switchover has propagated externally.
+[S01:22] At 03:30 UTC, Priya Patel will execute an automated test suite of 75 payment authorizations against api-checkout.dev.payments.net on FastEdge.
+[S01:23] At 03:35 UTC, Elena Rostova will verify that error rates on FastEdge for HTTP endpoints /v1/charge and /v1/refund remain below 0.05 percent.
+[S01:24] At 03:40 UTC, Sarah Chen will re-enable the payment transaction simulator to restore synthetic traffic flow into the dev API environment.
+[S01:25] At 03:45 UTC, Liam Walker will inspect origin web server access logs at 10.0.12.50 to confirm that requests contain the FastEdge forwarding header.
+[S01:26] At 03:50 UTC, Elena Rostova will verify that end-to-end payment API request latency p95 remains below 85 milliseconds across all edge locations.
+[S01:27] At 03:55 UTC, David Kim will verify that ingress traffic on the legacy CloudCDN distribution has dropped to zero requests per second.
+[S01:28] At 04:00 UTC, Marcus Vance will raise the time-to-live setting for api-checkout.dev.payments.net from 60 seconds back to 300 seconds.
+[S01:29] At 04:05 UTC, David Kim will query resolvers 8.8.8.8 and 1.1.1.1 to confirm that the restored 300-second time-to-live is actively returned.
+[S01:30] At 04:10 UTC, Sarah Chen will audit the ledger database to verify that zero duplicate transaction IDs were generated during the cutover window.
+[S01:31] The cutover procedure requires that the api-checkout.dev.payments.net domain entry is provisioned as an active CNAME record in the authoritative dev zone inventory S02 prior to retargeting the edge provider.
+[S01:32] At 04:12 UTC, Liam Walker will disable the ingress routing rules on the legacy CloudCDN dev distribution to prevent stale traffic routing.
+[S01:33] At 04:15 UTC, Elena Rostova will verify that error alarms on channel #dev-payments-cutover remain clear across a 15-minute observation window.
+[S01:34] If error rates on FastEdge exceed 0.2 percent during observation, Marcus Vance will immediately point api-checkout.dev.payments.net back to CloudCDN.
+[S01:35] If p95 latency exceeds 150 milliseconds for five consecutive minutes, David Kim will initiate emergency rollback to legacy-edge.cloudcdn.dev.
+[S01:36] At 04:20 UTC, Priya Patel will archive all synthetic transaction logs to S3 bucket dev-payments-cutover-telemetry-archive for audit tracking.
+[S01:37] At 04:22 UTC, Marcus Vance will update the dev environment network topology diagram in Confluence to document FastEdge as the primary CDN.
+[S01:38] At 04:25 UTC, Sarah Chen will sign off on the edge provider cutover completion in change ticket CHG-88421 and notify stakeholder groups.
+[S01:39] At 04:28 UTC, Liam Walker will revoke temporary administrative write tokens provisioned for the DNS migration window.
+[S01:40] At 04:30 UTC, Marcus Vance will close the operational bridge on Slack channel #dev-payments-cutover and mark the migration complete.
+=== S02 (the reference excerpt) ===
+[S02:1] Authoritative zone entry dev-rec-1001 registers auth.dev.payments.net as record type A targeting 198.51.100.10 with ttl 300 under active routing.
+[S02:2] Authoritative zone entry dev-rec-1002 registers vault.dev.payments.net as record type A targeting 198.51.100.12 with ttl 300 under active routing.
+[S02:3] Authoritative zone entry dev-rec-1003 registers billing.dev.payments.net as record type CNAME targeting legacy-edge.cloudcdn.dev with ttl 300.
+[S02:4] Authoritative zone entry dev-rec-1004 registers api-checkout.dev.payments.net as record type CNAME targeting legacy-edge.cloudcdn.dev with ttl 300.
+[S02:5] Authoritative zone entry dev-rec-1005 registers webhook.dev.payments.net as record type CNAME targeting legacy-edge.cloudcdn.dev with ttl 300.
+[S02:6] Authoritative zone entry dev-rec-1006 registers portal.dev.payments.net as record type A targeting 198.51.100.18 with ttl 300 under active routing.
+[S02:7] Authoritative zone entry dev-rec-1007 registers receipt.dev.payments.net as record type CNAME targeting legacy-edge.cloudcdn.dev with ttl 300.
+[S02:8] Authoritative zone entry dev-rec-1008 registers ledger.dev.payments.net as record type A targeting 198.51.100.22 with ttl 300 under active routing.
+[S02:9] Authoritative zone entry dev-rec-1009 registers dispute.dev.payments.net as record type CNAME targeting legacy-edge.cloudcdn.dev with ttl 300.
+[S02:10] Authoritative zone entry dev-rec-1010 registers report.dev.payments.net as record type A targeting 198.51.100.25 with ttl 300 under active routing.
+[S02:11] Authoritative zone entry dev-rec-1011 registers token.dev.payments.net as record type A targeting 198.51.100.28 with ttl 300 under active routing.
+[S02:12] Authoritative zone entry dev-rec-1012 registers notify.dev.payments.net as record type CNAME targeting legacy-edge.cloudcdn.dev with ttl 300.
+[S02:13] Authoritative zone entry dev-rec-1013 registers settlement.dev.payments.net as record type A targeting 198.51.100.32 with ttl 300 under active routing.
+[S02:14] Authoritative zone entry dev-rec-1014 registers api-checkouts.dev.payments.net as record type CNAME targeting legacy-edge.cloudcdn.dev with ttl 300.
+[S02:15] Authoritative zone entry dev-rec-1015 registers invoice.dev.payments.net as record type CNAME targeting legacy-edge.cloudcdn.dev with ttl 300.
+[S02:16] Authoritative zone entry dev-rec-1016 registers capture.dev.payments.net as record type A targeting 198.51.100.35 with ttl 300 under active routing.
+[S02:17] Authoritative zone entry dev-rec-1017 registers refund.dev.payments.net as record type CNAME targeting legacy-edge.cloudcdn.dev with ttl 300.
+[S02:18] Authoritative zone entry dev-rec-1018 registers payout.dev.payments.net as record type A targeting 198.51.100.38 with ttl 300 under active routing.
+[S02:19] Authoritative zone entry dev-rec-1019 registers card.dev.payments.net as record type A targeting 198.51.100.40 with ttl 300 under active routing.
+[S02:20] Authoritative zone entry dev-rec-1020 registers dispute-notify.dev.payments.net as record type CNAME targeting legacy-edge.cloudcdn.dev with ttl 300.
+[S02:21] Authoritative zone entry dev-rec-1021 registers analytics.dev.payments.net as record type A targeting 198.51.100.50 with ttl 300 under active routing.
+[S02:22] Authoritative zone entry dev-rec-1022 registers merchant.dev.payments.net as record type CNAME targeting legacy-edge.cloudcdn.dev with ttl 300.
+[S02:23] Authoritative zone entry dev-rec-1023 registers gateway-status.dev.payments.net as record type A targeting 198.51.100.55 with ttl 300 under active routing.
+[S02:24] Authoritative zone entry dev-rec-1024 registers internal-proxy.dev.payments.net as record type A targeting 198.51.100.60 with ttl 300 under active routing.
+
+End your answer with exactly this block and nothing after it:
+AUDIT-BEGIN
+CLASS: SOUND | HAS_A_DEFECT | HAS_AN_UNESTABLISHED_FACT | CANNOT_TELL
+REASON: <one sentence>
+DECISIVE_FACT: <the single fact that, if added or corrected, would change your CLASS; or none>
+REQUIREMENT_LINE: <S01:n of the line that states the plan's requirement, or none>
+REQUIREMENT_DECIDES: YES | NO
+OTHER_PROBLEMS: <none, or lines such as S01:7; S02:3 that are unknown or contradictory for a reason other than your CLASS>
+AUDIT-END

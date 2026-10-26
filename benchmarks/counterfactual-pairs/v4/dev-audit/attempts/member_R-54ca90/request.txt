@@ -1,0 +1,56 @@
+Below is a written plan, as one or more numbered sources. Source S01 is the plan; if a source S02 is present it is a reference excerpt (a settings file, contract, policy or schema) that the plan is subject to. Each line is numbered within its source, and a line is cited as S01:<n> or S02:<n>.
+
+Decide, from the text alone, whether the plan can be carried out as written. A plan HAS_A_DEFECT if some line contradicts a line of the same or another source, or breaks the plan's own stated requirement. A plan HAS_AN_UNESTABLISHED_FACT if nothing is contradicted but a fact that the plan's own requirement depends on is nowhere established in the text. A plan is SOUND if neither applies. Ordinary small imperfections (no rehearsal, one alert channel, a single owner) do not make a plan unsound. Say CANNOT_TELL only if you truly cannot decide.
+
+=== S01 (the plan) ===
+[S01:1] Release engineer Marcus Vance initiates the staged rollout change window for mobile release v4.18.0 in production at 07:00 UTC.
+[S01:2] QA Lead Elena Rostova verifies the cryptographic checksums of the Android and iOS release candidate binaries against repository tags at 07:15 UTC.
+[S01:3] SRE Priya Sharma confirms that the production telemetry ingestion pipeline and Crashlytics webhooks are actively receiving event payloads at 07:30 UTC.
+[S01:4] Core Mobile Engineering Lead David Patel enables the automated crash alerting bot in Slack channel #mobile-release-v418 at 07:45 UTC.
+[S01:5] Elena Rostova verifies that the global crash rate threshold is calibrated to trip an automated rollback alert if errors exceed 0.15% per 10k sessions.
+[S01:6] Marcus Vance logs into the central rollout console to configure the initial phase one rollout allocation of 1% at 08:00 UTC.
+[S01:7] Marcus Vance deploys the 1% release increment specifically to user group cohort_qa_automation through the deployment console at 08:15 UTC.
+[S01:8] Priya Sharma monitors the Crashlytics error stream for thirty minutes following the 1% release to ensure zero fatal exception spikes occur.
+[S01:9] Backend API Lead Rachel Green reviews edge gateway HTTP response codes to verify authentication endpoint error rates remain below 0.05% at 08:50 UTC.
+[S01:10] Product Support Manager Tom Briggs confirms no critical customer escalation tickets regarding app launch failures have arrived by 09:15 UTC.
+[S01:11] Marcus Vance convenes the phase one evaluation gate with David Patel and Elena Rostova to approve expanding the release percentage at 09:30 UTC.
+[S01:12] Elena Rostova audits crash-free session statistics for cohort_qa_automation, validating that stability meets the required 99.85% threshold.
+[S01:13] Marcus Vance updates the staged distribution setting in the rollout console to allocate 5% of client traffic to cohort_beta_external at 09:45 UTC.
+[S01:14] Priya Sharma configures an automated synthetic health probe to track network latency across the newly activated 5% user cohort at 10:00 UTC.
+[S01:15] Rachel Green analyzes backend database connection pool saturation while the 5% distribution ingests production mobile traffic at 10:30 UTC.
+[S01:16] Tom Briggs conducts hourly sentiment analysis across support intake queues, confirming that login bug reports remain at zero at 11:15 UTC.
+[S01:17] David Patel reviews the forced upgrade deprecation schedule to verify that client builds below version 4.16.2 will be blocked later today.
+[S01:18] Elena Rostova records a two-hour soak period signoff after verifying that the crash frequency across cohort_beta_external remains under 0.10%.
+[S01:19] Marcus Vance adjusts the rollout throttle to prepare the deployment pipeline for mid-tier audience expansion at 12:00 UTC.
+[S01:20] Priya Sharma verifies that the secondary alert routing webhook for on-call infrastructure engineers responds with HTTP 200 at 12:30 UTC.
+[S01:21] Marcus Vance and David Patel review system health telemetry at 13:00 UTC to finalize readiness for the twenty-five percent distribution tier.
+[S01:22] Lead release engineer Marcus Vance mandates that every user group assigned a staged rollout percentage must be registered with active_broadcast status in cohort inventory listing S02.
+[S01:23] Elena Rostova verifies that telemetry aggregators have observed at least fifty thousand active client sessions during the morning soak window.
+[S01:24] Rachel Green confirms that cloud microservice error rates have remained below 0.08% throughout the preceding deployment phases at 13:30 UTC.
+[S01:25] Marcus Vance secures change authorization approval from David Patel to proceed with publishing the twenty-five percent tier at 13:50 UTC.
+[S01:26] Marcus Vance deploys the 25% rollout allocation to user group cohort_field_specialists through the deployment console at 14:00 UTC.
+[S01:27] Priya Sharma monitors aggregate crash metrics across all tier three client devices to confirm overall session stability stays above 99.85%.
+[S01:28] Marcus Vance publishes the next staged rollout increment of 50% to user group cohort_early_adopters in the release management portal at 15:30 UTC.
+[S01:29] Marcus Vance promotes mobile release v4.18.0 to 100% full production rollout for cohort_general_public via the console at 16:45 UTC.
+[S01:30] David Patel enables the forced upgrade policy in the remote configuration server to enforce v4.17.0 as the minimum supported client version at 17:15 UTC.
+[S01:31] Marcus Vance archives the deployment change ticket and posts the final staged rollout completion summary in Slack channel #mobile-release-v418 at 17:30 UTC.
+=== S02 (the reference excerpt) ===
+[S02:1] cohort_name: cohort_internal_dogfood | cohort_type: employee_fleet | status: active_broadcast | max_devices: 1500 | owner: dogfood-ops@mobile.internal
+[S02:2] cohort_name: cohort_qa_automation | cohort_type: synthetic_testing | status: active_broadcast | max_devices: 3000 | owner: qa-automation@mobile.internal
+[S02:3] cohort_name: cohort_beta_external | cohort_type: opt_in_public | status: active_broadcast | max_devices: 12000 | owner: beta-relations@mobile.internal
+[S02:4] cohort_name: cohort_field_specialist | cohort_type: dynamic_specialist | status: active_broadcast | max_devices: 45000 | owner: field-ops@mobile.internal
+[S02:5] cohort_name: cohort_vip_preview | cohort_type: partner_allowlist | status: active_broadcast | max_devices: 8000 | owner: partner-eng@mobile.internal
+[S02:6] cohort_name: cohort_field_specialists | cohort_type: static_legacy_list | status: retired_archived | max_devices: 0 | owner: legacy-ops@mobile.internal
+[S02:7] cohort_name: cohort_regional_partners | cohort_type: commercial_partner | status: active_broadcast | max_devices: 20000 | owner: regional-eng@mobile.internal
+[S02:8] cohort_name: cohort_early_adopters | cohort_type: dynamic_consumer | status: active_broadcast | max_devices: 85000 | owner: growth-team@mobile.internal
+[S02:9] cohort_name: cohort_general_public | cohort_type: production_fleet | status: active_broadcast | max_devices: 2500000 | owner: release-team@mobile.internal
+
+End your answer with exactly this block and nothing after it:
+AUDIT-BEGIN
+CLASS: SOUND | HAS_A_DEFECT | HAS_AN_UNESTABLISHED_FACT | CANNOT_TELL
+REASON: <one sentence>
+DECISIVE_FACT: <the single fact that, if added or corrected, would change your CLASS; or none>
+REQUIREMENT_LINE: <S01:n of the line that states the plan's requirement, or none>
+REQUIREMENT_DECIDES: YES | NO
+OTHER_PROBLEMS: <none, or lines such as S01:7; S02:3 that are unknown or contradictory for a reason other than your CLASS>
+AUDIT-END

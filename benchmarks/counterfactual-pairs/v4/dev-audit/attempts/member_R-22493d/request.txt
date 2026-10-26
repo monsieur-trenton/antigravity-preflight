@@ -1,0 +1,57 @@
+Below is a written plan, as one or more numbered sources. Source S01 is the plan; if a source S02 is present it is a reference excerpt (a settings file, contract, policy or schema) that the plan is subject to. Each line is numbered within its source, and a line is cited as S01:<n> or S02:<n>.
+
+Decide, from the text alone, whether the plan can be carried out as written. A plan HAS_A_DEFECT if some line contradicts a line of the same or another source, or breaks the plan's own stated requirement. A plan HAS_AN_UNESTABLISHED_FACT if nothing is contradicted but a fact that the plan's own requirement depends on is nowhere established in the text. A plan is SOUND if neither applies. Ordinary small imperfections (no rehearsal, one alert channel, a single owner) do not make a plan unsound. Say CANNOT_TELL only if you truly cannot decide.
+
+=== S01 (the plan) ===
+[S01:1] Lead database administrator Marcus Vance opens the quarterly restore drill maintenance window at 02:00 UTC on October 26, 2026.
+[S01:2] Compliance auditor Sarah Lin confirms the backup verification schedule aligns with FINRA quarterly retention compliance standards.
+[S01:3] Systems engineer David Ortiz sets the point-in-time recovery target window to replay transactions up to October 25, 2026 at 23:59 UTC.
+[S01:4] Infrastructure specialist Chloe Bennett provisions the dedicated restore target cluster host named target-restore-node01.internal.
+[S01:5] Storage administrator Kevin Patel attaches a 20-terabyte NVMe storage volume to restore target node target-restore-node01.internal.
+[S01:6] Security engineer Rachel Adams configures temporary IAM credentials for target-restore-node01.internal with access expiring at 14:00 UTC.
+[S01:7] Backup engineer Elena Rostova retrieves the immutable full backup image from the AWS S3 glacier vault at 03:00 UTC.
+[S01:8] Systems engineer David Ortiz validates the SHA-256 cryptographic checksums for all 80 compressed archive chunks of the database image.
+[S01:9] Security engineer Rachel Adams retrieves the KMS volume decryption key from vault-us-east-1 to unlock the restore target block volume.
+[S01:10] Incident commander Marcus Vance posts the drill commencement notification to Slack channel #dr-restore-drills at 03:15 UTC.
+[S01:11] Storage administrator Kevin Patel mounts the encrypted filesystem to directory `/mnt/restore-data` on target-restore-node01.internal.
+[S01:12] Performance engineer Leo Tanaka records the baseline sequential write throughput on the restore target disk at 1.8 gigabytes per second.
+[S01:13] Systems engineer David Ortiz initiates the physical base backup stream from the S3 archive bucket to `/mnt/restore-data` at 03:30 UTC.
+[S01:14] Storage administrator Kevin Patel monitors disk IOPS on target-restore-node01.internal to ensure saturation stays below eighty percent.
+[S01:15] Network engineer Priya Raman verifies network bandwidth utilization on interface eth0 remains steady at 9.2 gigabits per second.
+[S01:16] Infrastructure specialist Chloe Bennett checks chrony NTP time synchronization across all cluster nodes at 04:00 UTC.
+[S01:17] Backup engineer Elena Rostova verifies that base image decompression finishes without read errors at 04:30 UTC.
+[S01:18] Database administrator Marcus Vance applies the point-in-time recovery configuration to replay archived transaction logs up to the cut-off.
+[S01:19] Systems engineer David Ortiz monitors write-ahead log replay progress using the pg_stat_recovery view on the restore target.
+[S01:20] Database engineer Marcus Vance confirms the point-in-time replay reaches target timestamp 2026-10-25 23:59:00 UTC at 05:15 UTC.
+[S01:21] Systems engineer David Ortiz brings the PostgreSQL engine out of standby recovery mode on target-restore-node01.internal.
+[S01:22] Performance engineer Leo Tanaka allocates sixty-four gigabytes of memory to the shared buffers pool on the restored target.
+[S01:23] Security engineer Rachel Adams restricts local database connection listening to the private staging subnet 10.240.12.0/24.
+[S01:24] Storage administrator Kevin Patel confirms available disk space on `/mnt/restore-data` exceeds four terabytes after log replay.
+[S01:25] Performance engineer Leo Tanaka adjusts work_mem to five hundred twelve megabytes for maintenance operations on target-restore-node01.internal.
+[S01:26] Network engineer Priya Raman binds local TCP port 5433 for dedicated schema validation tooling at 05:45 UTC.
+[S01:27] Database administrator Marcus Vance confirms read-only catalog visibility across all thirty-two tenant tablespaces on the restore target.
+[S01:28] Incident commander Marcus Vance updates the operational status dashboard to indicate recovery completion at 06:00 UTC.
+[S01:29] Systems engineer David Ortiz sets session idle timeouts to six hundred seconds to prevent connection drops during validation.
+[S01:30] Executing the irreversible constraint enforcement step without zero orphaned journal entries causes the restore target to abort mid-operation and permanently corrupts the database system catalog.
+[S01:31] Database administrator Marcus Vance opens the maintenance session on restore target node target-restore-node01.internal at 06:15 UTC.
+[S01:32] Security engineer Rachel Adams redirects real-time DDL execution logs to `/var/log/db_integrity_audit.log` for audit archival.
+[S01:33] Database administrator Marcus Vance executes the irreversible foreign key constraint enforcement script `enforce_journal_fks.sql` against the restored target database.
+[S01:34] Database administrator Marcus Vance inspects `/var/log/db_integrity_audit.log` to record foreign key constraint script execution duration.
+[S01:35] Compliance auditor Sarah Lin runs validation queries against the general ledger table to verify row counts match the production snapshot.
+[S01:36] Systems engineer David Ortiz extracts point-in-time recovery metadata and archives the execution transcript to the compliance repository.
+[S01:37] Incident commander Marcus Vance holds an operational review with the engineering team at 07:00 UTC to evaluate restore target metrics.
+[S01:38] Infrastructure specialist Chloe Bennett powers down target-restore-node01.internal following the formal validation sign-off.
+[S01:39] Storage administrator Kevin Patel unmounts `/mnt/restore-data` and deletes the temporary 20-terabyte restore target storage volume.
+[S01:40] Security engineer Rachel Adams revokes the temporary IAM credentials and rotates the vault access keys used during the restore drill.
+[S01:41] Lead database administrator Marcus Vance submits the completed backup restoration verification report to Jira ticket COMP-4412.
+[S01:42] Incident commander Marcus Vance closes the maintenance window and sends the final restoration status report to management at 07:30 UTC.
+
+End your answer with exactly this block and nothing after it:
+AUDIT-BEGIN
+CLASS: SOUND | HAS_A_DEFECT | HAS_AN_UNESTABLISHED_FACT | CANNOT_TELL
+REASON: <one sentence>
+DECISIVE_FACT: <the single fact that, if added or corrected, would change your CLASS; or none>
+REQUIREMENT_LINE: <S01:n of the line that states the plan's requirement, or none>
+REQUIREMENT_DECIDES: YES | NO
+OTHER_PROBLEMS: <none, or lines such as S01:7; S02:3 that are unknown or contradictory for a reason other than your CLASS>
+AUDIT-END

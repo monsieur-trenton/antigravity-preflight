@@ -1,0 +1,78 @@
+Below is a written plan, as one or more numbered sources. Source S01 is the plan; if a source S02 is present it is a reference excerpt (a settings file, contract, policy or schema) that the plan is subject to. Each line is numbered within its source, and a line is cited as S01:<n> or S02:<n>.
+
+Decide, from the text alone, whether the plan can be carried out as written. A plan HAS_A_DEFECT if some line contradicts a line of the same or another source, or breaks the plan's own stated requirement. A plan HAS_AN_UNESTABLISHED_FACT if nothing is contradicted but a fact that the plan's own requirement depends on is nowhere established in the text. A plan is SOUND if neither applies. Ordinary small imperfections (no rehearsal, one alert channel, a single owner) do not make a plan unsound. Say CANNOT_TELL only if you truly cannot decide.
+
+=== S01 (the plan) ===
+[S01:1] At 01:00 UTC, incident coordinator David Kim will open the primary maintenance bridge on bridge-infra-9 and declare change window CHG-84021 active.
+[S01:2] Rachel Adams will notify the operations center in channel #infra-rollouts that node pool replacement for cluster k8s-prod-us-east-1 has commenced.
+[S01:3] Marcus Vance will verify elevated administrative access to the AWS management console and validate cluster credentials using kubectl auth can-i.
+[S01:4] David Kim will confirm that baseline cluster telemetry is streaming to Datadog dashboard k8s-prod-metrics with no pre-existing firing alerts.
+[S01:5] The node pool drain sequence assumes the cluster state listed in S02 where pod disruption budget pdb-payment-settlement specifies policy type maxUnavailable to permit safe automated eviction.
+[S01:6] Sarah Chen will freeze automated release pipelines in Jenkins job deploy-prod-services to prevent application rollouts during the migration.
+[S01:7] Marcus Vance will inspect the cluster autoscaler deployment configmap to verify that scale-down evaluation interval is set to twenty seconds.
+[S01:8] Rachel Adams will modify the autoscaler configuration to disable automatic node creation on legacy node pool np-m5-compute-prod across all zones.
+[S01:9] David Kim will verify that legacy autoscaler scaling group asg-m5-compute-prod has minimum capacity fixed at six nodes and maximum capped at six.
+[S01:10] Sarah Chen will snapshot the current cluster PodDisruptionBudget inventory and archive the manifest bundle to s3://k8s-backups/pdb-pre-cutover.
+[S01:11] Marcus Vance will export the active pod distribution mapping across legacy nodes k8s-m5-prod-01 through k8s-m5-prod-06 for audit verification.
+[S01:12] Rachel Adams will test network reachability between the control plane and private subnet CIDR 10.140.0.0/19 designated for new compute nodes.
+[S01:13] At 01:45 UTC, Marcus Vance will execute Terraform module terraform-aws-k8s-nodepool to provision new compute node pool np-c6i-compute-prod.
+[S01:14] Rachel Adams will verify that Terraform provisions exactly six c6i.4xlarge EC2 instances evenly distributed across subnets us-east-1a and 1b.
+[S01:15] Sarah Chen will review cloud-init provisioning logs on new instance group asg-c6i-compute-prod to confirm kubelet bootstraps with version 1.28.
+[S01:16] Marcus Vance will verify with kubectl get nodes that all six c6i nodes register with Ready status and inherit label pool=c6i-compute-prod.
+[S01:17] David Kim will confirm that standard daemonsets including aws-node, kube-proxy, and datadog-agent schedule successfully on all six new nodes.
+[S01:18] Rachel Adams will attach the cluster autoscaler to new scaling group asg-c6i-compute-prod with minimum size six and maximum size eighteen.
+[S01:19] Sarah Chen will configure Prometheus scraping targets for new node endpoints and verify node-exporter metrics populate on the operations board.
+[S01:20] Marcus Vance will execute synthetic load tests across new node interfaces to validate ingress network bandwidth exceeding nine gigabits.
+[S01:21] David Kim will confirm that CoreDNS resolves internal cluster domains from test pods placed manually on node pool np-c6i-compute-prod.
+[S01:22] At 02:30 UTC, Rachel Adams will execute kubectl cordon against all six legacy nodes k8s-m5-prod-01 through k8s-m5-prod-06 to block new pods.
+[S01:23] Sarah Chen will verify that scheduling status for the legacy nodes updates to SchedulingDisabled across all monitoring cluster dashboards.
+[S01:24] Marcus Vance will initiate phase one of the drain sequence by executing kubectl drain on k8s-m5-prod-01 to evict non-critical background jobs.
+[S01:25] David Kim will confirm that evicted telemetry and log collector pods relocate to new c6i nodes within ninety seconds without container errors.
+[S01:26] Rachel Adams will drain legacy node k8s-m5-prod-02 hosting stateless API services using a grace period of one hundred and twenty seconds.
+[S01:27] Sarah Chen will monitor ingress HTTP 5xx response rates in Datadog to verify that gateway error ratios remain below zero point zero one percent.
+[S01:28] Marcus Vance will verify that all user-profile and catalog-search replicas migrate to np-c6i-compute-prod before proceeding to phase two drain.
+[S01:29] At 03:15 UTC, Marcus Vance will drain legacy node k8s-m5-prod-03 hosting payment-settlement pods with kubectl drain, relying on pdb-payment-settlement having policy type maxUnavailable to permit eviction.
+[S01:30] David Kim will monitor payment processing latency metrics on graph pay-txn-latency to verify transaction completion times remain under fifty ms.
+[S01:31] Rachel Adams will drain legacy worker nodes k8s-m5-prod-04 and k8s-m5-prod-05 in parallel using standard pod eviction termination limits.
+[S01:32] Sarah Chen will drain the final legacy compute node k8s-m5-prod-06 and confirm that zero application pods remain on the old m5 node pool.
+[S01:33] Marcus Vance will adjust autoscaler group asg-c6i-compute-prod to dynamic scaling mode with minimum size four and maximum size twenty.
+[S01:34] David Kim will verify that all production workload pods across namespaces finance and payments are running in healthy status on c6i nodes.
+[S01:35] At 04:10 UTC, Rachel Adams will terminate legacy autoscaling group asg-m5-compute-prod and delete the obsolete Terraform state resources.
+[S01:36] Sarah Chen will re-enable automated CI/CD deployment pipelines in Jenkins and verify that queue deploy-prod-services resumes scheduled runs.
+[S01:37] Marcus Vance will post the final migration completion report to channel #infra-rollouts and close maintenance ticket CHG-84021 at 04:30 UTC.
+=== S02 (the reference excerpt) ===
+[S02:1] Policy pdb-ingress-edge in namespace edge-routing configures policy_type maxUnavailable with allowed_disruptions 1 for target app=ingress-edge.
+[S02:2] Policy pdb-api-gateway in namespace gateway configures policy_type maxUnavailable with allowed_disruptions 1 for target app=api-gateway.
+[S02:3] Policy pdb-auth-service in namespace security configures policy_type maxUnavailable with allowed_disruptions 1 for target app=auth-service.
+[S02:4] Policy pdb-user-profile in namespace accounts configures policy_type maxUnavailable with allowed_disruptions 1 for target app=user-profile.
+[S02:5] Policy pdb-session-store in namespace caching configures policy_type maxUnavailable with allowed_disruptions 1 for target app=session-store.
+[S02:6] Policy pdb-catalog-search in namespace product configures policy_type maxUnavailable with allowed_disruptions 1 for target app=catalog-search.
+[S02:7] Policy pdb-payments-settlement in namespace finance configures policy_type maxUnavailable with allowed_disruptions 1 for target app=payments-settlement.
+[S02:8] Policy pdb-order-processing in namespace orders configures policy_type maxUnavailable with allowed_disruptions 1 for target app=order-processing.
+[S02:9] Policy pdb-inventory-sync in namespace warehouse configures policy_type maxUnavailable with allowed_disruptions 1 for target app=inventory-sync.
+[S02:10] Policy pdb-shipping-tracker in namespace logistics configures policy_type maxUnavailable with allowed_disruptions 1 for target app=shipping-tracker.
+[S02:11] Policy pdb-notification-dispatcher in namespace messaging configures policy_type maxUnavailable with allowed_disruptions 1 for target app=notification-dispatcher.
+[S02:12] Policy pdb-customer-feedback in namespace support configures policy_type maxUnavailable with allowed_disruptions 1 for target app=customer-feedback.
+[S02:13] Policy pdb-telemetry-collector in namespace monitoring configures policy_type maxUnavailable with allowed_disruptions 1 for target app=telemetry-collector.
+[S02:14] Policy pdb-audit-logger in namespace compliance configures policy_type maxUnavailable with allowed_disruptions 1 for target app=audit-logger.
+[S02:15] Policy pdb-recommendation-engine in namespace machine-learning configures policy_type maxUnavailable with allowed_disruptions 1 for target app=recommendation-engine.
+[S02:16] Policy pdb-fraud-detector in namespace risk configures policy_type maxUnavailable with allowed_disruptions 1 for target app=fraud-detector.
+[S02:17] Policy pdb-ledger-journal in namespace accounting configures policy_type maxUnavailable with allowed_disruptions 1 for target app=ledger-journal.
+[S02:18] Policy pdb-pricing-calculator in namespace billing configures policy_type maxUnavailable with allowed_disruptions 1 for target app=pricing-calculator.
+[S02:19] Policy pdb-invoice-generator in namespace billing configures policy_type maxUnavailable with allowed_disruptions 1 for target app=invoice-generator.
+[S02:20] Policy pdb-reporting-aggregate in namespace analytics configures policy_type maxUnavailable with allowed_disruptions 1 for target app=reporting-aggregate.
+[S02:21] Policy pdb-payment-settlement in namespace payments configures policy_type maxUnavailable with allowed_disruptions 1 for target app=payment-settlement.
+[S02:22] Policy pdb-tax-calculator in namespace finance configures policy_type maxUnavailable with allowed_disruptions 1 for target app=tax-calculator.
+[S02:23] Policy pdb-document-signer in namespace legal configures policy_type maxUnavailable with allowed_disruptions 1 for target app=document-signer.
+[S02:24] Policy pdb-queue-bridge in namespace event-bus configures policy_type maxUnavailable with allowed_disruptions 1 for target app=queue-bridge.
+[S02:25] Policy pdb-webhook-relay in namespace integrations configures policy_type maxUnavailable with allowed_disruptions 1 for target app=webhook-relay.
+
+End your answer with exactly this block and nothing after it:
+AUDIT-BEGIN
+CLASS: SOUND | HAS_A_DEFECT | HAS_AN_UNESTABLISHED_FACT | CANNOT_TELL
+REASON: <one sentence>
+DECISIVE_FACT: <the single fact that, if added or corrected, would change your CLASS; or none>
+REQUIREMENT_LINE: <S01:n of the line that states the plan's requirement, or none>
+REQUIREMENT_DECIDES: YES | NO
+OTHER_PROBLEMS: <none, or lines such as S01:7; S02:3 that are unknown or contradictory for a reason other than your CLASS>
+AUDIT-END

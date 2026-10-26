@@ -1,0 +1,54 @@
+Below is a written plan, as one or more numbered sources. Source S01 is the plan; if a source S02 is present it is a reference excerpt (a settings file, contract, policy or schema) that the plan is subject to. Each line is numbered within its source, and a line is cited as S01:<n> or S02:<n>.
+
+Decide, from the text alone, whether the plan can be carried out as written. A plan HAS_A_DEFECT if some line contradicts a line of the same or another source, or breaks the plan's own stated requirement. A plan HAS_AN_UNESTABLISHED_FACT if nothing is contradicted but a fact that the plan's own requirement depends on is nowhere established in the text. A plan is SOUND if neither applies. Ordinary small imperfections (no rehearsal, one alert channel, a single owner) do not make a plan unsound. Say CANNOT_TELL only if you truly cannot decide.
+
+=== S01 (the plan) ===
+[S01:1] Infrastructure lead Maya Lin opens change window CW-8821 in the engineering portal at 13:00 UTC for the continuous integration fleet replacement.
+[S01:2] DevOps engineer Carlos Gomez posts the maintenance broadcast to the internal #dev-infra-alerts Slack channel at 13:05 UTC.
+[S01:3] Site reliability engineer Dave Kross enables Datadog dashboard 4092 to track continuous integration queue time and runner CPU metrics.
+[S01:4] Dave Kross sets an automated alert threshold to notify the operations channel if median queue time exceeds 45 seconds during the window.
+[S01:5] Platform engineer Elena Rostova verifies administrative SSH and kubectl credentials against the new Kubernetes runner cluster at 13:10 UTC.
+[S01:6] Purging the legacy fleet secrets engine will crash runner token exchange and corrupt pipeline credential caches if any production repository bindings still reference legacy vault paths.
+[S01:7] Security engineer Nathan Ross confirms that the new secrets engine mount secret/ci-v2/ is responsive in production Vault at 13:15 UTC.
+[S01:8] Carlos Gomez initiates pre-warming of custom runner container images across all 40 worker nodes in the new Kubernetes cluster at 13:20 UTC.
+[S01:9] Dave Kross inspects the container runtime daemon on the worker nodes at 13:30 UTC to confirm all base runner images are cached locally.
+[S01:10] Maya Lin reviews the target concurrency configuration to ensure the new runner pool allocates 600 parallel execution slots at 13:35 UTC.
+[S01:11] Nathan Ross validates that ephemeral secret injection tokens for new runner pods are restricted to a maximum lifespan of 120 minutes.
+[S01:12] Elena Rostova verifies read replicas for the job queue metadata store are synchronized with replication lag below 50 milliseconds.
+[S01:13] Carlos Gomez configures the CI ingress controller to permit traffic routing between legacy runner nodes and the new cluster at 13:45 UTC.
+[S01:14] Maya Lin approves beginning the phased migration of production continuous integration workloads to the new runner fleet at 14:00 UTC.
+[S01:15] Carlos Gomez shifts 10 percent of active project build queues to the new runner fleet using feature flag ci_fleet_v2_traffic at 14:05 UTC.
+[S01:16] Dave Kross monitors CI queue time for 10 minutes following the initial shift and observes an average queue latency of 18 seconds.
+[S01:17] Carlos Gomez increases the traffic shift to 25 percent of production continuous integration build queues at 14:15 UTC.
+[S01:18] Elena Rostova checks database connection pools on the queue scheduler and confirms connection utilization remains steady at 34 percent.
+[S01:19] Nathan Ross executes an automated scan across all 14,200 production repository secret bindings in ci_secret_store at 14:20 UTC to detect legacy vault paths.
+[S01:20] The automated scan completes across all 14,200 repository bindings with zero legacy path matches, confirming all production secrets point to secret/ci-v2/.
+[S01:21] Carlos Gomez expands the traffic routing to 50 percent of production build workloads at 14:30 UTC while tracking runner pod startup times.
+[S01:22] Dave Kross verifies that active concurrency across the new runner cluster reaches 285 parallel jobs without triggering node autoscaling.
+[S01:23] Carlos Gomez directs 100 percent of production continuous integration pipeline traffic to the new runner fleet at 14:45 UTC.
+[S01:24] Dave Kross reviews continuous integration queue time telemetry and confirms median job start delay is stable at 14 seconds at 15:00 UTC.
+[S01:25] Nathan Ross audits secret access logs on Vault cluster node vault-prod-01 to confirm new runner pods successfully fetch build tokens.
+[S01:26] Elena Rostova inspects the build result dispatcher and confirms that job completion events are processed with zero message backlog.
+[S01:27] Carlos Gomez locks the legacy runner queue at 15:15 UTC to prevent any new continuous integration jobs from being scheduled on legacy hosts.
+[S01:28] Dave Kross tracks the completion of remaining legacy pipeline executions and confirms the legacy runner active job count reaches zero at 15:45 UTC.
+[S01:29] Maya Lin conducts a formal checkpoint with the infrastructure team at 16:00 UTC and approves proceeding with legacy fleet teardown.
+[S01:30] Nathan Ross revokes all outstanding administrative API session tokens associated with the legacy runner infrastructure at 16:15 UTC.
+[S01:31] Nathan Ross executes the irreversible purge of the legacy fleet secrets engine on the primary Vault cluster at 16:30 UTC.
+[S01:32] Elena Rostova verifies that continuous integration pipeline secret injection remains fully functional across all active builds at 16:45 UTC.
+[S01:33] Carlos Gomez issues the termination command for all 75 virtual machines comprising the legacy runner fleet in AWS region us-east-1 at 17:00 UTC.
+[S01:34] Dave Kross verifies that all legacy runner virtual machines have transitioned to terminated state in the AWS management console at 17:15 UTC.
+[S01:35] Elena Rostova archives legacy runner host logs and configuration manifests to Amazon S3 bucket ci-fleet-archive-us-east-1 at 17:30 UTC.
+[S01:36] Dave Kross evaluates post-cutover metrics at 17:45 UTC and confirms average queue time remains under 16 seconds across 420 concurrent jobs.
+[S01:37] Carlos Gomez publishes the final migration completion report to the internal #dev-infra-alerts channel at 18:00 UTC.
+[S01:38] Maya Lin releases the on-call engineering team from active cutover duties and returns operational ownership to the primary rotation at 18:15 UTC.
+[S01:39] Maya Lin formally closes change window CW-8821 in the engineering portal at 18:30 UTC with all production traffic on the new runner fleet.
+
+End your answer with exactly this block and nothing after it:
+AUDIT-BEGIN
+CLASS: SOUND | HAS_A_DEFECT | HAS_AN_UNESTABLISHED_FACT | CANNOT_TELL
+REASON: <one sentence>
+DECISIVE_FACT: <the single fact that, if added or corrected, would change your CLASS; or none>
+REQUIREMENT_LINE: <S01:n of the line that states the plan's requirement, or none>
+REQUIREMENT_DECIDES: YES | NO
+OTHER_PROBLEMS: <none, or lines such as S01:7; S02:3 that are unknown or contradictory for a reason other than your CLASS>
+AUDIT-END

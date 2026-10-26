@@ -1,0 +1,57 @@
+Below is a written plan, as numbered sources: S01 is the plan and, when present, S02 is a reference excerpt. Lines are numbered within their source and cited as S01:<n> or S02:<n>.
+
+The plan's author makes this claim about it: "No database schema constraints, write-path validations, or pre-upload filtering routines exist in the plan to guarantee that the 420,000 legacy records contain non-null bounce categories prior to ingestion."
+
+Check the claim against the text. It holds only if no line anywhere in the plan or the excerpt bounds, establishes, implies or makes harmless what the claim says is missing. Quote the lines that contradict it, if any.
+
+=== S01 (the plan) ===
+[S01:1] Elena Vance opens the maintenance change window at 02:00 UTC and notifies the engineering operations channel on Slack.
+[S01:2] Priya Patel verifies administrative API access credentials and token permissions for the new transactional email provider account.
+[S01:3] David Kim confirms the new provider account has an approved daily sending quota of 250,000 messages and an hourly limit of 15,000.
+[S01:4] Priya Patel checks the DNS zone for auth.acmetransact.com to confirm that the four DKIM CNAME records have propagated globally.
+[S01:5] Elena Vance validates that the SPF TXT record for notify.acmetransact.com includes the new provider sending IP ranges correctly.
+[S01:6] Marcus Lee confirms read-only database replicas for the email service are healthy with replication lag under two hundred milliseconds.
+[S01:7] David Kim verifies that the four dedicated outbound IP addresses are provisioned in the provider dashboard for domain warm-up.
+[S01:8] Priya Patel configures the primary webhook endpoint on ingest.acmetransact.com to receive real-time bounce and complaint payloads.
+[S01:9] Marcus Lee allocates temporary scratch space on db-worker-04 to stage the export of the historical 420,000 suppression records.
+[S01:10] Elena Vance verifies that the export pipeline has encrypted credentials for the destination provider bulk ingestion API endpoint.
+[S01:11] Priya Patel sets up Datadog dashboard 8492 to track bounce webhook latency and HTTP 5xx error responses during the migration.
+[S01:12] David Kim confirms that the legacy email provider account retains active sending capabilities for twenty-four hours in case of rollback.
+[S01:13] Marcus Lee creates a local gzip compressed snapshot of the 420,000 suppression records in the secure cold-storage bucket s3-email-archive.
+[S01:14] David Kim configures outbound rate limiters on the transactional dispatch cluster to throttle dispatch at 10,000 messages per hour.
+[S01:15] Priya Patel verifies TLS 1.3 enforcement on all outbound SMTP relay connections established through the new provider edge routers.
+[S01:16] Elena Vance tests the webhook signature secret by dispatching a synthetic bounce payload from the provider management console.
+[S01:17] Marcus Lee checks that the Redis cache cluster has sixty gigabytes of available memory to buffer incoming bounce notifications.
+[S01:18] David Kim sets the initial warm-up traffic allocation on auth.acmetransact.com to 5,000 transactional emails for the first day.
+[S01:19] The suppression upload requires all 420,000 records to have a non-null bounce_category, as the provider bulk ingestion aborts on null values and permanently corrupts the suppression registry.
+[S01:20] Priya Patel updates the DMARC policy record on billing.acmetransact.com to quarantine mode with forensic reports routed to security.
+[S01:21] Marcus Lee confirms that the database staging table holds the 420,000 suppression rows with uncompressed index sizes of eighty megabytes.
+[S01:22] Elena Vance sets the automated PagerDuty alert escalation policy for email delivery drops exceeding two percent over five minutes.
+[S01:23] David Kim dispatches a pre-cutover broadcast notification to the customer support team lead on duty in the operations Slack room.
+[S01:24] Priya Patel verifies that the Kafka event topic transactional-bounces has three partitions and a fourteen-day retention setting.
+[S01:25] Elena Vance validates that the dedicated IP warm-up ramp schedule is registered in the provider console to prevent quota violations.
+[S01:26] Marcus Lee enables binary logging on db-worker-04 to record all database updates during the suppression data upload window.
+[S01:27] David Kim lowers the DNS MX record time-to-live to three hundred seconds across all three active sending domain zone files.
+[S01:28] Priya Patel confirms that the outbound delivery health check returns HTTP 200 across all four application worker instances.
+[S01:29] Elena Vance switches the transactional dispatch queue from idle to staging mode at 04:30 UTC to pause outbound customer emails.
+[S01:30] David Kim verifies that the staging queue holds no more than twelve hundred buffered transactional messages during the pause.
+[S01:31] Marcus Lee prepares the ingestion runner script on db-worker-04 to stream the 420,000 suppression rows directly to the provider.
+[S01:32] Marcus Lee executes the irreversible bulk ingestion script at 05:00 UTC to upload all 420,000 suppression records to the provider.
+[S01:33] Elena Vance monitors the provider bulk ingestion job progress until all 420,000 historical suppression entries report completed.
+[S01:34] Priya Patel swaps the DNS MX and TXT records on auth.acmetransact.com to point directly to the new transactional provider hosts.
+[S01:35] David Kim updates the SMTP host credentials in Kubernetes secret email-relay-credentials and triggers a rolling deployment of workers.
+[S01:36] Elena Vance resumes outbound message dispatch at 05:30 UTC under the 5,000 message warm-up quota for the initial processing batch.
+[S01:37] Priya Patel inspects the live Datadog dashboard to confirm that outbound delivery latency remains below four hundred milliseconds.
+[S01:38] Marcus Lee verifies that incoming bounce webhooks correctly insert new records into the primary database bounce_log table.
+[S01:39] David Kim checks the provider administrative console to ensure the account has consumed less than four percent of its daily quota.
+[S01:40] Elena Vance audits the application error logs across all four worker nodes to verify zero SMTP authentication failures occur.
+[S01:41] Priya Patel validates that the DMARC aggregate reports are receiving successful delivery acknowledgments from receiving mail servers.
+[S01:42] Marcus Lee purges the temporary staging table on db-worker-04 after confirming the 420,000 suppression records match provider tallies.
+[S01:43] David Kim restores the DNS MX record time-to-live to eighty-six thousand four hundred seconds across all three domain zone files.
+[S01:44] Elena Vance closes the maintenance window at 06:30 UTC and posts the migration completion report to the operations Slack channel.
+
+End your answer with exactly this block and nothing after it:
+AUDIT-BEGIN
+CLAIM_HOLDS: YES | NO
+CONTRADICTING_LINES: <none, or lines such as S01:7; S01:12>
+AUDIT-END
