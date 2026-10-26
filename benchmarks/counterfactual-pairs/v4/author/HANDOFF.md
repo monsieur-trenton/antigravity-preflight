@@ -28,7 +28,7 @@ Expected values (`run.sh checks` compares them for you): `agy` at `/home/john/.l
 
 ## Known flake: the offline qualification (`host`)
 
-`host` runs the repository's 664-case offline qualification of the runtime, twice. One timing control, `prompt_no_read`, gives the host 0.5 seconds; on a slow or busy machine it can elapse and the run stops with `OFFLINE_RUN_2_STOPPED` (seen once, during the authoring probe, and gone on a rerun in a fresh root; no model was called). Do not retry on your own: send the output. The owner may authorize one rerun in a **new** `ROOT`; `$B diag` (no model call) shows how slow the machine is at that moment.
+`host` runs the repository's 664-case offline qualification of the runtime, twice. One timing control, `prompt_no_read`, gives the host 0.5 seconds; on a slow or busy machine it can elapse and the run stops with `OFFLINE_RUN_2_STOPPED` (seen once, during the authoring probe, and gone on a rerun in a fresh root; no model was called). It has now happened twice, both times soon after `checks` (which runs the test suites): the second time `OFFLINE_RUN_1_STOPPED` with a load average of 9 on 4 cpus. **Wait a few minutes after `checks`, run `$B diag`, and start `host` only when the one-minute load average is below about 1.5 and nothing else is running.** Do not retry on your own: send the output. The owner may authorize one rerun in a **new** `ROOT`; `$B diag` (no model call) shows how slow the machine is at that moment.
 
 ## Steps (from anywhere inside your clone)
 
