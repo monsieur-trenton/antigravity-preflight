@@ -1,0 +1,162 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Domains a case may be set in. Instances draw from the eligible domains: none is used more than four times in a split or more than twice in a family; devOnly domains are never used in the test split. Entries are prompts to the author, not facts.",
+  "domains": [
+    {
+      "id": "payments_api_cdn_cutover",
+      "description": "Moving a payments API between content delivery networks by changing a DNS record",
+      "entities": "DNS record, time-to-live, resolvers, edge providers (the probe's domain; dev only)",
+      "devOnly": true
+    },
+    {
+      "id": "database_major_upgrade",
+      "description": "Upgrading a production relational database to a new major version",
+      "entities": "replicas, extensions, connection pools, maintenance window",
+      "devOnly": false
+    },
+    {
+      "id": "nightly_batch_etl",
+      "description": "A nightly job that moves an extract into a data warehouse",
+      "entities": "input volume, load window, checkpoints",
+      "devOnly": false
+    },
+    {
+      "id": "feature_flag_rollout",
+      "description": "Staged release of a feature behind a flag",
+      "entities": "cohorts, flag defaults, kill switch, metrics",
+      "devOnly": false
+    },
+    {
+      "id": "tls_certificate_rotation",
+      "description": "Rotating certificates and trust bundles across a client fleet",
+      "entities": "roots, bundles, reload interval, expiry",
+      "devOnly": false
+    },
+    {
+      "id": "kubernetes_node_pool_migration",
+      "description": "Replacing a cluster's node pool with a new instance type",
+      "entities": "drain order, pod disruption budgets, autoscaler",
+      "devOnly": false
+    },
+    {
+      "id": "message_queue_consumer_scaling",
+      "description": "Changing consumer count and batch size on a message queue",
+      "entities": "partitions, lag, ordering keys, dead letters",
+      "devOnly": false
+    },
+    {
+      "id": "object_storage_lifecycle_change",
+      "description": "Changing lifecycle and retention rules on object storage",
+      "entities": "prefixes, retention days, replication, legal hold",
+      "devOnly": false
+    },
+    {
+      "id": "search_index_rebuild",
+      "description": "Rebuilding a search index from source data",
+      "entities": "shards, alias swap, refresh rate, reindex rate",
+      "devOnly": false
+    },
+    {
+      "id": "mobile_app_staged_release",
+      "description": "Staged rollout of a mobile app release",
+      "entities": "percentages, crash thresholds, forced upgrade",
+      "devOnly": false
+    },
+    {
+      "id": "secrets_manager_migration",
+      "description": "Moving application secrets to a new secrets manager",
+      "entities": "paths, rotation, access roles, cache duration",
+      "devOnly": false
+    },
+    {
+      "id": "log_pipeline_vendor_switch",
+      "description": "Switching the vendor behind a log and metrics pipeline",
+      "entities": "agents, retention, sampling, alert rules",
+      "devOnly": false
+    },
+    {
+      "id": "warehouse_schema_change",
+      "description": "Changing a table schema in a shared data warehouse",
+      "entities": "consumers, views, backfill, column types",
+      "devOnly": false
+    },
+    {
+      "id": "email_provider_migration",
+      "description": "Moving transactional email to a new provider",
+      "entities": "sending domains, warm-up, bounce handling, quotas",
+      "devOnly": false
+    },
+    {
+      "id": "reconciliation_job",
+      "description": "A payments reconciliation job with a partner",
+      "entities": "batches, cutoffs, duplicates, partner limits",
+      "devOnly": false
+    },
+    {
+      "id": "multi_region_failover_drill",
+      "description": "A scheduled failover drill between two regions",
+      "entities": "traffic split, data lag, runbook steps, abort criteria",
+      "devOnly": false
+    },
+    {
+      "id": "build_system_change",
+      "description": "Changing the build and test system of a large repository",
+      "entities": "caches, runners, test sharding, required checks",
+      "devOnly": false
+    },
+    {
+      "id": "customer_data_export",
+      "description": "Producing a customer data export on request",
+      "entities": "jobs, retention of exports, access, size",
+      "devOnly": false
+    },
+    {
+      "id": "api_version_deprecation",
+      "description": "Deprecating an old API version",
+      "entities": "clients, sunset date, shims, error budget",
+      "devOnly": false
+    },
+    {
+      "id": "cache_cluster_resize",
+      "description": "Resizing a shared cache cluster",
+      "entities": "key spaces, eviction, warm-up, hit rate",
+      "devOnly": false
+    },
+    {
+      "id": "backup_restore_verification",
+      "description": "Verifying backups by restoring them",
+      "entities": "restore target, schedule, retention, point-in-time window",
+      "devOnly": false
+    },
+    {
+      "id": "identity_provider_switch",
+      "description": "Switching single sign-on to a new identity provider",
+      "entities": "groups, session lifetime, break-glass accounts",
+      "devOnly": false
+    },
+    {
+      "id": "ci_runner_fleet_replacement",
+      "description": "Replacing the fleet that runs continuous integration jobs",
+      "entities": "images, concurrency, secrets, queue time",
+      "devOnly": false
+    },
+    {
+      "id": "vm_to_container_migration",
+      "description": "Moving a service from virtual machines to containers",
+      "entities": "images, health checks, config, capacity",
+      "devOnly": false
+    },
+    {
+      "id": "rate_limit_policy_change",
+      "description": "Changing the rate-limit policy of a public API",
+      "entities": "tiers, burst, headers, client notices",
+      "devOnly": false
+    },
+    {
+      "id": "dependency_major_upgrade",
+      "description": "Upgrading a major dependency of a shared service",
+      "entities": "callers, behaviours, rollout order, test coverage",
+      "devOnly": false
+    }
+  ]
+}

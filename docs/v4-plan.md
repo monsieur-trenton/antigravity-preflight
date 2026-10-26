@@ -42,16 +42,16 @@ Nothing else is added after the dev split closes. Anything tuned on dev (a calib
 
 **Metrics.** The three primary rates of v3 (sound plans `GO`, defect twins `NO_GO`, gap twins `GO_WITH_CHANGES`), strict and ordered pairs, hedged, overclaimed and waved-through counts, per-family Wilson intervals, exact paired sign tests, and two new ones: **finding-level mechanism** (a blind reader checks that a blocker names the planted mechanism and cites an accepted line, on all defect twins that were blocked) and **decoy discipline** (decoy sound plans judged `GO`). Zero unsupported `VERIFIED` findings stays a gate.
 
-**Size and power.** Test split: 80 pairs (160 cases), roughly 20 omitted-unknown, 24 cross-source, 20 direct and inferred defects, 16 decoys. That gives Wilson intervals of roughly ±7 points on a rate near 90%, and a paired sign test on 80 matched units that detects a difference of about 15 points when most discordant units fall one way. Dev split: about 24 pairs (48 cases).
+**Size and power.** Test split: 80 pairs and 12 rewordings of them (184 cases: 160 for the A wording, 24 for B), 20 omitted-unknown, 24 cross-source, 20 direct and inferred defects, 16 decoys. That gives Wilson intervals of roughly ±7 points on a rate near 90%, and a paired sign test on 80 matched units that detects a difference of about 15 points when most discordant units fall one way. Dev split: about 24 pairs (48 cases).
 
 ## Estimated cost and time (an estimate from the v3 runs, not a bound)
 
 | Run | Cases | Cost / time |
 | --- | --- | --- |
-| Claude skill-style, 2 trials, test split | 160 × 2 | about $11 and 1.5 hours |
-| Claude skill + sentence, 2 trials | 160 × 2 | about $11 |
-| Gemini skill-style, 1 trial, test split | 160 | about 9 hours |
-| Gemini bare, 1 trial | 160 | about 6 to 9 hours (shorter prompts, same turn length) |
+| Claude skill-style, 2 trials, test split | 184 × 2 | about $12 and 1.7 hours |
+| Claude skill + sentence, 2 trials | 184 × 2 | about $12 |
+| Gemini skill-style, 1 trial, test split | 184 | about 10 hours |
+| Gemini bare, 1 trial | 184 | about 7 to 10 hours (shorter prompts, same turn length) |
 | Gemini second trial of both arms on a 48-case subset | 2 × 48 | about 5 hours |
 | Dev split, any arm | 48 | $2 on Claude, about 2.5 hours on Gemini |
 
@@ -81,13 +81,13 @@ Authoring and audit add model cost and, for a cross-family author through the na
 
 1. **Scope: synthetic corpus first** (phases 0 to 6). Benchmarks G and F stay a separate track after phase 3.
 2. **Authors: Gemini writes the cases, Claude audits them blind**, with the owner's spot check of at least a fifth. The reviewers under test then include Gemini 3.8 Flash High, so the plan must keep authoring and review apart: a different model or effort from the Flash reviewer where the owner has one (Gemini 4 Argon / High is the qualified candidate), and a statement of how close the two are if only Flash is available. Claude, the auditor, is also a reviewer arm; the audit is blind to class and the audit prompt is not the review prompt.
-3. **Budget: one Gemini trial per arm on the test split** (about 9 hours per arm) **and two Claude trials** (about $22 for both Claude arms), with a Gemini repeat only on a 48-case subset (about 5 hours more) if the first trial leaves a result within noise of a threshold.
+3. **Budget: one Gemini trial per arm on the test split** (about 10 hours per arm) **and two Claude trials** (about $22 for both Claude arms), with a Gemini repeat only on a 48-case subset (about 5 hours more) if the first trial leaves a result within noise of a threshold.
 
 ## First actions, in order
 
 1. **Probe Gemini authoring: done** ([result](../benchmarks/counterfactual-pairs/v4/probe/results/RESULT.md)). One live call (153 s) returned a well-formed pair: all 14 mechanical checks passed, the twin is exactly the sound plan minus the two fact lines, and the reading found it usable. The existing review runtime can serve as a generator through a thin wrapper. It is one sample, from the same model and route as the Flash reviewer under test, so the author-independence question stays open. Reading found four defects in my prompt that the specifications must design out: an ambiguous requirement sentence (give a testable one), a `tempting_alternative` field that collapsed into the decoy (ask for a separate technical gap), author-chosen positions that put the decoy beside the removed lines (randomize in the spec), and no test yet of wording B. Authoring at the planned size is also bounded by the 32 KB report cap: one pair of up to about 90 lines per call, so the 25 to 120 line range becomes **25 to 80 lines per plan** unless a plan is assembled from several calls.
-2. **Write the family specifications** (the four kinds above, about a dozen families in all, a fifth of them dev), each with the twin's definition, decisive-line rule, accepted citation lines and mechanism, and one worked example written by me as a format reference, not as a case.
-3. **Extend the scorer and schema** for multi-source packets and the two new metrics; the gate is that it reproduces the committed v3 scores exactly.
+2. **Write the family specifications: done** ([SPEC.md](../benchmarks/counterfactual-pairs/v4/SPEC.md), [families.json](../benchmarks/counterfactual-pairs/v4/families.json), [domains.json](../benchmarks/counterfactual-pairs/v4/domains.json), validated by `check_families.py`). 14 families (3 dev: one omitted-unknown, one cross-source, one decoy; 11 test), 26 domains with the probe's kept out of test, the oracle schema, the position, wording-B and size rules, and the audit questions. The one wording-B decision made here: 12 of the 80 test pairs get an equivalent rewording (3 per kind), so the test split is 184 cases and dev is 48; the cost table above reflects that. A format reference for the new cross-source shape is in `v4/examples/`.
+3. **Extend the scorer and schema** for multi-source packets, source-qualified citations (`S02:5`) and the two new metrics; the gate is that it reproduces the committed v3 scores exactly.
 4. **Write the authoring brief and the audit brief** as hand-offs, in the style of `v3-run-gemini/HANDOFF.md` (where to find things, rules, a gated helper script).
 
 Each step is a small commit on a branch from `main`; none changes a frozen file.
