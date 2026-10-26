@@ -332,5 +332,38 @@ class RunScriptTests(unittest.TestCase):
             self.assertIn(needle, brief)
 
 
+RESULTS = HERE / "results"
+
+
+class CommittedResultTests(unittest.TestCase):
+    """The committed probe result is the one the write-up describes: hashes, receipt, and the mechanical checks recomputed from the saved report."""
+
+    def test_the_saved_report_hashes_to_the_summary_and_the_receipt_is_clean(self):
+        summary = json.loads((RESULTS / "PROBE-SUMMARY.json").read_bytes())
+        report = (RESULTS / "PROBE-OUTPUT.md").read_bytes()
+        self.assertEqual((rp.sha(report), len(report)), (summary["reportSha256"], summary["reportBytes"]))
+        self.assertEqual(summary["promptSha256"], rp.sha((HERE / "author-prompt.txt").read_bytes()))
+        self.assertEqual(summary["runManifestSha256"], rp.sha((PARENT / "v3-run-gemini/manifest.json").read_bytes()))
+        receipt = json.loads((RESULTS / "CLI-RECEIPT.json").read_bytes())
+        self.assertEqual((receipt["status"], receipt["failure"], receipt["closingFailures"], receipt["retries"], receipt["invocations"]),
+                         ("REPORT_RECEIVED_PENDING_ADJUDICATION", None, [], 0, {"proxy": 1, "native": 1}))
+        self.assertEqual(receipt["native"]["sha256"], BINARY)
+        self.assertEqual(receipt["report"]["sha256"], summary["reportSha256"])
+        self.assertIsNone(summary["technicalStop"])
+
+    def test_the_mechanical_checks_recomputed_from_the_saved_report_are_the_recorded_ones(self):
+        summary = json.loads((RESULTS / "PROBE-SUMMARY.json").read_bytes())
+        recomputed = ck.check((RESULTS / "PROBE-OUTPUT.md").read_text(encoding="utf-8"))
+        self.assertEqual(recomputed, summary["mechanicalChecks"])
+        self.assertTrue(recomputed["allPassed"])
+        self.assertEqual((recomputed["details"]["soundLines"], recomputed["details"]["twinLines"]), (36, 34))
+
+    def test_the_write_up_names_the_returned_archive_and_the_two_defects_it_found_in_the_prompt(self):
+        text = (RESULTS / "RESULT.md").read_text(encoding="utf-8")
+        for needle in ("f6ae439d51ce5817f0bd78126b9ca34b494dec8142ac2b7cdc45ab67fed3af93", "works as a generator", "The requirement sentence is ambiguous",
+                       "`tempting_alternative` was misread", "One sample"):
+            self.assertIn(needle, text)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -1,0 +1,68 @@
+{
+  "promptSha256": "7c5875f6ea00dbf0641c0c64fa20510f1ba543793c4acf239de0c64324990529",
+  "promptBytes": 3325,
+  "runManifestSha256": "d853fee334b39a42d8b1b20b87a9dc27d68f108a9a4b4afa8e28c48e901ff5d2",
+  "executed": true,
+  "wallSeconds": 153.02,
+  "receipt": {
+    "status": "REPORT_RECEIVED_PENDING_ADJUDICATION",
+    "failure": null,
+    "closingFailures": [],
+    "model": "gemini-3.8-flash-high",
+    "effort": "high",
+    "servedAttestation": "UNAVAILABLE",
+    "retries": 0,
+    "invocations": {
+      "proxy": 1,
+      "native": 1
+    },
+    "promptDelivery": {
+      "status": "COMPLETE",
+      "wireBytes": 3407,
+      "bytesWritten": 3407,
+      "meaning": "Bytes accepted by host pipe; not proof of native consumption"
+    },
+    "elapsedSeconds": 152.747,
+    "processes": {
+      "native": {
+        "spawned": true,
+        "reaped": true
+      },
+      "proxy": {
+        "spawned": true,
+        "reaped": true
+      }
+    },
+    "privateHomeAbsent": true,
+    "socketDirectoryAbsent": true
+  },
+  "reportSha256": "716570312be3e54252761a2a92beb3e459aba60582bb7bc0b1f0ebf25ccece33",
+  "reportBytes": 10311,
+  "mechanicalChecks": {
+    "allPassed": true,
+    "checks": {
+      "BLOCKS_IN_ORDER": true,
+      "NOTHING_OUTSIDE_THE_CASE": true,
+      "ORACLE_FIELDS": true,
+      "ORACLE_NUMBERS": true,
+      "ORACLE_NUMBERS_IN_RANGE": true,
+      "FACT_LINES_1_TO_3": true,
+      "DECOY_PRESENT_AND_APART_FROM_FACT": true,
+      "REQUIREMENT_NOT_A_FACT_LINE": true,
+      "SOUND_LENGTH": true,
+      "LINE_SHAPE": true,
+      "TWIN_IS_SOUND_MINUS_FACT_LINES": true,
+      "NO_META_WORDS": true,
+      "NO_ADMISSIONS_OUTSIDE_DECOY": true,
+      "DECOY_LINE_ADMITS_SOMETHING": true
+    },
+    "details": {
+      "soundLines": 36,
+      "twinLines": 34,
+      "badShapeLineIndexes": [],
+      "metaWordsFound": [],
+      "admissionLinesOutsideDecoy": []
+    }
+  },
+  "technicalStop": null
+}

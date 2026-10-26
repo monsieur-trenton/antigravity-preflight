@@ -1,0 +1,11 @@
+commit: a892f8f3c091ccd4155cc47db28d55b37006a0ab
+run manifest (v3 gemini): d853fee334b39a42d8b1b20b87a9dc27d68f108a9a4b4afa8e28c48e901ff5d2
+prompt: 7c5875f6ea00dbf0641c0c64fa20510f1ba543793c4acf239de0c64324990529
+agy: /home/john/.local/bin/agy  16e228cb243fa098eeb27b3b2aca963caec84e4a8ac49e3821b00c56f99f7508
+agy version: 1.4.1
+host: Linux john-laptop 7.0.0-38-generic #38~24.04.4-Ubuntu SMP PREEMPT_DYNAMIC Mon Sep 14 16:37:11 UTC 2 x86_64 x86_64 x86_64 GNU/Linux
+
+== live call
+start: 2026-10-25T18:37:15-07:00
+{"promptSha256": "7c5875f6ea00dbf0641c0c64fa20510f1ba543793c4acf239de0c64324990529", "promptBytes": 3325, "runManifestSha256": "d853fee334b39a42d8b1b20b87a9dc27d68f108a9a4b4afa8e28c48e901ff5d2", "executed": true, "wallSeconds": 153.02, "receipt": {"status": "REPORT_RECEIVED_PENDING_ADJUDICATION", "failure": null, "closingFailures": [], "model": "gemini-3.8-flash-high", "effort": "high", "servedAttestation": "UNAVAILABLE", "retries": 0, "invocations": {"proxy": 1, "native": 1}, "promptDelivery": {"status": "COMPLETE", "wireBytes": 3407, "bytesWritten": 3407, "meaning": "Bytes accepted by host pipe; not proof of native consumption"}, "elapsedSeconds": 152.747, "processes": {"native": {"spawned": true, "reaped": true}, "proxy": {"spawned": true, "reaped": true}}, "privateHomeAbsent": true, "socketDirectoryAbsent": true}, "reportSha256": "716570312be3e54252761a2a92beb3e459aba60582bb7bc0b1f0ebf25ccece33", "reportBytes": 10311, "mechanicalChecks": {"allPassed": true, "checks": {"BLOCKS_IN_ORDER": true, "NOTHING_OUTSIDE_THE_CASE": true, "ORACLE_FIELDS": true, "ORACLE_NUMBERS": true, "ORACLE_NUMBERS_IN_RANGE": true, "FACT_LINES_1_TO_3": true, "DECOY_PRESENT_AND_APART_FROM_FACT": true, "REQUIREMENT_NOT_A_FACT_LINE": true, "SOUND_LENGTH": true, "LINE_SHAPE": true, "TWIN_IS_SOUND_MINUS_FACT_LINES": true, "NO_META_WORDS": true, "NO_ADMISSIONS_OUTSIDE_DECOY": true, "DECOY_LINE_ADMITS_SOMETHING": true}, "details": {"soundLines": 36, "twinLines": 34, "badShapeLineIndexes": [], "metaWordsFound": [], "admissionLinesOutsideDecoy": []}}, "technicalStop": null, "status": "COMPLETE"}
+end: 2026-10-25T18:39:53-07:00
