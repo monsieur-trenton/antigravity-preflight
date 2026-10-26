@@ -245,6 +245,14 @@ class DriverTests(unittest.TestCase):
             self.assertEqual((row["call"], row["technicalStop"]), (first, "INTERRUPTED_UNKNOWN_STATE"))
             self.assertFalse((Path(tmp) / "stub-count").exists())
 
+    def test_a_re_audit_of_named_pairs_schedules_only_their_calls(self):
+        pair = next(r["pair"] for r in s4.Corpus(self.out).oracle.values() if r["kind"] == "omitted_unknown")
+        with tempfile.TemporaryDirectory() as tmp:
+            code, summary = self.run_audit(tmp, self.stub(tmp), "--pairs", pair)
+            self.assertEqual((code, summary["callsScheduled"], summary["prepared"]), (0, 4, 4))     # two members, the pair and the claim of a deleted gap
+            code, summary = self.run_audit(tmp, self.stub(tmp), "--pairs", "N-nothing", work="w2")
+            self.assertEqual((code, summary["reason"]), (1, "UNKNOWN_PAIR"))
+
     def test_the_claude_command_is_tool_free_and_isolated(self):
         class Args:
             claude_bin, model, effort, max_budget_usd = "/x/claude", MODEL, "high", 1.0
@@ -357,6 +365,19 @@ class ReportTests(unittest.TestCase):
         pair = self.pairs("cross_source_defect")[0]
         self.assertNotIn("claim:" + ar.pairs_of(self.corpus)[pair]["changed"], perfect_ledger(self.corpus))
         self.assertEqual(ar.analyse(self.corpus, perfect_ledger(self.corpus))["perPair"][pair]["decision"], "PASS")
+
+    def test_a_later_ledger_replaces_the_same_calls_of_an_earlier_one(self):
+        pair = self.pairs("omitted_unknown")[0]
+        cases = ar.pairs_of(self.corpus)[pair]
+        rows = perfect_ledger(self.corpus)
+        bad = copy.deepcopy(rows)
+        bad[f"member:{cases['sound']}"]["answer"]["CLASS"] = "HAS_A_DEFECT"
+        with tempfile.TemporaryDirectory() as tmp:
+            first, second = Path(tmp) / "a.jsonl", Path(tmp) / "b.jsonl"
+            first.write_text("\n".join(json.dumps(r) for r in bad.values()) + "\n", encoding="utf-8")
+            second.write_text(json.dumps(rows[f"member:{cases['sound']}"]) + "\n", encoding="utf-8")
+            self.assertEqual(ar.analyse(self.corpus, ar.read_ledger(first))["perPair"][pair]["decision"], "REVIEW")
+            self.assertEqual(ar.analyse(self.corpus, ar.read_ledger(f"{first},{second}"))["perPair"][pair]["decision"], "PASS")
 
     def test_the_command_line_report(self):
         with tempfile.TemporaryDirectory() as tmp:

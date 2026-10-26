@@ -49,8 +49,12 @@ def assignment_block(instance, family, domain):
              "Citation rule (for cite_lines): " + family["citeRule"]]
     if instance["kind"] == "decoy_pair":
         lines.append(f"Open-item lines (decoy_lines): the plan contains the open item the family describes, flagged as pending or unconfirmed, in "
-                     f"{third(plan, instance['buckets']['decoy'])} of the plan, at least five lines from the change. These are the only lines that may say something is open. "
-                     "why_no_fallback must say why nothing else in the twin settles it.")
+                     f"{third(plan, instance['buckets']['decoy'])} of the plan, at least five lines from the change. These are the only lines that may say something is open, "
+                     "and the plan has exactly one open item.")
+        if family["twinClass"] == "UNCERTAIN":
+            lines.append("why_no_fallback must say why nothing else in the plan settles the open item.")
+        else:
+            lines.append("In the twin, the change must make the plan contradict its own stated requirement from its own lines, with no outside fact needed; why_no_fallback is none.")
     elif instance["kind"] == "omitted_unknown":
         lines.append("No line of either plan says that anything is unknown or unmeasured; the twin simply never mentions the missing fact. decoy_lines is none. "
                      "why_no_fallback must say why nothing else in the twin bounds or establishes it.")

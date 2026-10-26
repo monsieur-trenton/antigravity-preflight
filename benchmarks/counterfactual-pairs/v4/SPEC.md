@@ -16,9 +16,11 @@ Status: **a specification, not a preregistration.** It fixes what a v4 case is, 
 | `omitted_unknown` | delete the 1 to 3 lines that state the decisive fact; nothing replaces them | `GO` | `GO_WITH_CHANGES` | 20 |
 | `cross_source_defect` | change exactly one line in exactly one of two sources so that the plan contradicts the reference | `GO` | `NO_GO` | 24 |
 | `defect` | change one line in place (single source, plan of 30 to 60 lines) | `GO` | `NO_GO` | 20 |
-| `decoy_pair` | edit or delete one line so that a stated open item stops being non-binding | `GO` | `GO_WITH_CHANGES` | 16 |
+| `decoy_pair` | the sound plan carries exactly one open item, flagged as such. Either delete the line that absorbs it (`open_item_absorbed`: twin `GO_WITH_CHANGES`), or edit one line (scope or independence) so that the plan's own steps proceed in spite of it and so contradict the plan's own requirement (`open_item_scope`, `open_item_becomes_decisive`: twin `NO_GO`) | `GO` | `GO_WITH_CHANGES` or `NO_GO`, by family | 16 |
 
 `GO`, `GO_WITH_CHANGES` and `NO_GO` are `NO_BLOCKERS_FOUND`, `CHANGES_RECOMMENDED` and `BLOCKERS_FOUND`. A sound member that draws `GO_WITH_CHANGES` is a hedge; a sound member that draws `NO_GO` is a false blocker; a twin that draws `GO` is waved through, and an evidence-gap twin that draws `NO_GO` is overclaimed, as in v3.
+
+The scope and independence families were first specified with a `GO_WITH_CHANGES` twin. The dev audit and two non-blind readings read those twins as defects, because the plan states that an in-scope component's setting is still open, requires it confirmed before the governed action, and proceeds regardless; the owner decided on 2026-10-26 to reclassify them as `NO_GO` twins. The sound member still measures decoy discipline.
 
 ## What a case file holds
 

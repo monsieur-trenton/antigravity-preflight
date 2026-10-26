@@ -66,13 +66,13 @@ def records_for(instance, family, parsed, wording, seed):
         out[role] = {
             "case": "R-" + hashlib.sha256(f"{seed}|case|{instance['pair']}|{wording}|{role}".encode()).hexdigest()[:6],
             "pair": instance["pair"], "family": instance["family"], "kind": instance["kind"], "domain": instance["domain"], "wording": wording, "role": role,
-            "expectedClass": "SOUND" if sound else kind["twinClass"], "expectedVerdict": "GO" if sound else kind["twinVerdict"], "difficulty": family["difficulty"],
+            "expectedClass": "SOUND" if sound else family["twinClass"], "expectedVerdict": "GO" if sound else kind["twins"][family["twinClass"]], "difficulty": family["difficulty"],
             "sources": sources, "requirement": ref("S01", oracle["requirement"]),
             "citeAnyOf": [] if sound else [ref(s, n) for s, n in oracle["cite"]],
             "changed": {"type": edit["type"], "source": edit["source"], "lines": list(edit["lines"]), "positionBucket": instance["buckets"]["changed"]},
             "decoyLines": [ref(s, n) for s, n in oracle["decoys"]],
             "mechanism": None if sound else oracle["mechanism"],
-            "whyNoFallback": oracle["whyNoFallback"] if (not sound and instance["kind"] in ("omitted_unknown", "decoy_pair")) else None,
+            "whyNoFallback": oracle["whyNoFallback"] if (not sound and instance["kind"] in ("omitted_unknown", "decoy_pair") and family["twinClass"] == "UNCERTAIN") else None,
             "baitNotes": list(oracle["baitNotes"]), "rubricKeywords": [list(g) for g in oracle["rubricKeywords"]],
         }
         problems = cfam.check_oracle(out[role])

@@ -16,6 +16,8 @@ EXPECT_AGY_SHA=16e228cb243fa098eeb27b3b2aca963caec84e4a8ac49e3821b00c56f99f7508
 EXPECT_RUN_SHA=d853fee334b39a42d8b1b20b87a9dc27d68f108a9a4b4afa8e28c48e901ff5d2
 EXPECT_AUTHOR_TEMPLATE_SHA=44fe442e270f5bc6f8e7672d1f1e2945064f6b6be8d24a8245fca60e70498bb0
 EXPECT_REWORD_TEMPLATE_SHA=5ee054df5a23cfba5a7258011d36113d28d0b3eeb03bae620fdf29fc1fcaf5f0
+EXPECT_FAMILIES_SHA=3e2da8f672febc1d3f855012ee69010e7c2ac97a768a420314024a59b25a53d3
+EXPECT_DOMAINS_SHA=f712ce97d0ed6873a7702b466ec2a6633ff600d3fa9649b25012bbbec30db692
 EXPECT_DEV_ASSIGNMENTS_SHA=d4274305e993fbf6d97acaa9830f9f664ce33ca58d9f419439e9d7e7579302e4
 EXPECT_TEST_ASSIGNMENTS_SHA=eacf1417293682d5dccd430d10de6d015b796de7c54bf9cfed4d1ef122f1b65f
 
@@ -34,6 +36,8 @@ case "${1:-}" in
     need_equal run-manifest "$(sha256sum $C/v3-run-gemini/manifest.json | cut -d' ' -f1)" "$EXPECT_RUN_SHA"
     need_equal author-template "$(sha256sum $A/author-template.txt | cut -d' ' -f1)" "$EXPECT_AUTHOR_TEMPLATE_SHA"
     need_equal reword-template "$(sha256sum $A/reword-template.txt | cut -d' ' -f1)" "$EXPECT_REWORD_TEMPLATE_SHA"
+    need_equal families "$(sha256sum $C/v4/families.json | cut -d' ' -f1)" "$EXPECT_FAMILIES_SHA"
+    need_equal domains "$(sha256sum $C/v4/domains.json | cut -d' ' -f1)" "$EXPECT_DOMAINS_SHA"
     need_equal dev-assignments "$(sha256sum $A/assignments-dev.json | cut -d' ' -f1)" "$EXPECT_DEV_ASSIGNMENTS_SHA"
     need_equal test-assignments "$(sha256sum $A/assignments-test.json | cut -d' ' -f1)" "$EXPECT_TEST_ASSIGNMENTS_SHA"
     need_equal agy-sha "$(sha256sum "$AGY" | cut -d' ' -f1)" "$EXPECT_AGY_SHA"
@@ -70,6 +74,7 @@ print('HOST_OK qualification', q['status'], 'capabilities', c['status'], 'versio
       echo "run manifest (v3 gemini): $(sha256sum $C/v3-run-gemini/manifest.json | cut -d' ' -f1)"
       echo "author template: $(sha256sum $A/author-template.txt | cut -d' ' -f1)"
       echo "reword template: $(sha256sum $A/reword-template.txt | cut -d' ' -f1)"
+      echo "families: $(sha256sum $C/v4/families.json | cut -d' ' -f1)"
       echo "assignments-$SPLIT: $(sha256sum $A/assignments-$SPLIT.json | cut -d' ' -f1)"
       echo "agy: $AGY  $(sha256sum "$AGY" | cut -d' ' -f1)"
       echo "agy version: $(cat "$ROOT/caps/VERSION.stdout")"
@@ -112,7 +117,7 @@ print(json.dumps({'calls':len(rows),'stops':sum(1 for r in rows if r.get('techni
     ;;
   bundle)
     [ -f "$ROOT/identity.txt" ] && [ -f "$ROOT/work/calls.jsonl" ] || { echo "NOTHING_TO_BUNDLE" >&2; exit 1; }
-    out="$HOME/v4-author-$SPLIT.tar.gz"
+    out="$HOME/v4-author-$SPLIT-$(basename "$ROOT").tar.gz"
     stage=$(mktemp -d)
     mkdir -p "$stage/author"
     cp "$ROOT/identity.txt" "$ROOT/work/calls.jsonl" "$stage/author/"

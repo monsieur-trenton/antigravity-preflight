@@ -40,6 +40,10 @@ $B live 20 --go     # at most 20 calls; prints the driver's summary and appends 
 ```
 The summary has `stopped` (calls whose answer could not be parsed, or that hit a platform stop or a model mismatch) and, after three in a row, `halted`. Paste each summary to the owner without comment.
 
+## Re-audit of rewritten pairs
+
+After pairs are rewritten the owner names the new corpus (`CORPUS`, `CORPUS_SHA`) and the pairs. Use a **new** `ROOT` and name them: `$B dry N-102a76,N-4aedf1,...` shows the number of calls (four calls per omitted-unknown pair, three otherwise), then `$B live 16 --go N-102a76,N-4aedf1,...`. The ledger is read together with the earlier one, later calls replacing earlier ones.
+
 ## Hand back
 
 ```bash

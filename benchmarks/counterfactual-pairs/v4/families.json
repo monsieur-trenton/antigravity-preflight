@@ -193,7 +193,8 @@
       "citeRule": "The requirement line, or the line that performs the step.",
       "hazards": [
         "Avoid uniqueness-constraint on a customers table (the v3 family); vary the precondition (no nulls, ordering, size, referential integrity).",
-        "A write-path guarantee stated elsewhere would absorb the gap; keep it out."
+        "A write-path guarantee stated elsewhere would absorb the gap; keep it out.",
+        "The check named in the sound lines covers the same data and the same environment the step acts on (not a source, a snapshot or a copy), and runs after the last write, replay or sync that could change the data, so that the sound plan leaves no second unestablished fact."
       ],
       "gapNamedGuidance": "Keywords for the data and the precondition (duplicates, nulls, constraint, query, scan, check).",
       "slots": [
@@ -516,7 +517,7 @@
       "split": "test",
       "instances": 8,
       "title": "A stated open item that stops being irrelevant",
-      "twinClass": "UNCERTAIN",
+      "twinClass": "DEFECT",
       "difficulty": "decoy",
       "sources": [
         {
@@ -530,16 +531,17 @@
       ],
       "requirement": "A testable requirement, stated in the plan, that the open item does or does not bear on.",
       "soundHas": "One line states an open item (flagged as pending or unconfirmed) and a separate line states, plainly, that the requirement does not depend on it.",
-      "twinDiffers": "Edit the independence line in place so that it states that the requirement depends on the open item. Nothing else changes and no failure is asserted.",
+      "twinDiffers": "Edit the independence line in place so that it states that the requirement depends on the open item. Nothing else changes and no failure is asserted, but the plan's own steps proceed to the governed action without waiting for the open item, so the twin contradicts its own requirement with no outside fact.",
       "expectedVerdict": {
         "sound": "GO",
-        "twin": "GO_WITH_CHANGES"
+        "twin": "NO_GO"
       },
-      "citeRule": "The edited line or the open-item line.",
+      "citeRule": "The edited line or the open-item line, and the requirement line.",
       "hazards": [
         "The twin must not assert that the item fails, only that the requirement depends on it.",
-        "No fallback line absorbs it.",
-        "The open item sits at least five lines from the independence line."
+        "The open item sits at least five lines from the independence line.",
+        "The plan carries exactly one open item; every other requirement-relevant fact is stated as established.",
+        "A later line of the plan puts the governed action at a time or in a step before the open item could be resolved."
       ],
       "gapNamedGuidance": "Keywords for the open item and the dependence.",
       "slots": [
@@ -577,7 +579,8 @@
       "citeRule": "The open-item line or the requirement line; the deleted fallback has no line.",
       "hazards": [
         "The fallback is real and automatic, not a promise to check later.",
-        "No other line limits the damage of the open item."
+        "No other line limits the damage of the open item.",
+        "The plan carries exactly one open item; every other requirement-relevant fact is stated as established."
       ],
       "gapNamedGuidance": "Keywords for the open item and the missing fallback.",
       "slots": [
@@ -593,7 +596,7 @@
       "split": "dev",
       "instances": 8,
       "title": "A stated open item moved into scope by one line",
-      "twinClass": "UNCERTAIN",
+      "twinClass": "DEFECT",
       "difficulty": "decoy",
       "sources": [
         {
@@ -607,15 +610,17 @@
       ],
       "requirement": "A testable requirement, stated in the plan, about the components this change touches.",
       "soundHas": "One line states an open item in a component, and a separate line states that this component is out of scope of this change.",
-      "twinDiffers": "Edit the out-of-scope line in place so that it states that the component is in scope. Nothing else changes.",
+      "twinDiffers": "Edit the out-of-scope line in place so that it states that the component is in scope. Nothing else changes. The plan's own steps proceed to the governed action without waiting for the open item, so the twin contradicts its own requirement with no outside fact.",
       "expectedVerdict": {
         "sound": "GO",
-        "twin": "GO_WITH_CHANGES"
+        "twin": "NO_GO"
       },
-      "citeRule": "The edited line or the open-item line.",
+      "citeRule": "The edited line or the open-item line, and the requirement line.",
       "hazards": [
         "The scope line says in or out, once.",
-        "No later line restates the scope."
+        "No later line restates the scope.",
+        "The plan carries exactly one open item: every other setting of every component in scope is stated as confirmed, and nothing else in the sound plan is pending.",
+        "A later line of the plan puts the governed action at a time or in a step before the open item could be resolved."
       ],
       "gapNamedGuidance": "Keywords for the component, the open item and the scope.",
       "slots": [

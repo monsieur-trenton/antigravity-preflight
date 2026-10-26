@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Gated helper for the blind audit of a built v4 corpus (see HANDOFF.md). Subcommands: checks | dry | live N --go | bundle.
+# Gated helper for the blind audit of a built v4 corpus (see HANDOFF.md). Subcommands: checks | dry [PAIRS] | live N --go [PAIRS] | bundle.
 # Stops at the first failure; never retries. A live call is made only by `live N --go`, at most N calls per invocation.
 #   CORPUS      the corpus directory to audit (required; the one the owner names)
 #   CORPUS_SHA  SHA-256 of CORPUS/manifest.json that the owner names (required)
@@ -43,12 +43,12 @@ case "${1:-}" in
     python3 -B -I $C/v4/test_score_v4.py
     echo "CHECKS_PASSED commit $(git rev-parse HEAD)"
     ;;
-  dry)  # no model call: writes every request and counts them
+  dry)  # dry [PAIR,PAIR]: no model call: writes every request (of the named pairs, if any) and counts them
     need_corpus
     mkdir -p "$ROOT"
-    audit
+    audit ${2:+--pairs "$2"}
     ;;
-  live)  # live N --go : at most N calls in this invocation, only with the owner's go
+  live)  # live N --go [PAIR,PAIR]: at most N calls in this invocation (of the named pairs, if any), only with the owner's go
     [ "${3:-}" = "--go" ] || { echo "REFUSED: live N --go needs the owner's go for N calls" >&2; exit 2; }
     case "${2:-}" in ''|*[!0-9]*) echo "N_MUST_BE_A_NUMBER" >&2; exit 2;; esac
     need_corpus
@@ -63,7 +63,7 @@ case "${1:-}" in
       } > "$ROOT/identity.txt"
     fi
     { echo; echo "== live $2 calls: start $(date -Is)"; } >> "$ROOT/identity.txt"
-    audit --execute --max-calls "$2" | tee -a "$ROOT/identity.txt"
+    audit --execute --max-calls "$2" ${4:+--pairs "$4"} | tee -a "$ROOT/identity.txt"
     echo "end: $(date -Is)" >> "$ROOT/identity.txt"
     ;;
   bundle)
@@ -81,5 +81,5 @@ case "${1:-}" in
     rm -rf "$stage"
     ls -lh "$out"
     ;;
-  *) echo "usage: run.sh checks | dry | live N --go | bundle" >&2; exit 2;;
+  *) echo "usage: run.sh checks | dry [PAIRS] | live N --go [PAIRS] | bundle" >&2; exit 2;;
 esac

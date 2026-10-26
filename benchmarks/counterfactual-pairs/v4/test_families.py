@@ -54,7 +54,7 @@ class FamilyTests(unittest.TestCase):
     def test_every_kind_has_the_class_verdicts_and_sources_it_should(self):
         for f in FAMILIES["families"]:
             kind = cf.KINDS[f["kind"]]
-            self.assertEqual((f["twinClass"], f["expectedVerdict"]["twin"], f["expectedVerdict"]["sound"]), (kind["twinClass"], kind["twinVerdict"], "GO"), f["id"])
+            self.assertEqual((f["twinClass"], f["expectedVerdict"]["twin"], f["expectedVerdict"]["sound"]), (f["twinClass"], kind["twins"][f["twinClass"]], "GO"), f["id"])
             self.assertEqual([s["role"] for s in f["sources"]], ["plan", "reference"] if kind["needsReference"] else ["plan"], f["id"])
 
     def test_the_probe_defects_are_designed_out(self):
@@ -138,6 +138,18 @@ class OracleSchemaTests(unittest.TestCase):
                      decoyLines=[{"source": "S01", "line": 27}])
         self.assertEqual(self.mutated(decoy), [])
         self.assertIn("ORACLE_DECOYS_REQUIRED", self.mutated(lambda r: (decoy(r), r.update(decoyLines=[]))))
+
+    def test_a_decoy_twin_is_a_gap_or_a_defect_and_only_a_gap_claims_a_missing_fallback(self):
+        def defect_twin(r):
+            r.update(kind="decoy_pair", family="open_item_scope", difficulty="decoy", expectedClass="DEFECT", expectedVerdict="NO_GO",
+                     sources=[{"id": "S01", "role": "plan", "lines": 34}], citeAnyOf=[{"source": "S01", "line": 6}], whyNoFallback=None,
+                     decoyLines=[{"source": "S01", "line": 27}])
+        self.assertEqual(self.mutated(defect_twin), [])
+        self.assertIn("ORACLE_WHY_NO_FALLBACK_UNEXPECTED", self.mutated(lambda r: (defect_twin(r), r.update(whyNoFallback="Nothing else settles it."))))
+        self.assertIn("ORACLE_CLASS_OR_VERDICT", self.mutated(lambda r: (defect_twin(r), r.update(expectedVerdict="GO_WITH_CHANGES"))))
+        by_id = {f["id"]: f for f in FAMILIES["families"]}
+        self.assertEqual({k: by_id[k]["twinClass"] for k in ("open_item_scope", "open_item_becomes_decisive", "open_item_absorbed")},
+                         {"open_item_scope": "DEFECT", "open_item_becomes_decisive": "DEFECT", "open_item_absorbed": "UNCERTAIN"})
 
 
 class DocumentTests(unittest.TestCase):

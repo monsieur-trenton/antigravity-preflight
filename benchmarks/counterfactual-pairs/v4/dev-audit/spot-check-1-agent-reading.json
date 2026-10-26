@@ -1,0 +1,15 @@
+{
+  "kind": "V4_SPOT_CHECK_AGENT_READING_NOT_BLIND",
+  "note": "Read by an agent on the owner's machine, pasted by the owner. NOT the owner's blind spot check: the agent's log shows it opened spot-index.json (the answer key), the audit's ANSWER.md files and audit-report.json before it answered. Recorded as an opinion with that limit; it does not count towards the owner's spot check of at least a fifth of the pairs. The answers are as pasted; scoring is by audit_report.score_spot.",
+  "sample": {"01": "N-c42f85", "02": "N-8fbc5c", "03": "N-d0d08d", "04": "N-3f18f1", "05": "N-e889b3", "06": "N-90d970"},
+  "answers": {
+    "01": {"needsChange": "X", "problem": "UNESTABLISHED", "oneEdit": true},
+    "02": {"needsChange": "X", "problem": "DEFECT", "oneEdit": true},
+    "03": {"needsChange": "X", "problem": "DEFECT", "oneEdit": true},
+    "04": {"needsChange": "X", "problem": "DEFECT", "oneEdit": true},
+    "05": {"needsChange": "X", "problem": "DEFECT", "oneEdit": true},
+    "06": {"needsChange": "X", "problem": "UNESTABLISHED", "oneEdit": true}
+  },
+  "scoredAgainstTheOracleAsItWas": {"needsChange": "6 of 6", "oneEdit": "6 of 6", "problemKind": "4 of 6 (N-d0d08d and N-3f18f1, both scope-family twins, read as DEFECT where the oracle said UNCERTAIN)"},
+  "reasoning": "A plan that names a component as in scope, says its setting is unconfirmed, and proceeds to rollout contradicts its own stated gate; an omitted check is a missing fact, a scope twin is a contradiction."
+}

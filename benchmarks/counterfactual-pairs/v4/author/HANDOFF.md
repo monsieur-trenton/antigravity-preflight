@@ -54,10 +54,21 @@ Test split only, after all 80 pairs are accepted (or the owner says to go on wit
 $B reword 4 --go        # at most 4 wording-B rewordings of accepted pairs (12 in all)
 ```
 
+## Re-authoring named pairs (dev only, when the owner says)
+
+After the dev audit, four pairs are rewritten with the revised family hazards: `N-102a76,N-4aedf1,N-93366f,N-9cc72c`. Use a **new** `ROOT` so that the earlier accepted reports are not touched and the attempt counts start again (two attempts per pair, as before):
+```bash
+export SPLIT=dev ROOT=/tmp/v4author-dev2
+$B checks && $B host && $B dry        # the same three stages; dry builds only the prompts
+$B live 4 --go N-102a76,N-4aedf1,N-93366f,N-9cc72c
+$B status                             # all four accepted? repeat live for any that failed a check
+$B bundle                             # ~/v4-author-dev-v4author-dev2.tar.gz
+```
+
 ## Hand back
 
 ```bash
-$B bundle     # writes ~/v4-author-$SPLIT.tar.gz
+$B bundle     # writes ~/v4-author-$SPLIT-<basename of ROOT>.tar.gz
 ```
 Upload that file and stop. It holds `identity.txt` (commit, hashes, versions, host, the start and end of each batch and every driver summary), `calls.jsonl` (one row per call with the mechanical results), `accepted/`, `prompts/`, every call's report and CLI receipt, the capabilities result and the qualification result. For `SPLIT=test` it is private to the owner and the repository session: it is never committed.
 

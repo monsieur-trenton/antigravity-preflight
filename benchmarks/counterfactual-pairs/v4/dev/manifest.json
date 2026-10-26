@@ -121,7 +121,7 @@
   "packets/R-f6b2c6/S02.txt"
  ],
  "pins": {
-  "oracle/oracle.json": "35ca35056789842b39f349d119ab1acd3460268195db5de465c8d7e7c2cb25b1",
+  "oracle/oracle.json": "a19256ab46c954c2cd0844e2f0054bd69ea3717d4d002707e850546092bca12e",
   "packets/R-12b20f/S01.txt": "cb23842f7c9515a996144be1783074c3782e8aa42a19e91c015fd1e6af913bbc",
   "packets/R-1a89b2/S01.txt": "9941f11c8f2f65ad43d60500e9cfd550bab2d974e5e9306028ed86444d874e07",
   "packets/R-1c8c19/S01.txt": "51a6662d441944f54ff38d6afbdf8c254d5059df4f1e571743276a1f916894d8",

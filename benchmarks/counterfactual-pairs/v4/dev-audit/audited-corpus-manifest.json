@@ -1,0 +1,270 @@
+{
+ "kind": "COUNTERFACTUAL_PAIR_CORPUS_V4",
+ "split": "dev",
+ "cases": 48,
+ "pairs": 24,
+ "families": 3,
+ "submissionOrder": [
+  "R-2fa6b3",
+  "R-d53fa1",
+  "R-c94c90",
+  "R-f6b2c6",
+  "R-bc5f51",
+  "R-52384b",
+  "R-f5e1df",
+  "R-e1dbe6",
+  "R-89054d",
+  "R-e3cf4c",
+  "R-e93919",
+  "R-653eb5",
+  "R-237c3b",
+  "R-bc5cc9",
+  "R-eb2d87",
+  "R-d18c2e",
+  "R-d08a12",
+  "R-616254",
+  "R-ae561a",
+  "R-6858a9",
+  "R-94f0b7",
+  "R-7d578d",
+  "R-abec66",
+  "R-54ca90",
+  "R-b4ed4d",
+  "R-9ec66c",
+  "R-e8c7a7",
+  "R-76dffb",
+  "R-68ba18",
+  "R-12b20f",
+  "R-602bc9",
+  "R-f53063",
+  "R-2f74e3",
+  "R-dbb865",
+  "R-2ec850",
+  "R-308a49",
+  "R-1a89b2",
+  "R-c56798",
+  "R-7aca5a",
+  "R-1c8c19",
+  "R-21df26",
+  "R-4844da",
+  "R-3b36bf",
+  "R-32c6c4",
+  "R-df96e0",
+  "R-ce90f7",
+  "R-22493d",
+  "R-7ef1bf"
+ ],
+ "reviewerVisible": [
+  "packets/R-12b20f/S01.txt",
+  "packets/R-1a89b2/S01.txt",
+  "packets/R-1c8c19/S01.txt",
+  "packets/R-21df26/S01.txt",
+  "packets/R-22493d/S01.txt",
+  "packets/R-237c3b/S01.txt",
+  "packets/R-2ec850/S01.txt",
+  "packets/R-2ec850/S02.txt",
+  "packets/R-2f74e3/S01.txt",
+  "packets/R-2fa6b3/S01.txt",
+  "packets/R-2fa6b3/S02.txt",
+  "packets/R-308a49/S01.txt",
+  "packets/R-32c6c4/S01.txt",
+  "packets/R-32c6c4/S02.txt",
+  "packets/R-3b36bf/S01.txt",
+  "packets/R-4844da/S01.txt",
+  "packets/R-52384b/S01.txt",
+  "packets/R-54ca90/S01.txt",
+  "packets/R-54ca90/S02.txt",
+  "packets/R-602bc9/S01.txt",
+  "packets/R-616254/S01.txt",
+  "packets/R-653eb5/S01.txt",
+  "packets/R-6858a9/S01.txt",
+  "packets/R-68ba18/S01.txt",
+  "packets/R-76dffb/S01.txt",
+  "packets/R-7aca5a/S01.txt",
+  "packets/R-7aca5a/S02.txt",
+  "packets/R-7d578d/S01.txt",
+  "packets/R-7ef1bf/S01.txt",
+  "packets/R-89054d/S01.txt",
+  "packets/R-89054d/S02.txt",
+  "packets/R-94f0b7/S01.txt",
+  "packets/R-94f0b7/S02.txt",
+  "packets/R-9ec66c/S01.txt",
+  "packets/R-abec66/S01.txt",
+  "packets/R-abec66/S02.txt",
+  "packets/R-ae561a/S01.txt",
+  "packets/R-b4ed4d/S01.txt",
+  "packets/R-b4ed4d/S02.txt",
+  "packets/R-bc5cc9/S01.txt",
+  "packets/R-bc5cc9/S02.txt",
+  "packets/R-bc5f51/S01.txt",
+  "packets/R-bc5f51/S02.txt",
+  "packets/R-c56798/S01.txt",
+  "packets/R-c94c90/S01.txt",
+  "packets/R-ce90f7/S01.txt",
+  "packets/R-d08a12/S01.txt",
+  "packets/R-d18c2e/S01.txt",
+  "packets/R-d53fa1/S01.txt",
+  "packets/R-dbb865/S01.txt",
+  "packets/R-dbb865/S02.txt",
+  "packets/R-df96e0/S01.txt",
+  "packets/R-e1dbe6/S01.txt",
+  "packets/R-e1dbe6/S02.txt",
+  "packets/R-e3cf4c/S01.txt",
+  "packets/R-e3cf4c/S02.txt",
+  "packets/R-e8c7a7/S01.txt",
+  "packets/R-e93919/S01.txt",
+  "packets/R-eb2d87/S01.txt",
+  "packets/R-f53063/S01.txt",
+  "packets/R-f5e1df/S01.txt",
+  "packets/R-f5e1df/S02.txt",
+  "packets/R-f6b2c6/S01.txt",
+  "packets/R-f6b2c6/S02.txt"
+ ],
+ "pins": {
+  "oracle/oracle.json": "35ca35056789842b39f349d119ab1acd3460268195db5de465c8d7e7c2cb25b1",
+  "packets/R-12b20f/S01.txt": "cb23842f7c9515a996144be1783074c3782e8aa42a19e91c015fd1e6af913bbc",
+  "packets/R-1a89b2/S01.txt": "9941f11c8f2f65ad43d60500e9cfd550bab2d974e5e9306028ed86444d874e07",
+  "packets/R-1c8c19/S01.txt": "51a6662d441944f54ff38d6afbdf8c254d5059df4f1e571743276a1f916894d8",
+  "packets/R-21df26/S01.txt": "a92db3d381f39e7f85a871cb713dc2d0487e05a8fae075e15e0892d8311d366d",
+  "packets/R-22493d/S01.txt": "2e71baadaf098455fa85da4f3cf37314cbc9541baf81084cac82b3c1f4dfbb1d",
+  "packets/R-237c3b/S01.txt": "5e277473db7e74d58cf77b760572d79b1a25b693db433c3d3f402234183d6ae6",
+  "packets/R-2ec850/S01.txt": "2338a972cccd89359af925c0ededfe8863d651067b69e832be1b95dc8965a21e",
+  "packets/R-2ec850/S02.txt": "bab4b5afb8033c730771d398b3ce2494b14b34a4b003697d8bde9731c758da8b",
+  "packets/R-2f74e3/S01.txt": "d0ab92d9292a8f3757f27f43026bacd132e1d1f04ecefde0c11f4cf5cdfc77f9",
+  "packets/R-2fa6b3/S01.txt": "81bd033b5dda288e57f58e7de2d838319d059a9253c7948b5747d20e3a946e56",
+  "packets/R-2fa6b3/S02.txt": "cfd0dfaaa5cef3ea5d2e76b9e321d67a1df67eb505798de4c80f7a2f0a80247a",
+  "packets/R-308a49/S01.txt": "9107957c9bff2484a4f33e7c6122a9714571d28f5a2c832669f44fe2e5efaa0a",
+  "packets/R-32c6c4/S01.txt": "283932f6e6c845153ccb7cb38577632c463cc0017ebbb040fa31207e008451b2",
+  "packets/R-32c6c4/S02.txt": "8b8b8933deefe325e90a4941917037fe6f20312f49112db1a090a0f540efabec",
+  "packets/R-3b36bf/S01.txt": "19f524d5752c995d08e56754994b510550846d00ce7cf763d2e3e91bbf4bf2b9",
+  "packets/R-4844da/S01.txt": "435dcda49184ded286cd17906d5bcb260a4e2e77bc4a40069de0d873c8dca52a",
+  "packets/R-52384b/S01.txt": "81ac70c3ced98ee5cb561f5cea32308d4240a0a2e240a7093cce7adab6f150d2",
+  "packets/R-54ca90/S01.txt": "723ed20776b0c20c4b1e6291209d435cda0106942b6c42ad40337938046b6c3f",
+  "packets/R-54ca90/S02.txt": "99bca407924731a4ad0f7f33b18cbac572b1efe43344fa8f5ff2471a67870ba6",
+  "packets/R-602bc9/S01.txt": "d8d786668a19173249a90d9ba8ace83d65a1870e4132c91c2d8630907821ea1a",
+  "packets/R-616254/S01.txt": "14787426fd32158da92c44f58ad38ca27b2e969859056e23ba4582c79a7f2f0c",
+  "packets/R-653eb5/S01.txt": "ac5db8108ff1018b2848287b619007336eb9e7a3bf187a7545989416827e7c80",
+  "packets/R-6858a9/S01.txt": "64e14028e62877c19cc354ed13f7ccd0c1461d0f82a77696cc58f8846c1a34ad",
+  "packets/R-68ba18/S01.txt": "5f957cf37d441215309feef817fec4e43fb46c32e040bc3c3b1f5b18070bd372",
+  "packets/R-76dffb/S01.txt": "5c4d9f34aa1b2243b24ff9d92676b223319bbb53b139188c180c2f92bc4cbbd3",
+  "packets/R-7aca5a/S01.txt": "283932f6e6c845153ccb7cb38577632c463cc0017ebbb040fa31207e008451b2",
+  "packets/R-7aca5a/S02.txt": "d05400848e23cb17f6edfdc716a06e0d5b907a39a8fb42eb4940990a34ef9bba",
+  "packets/R-7d578d/S01.txt": "a987295372610377b9fc1b57aa114ad041d1038a7e5e4518fac8c61c5d30974e",
+  "packets/R-7ef1bf/S01.txt": "da13c5d5944f55500a55dcbad656b46f71ac5d88765079819b0f43e4e111a226",
+  "packets/R-89054d/S01.txt": "8b1d25fb97034764d493833c6bdb525cd795a72c2831228a96842b66ac2369d4",
+  "packets/R-89054d/S02.txt": "f460f1327e1b1c27ebbec295f7227fbcded57b7e0115784121aa2c2152c77d66",
+  "packets/R-94f0b7/S01.txt": "981719de7f18124a6e7b0cbc3860921bc0def7228b53c5b937b46113e06b142f",
+  "packets/R-94f0b7/S02.txt": "8ffccda95339abb424627a9f33c1dbd2c485049caf5b7cdee9c6ca825a4470d8",
+  "packets/R-9ec66c/S01.txt": "ccde8c904364d4f2e37809498260e7c76b047d83e597646066db43d7bee6c2e2",
+  "packets/R-abec66/S01.txt": "81bd033b5dda288e57f58e7de2d838319d059a9253c7948b5747d20e3a946e56",
+  "packets/R-abec66/S02.txt": "00055b38b0d1c8977648b2113d8d723134f423afcf630002113179eecc72eec6",
+  "packets/R-ae561a/S01.txt": "888c024776ffd0165f2d07d4719806f8686cae63d98f1ac02c2e0a58ee51e1c9",
+  "packets/R-b4ed4d/S01.txt": "ba514c8e371fabc27f34aa9f92e3b773da9702a721baeddc551857ec6f1b5572",
+  "packets/R-b4ed4d/S02.txt": "99bca407924731a4ad0f7f33b18cbac572b1efe43344fa8f5ff2471a67870ba6",
+  "packets/R-bc5cc9/S01.txt": "afc9b955aecc2b62a2bbcc7075f86b1c7adac77557a31b1d74f8a8c3411c3bd3",
+  "packets/R-bc5cc9/S02.txt": "bab4b5afb8033c730771d398b3ce2494b14b34a4b003697d8bde9731c758da8b",
+  "packets/R-bc5f51/S01.txt": "02f4963bd824cb9d6e36cc33fca4488910aaab3f7d685c2c11206ae477e0ed2d",
+  "packets/R-bc5f51/S02.txt": "e9e4d7555f8dc55174c141ba1fb15f6a204be3ad0911304579cc9d307cfbc639",
+  "packets/R-c56798/S01.txt": "bed177303b563b0eafc52c1ded74cc53a5c02e0aba003b9aad60a05e3eb08f02",
+  "packets/R-c94c90/S01.txt": "b40d477afeeeb7adb84b8c3d3ed16b7399db9cda41156fd2c8fa6f5f5c7552cc",
+  "packets/R-ce90f7/S01.txt": "0f0c61c4e1ad6ee9cec7068c5f34d656a75664ccfbaae0ce3e99259218a854c9",
+  "packets/R-d08a12/S01.txt": "64494e96e217909c50c3b817abc5faeadf62dbf584c4b0b9d3c7258ae4c2aa66",
+  "packets/R-d18c2e/S01.txt": "06c8d95fdf0497a88978759c8e8a32c3fce328582f61b584d5ec3179e12ad407",
+  "packets/R-d53fa1/S01.txt": "2adb85f91e1f20ecca839e15da03c25e18cc1e62a1459aee77764566f5e855aa",
+  "packets/R-dbb865/S01.txt": "02f4963bd824cb9d6e36cc33fca4488910aaab3f7d685c2c11206ae477e0ed2d",
+  "packets/R-dbb865/S02.txt": "99e5cd8d799da6dfa3532b743cb73531bfa003c4f694705ffffd635bb1e922c2",
+  "packets/R-df96e0/S01.txt": "42b71bbd07720eb1a856364722bd482bc62f8f8b2a15b9721ada3f0c54b51631",
+  "packets/R-e1dbe6/S01.txt": "b315661d8b66ed2b17d54890a9e0fa47bfafedaa796944324bca1e2d20042d29",
+  "packets/R-e1dbe6/S02.txt": "030214ded6732b5ccc96cc948108c3dca03b0aaf6e479b682509e70c8a65f30b",
+  "packets/R-e3cf4c/S01.txt": "22b11a386c17ecbab073d2e2e7f6562741330cac947eaa4af59f49057de7ff20",
+  "packets/R-e3cf4c/S02.txt": "030214ded6732b5ccc96cc948108c3dca03b0aaf6e479b682509e70c8a65f30b",
+  "packets/R-e8c7a7/S01.txt": "f0c02a60280e448883b58856adef16e81e3efaaf191c5688d6fbb88f8244c6f9",
+  "packets/R-e93919/S01.txt": "ebedbbfae89334ad8a00b2f4f8f525def88dc5ed2088d24c36a34dfca244a0a2",
+  "packets/R-eb2d87/S01.txt": "a630a576fd8eda3ee210d36515a43c47596041aca17a11789282533f56231752",
+  "packets/R-f53063/S01.txt": "2d496c1066dedf89cca925526f9ed3da6fde7afbe8c0d80d40b9a070a848232f",
+  "packets/R-f5e1df/S01.txt": "b382b8a492ccf1f53e033aea82fd59c3ace2614c7e5e2a986486ac7d99f20bd0",
+  "packets/R-f5e1df/S02.txt": "8ffccda95339abb424627a9f33c1dbd2c485049caf5b7cdee9c6ca825a4470d8",
+  "packets/R-f6b2c6/S01.txt": "8b1d25fb97034764d493833c6bdb525cd795a72c2831228a96842b66ac2369d4",
+  "packets/R-f6b2c6/S02.txt": "85c23532dbfb9b16f40b9be7d10d576854f6b795c58b620d23899a6e6144d343"
+ },
+ "providerCalls": 0,
+ "authoring": {
+  "seedSha256": "363546b973d31b5def4a2cb8c9a986e6773569b560d115aefb64c7fefe8dbb97",
+  "assignmentsSha256": "d4274305e993fbf6d97acaa9830f9f664ce33ca58d9f419439e9d7e7579302e4",
+  "acceptedReportSha256": {
+   "N-102a76": {
+    "A": "6541dba1813e95ebe3eacbbfd87a76b5278843829169c09470eb4b83dc52b725"
+   },
+   "N-9c5803": {
+    "A": "b0a120d8114cea98093313301de5328da8c2e6875c9084efa8501f17ace22f74"
+   },
+   "N-b6780a": {
+    "A": "dce8201ab022c789fc3e63897bc2701d3ce29f4a58dc3dd3c6ac52f3ba27ee5f"
+   },
+   "N-a9e9f9": {
+    "A": "830b61c36a4be05820a22ce18ab8b51b32ec407fe557973019d55bd8c5d21f30"
+   },
+   "N-4aedf1": {
+    "A": "d9dd4ead1d0e875c973435d68e695ec84f33b6c9b65998101f5d6b99c6f50831"
+   },
+   "N-c42f85": {
+    "A": "525111d6cd5536378037b7377ed75d6ada2ce2ed756d3bebba9451ee11a50ac9"
+   },
+   "N-19a280": {
+    "A": "a0eb49d3a06cd2fc45a7faa8ce2cdbb9092cc4932f75f26fbbb2358870c96766"
+   },
+   "N-90d970": {
+    "A": "507857c7fc83293034954e81893c828064619947f4eab28a427c8bb3ad7d7543"
+   },
+   "N-b8603d": {
+    "A": "7c4ab492f982800931a3885e0c7cb84570d18569704bdcf6a0b817710255ead5"
+   },
+   "N-e889b3": {
+    "A": "f524ce6546247afd249a26b34fcd71111c77f71785094fccb36221023f122181"
+   },
+   "N-8fbc5c": {
+    "A": "57de8812f93e8070e1b564901480bb7d11bedc58458ebdd6a013559e765e65ab"
+   },
+   "N-f9a801": {
+    "A": "0b1f3dba9d7c07d1c9d570dd5da4940bce5a7ac521c8c3b26d6d2b820b8b90e9"
+   },
+   "N-466973": {
+    "A": "2b495f3d85e7d3a4dc3d9f38daf5e98eddd6e8ee850d82269d59e5ba19fe462b"
+   },
+   "N-5770ac": {
+    "A": "0657e04457c6bdd40d5fd786c3ec74ed80d1886b637a322ba7fc6d313ed12dfa"
+   },
+   "N-f32098": {
+    "A": "7c93caa34e27a4bc539d8779a6e3d78dd7138b15c3fc4a8b2593f09018010101"
+   },
+   "N-ba0d02": {
+    "A": "7ea7894df5002b0c9c368db543fdf8fe2a70182a6b4b0287db44e0f7ed98d20c"
+   },
+   "N-ab7473": {
+    "A": "72496c4cf6796e0149c85ca06bc62b492384708e5f57be9408622413ef0c073f"
+   },
+   "N-3f18f1": {
+    "A": "4b984470db2938512af80f3f7fcc3a104900d6a50ffa1dc6f058a051c6706c08"
+   },
+   "N-93366f": {
+    "A": "f4f84f6430030f3d288c5cc1f7fad034607953dfd5688fd0c1fb3d3b76e5201e"
+   },
+   "N-d0d08d": {
+    "A": "22bab72c945c2053e23b441886c1bae4b772eaf51ab17730611c26863a005dfd"
+   },
+   "N-b4a14c": {
+    "A": "2a0f232ae17dbd9923d8cbf6135af5122bad6708e26976d0835c2b8b7ec57721"
+   },
+   "N-9cc72c": {
+    "A": "72c0dfca5cfdf720c43b9ac915abdd94e2d60edf64193c4307369da49dcf401e"
+   },
+   "N-4b040d": {
+    "A": "a7b0bd9c77361a4435556d19c06207f73d45bc1b4a6e60e28a29a61186be9f93"
+   },
+   "N-fc68f6": {
+    "A": "a39d3ba3267edf5f45e4dcfea2a6cd9871dd9936987c0ee4ee7440d23c9021a6"
+   }
+  }
+ },
+ "dropped": []
+}

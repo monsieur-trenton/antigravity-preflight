@@ -43,11 +43,13 @@ def rate(k, n):
 
 
 def read_ledger(path):
+    """The rows of a ledger by call id; `path` may name several ledgers, comma-separated, and a call in a later one replaces the same call in an earlier one (a re-audit)."""
     rows = {}
-    for line in Path(path).read_text(encoding="utf-8").splitlines():
-        if line.strip():
-            row = json.loads(line)
-            rows[row["call"]] = row
+    for one in str(path).split(","):
+        for line in Path(one).read_text(encoding="utf-8").splitlines():
+            if line.strip():
+                row = json.loads(line)
+                rows[row["call"]] = row
     return rows
 
 

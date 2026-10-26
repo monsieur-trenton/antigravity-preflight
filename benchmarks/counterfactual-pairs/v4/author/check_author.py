@@ -188,9 +188,10 @@ def analyse(text, instance, family):
         cites = parse_refs(oracle["cite_lines"])
         groups = keyword_groups(oracle["rubric_keywords"])
         baits = [b.strip() for b in oracle["bait_notes"].split("|") if b.strip()]
-        needs_fallback = instance["kind"] in ("omitted_unknown", "decoy_pair")
-        checks["ORACLE_CONTENT"] = (len(oracle["mechanism"]) >= 20 and groups is not None and 2 <= len(baits) <= 3
-                                    and (len(oracle["why_no_fallback"]) >= 20 if needs_fallback else oracle["why_no_fallback"].lower() == "none"))
+        needs_fallback = instance["kind"] in ("omitted_unknown", "decoy_pair") and family["twinClass"] == "UNCERTAIN"
+        # a defect twin has no fallback claim to make; a sentence there (the dev batch's scope pairs wrote one) is accepted and ignored
+        fallback_ok = len(oracle["why_no_fallback"]) >= 20 if needs_fallback else (oracle["why_no_fallback"].lower() == "none" or instance["kind"] == "decoy_pair")
+        checks["ORACLE_CONTENT"] = len(oracle["mechanism"]) >= 20 and groups is not None and 2 <= len(baits) <= 3 and fallback_ok
         checks["CLAIM_SENTENCE_NEUTRAL"] = not any(re.search(r"\b" + re.escape(w) + r"\b", oracle["why_no_fallback"].lower()) for w in META_WORDS if w != "decisive")
     else:
         checks["ORACLE_CONTENT"] = False

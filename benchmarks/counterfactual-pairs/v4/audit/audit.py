@@ -6,7 +6,7 @@ writes the requests (no model call). With --execute it makes at most --max-calls
 
 The route is the Claude CLI (`claude -p --tools ''` in a fresh empty directory), as for the Claude review arms: its isolation is configuration, not containment.
 
-Usage: audit.py --claude-bin /abs/claude --model MODEL_ID --effort EFFORT --corpus DIR --workdir NEW_DIR [--max-calls N] [--max-budget-usd X] [--execute]
+Usage: audit.py --claude-bin /abs/claude --model MODEL_ID --effort EFFORT --corpus DIR --workdir NEW_DIR [--pairs ID,ID] [--max-calls N] [--max-budget-usd X] [--execute]
 """
 import argparse
 import hashlib
@@ -109,6 +109,7 @@ def main(argv=None):
     parser.add_argument("--effort", required=True, choices=rpc.EFFORTS)
     parser.add_argument("--corpus", required=True, help="a built v4 corpus directory (build_corpus.py output)")
     parser.add_argument("--workdir", required=True)
+    parser.add_argument("--pairs", help="comma-separated pair ids: audit only these pairs (a re-audit of rewritten pairs); default every pair")
     parser.add_argument("--max-calls", type=int, default=1000000)
     parser.add_argument("--max-budget-usd", type=float, default=1.0, help="per-call spend cap passed to the CLI")
     parser.add_argument("--max-consecutive-stops", type=int, default=3)
@@ -122,6 +123,10 @@ def main(argv=None):
         corpus = s4.Corpus(Path(args.corpus).resolve())
         rp.need(not corpus.legacy, "NOT_A_V4_CORPUS")
         calls = schedule(corpus)
+        if args.pairs:
+            wanted = set(args.pairs.split(","))
+            rp.need(wanted <= {r["pair"] for r in corpus.oracle.values()}, "UNKNOWN_PAIR")
+            calls = [c for c in calls if (c[2] if c[1] == "pair" else corpus.oracle[c[2]]["pair"]) in wanted]
         version = subprocess.run([str(binary), "--version"], capture_output=True, text=True, timeout=60, check=False)
         rp.need(version.returncode == 0 and version.stdout.strip(), "CLAUDE_VERSION_FAILED")
         work.mkdir(parents=True, exist_ok=True)

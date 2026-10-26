@@ -11,10 +11,11 @@ sys.dont_write_bytecode = True
 
 HERE = Path(__file__).resolve().parent
 KINDS = {
-    "omitted_unknown": {"twinClass": "UNCERTAIN", "difficulty": {"omission"}, "twinVerdict": "GO_WITH_CHANGES", "needsReference": False},
-    "cross_source_defect": {"twinClass": "DEFECT", "difficulty": {"direct", "inference"}, "twinVerdict": "NO_GO", "needsReference": True},
-    "defect": {"twinClass": "DEFECT", "difficulty": {"direct", "inference"}, "twinVerdict": "NO_GO", "needsReference": False},
-    "decoy_pair": {"twinClass": "UNCERTAIN", "difficulty": {"decoy"}, "twinVerdict": "GO_WITH_CHANGES", "needsReference": False},
+    "omitted_unknown": {"twins": {"UNCERTAIN": "GO_WITH_CHANGES"}, "difficulty": {"omission"}, "needsReference": False},
+    "cross_source_defect": {"twins": {"DEFECT": "NO_GO"}, "difficulty": {"direct", "inference"}, "needsReference": True},
+    "defect": {"twins": {"DEFECT": "NO_GO"}, "difficulty": {"direct", "inference"}, "needsReference": False},
+    # a decoy pair's sound member carries one open item; its twin is a gap (a deleted fallback) or a defect (a scope or independence line edited so that the plan contradicts itself)
+    "decoy_pair": {"twins": {"UNCERTAIN": "GO_WITH_CHANGES", "DEFECT": "NO_GO"}, "difficulty": {"decoy"}, "needsReference": False},
 }
 FAMILY_FIELDS = ("id", "kind", "split", "instances", "title", "twinClass", "difficulty", "sources", "requirement", "soundHas", "twinDiffers", "expectedVerdict",
                  "citeRule", "hazards", "gapNamedGuidance", "slots")
@@ -58,7 +59,7 @@ def check_families(doc, domains):
         if kind is None or f["split"] not in ("dev", "test"):
             problems.append(f"KIND_OR_SPLIT:{tag}")
             continue
-        if f["twinClass"] != kind["twinClass"] or f["difficulty"] not in kind["difficulty"] or f["expectedVerdict"] != {"sound": "GO", "twin": kind["twinVerdict"]}:
+        if f["twinClass"] not in kind["twins"] or f["difficulty"] not in kind["difficulty"] or f["expectedVerdict"] != {"sound": "GO", "twin": kind["twins"][f["twinClass"]]}:
             problems.append(f"KIND_MAPPING:{tag}")
         roles = [s.get("role") for s in f["sources"]]
         if roles != (["plan", "reference"] if kind["needsReference"] else ["plan"]) or [s.get("id") for s in f["sources"]] != ["S01", "S02"][:len(roles)]:
@@ -105,7 +106,8 @@ def check_oracle(record):
     if record["wording"] not in ("A", "B") or record["role"] not in ("sound", "changed"):
         problems.append("ORACLE_WORDING_OR_ROLE")
     sound = record["role"] == "sound"
-    if (record["expectedClass"], record["expectedVerdict"]) != (("SOUND", "GO") if sound else (kind["twinClass"], kind["twinVerdict"])):
+    if not ((record["expectedClass"], record["expectedVerdict"]) == ("SOUND", "GO") if sound
+            else record["expectedClass"] in kind["twins"] and record["expectedVerdict"] == kind["twins"][record["expectedClass"]]):
         problems.append("ORACLE_CLASS_OR_VERDICT")
     if record["difficulty"] not in kind["difficulty"]:
         problems.append("ORACLE_DIFFICULTY")
@@ -136,7 +138,7 @@ def check_oracle(record):
         problems.append("ORACLE_DECOYS_REQUIRED")
     if (record["mechanism"] is None) != sound or (record["mechanism"] is not None and not str(record["mechanism"]).strip()):
         problems.append("ORACLE_MECHANISM")
-    needs_no_fallback = record["kind"] in ("omitted_unknown", "decoy_pair") and not sound
+    needs_no_fallback = record["kind"] in ("omitted_unknown", "decoy_pair") and not sound and record["expectedClass"] == "UNCERTAIN"
     if needs_no_fallback and not (isinstance(record["whyNoFallback"], str) and record["whyNoFallback"].strip()):
         problems.append("ORACLE_WHY_NO_FALLBACK")
     if not needs_no_fallback and record["whyNoFallback"] is not None:

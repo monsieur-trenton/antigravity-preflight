@@ -578,7 +578,7 @@ class BuilderTests(unittest.TestCase):
             self.assertEqual((trial["pairDiscrimination"]["count"], trial["pairDiscrimination"]["of"]), (24, 24))
             self.assertEqual(trial["unsupportedVerifiedFindings"], 0)
             self.assertEqual(sorted(trial["byKind"]), ["cross_source_defect", "decoy_pair", "omitted_unknown"])
-            self.assertEqual((trial["citations"]["defectTwinsBlockedAndCited"]["count"], trial["citations"]["defectTwinsBlockedAndCited"]["of"]), (8, 8))
+            self.assertEqual((trial["citations"]["defectTwinsBlockedAndCited"]["count"], trial["citations"]["defectTwinsBlockedAndCited"]["of"]), (16, 16))
 
 
 STUB = r'''
@@ -761,7 +761,7 @@ DEV_CORPUS = V4 / "dev"
 
 
 class CommittedDevAuthoringTests(unittest.TestCase):
-    """The committed dev authoring evidence is what the write-up describes: prompts rebuild exactly, reports hash to the ledger, every accepted report passes the
+    """The committed dev authoring evidence is what the write-up describes: prompts hash as sent, reports hash to the ledger, every accepted report passes the
     checks again, receipts are clean, and the built dev corpus is reproduced from the accepted reports."""
 
     @classmethod
@@ -779,12 +779,15 @@ class CommittedDevAuthoringTests(unittest.TestCase):
             self.assertTrue((DEV_AUTHORING / "accepted" / f"{pair}.A.md").is_file())
         self.assertEqual({r["runManifestSha256"] for r in self.rows}, {rp.sha((PARENT / "v3-run-gemini/manifest.json").read_bytes())})
 
-    def test_prompts_rebuild_exactly_and_reports_hash_to_the_ledger(self):
+    def test_prompts_are_the_ones_sent_and_reports_hash_to_the_ledger(self):
         for r in self.rows:
             instance = next(i for i in DOCS["dev"]["instances"] if i["pair"] == r["pair"])
             f = prompts.family_of(instance)
             prompt = (DEV_AUTHORING / "prompts" / f"{r['pair']}.A.txt").read_bytes()
-            self.assertEqual(prompt, prompts.author_prompt(instance, f, prompts.domain_of(instance)).encode("utf-8"))
+            # the prompt as sent is the evidence; the family hazards and the decoy wording were revised after the batch (see the audit write-up), so it is not rebuilt
+            text = prompt.decode("utf-8")
+            for needle in (prompts.domain_of(instance)["description"], f["title"], f["soundHas"], f"has {instance['planLines']} lines"):
+                self.assertIn(needle, text)
             self.assertEqual((rp.sha(prompt), len(prompt)), (r["promptSha256"], r["promptBytes"]))
             call = DEV_AUTHORING / "calls" / f"{r['pair']}-author-a{r['attempt']}"
             report = (call / "REPORT.md").read_bytes()
@@ -835,6 +838,7 @@ class RunScriptTests(unittest.TestCase):
         text = self.SCRIPT.read_text(encoding="utf-8")
         pins = {"EXPECT_AGY_SHA": BINARY, "EXPECT_RUN_SHA": rp.sha((PARENT / "v3-run-gemini/manifest.json").read_bytes()),
                 "EXPECT_AUTHOR_TEMPLATE_SHA": rp.sha((HERE / "author-template.txt").read_bytes()), "EXPECT_REWORD_TEMPLATE_SHA": rp.sha((HERE / "reword-template.txt").read_bytes()),
+                "EXPECT_FAMILIES_SHA": rp.sha((V4 / "families.json").read_bytes()), "EXPECT_DOMAINS_SHA": rp.sha((V4 / "domains.json").read_bytes()),
                 "EXPECT_DEV_ASSIGNMENTS_SHA": rp.sha((HERE / "assignments-dev.json").read_bytes()), "EXPECT_TEST_ASSIGNMENTS_SHA": rp.sha((HERE / "assignments-test.json").read_bytes())}
         for name, value in pins.items():
             self.assertIn(f"{name}={value}", text)

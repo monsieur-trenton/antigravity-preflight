@@ -648,8 +648,8 @@
    "domain": "api_version_deprecation",
    "wording": "A",
    "role": "changed",
-   "expectedClass": "UNCERTAIN",
-   "expectedVerdict": "GO_WITH_CHANGES",
+   "expectedClass": "DEFECT",
+   "expectedVerdict": "NO_GO",
    "difficulty": "decoy",
    "sources": [
     {
@@ -687,7 +687,7 @@
     }
    ],
    "mechanism": "Line S01:8 brings the legacy protocol translation shim into scope for this deprecation release, but line S01:15 leaves its worker thread allocations and buffer limits pending hardware validation. This directly violates the requirement on line S01:26 that every component included in the scope of the release must possess fully approved operational parameters and completely finalized configuration values.",
-   "whyNoFallback": "No subsequent operational step or fallback procedure in the plan defines approved worker thread limits or buffer values for the legacy protocol translation shim before execution begins.",
+   "whyNoFallback": null,
    "baitNotes": [
     "All rollback procedures rely on a manual configuration revert instead of an automated pipeline trigger",
     "Marcus Vance is designated as the sole primary on-call engineer for post-cutover alerts without a secondary backup",
@@ -777,8 +777,8 @@
    "domain": "nightly_batch_etl",
    "wording": "A",
    "role": "changed",
-   "expectedClass": "UNCERTAIN",
-   "expectedVerdict": "GO_WITH_CHANGES",
+   "expectedClass": "DEFECT",
+   "expectedVerdict": "NO_GO",
    "difficulty": "decoy",
    "sources": [
     {
@@ -816,7 +816,7 @@
     }
    ],
    "mechanism": "The changed plan brings the fx_rate_enrichment_module into deployment scope while its replay checkpoints remain unconfirmed from an earlier storage migration. This breaches the requirement that every warehouse ingestion module included in the deployment scope must have confirmed replay checkpoints before job execution.",
-   "whyNoFallback": "No subsequent step in the deployment plan verifies the replay checkpoints for the fx_rate_enrichment_module or provides an alternative validation mechanism before execution begins.",
+   "whyNoFallback": null,
    "baitNotes": [
     "All database rollback procedures rely entirely on David Kim without a designated secondary engineer",
     "The staging cluster snapshot is retained for only twelve hours rather than a full billing cycle",
@@ -1797,8 +1797,8 @@
    "domain": "dependency_major_upgrade",
    "wording": "A",
    "role": "changed",
-   "expectedClass": "UNCERTAIN",
-   "expectedVerdict": "GO_WITH_CHANGES",
+   "expectedClass": "DEFECT",
+   "expectedVerdict": "NO_GO",
    "difficulty": "decoy",
    "sources": [
     {
@@ -1836,7 +1836,7 @@
     }
    ],
    "mechanism": "Editing the scope statement brings the audit-archiver component into scope even though its serialization schema remains pending approval. This directly violates the requirement that every component touched by the upgrade must have an approved serialization schema before deployment.",
-   "whyNoFallback": "No subsequent task, test run, or approval step in the plan supplies or confirms the pending serialization schema for the audit-archiver component.",
+   "whyNoFallback": null,
    "baitNotes": [
     "The rollback procedure relies entirely on a single on-call engineer without an assigned backup",
     "Alert notifications for latency regressions are routed to a single Slack channel without pager escalation",
@@ -1927,8 +1927,8 @@
    "domain": "object_storage_lifecycle_change",
    "wording": "A",
    "role": "changed",
-   "expectedClass": "UNCERTAIN",
-   "expectedVerdict": "GO_WITH_CHANGES",
+   "expectedClass": "DEFECT",
+   "expectedVerdict": "NO_GO",
    "difficulty": "decoy",
    "sources": [
     {
@@ -1966,7 +1966,7 @@
     }
    ],
    "mechanism": "Editing line 49 brings the legal-hold prefix into scope for the lifecycle update while its retention days remain unconfirmed. This causes the plan to touch a prefix that lacks approved retention settings, directly violating the requirement.",
-   "whyNoFallback": "No other line in the plan defines, approves, or provides a default retention duration for the legal-hold prefix before the lifecycle update is executed.",
+   "whyNoFallback": null,
    "baitNotes": [
     "The rollback procedure relies entirely on manual diff inspection rather than an automated script",
     "No dry-run rehearsal is scheduled in a staging environment prior to the production window",
@@ -2057,8 +2057,8 @@
    "domain": "warehouse_schema_change",
    "wording": "A",
    "role": "changed",
-   "expectedClass": "UNCERTAIN",
-   "expectedVerdict": "GO_WITH_CHANGES",
+   "expectedClass": "DEFECT",
+   "expectedVerdict": "NO_GO",
    "difficulty": "decoy",
    "sources": [
     {
@@ -2096,7 +2096,7 @@
     }
    ],
    "mechanism": "Bringing the bi_revenue_reporting_view component into scope for the schema change violates the requirement because its target column types remain unconfirmed. Executing the migration with an in-scope component lacking finalized column type specifications risks deploying unverified schema changes to downstream consumers.",
-   "whyNoFallback": "Although the plan details DDL scripts and validation steps for the primary table and other dependent views, it contains no later task, approval, or fallback procedure that resolves or finalizes the column types for bi_revenue_reporting_view.",
+   "whyNoFallback": null,
    "baitNotes": [
     "Signoff from Elena Rostova before cutover is obtained verbally rather than via a formal ticket approval",
     "The backfill verification relies on a single row count parity check and manual checksum comparison without automated schema drift alerts",
@@ -2325,8 +2325,8 @@
    "domain": "feature_flag_rollout",
    "wording": "A",
    "role": "changed",
-   "expectedClass": "UNCERTAIN",
-   "expectedVerdict": "GO_WITH_CHANGES",
+   "expectedClass": "DEFECT",
+   "expectedVerdict": "NO_GO",
    "difficulty": "decoy",
    "sources": [
     {
@@ -2364,7 +2364,7 @@
     }
    ],
    "mechanism": "Bringing the billing reconciliation worker into scope causes the staged rollout to include a component with an unconfirmed batch flush interval. This violates the requirement that every component touched by the staged rollout must have all operational settings confirmed prior to routing cohort traffic.",
-   "whyNoFallback": "No subsequent task in the plan validates, configures, or overrides the billing reconciliation worker's batch flush interval before cohort rollout commences.",
+   "whyNoFallback": null,
    "baitNotes": [
     "Elena Rostova is the sole engineer assigned to monitor error rate alerts during all cohort expansions",
     "The plan uses a single Slack channel rather than automated paging for rollback notifications",
@@ -2633,8 +2633,8 @@
    "domain": "customer_data_export",
    "wording": "A",
    "role": "changed",
-   "expectedClass": "UNCERTAIN",
-   "expectedVerdict": "GO_WITH_CHANGES",
+   "expectedClass": "DEFECT",
+   "expectedVerdict": "NO_GO",
    "difficulty": "decoy",
    "sources": [
     {
@@ -2672,7 +2672,7 @@
     }
    ],
    "mechanism": "The changed plan places the export retention lifecycle service into scope for the maintenance release while its customer archive purge schedule is still pending sign-off from the data governance board. This violates the requirement that every component touched by the release must have fully approved operational parameters and complete governance sign-offs prior to rollout.",
-   "whyNoFallback": "Nothing else in the plan resolves the pending governance sign-off or establishes an authorized customer archive purge schedule for the export retention lifecycle service prior to deployment.",
+   "whyNoFallback": null,
    "baitNotes": [
     "Rollback execution relies on an automated failure threshold without a pre-deployment rollback rehearsal",
     "Alerting escalations route solely to Slack channel #ops-alerts with no secondary paging service",
@@ -2701,8 +2701,8 @@
    "domain": "rate_limit_policy_change",
    "wording": "A",
    "role": "changed",
-   "expectedClass": "UNCERTAIN",
-   "expectedVerdict": "GO_WITH_CHANGES",
+   "expectedClass": "DEFECT",
+   "expectedVerdict": "NO_GO",
    "difficulty": "decoy",
    "sources": [
     {
@@ -2740,7 +2740,7 @@
     }
    ],
    "mechanism": "The changed plan brings the client notice dispatcher into scope for the deployment even though its delivery retry schedule is pending validation, which violates the requirement that all in-scope components must have fully approved operational specifications before execution begins.",
-   "whyNoFallback": "Nothing in the deployment procedure resolves the pending validation of the delivery retry schedule or supplies fallback parameters for the client notice dispatcher.",
+   "whyNoFallback": null,
    "baitNotes": [
     "The rollout procedure relies on a single maintenance bridge channel without an automated secondary communication path",
     "No rehearsal window is scheduled before applying rate-limit rules to production traffic",
