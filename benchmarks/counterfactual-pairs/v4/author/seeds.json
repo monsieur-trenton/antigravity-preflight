@@ -1,0 +1,11 @@
+{
+ "dev": {
+  "seed": "v4-dev-b784fdb7154b8cf3",
+  "sha256": "363546b973d31b5def4a2cb8c9a986e6773569b560d115aefb64c7fefe8dbb97"
+ },
+ "test": {
+  "seed": "v4-test-5a674330bb475801",
+  "sha256": "fa5ac852babfc02a8ae86c8c2468b412b890d3618c7079bf8a14bc6039929643"
+ },
+ "note": "Both seeds are committed in the clear before any case is authored. The assignments (domain, length, position buckets, wording B) are not secret from anyone but the reviewers, who never see them; what the commit fixes is that nobody can adjust them after seeing a case. The sealed part of the test split is the case text."
+}

@@ -143,7 +143,7 @@ class OracleSchemaTests(unittest.TestCase):
 class DocumentTests(unittest.TestCase):
     def test_the_spec_states_the_rules_the_checkers_and_the_plan_depend_on(self):
         for needle in ("**One edit, nothing else.**", "**Silent omission.**", "**No absorbing fallback.**", "**Wording B.**", "source-qualified lines", "28,000 bytes",
-                       "`GO_WITH_CHANGES`", "160 for A and 24 for B, 184 in all; dev 48", "seed whose hash is committed before any case is authored"):
+                       "`GO_WITH_CHANGES`", "160 for A and 24 for B, 184 in all; dev 48", "committed in the clear before any case is authored"):
             self.assertIn(needle, SPEC)
 
     def test_the_example_is_labelled_as_a_format_reference_and_never_a_case(self):

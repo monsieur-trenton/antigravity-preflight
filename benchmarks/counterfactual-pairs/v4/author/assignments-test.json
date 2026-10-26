@@ -1,0 +1,1287 @@
+{
+ "schemaVersion": 1,
+ "split": "test",
+ "seedSha256": "fa5ac852babfc02a8ae86c8c2468b412b890d3618c7079bf8a14bc6039929643",
+ "instances": [
+  {
+   "pair": "N-5064ca",
+   "family": "omitted_measurement",
+   "kind": "omitted_unknown",
+   "index": 0,
+   "domain": "feature_flag_rollout",
+   "planLines": 38,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "early",
+    "changed": "late",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-16fb50",
+   "family": "omitted_measurement",
+   "kind": "omitted_unknown",
+   "index": 1,
+   "domain": "rate_limit_policy_change",
+   "planLines": 59,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "middle",
+    "changed": "early",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-842279",
+   "family": "omitted_measurement",
+   "kind": "omitted_unknown",
+   "index": 2,
+   "domain": "api_version_deprecation",
+   "planLines": 60,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "late",
+    "changed": "middle",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-79a949",
+   "family": "omitted_measurement",
+   "kind": "omitted_unknown",
+   "index": 3,
+   "domain": "warehouse_schema_change",
+   "planLines": 36,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "middle",
+    "changed": "middle",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": true
+  },
+  {
+   "pair": "N-6b4be1",
+   "family": "omitted_measurement",
+   "kind": "omitted_unknown",
+   "index": 4,
+   "domain": "customer_data_export",
+   "planLines": 48,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "late",
+    "changed": "early",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-9123f1",
+   "family": "omitted_measurement",
+   "kind": "omitted_unknown",
+   "index": 5,
+   "domain": "multi_region_failover_drill",
+   "planLines": 38,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "late",
+    "changed": "late",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-96594e",
+   "family": "omitted_measurement",
+   "kind": "omitted_unknown",
+   "index": 6,
+   "domain": "warehouse_schema_change",
+   "planLines": 45,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "early",
+    "changed": "late",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-3bf296",
+   "family": "omitted_propagation_window",
+   "kind": "omitted_unknown",
+   "index": 0,
+   "domain": "cache_cluster_resize",
+   "planLines": 42,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "late",
+    "changed": "late",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-acf6ba",
+   "family": "omitted_propagation_window",
+   "kind": "omitted_unknown",
+   "index": 1,
+   "domain": "feature_flag_rollout",
+   "planLines": 35,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "late",
+    "changed": "middle",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-96f774",
+   "family": "omitted_propagation_window",
+   "kind": "omitted_unknown",
+   "index": 2,
+   "domain": "nightly_batch_etl",
+   "planLines": 30,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "early",
+    "changed": "early",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-af992a",
+   "family": "omitted_propagation_window",
+   "kind": "omitted_unknown",
+   "index": 3,
+   "domain": "log_pipeline_vendor_switch",
+   "planLines": 31,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "early",
+    "changed": "late",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-d5c77b",
+   "family": "omitted_propagation_window",
+   "kind": "omitted_unknown",
+   "index": 4,
+   "domain": "search_index_rebuild",
+   "planLines": 43,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "middle",
+    "changed": "middle",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-c86ed8",
+   "family": "omitted_propagation_window",
+   "kind": "omitted_unknown",
+   "index": 5,
+   "domain": "cache_cluster_resize",
+   "planLines": 45,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "early",
+    "changed": "middle",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": true
+  },
+  {
+   "pair": "N-0501a8",
+   "family": "omitted_propagation_window",
+   "kind": "omitted_unknown",
+   "index": 6,
+   "domain": "reconciliation_job",
+   "planLines": 43,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "middle",
+    "changed": "early",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-8b2a66",
+   "family": "omitted_access_check",
+   "kind": "omitted_unknown",
+   "index": 0,
+   "domain": "build_system_change",
+   "planLines": 60,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "middle",
+    "changed": "middle",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-2d6197",
+   "family": "omitted_access_check",
+   "kind": "omitted_unknown",
+   "index": 1,
+   "domain": "email_provider_migration",
+   "planLines": 39,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "late",
+    "changed": "late",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-c8803e",
+   "family": "omitted_access_check",
+   "kind": "omitted_unknown",
+   "index": 2,
+   "domain": "warehouse_schema_change",
+   "planLines": 39,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "early",
+    "changed": "early",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-f41436",
+   "family": "omitted_access_check",
+   "kind": "omitted_unknown",
+   "index": 3,
+   "domain": "identity_provider_switch",
+   "planLines": 41,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "middle",
+    "changed": "early",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-9ff502",
+   "family": "omitted_access_check",
+   "kind": "omitted_unknown",
+   "index": 4,
+   "domain": "multi_region_failover_drill",
+   "planLines": 39,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "early",
+    "changed": "middle",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": true
+  },
+  {
+   "pair": "N-7f61bb",
+   "family": "omitted_access_check",
+   "kind": "omitted_unknown",
+   "index": 5,
+   "domain": "api_version_deprecation",
+   "planLines": 37,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "late",
+    "changed": "late",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-059c5e",
+   "family": "config_limit",
+   "kind": "cross_source_defect",
+   "index": 0,
+   "domain": "build_system_change",
+   "planLines": 30,
+   "referenceLines": 9,
+   "buckets": {
+    "requirement": "late",
+    "changed": "late",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": true
+  },
+  {
+   "pair": "N-e63237",
+   "family": "config_limit",
+   "kind": "cross_source_defect",
+   "index": 1,
+   "domain": "cache_cluster_resize",
+   "planLines": 47,
+   "referenceLines": 11,
+   "buckets": {
+    "requirement": "middle",
+    "changed": "middle",
+    "decoy": null
+   },
+   "changedSource": "S02",
+   "wordingB": false
+  },
+  {
+   "pair": "N-c88690",
+   "family": "config_limit",
+   "kind": "cross_source_defect",
+   "index": 2,
+   "domain": "api_version_deprecation",
+   "planLines": 27,
+   "referenceLines": 17,
+   "buckets": {
+    "requirement": "late",
+    "changed": "early",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-060fb4",
+   "family": "config_limit",
+   "kind": "cross_source_defect",
+   "index": 3,
+   "domain": "kubernetes_node_pool_migration",
+   "planLines": 42,
+   "referenceLines": 13,
+   "buckets": {
+    "requirement": "early",
+    "changed": "early",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-9ddd73",
+   "family": "config_limit",
+   "kind": "cross_source_defect",
+   "index": 4,
+   "domain": "backup_restore_verification",
+   "planLines": 48,
+   "referenceLines": 12,
+   "buckets": {
+    "requirement": "early",
+    "changed": "middle",
+    "decoy": null
+   },
+   "changedSource": "S02",
+   "wordingB": false
+  },
+  {
+   "pair": "N-68f179",
+   "family": "config_limit",
+   "kind": "cross_source_defect",
+   "index": 5,
+   "domain": "ci_runner_fleet_replacement",
+   "planLines": 30,
+   "referenceLines": 17,
+   "buckets": {
+    "requirement": "late",
+    "changed": "early",
+    "decoy": null
+   },
+   "changedSource": "S02",
+   "wordingB": false
+  },
+  {
+   "pair": "N-e96901",
+   "family": "config_limit",
+   "kind": "cross_source_defect",
+   "index": 6,
+   "domain": "message_queue_consumer_scaling",
+   "planLines": 42,
+   "referenceLines": 12,
+   "buckets": {
+    "requirement": "middle",
+    "changed": "middle",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-0a7387",
+   "family": "config_limit",
+   "kind": "cross_source_defect",
+   "index": 7,
+   "domain": "customer_data_export",
+   "planLines": 35,
+   "referenceLines": 12,
+   "buckets": {
+    "requirement": "early",
+    "changed": "late",
+    "decoy": null
+   },
+   "changedSource": "S02",
+   "wordingB": true
+  },
+  {
+   "pair": "N-ddbfc4",
+   "family": "contract_clause",
+   "kind": "cross_source_defect",
+   "index": 0,
+   "domain": "dependency_major_upgrade",
+   "planLines": 29,
+   "referenceLines": 17,
+   "buckets": {
+    "requirement": "late",
+    "changed": "late",
+    "decoy": null
+   },
+   "changedSource": "S02",
+   "wordingB": false
+  },
+  {
+   "pair": "N-d885cd",
+   "family": "contract_clause",
+   "kind": "cross_source_defect",
+   "index": 1,
+   "domain": "build_system_change",
+   "planLines": 33,
+   "referenceLines": 8,
+   "buckets": {
+    "requirement": "middle",
+    "changed": "early",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-405801",
+   "family": "contract_clause",
+   "kind": "cross_source_defect",
+   "index": 2,
+   "domain": "reconciliation_job",
+   "planLines": 30,
+   "referenceLines": 20,
+   "buckets": {
+    "requirement": "early",
+    "changed": "middle",
+    "decoy": null
+   },
+   "changedSource": "S02",
+   "wordingB": false
+  },
+  {
+   "pair": "N-80f19a",
+   "family": "contract_clause",
+   "kind": "cross_source_defect",
+   "index": 3,
+   "domain": "tls_certificate_rotation",
+   "planLines": 32,
+   "referenceLines": 15,
+   "buckets": {
+    "requirement": "middle",
+    "changed": "middle",
+    "decoy": null
+   },
+   "changedSource": "S02",
+   "wordingB": false
+  },
+  {
+   "pair": "N-e342e4",
+   "family": "contract_clause",
+   "kind": "cross_source_defect",
+   "index": 4,
+   "domain": "reconciliation_job",
+   "planLines": 31,
+   "referenceLines": 11,
+   "buckets": {
+    "requirement": "middle",
+    "changed": "late",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-78d7fe",
+   "family": "contract_clause",
+   "kind": "cross_source_defect",
+   "index": 5,
+   "domain": "log_pipeline_vendor_switch",
+   "planLines": 33,
+   "referenceLines": 14,
+   "buckets": {
+    "requirement": "late",
+    "changed": "late",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-dddf51",
+   "family": "contract_clause",
+   "kind": "cross_source_defect",
+   "index": 6,
+   "domain": "secrets_manager_migration",
+   "planLines": 47,
+   "referenceLines": 13,
+   "buckets": {
+    "requirement": "late",
+    "changed": "middle",
+    "decoy": null
+   },
+   "changedSource": "S02",
+   "wordingB": false
+  },
+  {
+   "pair": "N-2c3576",
+   "family": "contract_clause",
+   "kind": "cross_source_defect",
+   "index": 7,
+   "domain": "rate_limit_policy_change",
+   "planLines": 47,
+   "referenceLines": 10,
+   "buckets": {
+    "requirement": "early",
+    "changed": "early",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-a86988",
+   "family": "policy_rule",
+   "kind": "cross_source_defect",
+   "index": 0,
+   "domain": "mobile_app_staged_release",
+   "planLines": 31,
+   "referenceLines": 20,
+   "buckets": {
+    "requirement": "early",
+    "changed": "early",
+    "decoy": null
+   },
+   "changedSource": "S02",
+   "wordingB": false
+  },
+  {
+   "pair": "N-56f591",
+   "family": "policy_rule",
+   "kind": "cross_source_defect",
+   "index": 1,
+   "domain": "database_major_upgrade",
+   "planLines": 35,
+   "referenceLines": 8,
+   "buckets": {
+    "requirement": "middle",
+    "changed": "middle",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": true
+  },
+  {
+   "pair": "N-6c4345",
+   "family": "policy_rule",
+   "kind": "cross_source_defect",
+   "index": 2,
+   "domain": "multi_region_failover_drill",
+   "planLines": 41,
+   "referenceLines": 14,
+   "buckets": {
+    "requirement": "middle",
+    "changed": "early",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-797729",
+   "family": "policy_rule",
+   "kind": "cross_source_defect",
+   "index": 3,
+   "domain": "message_queue_consumer_scaling",
+   "planLines": 25,
+   "referenceLines": 19,
+   "buckets": {
+    "requirement": "early",
+    "changed": "middle",
+    "decoy": null
+   },
+   "changedSource": "S02",
+   "wordingB": false
+  },
+  {
+   "pair": "N-497117",
+   "family": "policy_rule",
+   "kind": "cross_source_defect",
+   "index": 4,
+   "domain": "ci_runner_fleet_replacement",
+   "planLines": 35,
+   "referenceLines": 13,
+   "buckets": {
+    "requirement": "late",
+    "changed": "early",
+    "decoy": null
+   },
+   "changedSource": "S02",
+   "wordingB": false
+  },
+  {
+   "pair": "N-ef81c9",
+   "family": "policy_rule",
+   "kind": "cross_source_defect",
+   "index": 5,
+   "domain": "vm_to_container_migration",
+   "planLines": 44,
+   "referenceLines": 18,
+   "buckets": {
+    "requirement": "late",
+    "changed": "late",
+    "decoy": null
+   },
+   "changedSource": "S02",
+   "wordingB": false
+  },
+  {
+   "pair": "N-cbf2b7",
+   "family": "policy_rule",
+   "kind": "cross_source_defect",
+   "index": 6,
+   "domain": "object_storage_lifecycle_change",
+   "planLines": 32,
+   "referenceLines": 8,
+   "buckets": {
+    "requirement": "middle",
+    "changed": "late",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-d9be0a",
+   "family": "policy_rule",
+   "kind": "cross_source_defect",
+   "index": 7,
+   "domain": "email_provider_migration",
+   "planLines": 30,
+   "referenceLines": 13,
+   "buckets": {
+    "requirement": "late",
+    "changed": "late",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-7554f3",
+   "family": "ordering_dependency",
+   "kind": "defect",
+   "index": 0,
+   "domain": "kubernetes_node_pool_migration",
+   "planLines": 37,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "late",
+    "changed": "early",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-d50fec",
+   "family": "ordering_dependency",
+   "kind": "defect",
+   "index": 1,
+   "domain": "log_pipeline_vendor_switch",
+   "planLines": 45,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "late",
+    "changed": "middle",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-0338d1",
+   "family": "ordering_dependency",
+   "kind": "defect",
+   "index": 2,
+   "domain": "identity_provider_switch",
+   "planLines": 40,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "early",
+    "changed": "late",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-791b2a",
+   "family": "ordering_dependency",
+   "kind": "defect",
+   "index": 3,
+   "domain": "message_queue_consumer_scaling",
+   "planLines": 40,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "middle",
+    "changed": "early",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-dccdf6",
+   "family": "ordering_dependency",
+   "kind": "defect",
+   "index": 4,
+   "domain": "tls_certificate_rotation",
+   "planLines": 45,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "middle",
+    "changed": "late",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-32b8ec",
+   "family": "ordering_dependency",
+   "kind": "defect",
+   "index": 5,
+   "domain": "secrets_manager_migration",
+   "planLines": 50,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "early",
+    "changed": "early",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-5e4a36",
+   "family": "ordering_dependency",
+   "kind": "defect",
+   "index": 6,
+   "domain": "vm_to_container_migration",
+   "planLines": 42,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "late",
+    "changed": "middle",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-3d7661",
+   "family": "budget_arithmetic",
+   "kind": "defect",
+   "index": 0,
+   "domain": "search_index_rebuild",
+   "planLines": 34,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "early",
+    "changed": "early",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-042947",
+   "family": "budget_arithmetic",
+   "kind": "defect",
+   "index": 1,
+   "domain": "feature_flag_rollout",
+   "planLines": 57,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "middle",
+    "changed": "late",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-920e4a",
+   "family": "budget_arithmetic",
+   "kind": "defect",
+   "index": 2,
+   "domain": "dependency_major_upgrade",
+   "planLines": 59,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "late",
+    "changed": "late",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": true
+  },
+  {
+   "pair": "N-2e3b2d",
+   "family": "budget_arithmetic",
+   "kind": "defect",
+   "index": 3,
+   "domain": "mobile_app_staged_release",
+   "planLines": 52,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "early",
+    "changed": "middle",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": true
+  },
+  {
+   "pair": "N-a96a7e",
+   "family": "budget_arithmetic",
+   "kind": "defect",
+   "index": 4,
+   "domain": "identity_provider_switch",
+   "planLines": 39,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "middle",
+    "changed": "middle",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": true
+  },
+  {
+   "pair": "N-e1785c",
+   "family": "budget_arithmetic",
+   "kind": "defect",
+   "index": 5,
+   "domain": "dependency_major_upgrade",
+   "planLines": 32,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "late",
+    "changed": "late",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-2643e7",
+   "family": "budget_arithmetic",
+   "kind": "defect",
+   "index": 6,
+   "domain": "nightly_batch_etl",
+   "planLines": 60,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "middle",
+    "changed": "early",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-7d34eb",
+   "family": "scope_authority",
+   "kind": "defect",
+   "index": 0,
+   "domain": "database_major_upgrade",
+   "planLines": 42,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "early",
+    "changed": "late",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-0afbd7",
+   "family": "scope_authority",
+   "kind": "defect",
+   "index": 1,
+   "domain": "vm_to_container_migration",
+   "planLines": 38,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "early",
+    "changed": "late",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-95483c",
+   "family": "scope_authority",
+   "kind": "defect",
+   "index": 2,
+   "domain": "backup_restore_verification",
+   "planLines": 44,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "late",
+    "changed": "early",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-86c50d",
+   "family": "scope_authority",
+   "kind": "defect",
+   "index": 3,
+   "domain": "database_major_upgrade",
+   "planLines": 42,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "late",
+    "changed": "middle",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-8ed86c",
+   "family": "scope_authority",
+   "kind": "defect",
+   "index": 4,
+   "domain": "api_version_deprecation",
+   "planLines": 53,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "middle",
+    "changed": "early",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-852c75",
+   "family": "scope_authority",
+   "kind": "defect",
+   "index": 5,
+   "domain": "secrets_manager_migration",
+   "planLines": 43,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "middle",
+    "changed": "middle",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-af104e",
+   "family": "open_item_becomes_decisive",
+   "kind": "decoy_pair",
+   "index": 0,
+   "domain": "message_queue_consumer_scaling",
+   "planLines": 40,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "early",
+    "changed": "late",
+    "decoy": "early"
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-0df324",
+   "family": "open_item_becomes_decisive",
+   "kind": "decoy_pair",
+   "index": 1,
+   "domain": "tls_certificate_rotation",
+   "planLines": 40,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "early",
+    "changed": "early",
+    "decoy": "late"
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-046068",
+   "family": "open_item_becomes_decisive",
+   "kind": "decoy_pair",
+   "index": 2,
+   "domain": "search_index_rebuild",
+   "planLines": 54,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "late",
+    "changed": "middle",
+    "decoy": "late"
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-080a39",
+   "family": "open_item_becomes_decisive",
+   "kind": "decoy_pair",
+   "index": 3,
+   "domain": "kubernetes_node_pool_migration",
+   "planLines": 37,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "late",
+    "changed": "early",
+    "decoy": "middle"
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-c71e10",
+   "family": "open_item_becomes_decisive",
+   "kind": "decoy_pair",
+   "index": 4,
+   "domain": "mobile_app_staged_release",
+   "planLines": 36,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "middle",
+    "changed": "late",
+    "decoy": "early"
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-56c83e",
+   "family": "open_item_becomes_decisive",
+   "kind": "decoy_pair",
+   "index": 5,
+   "domain": "object_storage_lifecycle_change",
+   "planLines": 53,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "middle",
+    "changed": "late",
+    "decoy": "late"
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-fb5615",
+   "family": "open_item_becomes_decisive",
+   "kind": "decoy_pair",
+   "index": 6,
+   "domain": "ci_runner_fleet_replacement",
+   "planLines": 36,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "early",
+    "changed": "middle",
+    "decoy": "early"
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-945bcd",
+   "family": "open_item_becomes_decisive",
+   "kind": "decoy_pair",
+   "index": 7,
+   "domain": "object_storage_lifecycle_change",
+   "planLines": 48,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "middle",
+    "changed": "early",
+    "decoy": "middle"
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-e154ea",
+   "family": "open_item_absorbed",
+   "kind": "decoy_pair",
+   "index": 0,
+   "domain": "customer_data_export",
+   "planLines": 58,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "early",
+    "changed": "late",
+    "decoy": "late"
+   },
+   "changedSource": "S01",
+   "wordingB": true
+  },
+  {
+   "pair": "N-175735",
+   "family": "open_item_absorbed",
+   "kind": "decoy_pair",
+   "index": 1,
+   "domain": "ci_runner_fleet_replacement",
+   "planLines": 56,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "early",
+    "changed": "late",
+    "decoy": "middle"
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-35f458",
+   "family": "open_item_absorbed",
+   "kind": "decoy_pair",
+   "index": 2,
+   "domain": "rate_limit_policy_change",
+   "planLines": 59,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "late",
+    "changed": "early",
+    "decoy": "early"
+   },
+   "changedSource": "S01",
+   "wordingB": true
+  },
+  {
+   "pair": "N-a91e58",
+   "family": "open_item_absorbed",
+   "kind": "decoy_pair",
+   "index": 3,
+   "domain": "kubernetes_node_pool_migration",
+   "planLines": 50,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "early",
+    "changed": "middle",
+    "decoy": "early"
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-af307a",
+   "family": "open_item_absorbed",
+   "kind": "decoy_pair",
+   "index": 4,
+   "domain": "email_provider_migration",
+   "planLines": 60,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "late",
+    "changed": "early",
+    "decoy": "early"
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-9be677",
+   "family": "open_item_absorbed",
+   "kind": "decoy_pair",
+   "index": 5,
+   "domain": "backup_restore_verification",
+   "planLines": 31,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "middle",
+    "changed": "middle",
+    "decoy": "middle"
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-4c39c5",
+   "family": "open_item_absorbed",
+   "kind": "decoy_pair",
+   "index": 6,
+   "domain": "nightly_batch_etl",
+   "planLines": 36,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "middle",
+    "changed": "middle",
+    "decoy": "middle"
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-f41ebe",
+   "family": "open_item_absorbed",
+   "kind": "decoy_pair",
+   "index": 7,
+   "domain": "multi_region_failover_drill",
+   "planLines": 52,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "late",
+    "changed": "late",
+    "decoy": "late"
+   },
+   "changedSource": "S01",
+   "wordingB": true
+  }
+ ]
+}

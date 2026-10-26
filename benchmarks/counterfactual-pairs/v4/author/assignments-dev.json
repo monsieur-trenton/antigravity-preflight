@@ -1,0 +1,391 @@
+{
+ "schemaVersion": 1,
+ "split": "dev",
+ "seedSha256": "363546b973d31b5def4a2cb8c9a986e6773569b560d115aefb64c7fefe8dbb97",
+ "instances": [
+  {
+   "pair": "N-102a76",
+   "family": "omitted_precondition_check",
+   "kind": "omitted_unknown",
+   "index": 0,
+   "domain": "build_system_change",
+   "planLines": 38,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "early",
+    "changed": "early",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-9c5803",
+   "family": "omitted_precondition_check",
+   "kind": "omitted_unknown",
+   "index": 1,
+   "domain": "log_pipeline_vendor_switch",
+   "planLines": 33,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "middle",
+    "changed": "late",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-b6780a",
+   "family": "omitted_precondition_check",
+   "kind": "omitted_unknown",
+   "index": 2,
+   "domain": "secrets_manager_migration",
+   "planLines": 44,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "late",
+    "changed": "late",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-a9e9f9",
+   "family": "omitted_precondition_check",
+   "kind": "omitted_unknown",
+   "index": 3,
+   "domain": "multi_region_failover_drill",
+   "planLines": 59,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "late",
+    "changed": "late",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-4aedf1",
+   "family": "omitted_precondition_check",
+   "kind": "omitted_unknown",
+   "index": 4,
+   "domain": "backup_restore_verification",
+   "planLines": 44,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "late",
+    "changed": "early",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-c42f85",
+   "family": "omitted_precondition_check",
+   "kind": "omitted_unknown",
+   "index": 5,
+   "domain": "vm_to_container_migration",
+   "planLines": 50,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "middle",
+    "changed": "middle",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-19a280",
+   "family": "omitted_precondition_check",
+   "kind": "omitted_unknown",
+   "index": 6,
+   "domain": "ci_runner_fleet_replacement",
+   "planLines": 39,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "early",
+    "changed": "middle",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-90d970",
+   "family": "omitted_precondition_check",
+   "kind": "omitted_unknown",
+   "index": 7,
+   "domain": "email_provider_migration",
+   "planLines": 46,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "middle",
+    "changed": "early",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-b8603d",
+   "family": "schema_state",
+   "kind": "cross_source_defect",
+   "index": 0,
+   "domain": "message_queue_consumer_scaling",
+   "planLines": 43,
+   "referenceLines": 13,
+   "buckets": {
+    "requirement": "early",
+    "changed": "middle",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-e889b3",
+   "family": "schema_state",
+   "kind": "cross_source_defect",
+   "index": 1,
+   "domain": "database_major_upgrade",
+   "planLines": 31,
+   "referenceLines": 18,
+   "buckets": {
+    "requirement": "middle",
+    "changed": "late",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-8fbc5c",
+   "family": "schema_state",
+   "kind": "cross_source_defect",
+   "index": 2,
+   "domain": "mobile_app_staged_release",
+   "planLines": 31,
+   "referenceLines": 9,
+   "buckets": {
+    "requirement": "late",
+    "changed": "late",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-f9a801",
+   "family": "schema_state",
+   "kind": "cross_source_defect",
+   "index": 3,
+   "domain": "reconciliation_job",
+   "planLines": 50,
+   "referenceLines": 25,
+   "buckets": {
+    "requirement": "middle",
+    "changed": "early",
+    "decoy": null
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-466973",
+   "family": "schema_state",
+   "kind": "cross_source_defect",
+   "index": 4,
+   "domain": "identity_provider_switch",
+   "planLines": 49,
+   "referenceLines": 14,
+   "buckets": {
+    "requirement": "middle",
+    "changed": "early",
+    "decoy": null
+   },
+   "changedSource": "S02",
+   "wordingB": false
+  },
+  {
+   "pair": "N-5770ac",
+   "family": "schema_state",
+   "kind": "cross_source_defect",
+   "index": 5,
+   "domain": "kubernetes_node_pool_migration",
+   "planLines": 37,
+   "referenceLines": 25,
+   "buckets": {
+    "requirement": "early",
+    "changed": "late",
+    "decoy": null
+   },
+   "changedSource": "S02",
+   "wordingB": false
+  },
+  {
+   "pair": "N-f32098",
+   "family": "schema_state",
+   "kind": "cross_source_defect",
+   "index": 6,
+   "domain": "search_index_rebuild",
+   "planLines": 41,
+   "referenceLines": 18,
+   "buckets": {
+    "requirement": "late",
+    "changed": "middle",
+    "decoy": null
+   },
+   "changedSource": "S02",
+   "wordingB": false
+  },
+  {
+   "pair": "N-ba0d02",
+   "family": "schema_state",
+   "kind": "cross_source_defect",
+   "index": 7,
+   "domain": "payments_api_cdn_cutover",
+   "planLines": 40,
+   "referenceLines": 24,
+   "buckets": {
+    "requirement": "late",
+    "changed": "early",
+    "decoy": null
+   },
+   "changedSource": "S02",
+   "wordingB": false
+  },
+  {
+   "pair": "N-ab7473",
+   "family": "open_item_scope",
+   "kind": "decoy_pair",
+   "index": 0,
+   "domain": "dependency_major_upgrade",
+   "planLines": 32,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "middle",
+    "changed": "late",
+    "decoy": "late"
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-3f18f1",
+   "family": "open_item_scope",
+   "kind": "decoy_pair",
+   "index": 1,
+   "domain": "customer_data_export",
+   "planLines": 35,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "late",
+    "changed": "middle",
+    "decoy": "middle"
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-93366f",
+   "family": "open_item_scope",
+   "kind": "decoy_pair",
+   "index": 2,
+   "domain": "object_storage_lifecycle_change",
+   "planLines": 58,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "late",
+    "changed": "late",
+    "decoy": "late"
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-d0d08d",
+   "family": "open_item_scope",
+   "kind": "decoy_pair",
+   "index": 3,
+   "domain": "feature_flag_rollout",
+   "planLines": 60,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "early",
+    "changed": "early",
+    "decoy": "middle"
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-b4a14c",
+   "family": "open_item_scope",
+   "kind": "decoy_pair",
+   "index": 4,
+   "domain": "warehouse_schema_change",
+   "planLines": 41,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "middle",
+    "changed": "early",
+    "decoy": "middle"
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-9cc72c",
+   "family": "open_item_scope",
+   "kind": "decoy_pair",
+   "index": 5,
+   "domain": "nightly_batch_etl",
+   "planLines": 40,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "early",
+    "changed": "late",
+    "decoy": "early"
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-4b040d",
+   "family": "open_item_scope",
+   "kind": "decoy_pair",
+   "index": 6,
+   "domain": "rate_limit_policy_change",
+   "planLines": 51,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "late",
+    "changed": "middle",
+    "decoy": "early"
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  },
+  {
+   "pair": "N-fc68f6",
+   "family": "open_item_scope",
+   "kind": "decoy_pair",
+   "index": 7,
+   "domain": "api_version_deprecation",
+   "planLines": 60,
+   "referenceLines": null,
+   "buckets": {
+    "requirement": "middle",
+    "changed": "early",
+    "decoy": "early"
+   },
+   "changedSource": "S01",
+   "wordingB": false
+  }
+ ]
+}

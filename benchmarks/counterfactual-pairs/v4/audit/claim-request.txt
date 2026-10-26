@@ -1,0 +1,13 @@
+Below is a written plan, as numbered sources: S01 is the plan and, when present, S02 is a reference excerpt. Lines are numbered within their source and cited as S01:<n> or S02:<n>.
+
+The plan's author makes this claim about it: "{CLAIM}"
+
+Check the claim against the text. It holds only if no line anywhere in the plan or the excerpt bounds, establishes, implies or makes harmless what the claim says is missing. Quote the lines that contradict it, if any.
+
+{PLAN}
+
+End your answer with exactly this block and nothing after it:
+AUDIT-BEGIN
+CLAIM_HOLDS: YES | NO
+CONTRADICTING_LINES: <none, or lines such as S01:7; S01:12>
+AUDIT-END

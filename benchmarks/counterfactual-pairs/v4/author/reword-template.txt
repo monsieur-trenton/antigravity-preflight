@@ -1,0 +1,16 @@
+You are helping with a benchmark that measures how well a plan reviewer judges a plan. Write plain text only. You have no tools, and nothing below is a review task: do not review anything.
+
+Below is a PAIR of plans, a SOUND plan and a TWIN. Rewrite the whole pair in different words, so that a reader who compared the two versions line by line would find each line saying the same thing in other words.
+
+REWRITING RULES
+1. Keep the number of lines in every source, and keep each line in its place: line n of your version says what line n of the original says.
+2. In every line keep, character for character and as many times as in the original, every token that contains a digit or one of _ / \ : = @ #, every word written in capitals, and every capitalised word that is not the first word of the line. Everything else may change.
+3. The twin must differ from the sound plan in exactly the same line or lines, in the same way, as in the original.
+4. Do not add, remove or soften any fact, and do not add a hint, hedge or sentence about the difference between the plans. Do not introduce any statement that something is unknown, pending or not final, and keep the ones that are there.
+5. Every line is one self-contained sentence of 60 to 220 characters. No numbering, bullets, headings or blank lines, and no two lines identical. Do not use the words twin, sound, benchmark, oracle, decisive, counterfactual, test case or omitted in any plan line.
+
+OUTPUT FORMAT (exactly this, with nothing before CASE-BEGIN or after CASE-END)
+{FORMAT}
+
+THE PAIR TO REWRITE
+{PAIR}
