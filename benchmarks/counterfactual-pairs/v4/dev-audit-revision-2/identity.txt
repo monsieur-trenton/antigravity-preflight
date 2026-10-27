@@ -1,0 +1,9 @@
+commit: 5627208b5215a7fd6482cff362f4240cd1dc28d7
+corpus manifest: e965c0b8006c41e5ae117ec5d436c6c887d9aaf1ecca7b2b8060baae30fae881
+claude: 2.1.306 (Claude Code)  520bc6c1f40af466bd03a278b5ae1af1a2938bc7de5b9e5cb15526da20d71cfe
+model: claude-opus-5-5  effort: high  per-call spend cap: 2.0
+host: Linux john-laptop 7.0.0-38-generic #38~24.04.4-Ubuntu SMP PREEMPT_DYNAMIC Mon Sep 14 16:37:11 UTC 2 x86_64 x86_64 x86_64 GNU/Linux
+
+== live 7 calls: start 2026-10-27T08:34:34-07:00
+{"callsScheduled": 7, "prepared": 0, "executed": 7, "stopped": 0, "alreadyRecorded": 0, "status": "COMPLETE", "route": "claude-cli-audit", "providerCalls": 7}
+end: 2026-10-27T08:35:58-07:00

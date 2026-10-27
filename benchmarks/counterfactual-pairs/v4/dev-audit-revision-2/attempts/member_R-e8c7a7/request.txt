@@ -1,0 +1,51 @@
+Below is a written plan, as one or more numbered sources. Source S01 is the plan; if a source S02 is present it is a reference excerpt (a settings file, contract, policy or schema) that the plan is subject to. Each line is numbered within its source, and a line is cited as S01:<n> or S02:<n>.
+
+Decide, from the text alone, whether the plan can be carried out as written. A plan HAS_A_DEFECT if some line contradicts a line of the same or another source, or breaks the plan's own stated requirement. A plan HAS_AN_UNESTABLISHED_FACT if nothing is contradicted but a fact that the plan's own requirement depends on is nowhere established in the text. A plan is SOUND if neither applies. Ordinary small imperfections (no rehearsal, one alert channel, a single owner) do not make a plan unsound. Say CANNOT_TELL only if you truly cannot decide.
+
+=== S01 (the plan) ===
+[S01:1] At 02:00 UTC, change coordinator Elena Rostova announces the start of the scheduled build infrastructure maintenance window in Slack channel #build-core-ops.
+[S01:2] Marcus Vance places the primary CI orchestrator in drained mode to block new build pipeline submissions across all repositories at 02:04 UTC.
+[S01:3] Lead systems operator Sarah Chen pauses all 128 dedicated runner agents across the Linux and macOS build worker pools at 02:07 UTC.
+[S01:4] Marcus Vance disables write traffic on the active distributed build cache cluster by routing incoming client writes to a local temporary buffer at 02:09 UTC.
+[S01:5] Upgrading the cache metadata index to version 4 requires zero null parent hashes across all 640,000 entries, because any null parent hash permanently corrupts the B-tree directory structure.
+[S01:6] Marcus Vance flushes all in-flight metadata writes from the temporary ingestion buffer to disk at 02:12 UTC.
+[S01:7] Database operator Priya Patel confirms that no new write transactions have reached the primary metadata instance cache-db-01 since 02:12 UTC.
+[S01:8] Elena Rostova records the pre-migration baseline metrics for cache lookup latency and disk utilization in the maintenance log at 02:21 UTC.
+[S01:9] Marcus Vance verifies that 450 gigabytes of free disk space are available on the cache-db-01 volume for the temporary index conversion workspace at 02:23 UTC.
+[S01:10] Sarah Chen verifies that the 128 CI runner agents have completed all existing background build tasks and are fully idle at 02:26 UTC.
+[S01:11] Elena Rostova notifies the developer on-call channel #dev-alerts at 02:28 UTC that required merge checks are temporarily suspended during maintenance.
+[S01:12] Marcus Vance downloads the version 4 migration binary package from the internal infrastructure release repository at 02:30 UTC.
+[S01:13] Marcus Vance verifies the SHA-256 checksum of the migration binary against the release manifest on cache-db-01 at 02:32 UTC.
+[S01:14] Priya Patel stops the version 3 cache server daemon process on cache-db-01 to release existing file locks at 02:35 UTC.
+[S01:15] Marcus Vance checks that the process table on cache-db-01 contains no active connections or open socket handles at 02:37 UTC.
+[S01:16] Elena Rostova confirms with Sarah Chen at 02:39 UTC that test sharding workers will remain disabled throughout the index transformation.
+[S01:17] Marcus Vance sets the index filesystem mount on cache-db-01 to synchronous write mode to ensure crash consistency at 02:41 UTC.
+[S01:18] Marcus Vance exports the environment variable MIGRATION_TARGET_VERSION set to 4 in the shell session on cache-db-01 at 02:43 UTC.
+[S01:19] At 02:45 UTC, Marcus Vance executes the version 4 in-place index upgrade utility against all 640,000 entries on cache-db-01.
+[S01:20] The upgrade utility restructures the metadata blocks across the storage volume during its scheduled 20-minute execution window.
+[S01:21] Elena Rostova posts a status update to #build-core-ops at 03:06 UTC noting that the index upgrade utility exited with return code 0.
+[S01:22] Marcus Vance validates the version 4 superblock header on cache-db-01 using the format inspector tool at 03:08 UTC.
+[S01:23] Priya Patel updates the database configuration parameters on cache-db-01 to activate the version 4 storage engine at 03:10 UTC.
+[S01:24] Marcus Vance starts the version 4 cache server daemon on cache-db-01 and monitors initialization logs for errors at 03:12 UTC.
+[S01:25] Sarah Chen submits an automated smoke test suite through the CI pipeline to verify cache read and write capabilities at 03:15 UTC.
+[S01:26] Marcus Vance confirms that the smoke test successfully fetched and stored build artifacts from the version 4 cache at 03:18 UTC.
+[S01:27] Sarah Chen re-enables the 128 dedicated runner agents across the Linux and macOS build worker pools at 03:20 UTC.
+[S01:28] Elena Rostova restores required merge check enforcement on all protected git branches across the repository at 03:22 UTC.
+[S01:29] Marcus Vance reconnects the primary CI orchestrator to the live cache endpoint and disables the temporary write buffer at 03:24 UTC.
+[S01:30] Elena Rostova removes the drained mode flag on the primary CI orchestrator to resume normal pipeline job processing at 03:26 UTC.
+[S01:31] Sarah Chen monitors test sharding distribution across the active runner nodes to ensure balanced test execution at 03:28 UTC.
+[S01:32] Marcus Vance monitors cache-db-01 metrics to verify that cache hit latency remains below 15 milliseconds under production load at 03:30 UTC.
+[S01:33] Priya Patel verifies that replication to secondary standby instances syncs properly from the primary instance cache-db-01 at 03:32 UTC.
+[S01:34] Elena Rostova announces the successful completion of the cache upgrade maintenance window in Slack channel #build-core-ops at 03:35 UTC.
+[S01:35] Marcus Vance archives the maintenance execution transcript and terminal session logs to the infrastructure storage bucket at 03:37 UTC.
+[S01:36] Sarah Chen closes the maintenance ticket INFRA-8492 in the engineering issue tracker and releases the on-call team at 03:40 UTC.
+
+End your answer with exactly this block and nothing after it:
+AUDIT-BEGIN
+CLASS: SOUND | HAS_A_DEFECT | HAS_AN_UNESTABLISHED_FACT | CANNOT_TELL
+REASON: <one sentence>
+DECISIVE_FACT: <the single fact that, if added or corrected, would change your CLASS; or none>
+REQUIREMENT_LINE: <S01:n of the line that states the plan's requirement, or none>
+REQUIREMENT_DECIDES: YES | NO
+OTHER_PROBLEMS: <none, or lines such as S01:7; S02:3 that are unknown or contradictory for a reason other than your CLASS>
+AUDIT-END
