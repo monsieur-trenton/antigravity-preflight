@@ -8,3 +8,15 @@
 - **N-102a76's twin is recovered** as an unestablished fact and the right plan is chosen with one edit, and the author's claim holds. **Its sound plan is not sound.** The auditor says the smoke test is submitted "through the CI pipeline" at 03:15 (line 27) while the orchestrator is drained to all new submissions until 03:26 (line 32) and the runners are paused until 03:20 (line 29), so the step cannot run as written. I checked the three lines: it is right. This is a third kind of slip in filler: a step ordered against a dependency, after a duration mismatch in the first rewrite and the stale scan in the original.
 
 Whole dev corpus after this round: 7 pairs pass, 16 pass with lines to read, 1 review (N-102a76); class recovered for 47 of 48 members; first-pass agreement 23 of 24 pairs.
+
+## N-102a76 dropped; the dev corpus is settled
+
+N-102a76 failed three times on a second fault in a filler line of its sound plan (the stale scan of the original, the four-hour window that closes after five, the smoke test submitted through a drained orchestrator); the twin was recovered correctly each time. **The owner decided on 2026-10-27 to drop it** rather than author it a fourth time ([dev-drops.json](../dev-drops.json)). The dev corpus is [../dev](../dev/) with **23 pairs and 46 cases** (manifest `1e89ac9d…82975`): 7 omitted-precondition, 8 cross-source, 8 scope.
+
+On the final corpus, read from each pair's latest answers ([audit-report-final-dev.json](audit-report-final-dev.json)): 7 pairs pass and 16 pass with lines for a person to read; none is sent to review; class recovered for 46 of 46 members; first-pass agreement is 23 of 23 pairs. **That figure is the agreement after rewriting or dropping the pairs that disagreed, not a first-pass rate**: the first pass, before any rewriting, was 14 of 24 (10 of 24 under the reclassified oracle: 20 of 24 agree), and six of the 24 pairs needed a second authoring, one a third and then a drop.
+
+What this says about authoring at scale, for the test split: of 24 pairs written once, 4 carried a real second fault in the sound plan (two of them arithmetic or sequencing slips in filler lines that I had read and missed), and one of the four rewrites carried another. A test split of 80 pairs should be planned for the same fraction, with the audit's review decisions rewritten or dropped, and the dropped pairs reported.
+
+## The owner's spot check
+
+A second sample of six pairs, disjoint from the six of the agent reading and drawn with `audit_report.py spot --corpus ../dev --exclude N-c42f85,N-8fbc5c,N-d0d08d,N-3f18f1,N-e889b3,N-90d970 --fraction 0.25`, goes to the owner without the key or any audit answer. The index (which plan is the twin) is not committed until the owner has answered.

@@ -8,7 +8,7 @@ drops anything: the drop list is a person's decision, written to a file that bui
 questions for the owner; `spot-score` compares the owner's answers with the oracle.
 
 Usage: audit_report.py report --corpus DIR --answers FILE [--out FILE]
-       audit_report.py spot --corpus DIR --out DIR
+       audit_report.py spot --corpus DIR --out DIR [--exclude PAIR,PAIR] [--fraction F]
        audit_report.py spot-score --corpus DIR --index FILE --answers FILE
 """
 import hashlib
@@ -133,12 +133,13 @@ def analyse(corpus, rows):
             "note": "A decision of REVIEW means the auditor disagreed with the oracle; the pair is rewritten or dropped by a person, and a drop is recorded with its reason."}
 
 
-def spot_sample(corpus, fraction=SPOT_FRACTION):
+def spot_sample(corpus, fraction=SPOT_FRACTION, exclude=()):
     """At least `fraction` of the pairs, stratified by kind (at least one per kind), chosen by a seed-determined hash order."""
     seed = corpus.manifest["authoring"]["seedSha256"]
     by_kind = {}
     for pair, cases in pairs_of(corpus).items():
-        by_kind.setdefault(corpus.oracle[cases["changed"]]["kind"], []).append(pair)
+        if pair not in exclude:
+            by_kind.setdefault(corpus.oracle[cases["changed"]]["kind"], []).append(pair)
     chosen = []
     for kind, pairs in sorted(by_kind.items()):
         ordered = sorted(pairs, key=lambda p: hashlib.sha256(f"{seed}|spot|{p}".encode()).hexdigest())
@@ -155,12 +156,12 @@ otherProblems: lines, if any, that are unknown or contradictory for some other r
 """
 
 
-def write_spot(corpus, out_dir):
+def write_spot(corpus, out_dir, exclude=(), fraction=SPOT_FRACTION):
     seed = corpus.manifest["authoring"]["seedSha256"]
     out = Path(out_dir)
     out.mkdir(parents=True, exist_ok=False)
     index = {}
-    for number, pair in enumerate(spot_sample(corpus), 1):
+    for number, pair in enumerate(spot_sample(corpus, fraction, exclude), 1):
         cases = pairs_of(corpus)[pair]
         sources_of = lambda case: {r["id"]: corpus.lines(case, r["id"]) for r in corpus.oracle[case]["sources"]}
         text = audit_prompts.template("pair-request.txt").split("End your answer")[0]
@@ -212,7 +213,8 @@ def main(argv):
             else:
                 print(text, end="")
         elif argv[0] == "spot":
-            index = write_spot(corpus, opts["--out"])
+            index = write_spot(corpus, opts["--out"], exclude=set(opts["--exclude"].split(",")) if "--exclude" in opts else (),
+                              fraction=float(opts.get("--fraction", SPOT_FRACTION)))
             print(json.dumps({"status": "WRITTEN", "files": len(index), "pairs": len(pairs_of(corpus))}))
         else:
             result = score_spot(json.loads(Path(opts["--index"]).read_text(encoding="utf-8")), json.loads(Path(opts["--answers"]).read_text(encoding="utf-8")))

@@ -1,0 +1,6 @@
+[
+  {
+    "pair": "N-102a76",
+    "reason": "Three authored versions each failed the blind audit on a second fault in a filler line of the sound plan: a scan 33 hours stale before the irreversible step; a four-hour window closing five hours after it opens; a smoke test submitted through an orchestrator drained until after it. The twin was recovered correctly every time. Dropped by the owner's decision of 2026-10-27 rather than authored a fourth time."
+  }
+]

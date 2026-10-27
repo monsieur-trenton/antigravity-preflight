@@ -834,11 +834,11 @@ class CommittedDevAuthoringTests(unittest.TestCase):
 
     def test_the_committed_dev_corpus_is_reproduced_from_the_accepted_reports(self):
         with tempfile.TemporaryDirectory() as tmp:
-            manifest = bc.build("dev", DEV_ACCEPTED, Path(tmp) / "out")
+            manifest = bc.build("dev", DEV_ACCEPTED, Path(tmp) / "out", json.loads((V4 / "dev-drops.json").read_bytes()))
             self.assertEqual(manifest, json.loads((DEV_CORPUS / "manifest.json").read_bytes()))
             self.assertEqual((Path(tmp) / "out/oracle/oracle.json").read_bytes(), (DEV_CORPUS / "oracle/oracle.json").read_bytes())
         corpus = s4.Corpus(DEV_CORPUS)
-        self.assertEqual((len(corpus.oracle), manifest["pairs"], manifest["dropped"]), (48, 24, []))
+        self.assertEqual((len(corpus.oracle), manifest["pairs"], [d["pair"] for d in manifest["dropped"]]), (46, 23, ["N-102a76"]))
 
 
 class CommittedDevRevisionTests(unittest.TestCase):
@@ -878,7 +878,8 @@ class CommittedDevRevisionTests(unittest.TestCase):
     def test_the_rewritten_reports_replace_the_first_batch_in_the_dev_corpus_and_nothing_else_changes(self):
         manifest = json.loads((DEV_CORPUS / "manifest.json").read_bytes())
         shas = manifest["authoring"]["acceptedReportSha256"]
-        for pair in REWRITTEN:
+        self.assertNotIn("N-102a76", shas)     # dropped after its third failed audit (dev-drops.json)
+        for pair in [p for p in REWRITTEN if p != "N-102a76"]:
             latest = DEV_REVISION2 if pair in REWRITTEN_AGAIN else DEV_REVISION
             self.assertEqual(shas[pair]["A"], rp.sha((latest / "accepted" / f"{pair}.A.md").read_bytes()))
             self.assertNotEqual(shas[pair]["A"], rp.sha((DEV_AUTHORING / "accepted" / f"{pair}.A.md").read_bytes()))

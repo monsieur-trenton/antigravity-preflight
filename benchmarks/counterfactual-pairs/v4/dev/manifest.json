@@ -1,8 +1,8 @@
 {
  "kind": "COUNTERFACTUAL_PAIR_CORPUS_V4",
  "split": "dev",
- "cases": 48,
- "pairs": 24,
+ "cases": 46,
+ "pairs": 23,
  "families": 3,
  "submissionOrder": [
   "R-2fa6b3",
@@ -10,7 +10,6 @@
   "R-c94c90",
   "R-f6b2c6",
   "R-bc5f51",
-  "R-52384b",
   "R-f5e1df",
   "R-e1dbe6",
   "R-89054d",
@@ -31,7 +30,6 @@
   "R-54ca90",
   "R-b4ed4d",
   "R-9ec66c",
-  "R-e8c7a7",
   "R-76dffb",
   "R-68ba18",
   "R-12b20f",
@@ -71,7 +69,6 @@
   "packets/R-32c6c4/S02.txt",
   "packets/R-3b36bf/S01.txt",
   "packets/R-4844da/S01.txt",
-  "packets/R-52384b/S01.txt",
   "packets/R-54ca90/S01.txt",
   "packets/R-54ca90/S02.txt",
   "packets/R-602bc9/S01.txt",
@@ -111,7 +108,6 @@
   "packets/R-e1dbe6/S02.txt",
   "packets/R-e3cf4c/S01.txt",
   "packets/R-e3cf4c/S02.txt",
-  "packets/R-e8c7a7/S01.txt",
   "packets/R-e93919/S01.txt",
   "packets/R-eb2d87/S01.txt",
   "packets/R-f53063/S01.txt",
@@ -121,7 +117,7 @@
   "packets/R-f6b2c6/S02.txt"
  ],
  "pins": {
-  "oracle/oracle.json": "89bd34b228518f8f05f974e81bfa4efd25dd4d12e4fc5b8b8f1edc636c7f7bef",
+  "oracle/oracle.json": "d1c63bbe4521205288d8365e550d78ef478a5d995c816f4200827c436ed6163a",
   "packets/R-12b20f/S01.txt": "cb23842f7c9515a996144be1783074c3782e8aa42a19e91c015fd1e6af913bbc",
   "packets/R-1a89b2/S01.txt": "9941f11c8f2f65ad43d60500e9cfd550bab2d974e5e9306028ed86444d874e07",
   "packets/R-1c8c19/S01.txt": "7af5c9423d4afdeca7fdfe211abcc5d70966c2cfd1256aa441ced348b1544ef5",
@@ -138,7 +134,6 @@
   "packets/R-32c6c4/S02.txt": "8b8b8933deefe325e90a4941917037fe6f20312f49112db1a090a0f540efabec",
   "packets/R-3b36bf/S01.txt": "19f524d5752c995d08e56754994b510550846d00ce7cf763d2e3e91bbf4bf2b9",
   "packets/R-4844da/S01.txt": "435dcda49184ded286cd17906d5bcb260a4e2e77bc4a40069de0d873c8dca52a",
-  "packets/R-52384b/S01.txt": "816f8bd8bad7e54b3be7359cb9a42b6aebbe220f368fe93a9cc46f2e82fb6134",
   "packets/R-54ca90/S01.txt": "723ed20776b0c20c4b1e6291209d435cda0106942b6c42ad40337938046b6c3f",
   "packets/R-54ca90/S02.txt": "99bca407924731a4ad0f7f33b18cbac572b1efe43344fa8f5ff2471a67870ba6",
   "packets/R-602bc9/S01.txt": "e29a524da30dbfed3dd5cc6bde8fde7f079b734e8164b6ede2768063178dc8d7",
@@ -178,7 +173,6 @@
   "packets/R-e1dbe6/S02.txt": "030214ded6732b5ccc96cc948108c3dca03b0aaf6e479b682509e70c8a65f30b",
   "packets/R-e3cf4c/S01.txt": "22b11a386c17ecbab073d2e2e7f6562741330cac947eaa4af59f49057de7ff20",
   "packets/R-e3cf4c/S02.txt": "030214ded6732b5ccc96cc948108c3dca03b0aaf6e479b682509e70c8a65f30b",
-  "packets/R-e8c7a7/S01.txt": "c00ada37b17176b2dd90d17aa0284a630bc3663a24c499851964a1d6fed2a40a",
   "packets/R-e93919/S01.txt": "ebedbbfae89334ad8a00b2f4f8f525def88dc5ed2088d24c36a34dfca244a0a2",
   "packets/R-eb2d87/S01.txt": "a630a576fd8eda3ee210d36515a43c47596041aca17a11789282533f56231752",
   "packets/R-f53063/S01.txt": "2d496c1066dedf89cca925526f9ed3da6fde7afbe8c0d80d40b9a070a848232f",
@@ -192,9 +186,6 @@
   "seedSha256": "363546b973d31b5def4a2cb8c9a986e6773569b560d115aefb64c7fefe8dbb97",
   "assignmentsSha256": "d4274305e993fbf6d97acaa9830f9f664ce33ca58d9f419439e9d7e7579302e4",
   "acceptedReportSha256": {
-   "N-102a76": {
-    "A": "b915722887223e5552d5c192cf2fad008d62cd22bc4ae683041ff5f174cafb07"
-   },
    "N-9c5803": {
     "A": "b0a120d8114cea98093313301de5328da8c2e6875c9084efa8501f17ace22f74"
    },
@@ -266,5 +257,10 @@
    }
   }
  },
- "dropped": []
+ "dropped": [
+  {
+   "pair": "N-102a76",
+   "reason": "Three authored versions each failed the blind audit on a second fault in a filler line of the sound plan: a scan 33 hours stale before the irreversible step; a four-hour window closing five hours after it opens; a smoke test submitted through an orchestrator drained until after it. The twin was recovered correctly every time. Dropped by the owner's decision of 2026-10-27 rather than authored a fourth time."
+  }
+ ]
 }

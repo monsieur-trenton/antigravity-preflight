@@ -420,6 +420,15 @@ class SpotCheckTests(unittest.TestCase):
         for fraction in (0.2, 0.5):
             self.assertGreaterEqual(len(ar.spot_sample(self.corpus, fraction)), 24 * fraction)
 
+    def test_a_second_sample_can_exclude_the_pairs_already_seen(self):
+        first = ar.spot_sample(self.corpus)
+        second = ar.spot_sample(self.corpus, exclude=set(first))
+        self.assertFalse(set(first) & set(second))
+        self.assertGreaterEqual(len(second), 5)
+        with tempfile.TemporaryDirectory() as tmp:
+            index = ar.write_spot(self.corpus, Path(tmp) / "spot", exclude=set(first))
+            self.assertFalse({k["pair"] for k in index.values()} & set(first))
+
     def test_the_files_hold_unlabelled_plans_and_only_the_index_knows_the_answer(self):
         with tempfile.TemporaryDirectory() as tmp:
             out = Path(tmp) / "spot"
