@@ -326,15 +326,14 @@
    ],
    "requirement": {
     "source": "S01",
-    "line": 2
+    "line": 5
    },
    "citeAnyOf": [],
    "changed": {
     "type": "deleted",
     "source": "S01",
     "lines": [
-     3,
-     4
+     7
     ],
     "positionBucket": "early"
    },
@@ -342,27 +341,25 @@
    "mechanism": null,
    "whyNoFallback": null,
    "baitNotes": [
-    "Build health alerts in the Slack channel are silenced for the entire maintenance window rather than dynamically adjusted",
-    "Only a single engineer is assigned to run the compaction script and verify database integrity",
-    "The performance read query validates only 5,000 keys out of over 14 million records"
+    "Rollback depends on manual cold-storage snapshot restoration without a timed rehearsal",
+    "Status notifications are routed to a single Slack channel without pager escalation",
+    "Compaction execution relies on a single engineer without a secondary approver"
    ],
    "rubricKeywords": [
     [
+     "referential integrity",
+     "runner pool",
+     "shard entries"
+    ],
+    [
+     "precondition",
      "compaction",
-     "null",
-     "target identifier",
-     "precondition"
+     "unmapped"
     ],
     [
      "scan",
-     "integrity",
-     "artifact records",
-     "corrupt"
-    ],
-    [
-     "irreversible",
-     "cache index",
-     "rebuild cascade"
+     "routing metadata",
+     "corruption"
     ]
    ]
   },
@@ -794,6 +791,10 @@
    "citeAnyOf": [
     {
      "source": "S01",
+     "line": 4
+    },
+    {
+     "source": "S01",
      "line": 8
     },
     {
@@ -815,28 +816,28 @@
      "line": 8
     }
    ],
-   "mechanism": "The changed plan brings the fx_rate_enrichment_module into deployment scope while its replay checkpoints remain unconfirmed from an earlier storage migration. This breaches the requirement that every warehouse ingestion module included in the deployment scope must have confirmed replay checkpoints before job execution.",
+   "mechanism": "The edited line moves the secondary checkpoint compaction service into scope while its compaction interval remains unconfirmed pending validation tomorrow afternoon. This causes the plan to proceed with warehouse table loading while an in-scope component has an unconfirmed configuration parameter, directly violating the requirement.",
    "whyNoFallback": null,
    "baitNotes": [
-    "All database rollback procedures rely entirely on David Kim without a designated secondary engineer",
-    "The staging cluster snapshot is retained for only twelve hours rather than a full billing cycle",
-    "Telemetry alerts route exclusively to a single Slack channel without automated pager escalation"
+    "All status updates and alerts are routed exclusively through a single Slack channel without pager escalation",
+    "The table rollback procedure lacks an explicit dry-run rehearsal step before production execution",
+    "Partition throughput validation relies on manual SQL polling queries rather than automated metric dashboards"
    ],
    "rubricKeywords": [
     [
-     "fx_rate_enrichment_module",
-     "scope",
-     "checkpoints"
+     "checkpoint",
+     "compaction",
+     "unconfirmed"
     ],
     [
-     "unconfirmed",
-     "replay",
-     "deployment"
-    ],
-    [
-     "requirement",
+     "in scope",
      "out of scope",
-     "in scope"
+     "requirement"
+    ],
+    [
+     "parameter",
+     "confirmed",
+     "warehouse"
     ]
    ]
   },
@@ -1202,25 +1203,25 @@
    "mechanism": null,
    "whyNoFallback": null,
    "baitNotes": [
-    "All database rollback procedures rely entirely on David Kim without a designated secondary engineer",
-    "The staging cluster snapshot is retained for only twelve hours rather than a full billing cycle",
-    "Telemetry alerts route exclusively to a single Slack channel without automated pager escalation"
+    "All status updates and alerts are routed exclusively through a single Slack channel without pager escalation",
+    "The table rollback procedure lacks an explicit dry-run rehearsal step before production execution",
+    "Partition throughput validation relies on manual SQL polling queries rather than automated metric dashboards"
    ],
    "rubricKeywords": [
     [
-     "fx_rate_enrichment_module",
-     "scope",
-     "checkpoints"
+     "checkpoint",
+     "compaction",
+     "unconfirmed"
     ],
     [
-     "unconfirmed",
-     "replay",
-     "deployment"
-    ],
-    [
-     "requirement",
+     "in scope",
      "out of scope",
-     "in scope"
+     "requirement"
+    ],
+    [
+     "parameter",
+     "confirmed",
+     "warehouse"
     ]
    ]
   },
@@ -1674,57 +1675,54 @@
     {
      "id": "S01",
      "role": "plan",
-     "lines": 36
+     "lines": 37
     }
    ],
    "requirement": {
     "source": "S01",
-    "line": 2
+    "line": 5
    },
    "citeAnyOf": [
     {
      "source": "S01",
-     "line": 2
+     "line": 5
     },
     {
      "source": "S01",
-     "line": 16
+     "line": 22
     }
    ],
    "changed": {
     "type": "deleted",
     "source": "S01",
     "lines": [
-     3,
-     4
+     7
     ],
     "positionBucket": "early"
    },
    "decoyLines": [],
-   "mechanism": "The plan lacks the pre-migration integrity scan verifying that all 14.28 million artifact records contain non-null target identifiers before running pack_catalog_v3.sh. Without this verification, executing the irreversible compaction script risks corrupting the cache index and triggering a catastrophic cold-rebuild cascade as stated in the plan's requirement.",
-   "whyNoFallback": "The plan executes the catalog compaction script without performing any prior scan, dry run, or catalog query to confirm that artifact records lack null target identifiers, and none of the runtime metric checks or post-migration read validations prevent or revert the irreversible index corruption.",
+   "mechanism": "The plan executes an irreversible dispatch table compaction that corrupts routing metadata and halts CI runs if any test shard references an invalid runner pool ID, but it lacks the pre-migration integrity scan verifying that all 18,400 shard entries reference existing runner pool IDs. Without this verification, unmapped runner pool IDs cannot be detected before the compaction permanently overwrites the live routing tables.",
+   "whyNoFallback": "Nothing in the plan performs a dry run, query, or schema validation to verify that all shard entries reference valid runner pool IDs before the compaction script executes.",
    "baitNotes": [
-    "Build health alerts in the Slack channel are silenced for the entire maintenance window rather than dynamically adjusted",
-    "Only a single engineer is assigned to run the compaction script and verify database integrity",
-    "The performance read query validates only 5,000 keys out of over 14 million records"
+    "Rollback depends on manual cold-storage snapshot restoration without a timed rehearsal",
+    "Status notifications are routed to a single Slack channel without pager escalation",
+    "Compaction execution relies on a single engineer without a secondary approver"
    ],
    "rubricKeywords": [
     [
+     "referential integrity",
+     "runner pool",
+     "shard entries"
+    ],
+    [
+     "precondition",
      "compaction",
-     "null",
-     "target identifier",
-     "precondition"
+     "unmapped"
     ],
     [
      "scan",
-     "integrity",
-     "artifact records",
-     "corrupt"
-    ],
-    [
-     "irreversible",
-     "cache index",
-     "rebuild cascade"
+     "routing metadata",
+     "corruption"
     ]
    ]
   },
@@ -1748,44 +1746,45 @@
    ],
    "requirement": {
     "source": "S01",
-    "line": 55
+    "line": 51
    },
    "citeAnyOf": [],
    "changed": {
     "type": "edited",
     "source": "S01",
     "lines": [
-     49
+     48
     ],
     "positionBucket": "late"
    },
    "decoyLines": [
     {
      "source": "S01",
-     "line": 40
+     "line": 41
     }
    ],
    "mechanism": null,
    "whyNoFallback": null,
    "baitNotes": [
-    "The rollback procedure relies entirely on manual diff inspection rather than an automated script",
-    "No dry-run rehearsal is scheduled in a staging environment prior to the production window",
-    "Notifications are routed to a single Slack channel without an automated paging fallback"
+    "Marcus Vance is assigned to both prepare and execute the bucket lifecycle changes without a separate rehearsal on production data",
+    "The change window relies on a single Slack channel for operational communication without an automated escalation paging channel",
+    "The rollback script is verified only in an isolated sandbox environment rather than against a full staging replica of the production bucket"
    ],
    "rubricKeywords": [
     [
      "legal-hold",
-     "in scope",
-     "prefix"
+     "scope",
+     "unconfirmed"
     ],
     [
+     "retention",
      "pending",
-     "approval",
-     "retention days"
+     "confirmed"
     ],
     [
      "requirement",
-     "lifecycle update"
+     "lifecycle",
+     "execution"
     ]
    ]
   },
@@ -1939,53 +1938,54 @@
    ],
    "requirement": {
     "source": "S01",
-    "line": 55
+    "line": 51
    },
    "citeAnyOf": [
     {
      "source": "S01",
-     "line": 40
+     "line": 48
     },
     {
      "source": "S01",
-     "line": 49
+     "line": 51
     }
    ],
    "changed": {
     "type": "edited",
     "source": "S01",
     "lines": [
-     49
+     48
     ],
     "positionBucket": "late"
    },
    "decoyLines": [
     {
      "source": "S01",
-     "line": 40
+     "line": 41
     }
    ],
-   "mechanism": "Editing line 49 brings the legal-hold prefix into scope for the lifecycle update while its retention days remain unconfirmed. This causes the plan to touch a prefix that lacks approved retention settings, directly violating the requirement.",
+   "mechanism": "Line S01:48 changes the legal-hold prefix from out of scope to in scope for the deployment even though line S01:41 leaves its retention days pending and unconfirmed. Proceeding with the policy application at line S01:54 directly violates the requirement at line S01:51 that all in-scope storage components must have confirmed retention days and replication settings before execution.",
    "whyNoFallback": null,
    "baitNotes": [
-    "The rollback procedure relies entirely on manual diff inspection rather than an automated script",
-    "No dry-run rehearsal is scheduled in a staging environment prior to the production window",
-    "Notifications are routed to a single Slack channel without an automated paging fallback"
+    "Marcus Vance is assigned to both prepare and execute the bucket lifecycle changes without a separate rehearsal on production data",
+    "The change window relies on a single Slack channel for operational communication without an automated escalation paging channel",
+    "The rollback script is verified only in an isolated sandbox environment rather than against a full staging replica of the production bucket"
    ],
    "rubricKeywords": [
     [
      "legal-hold",
-     "in scope",
-     "prefix"
+     "scope",
+     "unconfirmed"
     ],
     [
+     "retention",
      "pending",
-     "approval",
-     "retention days"
+     "confirmed"
     ],
     [
      "requirement",
-     "lifecycle update"
+     "lifecycle",
+     "execution"
     ]
    ]
   },
@@ -2525,15 +2525,15 @@
    ],
    "requirement": {
     "source": "S01",
-    "line": 32
+    "line": 33
    },
    "citeAnyOf": [],
    "changed": {
     "type": "deleted",
     "source": "S01",
     "lines": [
-     7,
-     8
+     9,
+     10
     ],
     "positionBucket": "early"
    },
@@ -2541,25 +2541,25 @@
    "mechanism": null,
    "whyNoFallback": null,
    "baitNotes": [
-    "Marcus Vance serves as both the incident commander and the primary database administrator, concentrating operational responsibilities onto a single individual.",
-    "Status communications rely entirely on a single Slack channel without an out-of-band paging fallback.",
-    "The procedure lacks a preliminary dry-run rehearsal on a smaller non-production staging instance prior to full target execution."
+    "Status updates rely on a single Slack channel with no secondary paging or email alert escalation",
+    "Sarah Chen is the sole engineer performing both the database administration and script execution without a peer reviewer",
+    "The drill procedure does not include a preliminary dry run in an ephemeral staging container prior to production restore execution"
    ],
    "rubricKeywords": [
     [
-     "orphaned journal entries",
      "referential integrity",
-     "foreign key"
+     "foreign key",
+     "orphaned"
     ],
     [
+     "reconcile_claims_partition.sh",
      "irreversible",
-     "precondition check",
-     "catalog"
+     "precondition"
     ],
     [
-     "scan",
-     "production snapshot",
-     "validation"
+     "claim_disbursements",
+     "policy_records",
+     "scan"
     ]
    ]
   },
@@ -2984,50 +2984,50 @@
    ],
    "requirement": {
     "source": "S01",
-    "line": 30
+    "line": 31
    },
    "citeAnyOf": [
     {
      "source": "S01",
-     "line": 30
+     "line": 31
     },
     {
      "source": "S01",
-     "line": 33
+     "line": 36
     }
    ],
    "changed": {
     "type": "deleted",
     "source": "S01",
     "lines": [
-     7,
-     8
+     9,
+     10
     ],
     "positionBucket": "early"
    },
    "decoyLines": [],
-   "mechanism": "The plan deletes the referential integrity scan that verified zero orphaned records in the production dataset before running the irreversible foreign key constraint script. Without this precondition check, executing the irreversible script risks catastrophic failure and system catalog corruption on the restore target if any orphaned rows exist.",
-   "whyNoFallback": "The plan contains no other data integrity scans, foreign key checks, or schema validation queries prior to constraint enforcement, leaving referential consistency completely unverified before running the irreversible catalog modification.",
+   "mechanism": "The twin deletes the referential integrity scan on drill-target-db01 that confirmed all 42 million claim disbursement records reference valid parent policy records. Without this precondition established, executing the irreversible reconciliation script risks corrupting ledger totals and failing the drill if orphaned disbursements exist.",
+   "whyNoFallback": "Nothing else in the plan runs a foreign key integrity scan, checks for orphaned child records, or validates parent mapping prior to executing the irreversible reconciliation script.",
    "baitNotes": [
-    "Marcus Vance serves as both the incident commander and the primary database administrator, concentrating operational responsibilities onto a single individual.",
-    "Status communications rely entirely on a single Slack channel without an out-of-band paging fallback.",
-    "The procedure lacks a preliminary dry-run rehearsal on a smaller non-production staging instance prior to full target execution."
+    "Status updates rely on a single Slack channel with no secondary paging or email alert escalation",
+    "Sarah Chen is the sole engineer performing both the database administration and script execution without a peer reviewer",
+    "The drill procedure does not include a preliminary dry run in an ephemeral staging container prior to production restore execution"
    ],
    "rubricKeywords": [
     [
-     "orphaned journal entries",
      "referential integrity",
-     "foreign key"
+     "foreign key",
+     "orphaned"
     ],
     [
+     "reconcile_claims_partition.sh",
      "irreversible",
-     "precondition check",
-     "catalog"
+     "precondition"
     ],
     [
-     "scan",
-     "production snapshot",
-     "validation"
+     "claim_disbursements",
+     "policy_records",
+     "scan"
     ]
    ]
   },

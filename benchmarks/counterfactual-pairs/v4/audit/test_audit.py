@@ -291,7 +291,7 @@ def perfect_ledger(corpus):
             answer = ap.parse(PAIR.replace("NEEDS_CHANGE: Y", "NEEDS_CHANGE: " + ("Y" if apr.x_is_sound(seed, subject) else "X")), "pair")
         else:
             answer = ap.parse(CLAIM, "claim")
-        rows[call_id] = {"call": call_id, "type": call_type, "subject": subject, "answer": answer}
+        rows[call_id] = {"call": call_id, "type": call_type, "subject": subject, "answer": answer, "requestSha256": hashlib.sha256(request.encode("utf-8")).hexdigest()}
     return rows
 
 
@@ -360,6 +360,14 @@ class ReportTests(unittest.TestCase):
         self.assertEqual((report["perPair"][pair]["decision"], report["perPair"][pair]["incompleteCalls"]), ("INCOMPLETE", ["pair", "claim"]))
         self.assertEqual(report["decisions"]["INCOMPLETE"], 1)
         self.assertEqual(report["firstPassAgreement"]["of"], 23)
+
+    def test_an_answer_to_a_request_the_corpus_no_longer_sends_is_stale_not_a_pass(self):
+        pair = self.pairs("omitted_unknown")[0]
+        cases = ar.pairs_of(self.corpus)[pair]
+        rows = perfect_ledger(self.corpus)
+        rows[f"member:{cases['changed']}"]["requestSha256"] = "0" * 64
+        entry = ar.analyse(self.corpus, rows)["perPair"][pair]
+        self.assertEqual((entry["decision"], entry["incompleteCalls"]), ("INCOMPLETE", ["twin"]))
 
     def test_a_defect_pair_needs_no_claim_check(self):
         pair = self.pairs("cross_source_defect")[0]

@@ -5,7 +5,7 @@ reads: packets/<case>/S0n.txt, oracle/oracle.json (one record per case, validate
 derived from the seed, so they carry no information and the build is reproducible. Pairs named in --drops are left out of the corpus and recorded in the manifest with
 their reasons. For a sealed split give --sealed-manifest as well: it writes a hashes-only document that can be committed while the corpus directory stays private.
 
-Usage: build_corpus.py --split dev|test --accepted DIR --out NEW_DIR [--drops FILE] [--sealed-manifest FILE]
+Usage: build_corpus.py --split dev|test --accepted DIR[,DIR] --out NEW_DIR [--drops FILE] [--sealed-manifest FILE]
 """
 import argparse
 import hashlib
@@ -80,6 +80,15 @@ def records_for(instance, family, parsed, wording, seed):
     return out
 
 
+def accepted_file(accepted, name):
+    """The accepted report `name` from the last directory that has it; `accepted` is one directory or several (a later batch replaces an earlier report of the same pair)."""
+    dirs = [Path(d) for d in (accepted.split(",") if isinstance(accepted, str) else [accepted] if isinstance(accepted, Path) else accepted)]
+    for directory in reversed(dirs):
+        if (directory / name).is_file():
+            return directory / name
+    return dirs[-1] / name
+
+
 def build(split, accepted_dir, out_dir, drops=()):
     seeds = json.loads((HERE / "seeds.json").read_bytes())
     seed = seeds[split]["seed"]
@@ -96,14 +105,14 @@ def build(split, accepted_dir, out_dir, drops=()):
         if pair in dropped:
             continue
         family = families[instance["family"]]
-        report_a = Path(accepted_dir) / f"{pair}.A.md"
+        report_a = accepted_file(accepted_dir, f"{pair}.A.md")
         need(report_a.is_file(), "MISSING_ACCEPTED:" + pair)
         result, parsed_a = ca.analyse(report_a.read_text(encoding="utf-8"), instance, family)
         need(result["allPassed"] and parsed_a, "ACCEPTED_FAILS_CHECKS:" + pair)
         authored[pair] = {"A": sha(report_a.read_bytes())}
         versions = [("A", parsed_a)]
         if instance["wordingB"]:
-            report_b = Path(accepted_dir) / f"{pair}.B.md"
+            report_b = accepted_file(accepted_dir, f"{pair}.B.md")
             need(report_b.is_file(), "MISSING_REWORDING:" + pair)
             result_b, parsed_b = ca.analyse_reword(report_b.read_text(encoding="utf-8"), parsed_a, instance, family)
             need(result_b["allPassed"] and parsed_b, "REWORDING_FAILS_CHECKS:" + pair)
@@ -145,7 +154,7 @@ def sealed(manifest):
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--split", required=True, choices=("dev", "test"))
-    parser.add_argument("--accepted", required=True)
+    parser.add_argument("--accepted", required=True, help="a directory of accepted reports, or several separated by commas (a later one replaces the same pair of an earlier one)")
     parser.add_argument("--out", required=True)
     parser.add_argument("--drops")
     parser.add_argument("--sealed-manifest")

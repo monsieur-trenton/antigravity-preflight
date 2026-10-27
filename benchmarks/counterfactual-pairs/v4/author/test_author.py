@@ -518,6 +518,20 @@ class BuilderTests(unittest.TestCase):
             self.assertEqual(manifest["dropped"], [{"pair": pair, "reason": "the audit could not recover its class"}])
             self.assertNotIn(pair, {r["pair"] for r in s4.Corpus(out).oracle.values()})
 
+    def test_a_later_directory_of_accepted_reports_replaces_the_same_pair(self):
+        pair = DOCS["dev"]["instances"][0]
+        f = prompts.family_of(pair)
+        with tempfile.TemporaryDirectory() as tmp:
+            first, second = Path(tmp) / "a", Path(tmp) / "b"
+            write_accepted(first, "dev")
+            second.mkdir()
+            text, _ = su.case_report(pair, f, lambda facts: facts.update(mechanism="A different mechanism sentence for the rewritten pair, long enough to pass."))
+            (second / f"{pair['pair']}.A.md").write_text(text, encoding="utf-8")
+            manifest = bc.build("dev", f"{first},{second}", Path(tmp) / "out")
+            self.assertEqual(manifest["authoring"]["acceptedReportSha256"][pair["pair"]]["A"], rp.sha(text.encode()))
+            twin = next(r for r in s4.Corpus(Path(tmp) / "out").oracle.values() if r["pair"] == pair["pair"] and r["role"] == "changed")
+            self.assertTrue(twin["mechanism"].startswith("A different mechanism"))
+
     def test_the_build_stops_on_missing_failing_or_unexplained_input(self):
         pair = DOCS["dev"]["instances"][0]["pair"]
         with tempfile.TemporaryDirectory() as tmp:
@@ -757,6 +771,8 @@ class DriverTests(unittest.TestCase):
 
 
 DEV_AUTHORING = V4 / "dev-authoring"
+DEV_REVISION = V4 / "dev-authoring-revision"
+REWRITTEN = ["N-102a76", "N-4aedf1", "N-93366f", "N-9cc72c"]
 DEV_CORPUS = V4 / "dev"
 
 
@@ -815,11 +831,55 @@ class CommittedDevAuthoringTests(unittest.TestCase):
 
     def test_the_committed_dev_corpus_is_reproduced_from_the_accepted_reports(self):
         with tempfile.TemporaryDirectory() as tmp:
-            manifest = bc.build("dev", DEV_AUTHORING / "accepted", Path(tmp) / "out")
+            manifest = bc.build("dev", f"{DEV_AUTHORING / 'accepted'},{DEV_REVISION / 'accepted'}", Path(tmp) / "out")
             self.assertEqual(manifest, json.loads((DEV_CORPUS / "manifest.json").read_bytes()))
             self.assertEqual((Path(tmp) / "out/oracle/oracle.json").read_bytes(), (DEV_CORPUS / "oracle/oracle.json").read_bytes())
         corpus = s4.Corpus(DEV_CORPUS)
         self.assertEqual((len(corpus.oracle), manifest["pairs"], manifest["dropped"]), (48, 24, []))
+
+
+class CommittedDevRevisionTests(unittest.TestCase):
+    """The second dev batch: the four pairs the audit found to carry a second unestablished fact, rewritten after the hazards were revised, in a new root."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.rows = [json.loads(line) for line in (DEV_REVISION / "calls.jsonl").read_text(encoding="utf-8").splitlines() if line.strip()]
+
+    def test_four_pairs_four_calls_all_accepted_at_the_first_attempt(self):
+        self.assertEqual([r["pair"] for r in self.rows], REWRITTEN)
+        self.assertEqual([(r["attempt"], r["accepted"], r["technicalStop"], r["failedChecks"]) for r in self.rows], [(1, True, None, [])] * 4)
+        self.assertEqual({r["runManifestSha256"] for r in self.rows}, {rp.sha((PARENT / "v3-run-gemini/manifest.json").read_bytes())})
+
+    def test_prompts_hash_as_sent_and_were_built_with_the_revised_hazards(self):
+        families = {f["id"]: f for f in FAMILIES["families"]}
+        for r in self.rows:
+            instance = next(i for i in DOCS["dev"]["instances"] if i["pair"] == r["pair"])
+            prompt = (DEV_REVISION / "prompts" / f"{r['pair']}.A.txt").read_bytes()
+            self.assertEqual((rp.sha(prompt), len(prompt)), (r["promptSha256"], r["promptBytes"]))
+            text = prompt.decode("utf-8")
+            self.assertTrue(any(h in text for h in families[instance["family"]]["hazards"][-1:]), r["pair"])
+            self.assertIn("exactly one open item" if instance["kind"] == "decoy_pair" else "after the last write, replay or sync", text)
+
+    def test_reports_hash_receipts_are_clean_and_accepted_reports_pass_again(self):
+        binary = json.loads((PARENT / "v3-run-gemini/manifest.json").read_bytes())["binary"]["sha256"]
+        for r in self.rows:
+            instance = next(i for i in DOCS["dev"]["instances"] if i["pair"] == r["pair"])
+            report = (DEV_REVISION / "calls" / f"{r['pair']}-author-a1" / "REPORT.md").read_bytes()
+            self.assertEqual(rp.sha(report), r["reportSha256"])
+            self.assertEqual((DEV_REVISION / "accepted" / f"{r['pair']}.A.md").read_bytes(), report)
+            self.assertTrue(ca.analyse(report.decode("utf-8"), instance, prompts.family_of(instance))[0]["allPassed"])
+            receipt = json.loads((DEV_REVISION / "calls" / f"{r['pair']}-author-a1" / "CLI-RECEIPT.json").read_bytes())
+            self.assertEqual((receipt["status"], receipt["failure"], receipt["closingFailures"], receipt["retries"], receipt["native"]["sha256"]),
+                             ("REPORT_RECEIVED_PENDING_ADJUDICATION", None, [], 0, binary))
+
+    def test_the_rewritten_reports_replace_the_first_batch_in_the_dev_corpus_and_nothing_else_changes(self):
+        manifest = json.loads((DEV_CORPUS / "manifest.json").read_bytes())
+        shas = manifest["authoring"]["acceptedReportSha256"]
+        for pair in REWRITTEN:
+            self.assertEqual(shas[pair]["A"], rp.sha((DEV_REVISION / "accepted" / f"{pair}.A.md").read_bytes()))
+            self.assertNotEqual(shas[pair]["A"], rp.sha((DEV_AUTHORING / "accepted" / f"{pair}.A.md").read_bytes()))
+        for pair in sorted(set(shas) - set(REWRITTEN)):
+            self.assertEqual(shas[pair]["A"], rp.sha((DEV_AUTHORING / "accepted" / f"{pair}.A.md").read_bytes()))
 
 
 class RunScriptTests(unittest.TestCase):

@@ -33,6 +33,7 @@ def load(name, path):
 
 
 s4 = load("audit_report_score_v4", HERE.parent / "score_v4.py")
+audit_driver = load("audit_report_driver", HERE / "audit.py")
 EXPECTED = {"SOUND": "SOUND", "DEFECT": "HAS_A_DEFECT", "UNCERTAIN": "HAS_AN_UNESTABLISHED_FACT"}
 GAP_KINDS = ("omitted_unknown", "decoy_pair")
 SPOT_FRACTION = 0.2
@@ -54,7 +55,13 @@ def read_ledger(path):
 
 
 def clean(row):
-    return row is not None and not row.get("technicalStop") and "answer" in row
+    return row is not None and not row.get("technicalStop") and "answer" in row and not row.get("stale")
+
+
+def mark_stale(corpus, rows):
+    """Rows whose request is not the request this corpus would send for that call (the pair was rewritten after the call) are marked stale and count as missing."""
+    expected = {call_id: hashlib.sha256(request.encode("utf-8")).hexdigest() for call_id, _, _, request in audit_driver.schedule(corpus)}
+    return {call_id: dict(row, stale=True) if call_id in expected and row.get("requestSha256") != expected[call_id] else row for call_id, row in rows.items()}
 
 
 def pairs_of(corpus):
@@ -68,6 +75,7 @@ def pairs_of(corpus):
 def analyse(corpus, rows):
     seed = corpus.manifest["authoring"]["seedSha256"]
     oracle = corpus.oracle
+    rows = mark_stale(corpus, rows)
     per_pair, member_total, member_right = {}, 0, 0
     by_kind = {}
     reads = []
