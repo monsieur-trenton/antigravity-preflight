@@ -919,7 +919,8 @@ class RunScriptTests(unittest.TestCase):
         import os
         import subprocess
         with tempfile.TemporaryDirectory() as tmp:
-            env = dict(os.environ, ROOT=str(root or Path(tmp) / "root"), AGY="/nonexistent/agy", **(env_extra or {}))
+            env = {k: v for k, v in os.environ.items() if k not in ("SPLIT", "ROOT", "AGY")}      # the operator's own exports must not change what the script is tested against
+            env.update(ROOT=str(root or Path(tmp) / "root"), AGY="/nonexistent/agy", **(env_extra or {}))
             done = subprocess.run(["bash", str(self.SCRIPT), *args], capture_output=True, text=True, env=env, cwd=REPO, check=False, timeout=300)
             return done.returncode, done.stdout, done.stderr
 
