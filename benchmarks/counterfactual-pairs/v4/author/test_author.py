@@ -22,6 +22,7 @@ import author  # noqa: E402
 import build_corpus as bc  # noqa: E402
 import check_author as ca  # noqa: E402
 import prompts  # noqa: E402
+import recheck  # noqa: E402
 import support as su  # noqa: E402
 
 
@@ -296,6 +297,9 @@ class CheckerTests(unittest.TestCase):
                 self.assertIn("ORACLE_CONTENT" if changes != {"rubric": ""} else "ORACLE_FIELDS", self.mutated("omitted_unknown", **changes)[0])
         self.assertIn("ORACLE_CONTENT", self.mutated("defect", split="test", why="Nothing else makes up for it, so the twin stays wrong.")[0])
         self.assertIn("RUBRIC_GROUNDED_IN_THE_PLAN", self.mutated("omitted_unknown", rubric="zebra, giraffe")[0])
+        # a gap needs one grounded group, a defect needs all of them
+        self.assertNotIn("RUBRIC_GROUNDED_IN_THE_PLAN", self.mutated("omitted_unknown", rubric="platform, task ; zebra, giraffe")[0])
+        self.assertIn("RUBRIC_GROUNDED_IN_THE_PLAN", self.mutated("defect", split="test", rubric="platform, task ; zebra, giraffe")[0])
         self.assertIn("CLAIM_SENTENCE_NEUTRAL", self.mutated("omitted_unknown", why="Nothing else in the twin bounds it, so the requirement stays unsupported.")[0])
         self.assertIn("ORACLE_REFS_IN_RANGE", self.mutated("omitted_unknown", requirement="third")[0])
 
@@ -911,6 +915,55 @@ class CommittedDevRevision2Tests(unittest.TestCase):
             self.assertEqual((receipt["status"], receipt["retries"], receipt["native"]["sha256"]), ("REPORT_RECEIVED_PENDING_ADJUDICATION", 0, binary))
 
 
+class RecheckTests(unittest.TestCase):
+    """Accepting a report that failed only a rule that was corrected afterwards, without a model call and with a record of having done so."""
+
+    def work(self, tmp, reports):
+        """A work directory whose ledger holds one failed attempt per (pair, report text); returns the directory."""
+        work = Path(tmp) / "work"
+        (work / "accepted").mkdir(parents=True)
+        rows = []
+        for pair, text, extra in reports:
+            call = work / "calls" / f"{pair}-author-a1"
+            call.mkdir(parents=True)
+            if text is not None:
+                (call / "REPORT.md").write_text(text, encoding="utf-8")
+            rows.append(dict({"pair": pair, "purpose": "author", "attempt": 1, "accepted": False, "failedChecks": ["RUBRIC_GROUNDED_IN_THE_PLAN"], "technicalStop": None}, **extra))
+        (work / "calls.jsonl").write_text("\n".join(json.dumps(r) for r in rows) + "\n", encoding="utf-8")
+        return work
+
+    def test_a_report_that_passes_the_corrected_check_is_accepted_and_recorded_and_the_rest_are_left(self):
+        gap = next(i for i in DOCS["test"]["instances"] if i["family"] == "omitted_measurement")
+        defect = next(i for i in DOCS["test"]["instances"] if i["family"] == "budget_arithmetic")
+        stopped = next(i for i in DOCS["test"]["instances"] if i["family"] == "omitted_access_check")
+        good, _ = su.case_report(gap, prompts.family_of(gap), lambda facts: facts.update(rubric="platform, task ; unmeasured, untested"))
+        bad, _ = su.case_report(defect, prompts.family_of(defect), lambda facts: facts.update(rubric="platform, task ; zebra, giraffe"))
+        with tempfile.TemporaryDirectory() as tmp:
+            work = self.work(tmp, [(gap["pair"], good, {}), (defect["pair"], bad, {}), (stopped["pair"], None, {"technicalStop": "RUNTIME_STOP:x", "failedChecks": None})])
+            dry = recheck.run("test", work)
+            self.assertEqual((dry["considered"], dry["wouldAccept"], dry["accepted"], dry["stillFailing"]), (2, [gap["pair"]], [], 1))
+            self.assertFalse((work / "accepted" / f"{gap['pair']}.A.md").exists())
+            done = recheck.run("test", work, apply=True)
+            self.assertEqual((done["accepted"], done["providerCalls"]), ([gap["pair"]], 0))
+            self.assertEqual((work / "accepted" / f"{gap['pair']}.A.md").read_text(encoding="utf-8"), good)
+            self.assertFalse((work / "accepted" / f"{defect['pair']}.A.md").exists())
+            record = json.loads((work / "rechecks.jsonl").read_text(encoding="utf-8").splitlines()[0])
+            self.assertEqual((record["pair"], record["failedBefore"], record["reportSha256"], record["checkerSha256"]),
+                             (gap["pair"], ["RUBRIC_GROUNDED_IN_THE_PLAN"], rp.sha(good.encode()), rp.sha((HERE / "check_author.py").read_bytes())))
+            again = recheck.run("test", work, apply=True)
+            self.assertEqual((again["considered"], again["accepted"]), (1, []))      # the accepted pair is left alone; the failing one still fails
+
+    def test_only_the_last_attempt_counts_and_the_ledger_is_never_changed(self):
+        gap = next(i for i in DOCS["test"]["instances"] if i["family"] == "omitted_measurement")
+        good, _ = su.case_report(gap, prompts.family_of(gap))
+        with tempfile.TemporaryDirectory() as tmp:
+            work = self.work(tmp, [(gap["pair"], good, {})])
+            before = (work / "calls.jsonl").read_bytes()
+            recheck.run("test", work, apply=True)
+            self.assertEqual((work / "calls.jsonl").read_bytes(), before)
+            self.assertEqual(recheck.run("test", Path(tmp) / "nowhere")["considered"], 0)
+
+
 class RunScriptTests(unittest.TestCase):
     """The gated helper script: its pinned expectations match the repository, it refuses ungated live calls and its stages need the host stage first."""
     SCRIPT = HERE / "run.sh"
@@ -928,7 +981,7 @@ class RunScriptTests(unittest.TestCase):
         text = self.SCRIPT.read_text(encoding="utf-8")
         pins = {"EXPECT_AGY_SHA": BINARY, "EXPECT_RUN_SHA": rp.sha((PARENT / "v3-run-gemini/manifest.json").read_bytes()),
                 "EXPECT_AUTHOR_TEMPLATE_SHA": rp.sha((HERE / "author-template.txt").read_bytes()), "EXPECT_REWORD_TEMPLATE_SHA": rp.sha((HERE / "reword-template.txt").read_bytes()),
-                "EXPECT_FAMILIES_SHA": rp.sha((V4 / "families.json").read_bytes()), "EXPECT_DOMAINS_SHA": rp.sha((V4 / "domains.json").read_bytes()),
+                "EXPECT_CHECKER_SHA": rp.sha((HERE / "check_author.py").read_bytes()), "EXPECT_FAMILIES_SHA": rp.sha((V4 / "families.json").read_bytes()), "EXPECT_DOMAINS_SHA": rp.sha((V4 / "domains.json").read_bytes()),
                 "EXPECT_DEV_ASSIGNMENTS_SHA": rp.sha((HERE / "assignments-dev.json").read_bytes()), "EXPECT_TEST_ASSIGNMENTS_SHA": rp.sha((HERE / "assignments-test.json").read_bytes())}
         for name, value in pins.items():
             self.assertIn(f"{name}={value}", text)
@@ -954,6 +1007,20 @@ class RunScriptTests(unittest.TestCase):
         self.assertTrue("MISMATCH:agy-sha" in err or "MISMATCH:clean-tree" in err)
         self.assertEqual(self.sh("status")[0], 1)
         self.assertEqual(self.sh("bundle")[0], 1)
+
+    def test_status_names_the_failed_checks_and_recheck_needs_a_run(self):
+        self.assertEqual(self.sh("recheck")[0], 1)
+        with tempfile.TemporaryDirectory() as tmp:
+            work = Path(tmp) / "root/work"
+            work.mkdir(parents=True)
+            rows = [{"pair": "N-a", "purpose": "author", "attempt": 1, "accepted": False, "failedChecks": ["LINE_SHAPE", "NO_META_WORDS"], "technicalStop": None, "allPassed": False},
+                    {"pair": "N-b", "purpose": "author", "attempt": 1, "accepted": False, "failedChecks": ["LINE_SHAPE"], "technicalStop": None, "allPassed": False}]
+            (work / "calls.jsonl").write_text("\n".join(json.dumps(r) for r in rows) + "\n", encoding="utf-8")
+            code, out, err = self.sh("status", root=Path(tmp) / "root")
+            self.assertEqual(code, 0, err)
+            self.assertEqual(json.loads(out)["failedCheckNames"], {"LINE_SHAPE": 2, "NO_META_WORDS": 1})
+            code, out, err = self.sh("recheck", root=Path(tmp) / "root")
+            self.assertEqual((code, json.loads(out)["providerCalls"]), (0, 0))
 
     def test_diag_reports_start_up_time_and_load_without_a_model_call(self):
         code, out, err = self.sh("diag")

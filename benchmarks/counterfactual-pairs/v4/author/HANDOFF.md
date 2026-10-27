@@ -47,6 +47,8 @@ Show the owner the `dry` output and wait for their go. Then, in batches the owne
 $B live 3 --go          # at most 3 authoring calls, one per pair that is not yet accepted, in assignment order
 $B status               # no model call: calls, stops, failed checks, accepted, not accepted, attempts used up
 ```
+If the owner says a check was corrected, run `$B recheck` (no model call; it only reports which held reports would now pass), show the owner the JSON, and on their word `$B recheck --apply`. It accepts a report that failed only the old rule, records it in `rechecks.jsonl`, and never opens a report for a person to read.
+
 Repeat `live N --go` while the owner says so. A pair whose report fails a check is tried again by the next `live`, until it has used two attempts. Prints one JSON line per invocation: paste it to the owner without comment.
 
 Test split only, after all 80 pairs are accepted (or the owner says to go on without the ones that are not):

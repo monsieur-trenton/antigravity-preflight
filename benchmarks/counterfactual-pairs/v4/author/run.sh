@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Gated helper for authoring corpus v4 (see HANDOFF.md). Subcommands: checks | diag | host | dry | live N --go [PAIRS] | reword N --go [PAIRS] | status | bundle.
+# Gated helper for authoring corpus v4 (see HANDOFF.md). Subcommands: checks | diag | host | dry | live N --go [PAIRS] | reword N --go [PAIRS] | status | recheck [--apply] | bundle.
 # Stops at the first failure. A live call is made only by live/reword, only with --go, and at most N calls per invocation.
 #   SPLIT  dev or test (default dev)
 #   ROOT   working root, new and outside the repository (default /tmp/v4author-$SPLIT)
@@ -16,6 +16,7 @@ EXPECT_AGY_SHA=16e228cb243fa098eeb27b3b2aca963caec84e4a8ac49e3821b00c56f99f7508
 EXPECT_RUN_SHA=d853fee334b39a42d8b1b20b87a9dc27d68f108a9a4b4afa8e28c48e901ff5d2
 EXPECT_AUTHOR_TEMPLATE_SHA=530455ad03cba6017a855bcc9cde5f78a19e4ff2099f5e419e5a2f931134dece
 EXPECT_REWORD_TEMPLATE_SHA=5ee054df5a23cfba5a7258011d36113d28d0b3eeb03bae620fdf29fc1fcaf5f0
+EXPECT_CHECKER_SHA=5c02e3fcbcadd51b587ceb12a6678ed654082d5013190c16c66c670c7dd1dca2
 EXPECT_FAMILIES_SHA=3e2da8f672febc1d3f855012ee69010e7c2ac97a768a420314024a59b25a53d3
 EXPECT_DOMAINS_SHA=f712ce97d0ed6873a7702b466ec2a6633ff600d3fa9649b25012bbbec30db692
 EXPECT_DEV_ASSIGNMENTS_SHA=d4274305e993fbf6d97acaa9830f9f664ce33ca58d9f419439e9d7e7579302e4
@@ -36,6 +37,7 @@ case "${1:-}" in
     need_equal run-manifest "$(sha256sum $C/v3-run-gemini/manifest.json | cut -d' ' -f1)" "$EXPECT_RUN_SHA"
     need_equal author-template "$(sha256sum $A/author-template.txt | cut -d' ' -f1)" "$EXPECT_AUTHOR_TEMPLATE_SHA"
     need_equal reword-template "$(sha256sum $A/reword-template.txt | cut -d' ' -f1)" "$EXPECT_REWORD_TEMPLATE_SHA"
+    need_equal checker "$(sha256sum $A/check_author.py | cut -d' ' -f1)" "$EXPECT_CHECKER_SHA"
     need_equal families "$(sha256sum $C/v4/families.json | cut -d' ' -f1)" "$EXPECT_FAMILIES_SHA"
     need_equal domains "$(sha256sum $C/v4/domains.json | cut -d' ' -f1)" "$EXPECT_DOMAINS_SHA"
     need_equal dev-assignments "$(sha256sum $A/assignments-dev.json | cut -d' ' -f1)" "$EXPECT_DEV_ASSIGNMENTS_SHA"
@@ -74,6 +76,7 @@ print('HOST_OK qualification', q['status'], 'capabilities', c['status'], 'versio
       echo "run manifest (v3 gemini): $(sha256sum $C/v3-run-gemini/manifest.json | cut -d' ' -f1)"
       echo "author template: $(sha256sum $A/author-template.txt | cut -d' ' -f1)"
       echo "reword template: $(sha256sum $A/reword-template.txt | cut -d' ' -f1)"
+      echo "checker: $(sha256sum $A/check_author.py | cut -d' ' -f1)"
       echo "families: $(sha256sum $C/v4/families.json | cut -d' ' -f1)"
       echo "assignments-$SPLIT: $(sha256sum $A/assignments-$SPLIT.json | cut -d' ' -f1)"
       echo "agy: $AGY  $(sha256sum "$AGY" | cut -d' ' -f1)"
@@ -111,9 +114,14 @@ doc=json.load(open('$A/assignments-$SPLIT.json'))['instances']
 acc=lambda k:{os.path.basename(p).split('.')[0] for p in glob.glob('$ROOT/work/accepted/*.%s.md'%k)}
 a,b=acc('A'),acc('B'); need_b={i['pair'] for i in doc if i['wordingB']}
 used=lambda purpose,p:sum(1 for r in rows if r['pair']==p and r['purpose']==purpose)
-print(json.dumps({'calls':len(rows),'stops':sum(1 for r in rows if r.get('technicalStop')),'failedChecks':sum(1 for r in rows if r.get('allPassed') is False),
+import collections
+print(json.dumps({'failedCheckNames':dict(collections.Counter(n for r in rows for n in (r.get('failedChecks') or []))),'calls':len(rows),'stops':sum(1 for r in rows if r.get('technicalStop')),'failedChecks':sum(1 for r in rows if r.get('allPassed') is False),
   'acceptedA':len(a),'pairs':len(doc),'acceptedB':len(b),'wordingBNeeded':len(need_b),
   'notAcceptedA':sorted({i['pair'] for i in doc}-a),'attemptsUsedA':sorted(p for p in {i['pair'] for i in doc}-a if used('author',p)>=2)}))"
+    ;;
+  recheck)  # recheck [--apply]: no model call; re-apply the checks to the reports already held (see recheck.py)
+    [ -f "$ROOT/work/calls.jsonl" ] || { echo "NO_CALLS_YET" >&2; exit 1; }
+    python3 -B -I $A/recheck.py --split "$SPLIT" --workdir "$ROOT/work" ${2:+$2}
     ;;
   bundle)
     [ -f "$ROOT/identity.txt" ] && [ -f "$ROOT/work/calls.jsonl" ] || { echo "NOTHING_TO_BUNDLE" >&2; exit 1; }
@@ -134,5 +142,5 @@ print(json.dumps({'calls':len(rows),'stops':sum(1 for r in rows if r.get('techni
     rm -rf "$stage"
     ls -lh "$out"
     ;;
-  *) echo "usage: run.sh checks | diag | host | dry | live N --go [PAIRS] | reword N --go [PAIRS] | status | bundle" >&2; exit 2;;
+  *) echo "usage: run.sh checks | diag | host | dry | live N --go [PAIRS] | reword N --go [PAIRS] | status | recheck [--apply] | bundle" >&2; exit 2;;
 esac

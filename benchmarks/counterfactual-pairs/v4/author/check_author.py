@@ -230,7 +230,10 @@ def analyse(text, instance, family):
     details["admissionLines"] = admitted
     if groups:
         sound_text = "\n".join(line for lines in sound.values() for line in lines).lower()
-        checks["RUBRIC_GROUNDED_IN_THE_PLAN"] = all(any(w in sound_text for w in group) for group in groups)
+        grounded = [any(w in sound_text for w in group) for group in groups]
+        # for a gap the family guidance asks for words about the missing fact ("tested", "stale"), which the sound plan need not use: one grounded group is enough there;
+        # for a defect or a decoy every group must be grounded in the plan or reference
+        checks["RUBRIC_GROUNDED_IN_THE_PLAN"] = any(grounded) if family["twinClass"] == "UNCERTAIN" else all(grounded)
     parsed = None
     if oracle and kind:
         parsed = {"sound": sound, "twin": twin, "edit": {"type": kind, "source": instance["changedSource"], "lines": changed},
