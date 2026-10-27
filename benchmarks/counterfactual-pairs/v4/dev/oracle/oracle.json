@@ -333,7 +333,8 @@
     "type": "deleted",
     "source": "S01",
     "lines": [
-     7
+     8,
+     9
     ],
     "positionBucket": "early"
    },
@@ -341,25 +342,27 @@
    "mechanism": null,
    "whyNoFallback": null,
    "baitNotes": [
-    "Rollback depends on manual cold-storage snapshot restoration without a timed rehearsal",
-    "Status notifications are routed to a single Slack channel without pager escalation",
-    "Compaction execution relies on a single engineer without a secondary approver"
+    "All operational upgrade commands are executed by a single engineer without peer verification or dual authorization on the production database",
+    "Status notifications rely solely on Slack channels without an automated status page broadcast",
+    "The plan allocates only a five-minute smoke test window to validate cache behavior before re-enabling all 128 runner agents."
    ],
    "rubricKeywords": [
     [
-     "referential integrity",
-     "runner pool",
-     "shard entries"
-    ],
-    [
+     "parent hashes",
+     "null",
      "precondition",
-     "compaction",
-     "unmapped"
+     "scan"
     ],
     [
-     "scan",
-     "routing metadata",
-     "corruption"
+     "b-tree",
+     "corrupts",
+     "upgrade",
+     "validation"
+    ],
+    [
+     "index",
+     "entries",
+     "cache"
     ]
    ]
   },
@@ -795,48 +798,44 @@
     },
     {
      "source": "S01",
-     "line": 8
-    },
-    {
-     "source": "S01",
-     "line": 32
+     "line": 28
     }
    ],
    "changed": {
     "type": "edited",
     "source": "S01",
     "lines": [
-     32
+     28
     ],
     "positionBucket": "late"
    },
    "decoyLines": [
     {
      "source": "S01",
-     "line": 8
+     "line": 7
     }
    ],
-   "mechanism": "The edited line moves the secondary checkpoint compaction service into scope while its compaction interval remains unconfirmed pending validation tomorrow afternoon. This causes the plan to proceed with warehouse table loading while an in-scope component has an unconfirmed configuration parameter, directly violating the requirement.",
+   "mechanism": "Line S01:28 brings the checkpoint coordinator module into scope for the release, but its write flush threshold remains unconfirmed in line S01:7. This contradicts the requirement in line S01:4 that every pipeline component in scope must have confirmed configuration values before extract ingestion begins at 01:45.",
    "whyNoFallback": null,
    "baitNotes": [
-    "All status updates and alerts are routed exclusively through a single Slack channel without pager escalation",
-    "The table rollback procedure lacks an explicit dry-run rehearsal step before production execution",
-    "Partition throughput validation relies on manual SQL polling queries rather than automated metric dashboards"
+    "The plan assigns execution and rollback oversight to a single database engineer without naming a secondary operator",
+    "Rollback relies on restoring a snapshot without a rehearsal dry-run during the maintenance window",
+    "Incident notifications rely solely on a single Slack channel rather than an automated paging service"
    ],
    "rubricKeywords": [
     [
-     "checkpoint",
-     "compaction",
+     "checkpoint coordinator",
+     "in scope",
      "unconfirmed"
     ],
     [
-     "in scope",
-     "out of scope",
+     "flush threshold",
+     "extract ingestion",
      "requirement"
     ],
     [
-     "parameter",
-     "confirmed",
+     "scope",
+     "configuration values",
      "warehouse"
     ]
    ]
@@ -1190,37 +1189,37 @@
     "type": "edited",
     "source": "S01",
     "lines": [
-     32
+     28
     ],
     "positionBucket": "late"
    },
    "decoyLines": [
     {
      "source": "S01",
-     "line": 8
+     "line": 7
     }
    ],
    "mechanism": null,
    "whyNoFallback": null,
    "baitNotes": [
-    "All status updates and alerts are routed exclusively through a single Slack channel without pager escalation",
-    "The table rollback procedure lacks an explicit dry-run rehearsal step before production execution",
-    "Partition throughput validation relies on manual SQL polling queries rather than automated metric dashboards"
+    "The plan assigns execution and rollback oversight to a single database engineer without naming a secondary operator",
+    "Rollback relies on restoring a snapshot without a rehearsal dry-run during the maintenance window",
+    "Incident notifications rely solely on a single Slack channel rather than an automated paging service"
    ],
    "rubricKeywords": [
     [
-     "checkpoint",
-     "compaction",
+     "checkpoint coordinator",
+     "in scope",
      "unconfirmed"
     ],
     [
-     "in scope",
-     "out of scope",
+     "flush threshold",
+     "extract ingestion",
      "requirement"
     ],
     [
-     "parameter",
-     "confirmed",
+     "scope",
+     "configuration values",
      "warehouse"
     ]
    ]
@@ -1675,7 +1674,7 @@
     {
      "id": "S01",
      "role": "plan",
-     "lines": 37
+     "lines": 36
     }
    ],
    "requirement": {
@@ -1689,40 +1688,43 @@
     },
     {
      "source": "S01",
-     "line": 22
+     "line": 19
     }
    ],
    "changed": {
     "type": "deleted",
     "source": "S01",
     "lines": [
-     7
+     8,
+     9
     ],
     "positionBucket": "early"
    },
    "decoyLines": [],
-   "mechanism": "The plan executes an irreversible dispatch table compaction that corrupts routing metadata and halts CI runs if any test shard references an invalid runner pool ID, but it lacks the pre-migration integrity scan verifying that all 18,400 shard entries reference existing runner pool IDs. Without this verification, unmapped runner pool IDs cannot be detected before the compaction permanently overwrites the live routing tables.",
-   "whyNoFallback": "Nothing in the plan performs a dry run, query, or schema validation to verify that all shard entries reference valid runner pool IDs before the compaction script executes.",
+   "mechanism": "The plan executes an irreversible in-place upgrade of the cache metadata index without verifying that all 640,000 entries have non-null parent hashes. Because encountering a null parent hash permanently corrupts the B-tree directory structure, proceeding without this precondition check risks unrecoverable cache corruption.",
+   "whyNoFallback": "Nothing in the plan verifies parent hash population across the 640,000 index entries before execution, and no schema constraint, background check, or rollback mechanism prevents or recovers from directory corruption caused by null values.",
    "baitNotes": [
-    "Rollback depends on manual cold-storage snapshot restoration without a timed rehearsal",
-    "Status notifications are routed to a single Slack channel without pager escalation",
-    "Compaction execution relies on a single engineer without a secondary approver"
+    "All operational upgrade commands are executed by a single engineer without peer verification or dual authorization on the production database",
+    "Status notifications rely solely on Slack channels without an automated status page broadcast",
+    "The plan allocates only a five-minute smoke test window to validate cache behavior before re-enabling all 128 runner agents."
    ],
    "rubricKeywords": [
     [
-     "referential integrity",
-     "runner pool",
-     "shard entries"
-    ],
-    [
+     "parent hashes",
+     "null",
      "precondition",
-     "compaction",
-     "unmapped"
+     "scan"
     ],
     [
-     "scan",
-     "routing metadata",
-     "corruption"
+     "b-tree",
+     "corrupts",
+     "upgrade",
+     "validation"
+    ],
+    [
+     "index",
+     "entries",
+     "cache"
     ]
    ]
   },

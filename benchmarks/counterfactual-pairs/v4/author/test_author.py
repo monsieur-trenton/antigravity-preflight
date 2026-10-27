@@ -772,7 +772,10 @@ class DriverTests(unittest.TestCase):
 
 DEV_AUTHORING = V4 / "dev-authoring"
 DEV_REVISION = V4 / "dev-authoring-revision"
+DEV_REVISION2 = V4 / "dev-authoring-revision-2"
 REWRITTEN = ["N-102a76", "N-4aedf1", "N-93366f", "N-9cc72c"]
+REWRITTEN_AGAIN = ["N-102a76", "N-9cc72c"]
+DEV_ACCEPTED = ",".join(str(d / "accepted") for d in (DEV_AUTHORING, DEV_REVISION, DEV_REVISION2))
 DEV_CORPUS = V4 / "dev"
 
 
@@ -831,7 +834,7 @@ class CommittedDevAuthoringTests(unittest.TestCase):
 
     def test_the_committed_dev_corpus_is_reproduced_from_the_accepted_reports(self):
         with tempfile.TemporaryDirectory() as tmp:
-            manifest = bc.build("dev", f"{DEV_AUTHORING / 'accepted'},{DEV_REVISION / 'accepted'}", Path(tmp) / "out")
+            manifest = bc.build("dev", DEV_ACCEPTED, Path(tmp) / "out")
             self.assertEqual(manifest, json.loads((DEV_CORPUS / "manifest.json").read_bytes()))
             self.assertEqual((Path(tmp) / "out/oracle/oracle.json").read_bytes(), (DEV_CORPUS / "oracle/oracle.json").read_bytes())
         corpus = s4.Corpus(DEV_CORPUS)
@@ -876,10 +879,35 @@ class CommittedDevRevisionTests(unittest.TestCase):
         manifest = json.loads((DEV_CORPUS / "manifest.json").read_bytes())
         shas = manifest["authoring"]["acceptedReportSha256"]
         for pair in REWRITTEN:
-            self.assertEqual(shas[pair]["A"], rp.sha((DEV_REVISION / "accepted" / f"{pair}.A.md").read_bytes()))
+            latest = DEV_REVISION2 if pair in REWRITTEN_AGAIN else DEV_REVISION
+            self.assertEqual(shas[pair]["A"], rp.sha((latest / "accepted" / f"{pair}.A.md").read_bytes()))
             self.assertNotEqual(shas[pair]["A"], rp.sha((DEV_AUTHORING / "accepted" / f"{pair}.A.md").read_bytes()))
         for pair in sorted(set(shas) - set(REWRITTEN)):
             self.assertEqual(shas[pair]["A"], rp.sha((DEV_AUTHORING / "accepted" / f"{pair}.A.md").read_bytes()))
+
+
+class CommittedDevRevision2Tests(unittest.TestCase):
+    """The third dev batch: the two pairs whose rewrite still carried an arithmetic slip in a filler line, rewritten once more after the number-consistency rule."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.rows = [json.loads(line) for line in (DEV_REVISION2 / "calls.jsonl").read_text(encoding="utf-8").splitlines() if line.strip()]
+
+    def test_two_pairs_two_calls_accepted_at_the_first_attempt_with_clean_receipts(self):
+        self.assertEqual([r["pair"] for r in self.rows], REWRITTEN_AGAIN)
+        self.assertEqual([(r["attempt"], r["accepted"], r["technicalStop"], r["failedChecks"]) for r in self.rows], [(1, True, None, [])] * 2)
+        binary = json.loads((PARENT / "v3-run-gemini/manifest.json").read_bytes())["binary"]["sha256"]
+        for r in self.rows:
+            instance = next(i for i in DOCS["dev"]["instances"] if i["pair"] == r["pair"])
+            prompt = (DEV_REVISION2 / "prompts" / f"{r['pair']}.A.txt").read_bytes()
+            self.assertEqual(rp.sha(prompt), r["promptSha256"])
+            self.assertEqual(prompt, prompts.author_prompt(instance, prompts.family_of(instance), prompts.domain_of(instance)).encode("utf-8"))
+            self.assertIn("check every number that appears twice", prompt.decode("utf-8"))
+            report = (DEV_REVISION2 / "calls" / f"{r['pair']}-author-a1" / "REPORT.md").read_bytes()
+            self.assertEqual((rp.sha(report), (DEV_REVISION2 / "accepted" / f"{r['pair']}.A.md").read_bytes()), (r["reportSha256"], report))
+            self.assertTrue(ca.analyse(report.decode("utf-8"), instance, prompts.family_of(instance))[0]["allPassed"])
+            receipt = json.loads((DEV_REVISION2 / "calls" / f"{r['pair']}-author-a1" / "CLI-RECEIPT.json").read_bytes())
+            self.assertEqual((receipt["status"], receipt["retries"], receipt["native"]["sha256"]), ("REPORT_RECEIVED_PENDING_ADJUDICATION", 0, binary))
 
 
 class RunScriptTests(unittest.TestCase):

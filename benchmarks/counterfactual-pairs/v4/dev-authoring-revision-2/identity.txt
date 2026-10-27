@@ -1,0 +1,14 @@
+commit: 9873481e52d2524729e3fb5cf89a7e988d915180
+split: dev
+run manifest (v3 gemini): d853fee334b39a42d8b1b20b87a9dc27d68f108a9a4b4afa8e28c48e901ff5d2
+author template: 530455ad03cba6017a855bcc9cde5f78a19e4ff2099f5e419e5a2f931134dece
+reword template: 5ee054df5a23cfba5a7258011d36113d28d0b3eeb03bae620fdf29fc1fcaf5f0
+families: 3e2da8f672febc1d3f855012ee69010e7c2ac97a768a420314024a59b25a53d3
+assignments-dev: d4274305e993fbf6d97acaa9830f9f664ce33ca58d9f419439e9d7e7579302e4
+agy: /home/john/.local/bin/agy  16e228cb243fa098eeb27b3b2aca963caec84e4a8ac49e3821b00c56f99f7508
+agy version: 1.4.1
+host: Linux john-laptop 7.0.0-38-generic #38~24.04.4-Ubuntu SMP PREEMPT_DYNAMIC Mon Sep 14 16:37:11 UTC 2 x86_64 x86_64 x86_64 GNU/Linux
+
+== live 2 calls (author): start 2026-10-27T08:15:41-07:00
+{"split": "dev", "purpose": "author", "runManifestSha256": "d853fee334b39a42d8b1b20b87a9dc27d68f108a9a4b4afa8e28c48e901ff5d2", "dryRun": false, "pairsSelected": 2, "calls": 2, "accepted": 2, "failedChecks": 0, "technicalStops": 0, "alreadyAccepted": 0, "attemptsUsedUp": [], "waitingForAccepted": [], "status": "COMPLETE", "providerCalls": 2}
+end: 2026-10-27T08:26:13-07:00

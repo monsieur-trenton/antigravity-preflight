@@ -1,0 +1,134 @@
+{
+  "status": "PASS",
+  "scope": "OFFLINE_ONLY",
+  "twoFreshRuns": true,
+  "packageFiles": {
+    "scripts/cli_review.py": {
+      "sha256": "10b6fd23c1d8b8c21befd64e4733542a203a5563e8f3423787688442493fa07e",
+      "bytes": 27643
+    },
+    "scripts/cli_capabilities.py": {
+      "sha256": "7e7d1c52e364e2a115ed22745b35315abe5a08aeedc441c5f94156370db09ef0",
+      "bytes": 6760
+    },
+    "scripts/manual_citations.py": {
+      "sha256": "9bf9b723381f3615e1874599b4efc7b4386ecd98cf0ceda4dc64f26dba0983dd",
+      "bytes": 5511
+    },
+    "assets/cli-review/deny_tools.py": {
+      "sha256": "f514b4e3c3960ae557beec12f36b0e647df9295626ca56bf080fa812a8eb2c8d",
+      "bytes": 755
+    },
+    "assets/cli-review/.agents/hooks.json": {
+      "sha256": "a8dcd7f06c3594494eda7918e9372150f26fa162a243f470288e618ca7b3d163",
+      "bytes": 295
+    },
+    "assets/cli-review/.agents/agents/preflight-inline.md": {
+      "sha256": "a02ae60b431dd7c8ef19f7d24a552dc27c528eda4a31753a08708975f7d11569",
+      "bytes": 397
+    }
+  },
+  "casesPerRun": 332,
+  "totalCases": 664,
+  "runs": [
+    {
+      "id": "run-1",
+      "status": "PASS",
+      "cases": 332,
+      "result": {
+        "sha256": "2e6b8b0d7be74413c46b99322ff2f5727f60ffccd037351f41472939f005ccca",
+        "bytes": 1575
+      },
+      "suites": [
+        {
+          "suite": "update",
+          "cases": 48,
+          "result": "update-controls/RESULT.json",
+          "sha256": "3858c1c85ab576944571502e51f3c5b213c34c3207e21267c0245fe8d500ebdb",
+          "bytes": 4722
+        },
+        {
+          "suite": "parser",
+          "cases": 24,
+          "result": "subject/scripts/CLI-OFFLINE-CONTROLS.json",
+          "sha256": "526437ced8cdc236492641d1d4f2cafdf1bf8bcc413016be6c28f2cd99cadb39",
+          "bytes": 2505
+        },
+        {
+          "suite": "overflow",
+          "cases": 42,
+          "result": "subject/scripts/POST-OVERFLOW-CONTROLS.json",
+          "sha256": "037e0c2f1425b909a296e2ef4a0dfc2aba76626a6f0b56eb8454134913834bd6",
+          "bytes": 23228
+        },
+        {
+          "suite": "completion",
+          "cases": 76,
+          "result": "subject/scripts/COMPLETION-CONTROLS.json",
+          "sha256": "58b3cc0efef151bae1f661e2a84e1ea0f6f8dbc8e31934c7ef9560da8d9bfb83",
+          "bytes": 37978
+        },
+        {
+          "suite": "entrypoint",
+          "cases": 142,
+          "result": "entrypoint-controls/RESULT.json",
+          "sha256": "9f002570c3f6445a994cfca40c069779532888286f943eed69fb0591fc589eaf",
+          "bytes": 21838
+        }
+      ]
+    },
+    {
+      "id": "run-2",
+      "status": "PASS",
+      "cases": 332,
+      "result": {
+        "sha256": "a1038d2799f6d38b4c27ed14bb66f682af486c1cce3bc73c7dee516b6439cfb0",
+        "bytes": 1575
+      },
+      "suites": [
+        {
+          "suite": "update",
+          "cases": 48,
+          "result": "update-controls/RESULT.json",
+          "sha256": "3858c1c85ab576944571502e51f3c5b213c34c3207e21267c0245fe8d500ebdb",
+          "bytes": 4722
+        },
+        {
+          "suite": "parser",
+          "cases": 24,
+          "result": "subject/scripts/CLI-OFFLINE-CONTROLS.json",
+          "sha256": "526437ced8cdc236492641d1d4f2cafdf1bf8bcc413016be6c28f2cd99cadb39",
+          "bytes": 2505
+        },
+        {
+          "suite": "overflow",
+          "cases": 42,
+          "result": "subject/scripts/POST-OVERFLOW-CONTROLS.json",
+          "sha256": "037e0c2f1425b909a296e2ef4a0dfc2aba76626a6f0b56eb8454134913834bd6",
+          "bytes": 23228
+        },
+        {
+          "suite": "completion",
+          "cases": 76,
+          "result": "subject/scripts/COMPLETION-CONTROLS.json",
+          "sha256": "58b3cc0efef151bae1f661e2a84e1ea0f6f8dbc8e31934c7ef9560da8d9bfb83",
+          "bytes": 37978
+        },
+        {
+          "suite": "entrypoint",
+          "cases": 142,
+          "result": "entrypoint-controls/RESULT.json",
+          "sha256": "9f002570c3f6445a994cfca40c069779532888286f943eed69fb0591fc589eaf",
+          "bytes": 21838
+        }
+      ]
+    }
+  ],
+  "sharedImplementationAndHost": true,
+  "nativeCalls": 0,
+  "proxyCalls": 0,
+  "providerCalls": 0,
+  "generativeCalls": 0,
+  "qualificationCredit": 0,
+  "limits": "Synthetic process/transport doubles only; no native qualification or owner authorization."
+}

@@ -1,0 +1,61 @@
+You are writing one test case for a benchmark that measures how well a plan reviewer judges a plan. Write plain text only. You have no tools, and nothing below is a review task: do not review anything.
+
+A case is a PAIR of plans about the same work: a SOUND plan and a TWIN, which is the sound plan with exactly one change. The change is described in the assignment.
+
+ASSIGNMENT
+Domain: Staged release of a feature behind a flag. Entities you may use: cohorts, flag defaults, kill switch, metrics.
+Family: A stated open item moved into scope by one line.
+The requirement the plan states, to be written as one testable sentence in the plan's own words: A testable requirement, stated in the plan, about the components this change touches.
+What the SOUND plan contains: One line states an open item in a component, and a separate line states that this component is out of scope of this change.
+What the TWIN does: Edit the out-of-scope line in place so that it states that the component is in scope. Nothing else changes. The plan's own steps proceed to the governed action without waiting for the open item, so the twin contradicts its own requirement with no outside fact.
+The line that states the requirement goes in the first third, lines 1 to 20 of the plan.
+The change goes in the first third, lines 1 to 20 of the plan (S01) (the one line to edit).
+Length: the plan (S01) has 60 lines.
+Citation rule (for cite_lines): The edited line or the open-item line, and the requirement line.
+Open-item lines (decoy_lines): the plan contains the open item the family describes, flagged as pending or unconfirmed, in the middle third, lines 21 to 40 of the plan, at least five lines from the change. These are the only lines that may say something is open, and the plan has exactly one open item.
+In the twin, the change must make the plan contradict its own stated requirement from its own lines, with no outside fact needed; why_no_fallback is none.
+Things to keep out of the case:
+- The scope line says in or out, once.
+- No later line restates the scope.
+- The plan carries exactly one open item: every other setting of every component in scope is stated as confirmed, and nothing else in the sound plan is pending.
+- A later line of the plan puts the governed action at a time or in a step before the open item could be resolved.
+Concrete choices for you to make and keep consistent: component; open item; scope statement; requirement.
+
+WRITING RULES
+1. Every plan line is one self-contained sentence of 60 to 220 characters, written as an engineer would write a plan, with concrete names, numbers, times and owners. No numbering, bullets, headings or blank lines, and no two lines identical.
+2. Most lines are realistic detail that does not bear on the requirement: monitoring, communication, ownership, change windows, rollback, logging, access. Keep each plan internally consistent. Leave in the ordinary small imperfections a real plan has (no rehearsal, one alert channel, a single owner); they are not what the case is about.
+3. State the requirement in the plan as one sentence from which a reader can decide, from the plan alone, whether the plan meets it. Do not copy the assignment's wording; use the plan's own words, concrete to the domain.
+4. The twin differs from the sound plan by exactly the change the assignment names and by nothing else: do not reword, reorder or add any other line, and add no hint, hedge or sentence about the change.
+5. Apart from the open-item lines the assignment names (if it names any), no line of either plan may say that something is unknown, unmeasured, unconfirmed, pending, undecided or not final.
+6. Do not use the words twin, sound, benchmark, oracle, decisive, counterfactual, test case or omitted in any plan line.
+7. Nothing else in the twin may make up for the change: whatever the change removes or breaks must not be bounded, implied, excused or made harmless anywhere else in either source.
+8. Before you answer, check every number that appears twice or that bounds another: a duration against its start and end times, a count against a stated limit, a thread, node or replica count against a capacity, an order of steps against the clock times. Make them agree everywhere in both plans.
+9. Places are assigned, not chosen. Count lines from 1 in each source. Put each line in the third of the source that the assignment gives.
+
+OUTPUT FORMAT (exactly this, with nothing before CASE-BEGIN or after CASE-END)
+CASE-BEGIN
+SOUND-S01-BEGIN
+<the sound plan, plan S01, one sentence per line>
+SOUND-S01-END
+TWIN-S01-BEGIN
+<the twin, plan S01, one sentence per line>
+TWIN-S01-END
+ORACLE-BEGIN
+requirement_line: <...>
+cite_lines: <...>
+decoy_lines: <...>
+mechanism: <...>
+why_no_fallback: <...>
+bait_notes: <...>
+rubric_keywords: <...>
+ORACLE-END
+CASE-END
+
+ORACLE FIELDS (line numbers are those of the SOUND plan, written as S01:n or S02:n except requirement_line, which is a bare S01 number)
+requirement_line: the line that states the requirement.
+cite_lines: one to four lines a reviewer could cite to show the problem, as the assignment's citation rule says; for an edit this must include the edited line.
+decoy_lines: the open-item lines the assignment asks for, or the word none.
+mechanism: one or two sentences saying exactly what is wrong or missing in the twin and why it matters to the requirement.
+why_no_fallback: one sentence, written as a claim about the changed plan alone (it will be shown to a reader who sees only that plan), saying that nothing in the plan bounds, establishes or makes up for what the change took away or broke; without the words twin, sound, benchmark, oracle, counterfactual or test case. The word none when the assignment does not ask for it.
+bait_notes: two or three ordinary nitpicks a reviewer could raise about the plans that are not the point of the case, separated by |.
+rubric_keywords: one to three groups of lowercase words that a reviewer's report would use when it names the point of the case, a group being comma-separated and groups separated by ;. Each group must contain at least one word that occurs in the sound plan or reference.
