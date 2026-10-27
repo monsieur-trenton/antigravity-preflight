@@ -1,0 +1,57 @@
+Below is a written plan, as one or more numbered sources. Source S01 is the plan; if a source S02 is present it is a reference excerpt (a settings file, contract, policy or schema) that the plan is subject to. Each line is numbered within its source, and a line is cited as S01:<n> or S02:<n>.
+
+Decide, from the text alone, whether the plan can be carried out as written. A plan HAS_A_DEFECT if some line contradicts a line of the same or another source, or breaks the plan's own stated requirement. A plan HAS_AN_UNESTABLISHED_FACT if nothing is contradicted but a fact that the plan's own requirement depends on is nowhere established in the text. A plan is SOUND if neither applies. Ordinary small imperfections (no rehearsal, one alert channel, a single owner) do not make a plan unsound. Say CANNOT_TELL only if you truly cannot decide.
+
+=== S01 (the plan) ===
+[S01:1] Infrastructure engineer Marcus Ortiz starts the quarterly backup restoration drill on restore target drill-target-db01 at 01:05 UTC.
+[S01:2] Site reliability engineer David Kim opens incident channel #data-recovery-drills to post hourly operational status updates.
+[S01:3] Storage administrator Rachel Vance verifies that the full physical snapshot from the 30-day retention bucket is staged on drill-target-db01.
+[S01:4] Storage administrator Rachel Vance begins streaming point-in-time window write-ahead logs up to the recovery target timestamp of 02:00 UTC.
+[S01:5] Database engineer Sarah Chen confirms that write-ahead log replay completes at 02:22 UTC and brings drill-target-db01 into read-write mode.
+[S01:6] Marcus Ortiz isolates restore target drill-target-db01 from production virtual private clouds to prevent inbound replication traffic.
+[S01:7] Rachel Vance verifies that the restored tablespaces on drill-target-db01 occupy 3.8 TB of local solid-state storage.
+[S01:8] Sarah Chen establishes an administrative maintenance session on drill-target-db01 to begin schema validation and data integrity checks.
+[S01:9] David Kim logs the successful completion of the initial database startup sequence in the central compliance audit register.
+[S01:10] Marcus Ortiz configures kernel shared memory parameters and temporary file limits on drill-target-db01 to support high-throughput table operations.
+[S01:11] Rachel Vance enables local transaction logging on drill-target-db01 with log rotation capped at fifty gigabytes.
+[S01:12] Elena Rostova confirms that the restoration drill conforms to the regulatory schedule requiring semiannual cold recovery testing.
+[S01:13] Sarah Chen runs an index bloat analysis across all primary key b-trees in the claims schema on drill-target-db01 at 03:15 UTC.
+[S01:14] David Kim verifies that connection pool limits on drill-target-db01 are restricted to five concurrent administrative sessions.
+[S01:15] Marcus Ortiz captures a point-in-time storage snapshot of drill-target-db01 to establish a local restore baseline for the compaction phase.
+[S01:16] Sarah Chen validates that column statistics on the policy_records table have been updated with default sampling rates.
+[S01:17] Rachel Vance reviews disk I/O latency metrics on drill-target-db01 to ensure queue depths remain below eight during background scans.
+[S01:18] Elena Rostova records the snapshot metadata and storage consumption metrics in the disaster recovery tracking portal at 03:50 UTC.
+[S01:19] David Kim posts a mid-drill summary to Slack channel #data-recovery-drills confirming storage allocation and process health.
+[S01:20] Sarah Chen verifies that database autovacuum settings are temporarily paused on drill-target-db01 to avoid lock contention during maintenance.
+[S01:21] Marcus Ortiz runs a consistency check on the secondary b-tree indexes of claim_disbursements to verify tree depth and node distribution.
+[S01:22] Rachel Vance confirms that temporary tablespace allocation has twelve hundred gigabytes of available scratch capacity.
+[S01:23] David Kim checks system telemetry to ensure CPU thermal throttling flags are clear across all compute nodes of drill-target-db01.
+[S01:24] Sarah Chen configures statement timeout limits to four hours for all batch processes running on drill-target-db01.
+[S01:25] Marcus Ortiz verifies that network firewall rules on drill-target-db01 reject all ingress traffic except from the jump host 10.40.12.8.
+[S01:26] Elena Rostova reviews the audit trail configuration to confirm that data definition commands will be captured with session identifiers.
+[S01:27] David Kim verifies that disk utilization on the root volume of drill-target-db01 remains steady at thirty-two percent.
+[S01:28] Sarah Chen stages the partition consolidation utility script reconcile_claims_partition.sh in the local directory /opt/drill/bin at 04:30 UTC.
+[S01:29] Marcus Ortiz confirms that the execution permissions for reconcile_claims_partition.sh are restricted to the postgres system account.
+[S01:30] Rachel Vance verifies that write-ahead log archiving on drill-target-db01 has enough local disk space to accommodate fifty gigabytes of churn.
+[S01:31] Executing irreversible script reconcile_claims_partition.sh on drill-target-db01 corrupts ledger totals and fails the drill if any orphaned foreign keys in claim_disbursements lack parent rows in policy_records.
+[S01:32] David Kim notifies engineering leadership in #data-recovery-drills that the partition consolidation execution phase is starting.
+[S01:33] Marcus Ortiz monitors lock contention tables on drill-target-db01 to detect any conflicting table locks prior to execution.
+[S01:34] Rachel Vance confirms that background backup agents remain suspended so that no snapshot activity interferes with table restructuring.
+[S01:35] Elena Rostova records the pre-execution transaction sequence number and timestamp in the compliance change management ticket.
+[S01:36] Sarah Chen executes the irreversible reconciliation script reconcile_claims_partition.sh across all tablespaces on drill-target-db01 at 05:15 UTC.
+[S01:37] Marcus Ortiz monitors system process tables to verify that the reconciliation worker processes maintain normal execution state.
+[S01:38] David Kim logs the completion of reconcile_claims_partition.sh at 05:42 UTC and archives the process exit status to the audit bucket.
+[S01:39] Sarah Chen re-enables autovacuum daemons and restores standard maintenance work memory thresholds on drill-target-db01.
+[S01:40] Rachel Vance verifies that the final database tablespace volume on drill-target-db01 is stable at 3.6 TB following consolidation.
+[S01:41] Elena Rostova signs off on the completed backup verification run in accordance with the annual compliance disaster recovery framework.
+[S01:42] Marcus Ortiz schedules the automated decommission and teardown of restore target drill-target-db01 for 07:00 UTC at the close of the drill window.
+
+End your answer with exactly this block and nothing after it:
+AUDIT-BEGIN
+CLASS: SOUND | HAS_A_DEFECT | HAS_AN_UNESTABLISHED_FACT | CANNOT_TELL
+REASON: <one sentence>
+DECISIVE_FACT: <the single fact that, if added or corrected, would change your CLASS; or none>
+REQUIREMENT_LINE: <S01:n of the line that states the plan's requirement, or none>
+REQUIREMENT_DECIDES: YES | NO
+OTHER_PROBLEMS: <none, or lines such as S01:7; S02:3 that are unknown or contradictory for a reason other than your CLASS>
+AUDIT-END

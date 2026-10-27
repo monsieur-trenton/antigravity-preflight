@@ -1,0 +1,55 @@
+Below is a written plan, as one or more numbered sources. Source S01 is the plan; if a source S02 is present it is a reference excerpt (a settings file, contract, policy or schema) that the plan is subject to. Each line is numbered within its source, and a line is cited as S01:<n> or S02:<n>.
+
+Decide, from the text alone, whether the plan can be carried out as written. A plan HAS_A_DEFECT if some line contradicts a line of the same or another source, or breaks the plan's own stated requirement. A plan HAS_AN_UNESTABLISHED_FACT if nothing is contradicted but a fact that the plan's own requirement depends on is nowhere established in the text. A plan is SOUND if neither applies. Ordinary small imperfections (no rehearsal, one alert channel, a single owner) do not make a plan unsound. Say CANNOT_TELL only if you truly cannot decide.
+
+=== S01 (the plan) ===
+[S01:1] Lead data engineer Marcus Vance will supervise the nightly ingestion job migrating the daily customer extract into the cloud data warehouse beginning at 00:30 UTC.
+[S01:2] The upstream extraction process generated a total input volume of 640 gigabytes across forty compressed parquet partitions in the staging bucket.
+[S01:3] The maintenance load window is scheduled from 00:30 UTC through 04:30 UTC to guarantee warehouse table availability before business analytics reporting starts.
+[S01:4] Every data warehouse ingestion component included in scope for tonight's run must have all configuration parameters confirmed before warehouse load execution begins.
+[S01:5] Warehouse administrator Elena Rostova has confirmed that the staging compute cluster is sized to twelve compute nodes with memory reservation locked.
+[S01:6] The primary checkpoint engine has a confirmed flush threshold of five hundred megabytes to ensure consistent transaction recovery during ingestion.
+[S01:7] Storage engineer Tariq Chen has confirmed the transaction log retention window at seventy-two hours on the primary warehouse storage tier.
+[S01:8] The checkpoint compaction interval for the secondary checkpoint service remains unconfirmed pending vendor performance validation tomorrow afternoon.
+[S01:9] Secondary log indexing parameters for the warehouse audit tables have been verified and confirmed at sixty-second collection cycles by Tariq Chen.
+[S01:10] Network security engineer Sarah Jenkins confirmed that all egress firewall rules between the staging bucket and warehouse endpoints are fully open.
+[S01:11] Marcus Vance verified that the service account token has confirmed read permissions on the staging bucket and write permissions on target raw schemas.
+[S01:12] All status updates and progress alerts during the data warehouse migration will be broadcast solely to the automated engineering Slack channel.
+[S01:13] Elena Rostova completed the target table schema validation at 23:45 UTC and confirmed that zero column definition mismatches exist across raw tables.
+[S01:14] Marcus Vance will trigger the pre-load orchestrator script at 00:45 UTC to initialize pipeline metadata tables and register the incoming batch ID.
+[S01:15] The orchestrator script will verify that the incoming input volume does not exceed eight hundred gigabytes before dispatching worker tasks.
+[S01:16] Database operator Liam Patel will initialize the checkpoint catalog table to track partition offsets across all worker threads during ingestion.
+[S01:17] Elena Rostova has confirmed the pipeline concurrency limit at sixteen simultaneous partition loading threads to prevent memory thrashing.
+[S01:18] Liam Patel will execute the truncate command against the staging tables at 01:00 UTC to ensure zero duplicate rows from prior runs exist.
+[S01:19] Tariq Chen verified that the checkpoint recovery daemon has confirmed restart parameters configured to retry failed chunks up to three times.
+[S01:20] Marcus Vance will initiate warehouse table loading at 01:15 UTC to stream partition data from the staging bucket into raw warehouse tables.
+[S01:21] The ingestion engine will execute copy commands across forty threads while tracking committed transaction offsets in the checkpoint store.
+[S01:22] Liam Patel will query target row counts every twenty minutes to verify that throughput remains above fifty thousand records per second.
+[S01:23] The primary checkpoint engine will commit transaction markers at five-minute intervals throughout the data warehouse table loading phase.
+[S01:24] Elena Rostova will disable secondary non-clustered indexes on the target tables at 01:10 UTC to accelerate bulk insert write throughput.
+[S01:25] Marcus Vance will post an interim progress report to the engineering Slack channel at 02:30 UTC detailing processed partition counts.
+[S01:26] The pipeline configuration enforces a confirmed error threshold of zero dropped records, aborting the run if any parse failure occurs.
+[S01:27] Elena Rostova will initiate the rebuild of disabled table indexes immediately after the raw table ingestion phase finishes at 03:00 UTC.
+[S01:28] Liam Patel will execute reconciliation queries at 03:15 UTC to confirm that target table row counts match the source extract volume.
+[S01:29] Tariq Chen will freeze the checkpoint transaction ledger at 03:30 UTC and archive run markers into the cold storage backup container.
+[S01:30] Routine database maintenance tasks will run after warehouse loading completes to clean up intermediate transaction markers and temporary logs.
+[S01:31] The primary checkpoint compaction service is confirmed in scope for tonight's run to consolidate transaction records from the raw tables.
+[S01:32] The secondary checkpoint compaction service is in scope for tonight's data warehouse load run.
+[S01:33] Elena Rostova will execute vacuum and analyze operations on all updated warehouse tables at 03:40 UTC to refresh query planner statistics.
+[S01:34] Marcus Vance will run automated business rule validation scripts at 03:55 UTC to verify foreign key integrity and nullability constraints.
+[S01:35] If automated validation checks fail or data corruption is detected, Elena Rostova will execute the table rollback script before 04:15 UTC.
+[S01:36] Elena Rostova will re-enable read access for business analytics service accounts at 04:20 UTC upon successful completion of quality gates.
+[S01:37] Liam Patel will move processed extract files from the staging bucket into the long-term archive container at 04:25 UTC.
+[S01:38] Marcus Vance will close the maintenance load window at 04:30 UTC and notify business stakeholders that warehouse datasets are available.
+[S01:39] Tariq Chen will transfer operational monitoring responsibility to the incoming daytime database reliability team at 05:00 UTC.
+[S01:40] Liam Patel will export all pipeline execution logs and checkpoint status reports to the compliance audit repository at 05:15 UTC.
+
+End your answer with exactly this block and nothing after it:
+AUDIT-BEGIN
+CLASS: SOUND | HAS_A_DEFECT | HAS_AN_UNESTABLISHED_FACT | CANNOT_TELL
+REASON: <one sentence>
+DECISIVE_FACT: <the single fact that, if added or corrected, would change your CLASS; or none>
+REQUIREMENT_LINE: <S01:n of the line that states the plan's requirement, or none>
+REQUIREMENT_DECIDES: YES | NO
+OTHER_PROBLEMS: <none, or lines such as S01:7; S02:3 that are unknown or contradictory for a reason other than your CLASS>
+AUDIT-END

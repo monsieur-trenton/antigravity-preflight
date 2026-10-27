@@ -1,0 +1,92 @@
+Below are two written plans, X and Y, about the same work. Each is given as numbered sources: S01 is the plan and, when present, S02 is a reference excerpt that the plan is subject to. Lines are numbered within their source and cited as S01:<n> or S02:<n>. The two plans are the same except for one change in one of them, or they may differ in more than that.
+
+Decide which of the two, if either, needs a change before it can be carried out, and whether one plan is the other with exactly one edit and nothing else (one line edited in place, or one to three lines deleted, with nothing added, moved or reworded).
+
+PLAN X
+=== S01 (the plan) ===
+[S01:1] Marcus Vance opens the scheduled four-hour CI infrastructure maintenance window across all European and US build clusters at 01:00 UTC.
+[S01:2] Sarah Chen pauses the webhook ingest service to stop incoming pull request evaluations and buffers inbound build events at 01:10 UTC.
+[S01:3] Marcus Vance drains active test execution queues across all 2,400 Linux and macOS build runners in the primary fleet at 01:20 UTC.
+[S01:4] Sarah Chen synchronizes the 18,400 updated test sharding partition records into the production runner routing catalog at 01:30 UTC.
+[S01:5] All 18,400 shard entries must reference valid runner pool IDs, because running the irreversible dispatch table compaction with an unmapped ID corrupts routing metadata and halts CI runs across the repository.
+[S01:6] Sarah Chen applies a strict database write lock to the production runner routing catalog at 01:45 UTC to prohibit further updates.
+[S01:7] Devon Park exports a cold-storage snapshot of the uncompacted runner routing tables to an encrypted Amazon S3 bucket at 02:15 UTC.
+[S01:8] Elena Rostova verifies that the cold-storage backup checksum matches the primary catalog hash at 02:30 UTC for disaster recovery.
+[S01:9] Marcus Vance posts an infrastructure maintenance status notice to the internal engineering announcements channel at 02:40 UTC.
+[S01:10] Priya Patel reviews Prometheus metrics to confirm zero unhandled queries hit the routing catalog during the maintenance window at 02:50 UTC.
+[S01:11] Sarah Chen confirms administrative access and database credentials for the migration operator role on host db-coordinator-01 at 03:00 UTC.
+[S01:12] Carlos Mendez preheats the distributed Bazel remote build cache clusters across 12 dedicated storage nodes in us-east-1 at 03:10 UTC.
+[S01:13] Priya Patel verifies network round-trip latencies between the runner subnets and the build cache storage nodes at 03:20 UTC remain below 4 milliseconds.
+[S01:14] Marcus Vance stages the updated required check validation rules in the CI branch protection policy service at 03:30 UTC.
+[S01:15] Sarah Chen inspects the GitHub enterprise webhook listener health endpoints at 03:40 UTC to verify zero connection errors.
+[S01:16] Carlos Mendez flushes stale compiler artifact headers from the local SSD caches on all 2,400 physical runner hosts at 03:50 UTC.
+[S01:17] Elena Rostova validates that ephemeral runner token rotation keys are synchronized across all compute zones at 04:00 UTC.
+[S01:18] Priya Patel establishes continuous latency logging on the Redis coordination tier that tracks runner job assignments at 04:10 UTC.
+[S01:19] Marcus Vance validates CPU utilization across the four central dispatch coordinator nodes at 04:20 UTC, noting idle rates above 92 percent.
+[S01:20] Sarah Chen sets the live routing metadata table to maintenance mode in the coordinator control plane at 04:25 UTC.
+[S01:21] Devon Park initiates the database compaction environment flags and allocates 64 gigabytes of memory on db-coordinator-01 at 04:28 UTC.
+[S01:22] Devon Park executes the irreversible dispatch table compaction script on the production CI cluster at 04:30 UTC to overwrite live routing structures.
+[S01:23] Devon Park monitors the compaction process on host db-coordinator-01 at 04:42 UTC as index chunks write directly to storage disk.
+[S01:24] Devon Park records the compaction completion status in the operations log at 04:50 UTC following the release of internal write buffers.
+[S01:25] Sarah Chen lifts the maintenance mode flag on the coordinator control plane at 04:55 UTC to enable route lookups.
+[S01:26] Elena Rostova executes synthetic routing probes against 50 randomly sampled shard IDs at 05:00 UTC to ensure runner nodes receive test packets.
+[S01:27] Priya Patel inspects socket connectivity between runner agent daemons and the central dispatch coordinator fleet at 05:05 UTC.
+[S01:28] Carlos Mendez verifies that the remote build cache hit ratio across the 12 storage nodes registers above 85 percent at 05:10 UTC.
+[S01:29] Sarah Chen releases the catalog write lock on host db-coordinator-01 at 05:15 UTC to restore standard administrative operations.
+[S01:30] Marcus Vance applies the new required check enforcement configuration to the default repository branch rulesets at 05:20 UTC.
+[S01:31] Elena Rostova validates that required status checks accurately report queued states for staged integration pull requests at 05:25 UTC.
+[S01:32] Sarah Chen resumes the webhook ingest service at 05:30 UTC to process queued pull request evaluation payloads.
+[S01:33] Priya Patel monitors runner queue latencies on the primary Grafana dashboard at 05:35 UTC to confirm normal job dispatch rates.
+[S01:34] Carlos Mendez audits build cache eviction metrics at 05:40 UTC to verify that no unexpected purge cycles were triggered during cutover.
+[S01:35] Marcus Vance broadcasts a notification to the engineering announcements channel at 05:45 UTC confirming normal CI operations.
+[S01:36] Devon Park archives all migration console output logs and terminal session transcripts to the compliance repository at 05:50 UTC.
+[S01:37] Marcus Vance closes the four-hour infrastructure maintenance window at 06:00 UTC and returns dispatch fleet ownership to on-call staff.
+
+PLAN Y
+=== S01 (the plan) ===
+[S01:1] Marcus Vance opens the scheduled four-hour CI infrastructure maintenance window across all European and US build clusters at 01:00 UTC.
+[S01:2] Sarah Chen pauses the webhook ingest service to stop incoming pull request evaluations and buffers inbound build events at 01:10 UTC.
+[S01:3] Marcus Vance drains active test execution queues across all 2,400 Linux and macOS build runners in the primary fleet at 01:20 UTC.
+[S01:4] Sarah Chen synchronizes the 18,400 updated test sharding partition records into the production runner routing catalog at 01:30 UTC.
+[S01:5] All 18,400 shard entries must reference valid runner pool IDs, because running the irreversible dispatch table compaction with an unmapped ID corrupts routing metadata and halts CI runs across the repository.
+[S01:6] Sarah Chen applies a strict database write lock to the production runner routing catalog at 01:45 UTC to prohibit further updates.
+[S01:7] Elena Rostova executes the referential integrity scan across all 18,400 production shard entries at 02:00 UTC, confirming that zero entries contain unmapped runner pool IDs.
+[S01:8] Devon Park exports a cold-storage snapshot of the uncompacted runner routing tables to an encrypted Amazon S3 bucket at 02:15 UTC.
+[S01:9] Elena Rostova verifies that the cold-storage backup checksum matches the primary catalog hash at 02:30 UTC for disaster recovery.
+[S01:10] Marcus Vance posts an infrastructure maintenance status notice to the internal engineering announcements channel at 02:40 UTC.
+[S01:11] Priya Patel reviews Prometheus metrics to confirm zero unhandled queries hit the routing catalog during the maintenance window at 02:50 UTC.
+[S01:12] Sarah Chen confirms administrative access and database credentials for the migration operator role on host db-coordinator-01 at 03:00 UTC.
+[S01:13] Carlos Mendez preheats the distributed Bazel remote build cache clusters across 12 dedicated storage nodes in us-east-1 at 03:10 UTC.
+[S01:14] Priya Patel verifies network round-trip latencies between the runner subnets and the build cache storage nodes at 03:20 UTC remain below 4 milliseconds.
+[S01:15] Marcus Vance stages the updated required check validation rules in the CI branch protection policy service at 03:30 UTC.
+[S01:16] Sarah Chen inspects the GitHub enterprise webhook listener health endpoints at 03:40 UTC to verify zero connection errors.
+[S01:17] Carlos Mendez flushes stale compiler artifact headers from the local SSD caches on all 2,400 physical runner hosts at 03:50 UTC.
+[S01:18] Elena Rostova validates that ephemeral runner token rotation keys are synchronized across all compute zones at 04:00 UTC.
+[S01:19] Priya Patel establishes continuous latency logging on the Redis coordination tier that tracks runner job assignments at 04:10 UTC.
+[S01:20] Marcus Vance validates CPU utilization across the four central dispatch coordinator nodes at 04:20 UTC, noting idle rates above 92 percent.
+[S01:21] Sarah Chen sets the live routing metadata table to maintenance mode in the coordinator control plane at 04:25 UTC.
+[S01:22] Devon Park initiates the database compaction environment flags and allocates 64 gigabytes of memory on db-coordinator-01 at 04:28 UTC.
+[S01:23] Devon Park executes the irreversible dispatch table compaction script on the production CI cluster at 04:30 UTC to overwrite live routing structures.
+[S01:24] Devon Park monitors the compaction process on host db-coordinator-01 at 04:42 UTC as index chunks write directly to storage disk.
+[S01:25] Devon Park records the compaction completion status in the operations log at 04:50 UTC following the release of internal write buffers.
+[S01:26] Sarah Chen lifts the maintenance mode flag on the coordinator control plane at 04:55 UTC to enable route lookups.
+[S01:27] Elena Rostova executes synthetic routing probes against 50 randomly sampled shard IDs at 05:00 UTC to ensure runner nodes receive test packets.
+[S01:28] Priya Patel inspects socket connectivity between runner agent daemons and the central dispatch coordinator fleet at 05:05 UTC.
+[S01:29] Carlos Mendez verifies that the remote build cache hit ratio across the 12 storage nodes registers above 85 percent at 05:10 UTC.
+[S01:30] Sarah Chen releases the catalog write lock on host db-coordinator-01 at 05:15 UTC to restore standard administrative operations.
+[S01:31] Marcus Vance applies the new required check enforcement configuration to the default repository branch rulesets at 05:20 UTC.
+[S01:32] Elena Rostova validates that required status checks accurately report queued states for staged integration pull requests at 05:25 UTC.
+[S01:33] Sarah Chen resumes the webhook ingest service at 05:30 UTC to process queued pull request evaluation payloads.
+[S01:34] Priya Patel monitors runner queue latencies on the primary Grafana dashboard at 05:35 UTC to confirm normal job dispatch rates.
+[S01:35] Carlos Mendez audits build cache eviction metrics at 05:40 UTC to verify that no unexpected purge cycles were triggered during cutover.
+[S01:36] Marcus Vance broadcasts a notification to the engineering announcements channel at 05:45 UTC confirming normal CI operations.
+[S01:37] Devon Park archives all migration console output logs and terminal session transcripts to the compliance repository at 05:50 UTC.
+[S01:38] Marcus Vance closes the four-hour infrastructure maintenance window at 06:00 UTC and returns dispatch fleet ownership to on-call staff.
+
+End your answer with exactly this block and nothing after it:
+AUDIT-BEGIN
+NEEDS_CHANGE: X | Y | BOTH | NEITHER
+WHY: <one sentence>
+ONE_EDIT: YES | NO
+DIFFERENCE: <one sentence saying exactly what differs between X and Y>
+AUDIT-END

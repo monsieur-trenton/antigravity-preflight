@@ -13,7 +13,8 @@ WRITING RULES
 5. Apart from the open-item lines the assignment names (if it names any), no line of either plan may say that something is unknown, unmeasured, unconfirmed, pending, undecided or not final.
 6. Do not use the words twin, sound, benchmark, oracle, decisive, counterfactual, test case or omitted in any plan line.
 7. Nothing else in the twin may make up for the change: whatever the change removes or breaks must not be bounded, implied, excused or made harmless anywhere else in either source.
-8. Places are assigned, not chosen. Count lines from 1 in each source. Put each line in the third of the source that the assignment gives.
+8. Before you answer, check every number that appears twice or that bounds another: a duration against its start and end times, a count against a stated limit, a thread, node or replica count against a capacity, an order of steps against the clock times. Make them agree everywhere in both plans.
+9. Places are assigned, not chosen. Count lines from 1 in each source. Put each line in the third of the source that the assignment gives.
 
 OUTPUT FORMAT (exactly this, with nothing before CASE-BEGIN or after CASE-END)
 {FORMAT}

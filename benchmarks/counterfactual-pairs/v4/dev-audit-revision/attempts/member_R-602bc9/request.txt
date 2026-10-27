@@ -1,0 +1,73 @@
+Below is a written plan, as one or more numbered sources. Source S01 is the plan; if a source S02 is present it is a reference excerpt (a settings file, contract, policy or schema) that the plan is subject to. Each line is numbered within its source, and a line is cited as S01:<n> or S02:<n>.
+
+Decide, from the text alone, whether the plan can be carried out as written. A plan HAS_A_DEFECT if some line contradicts a line of the same or another source, or breaks the plan's own stated requirement. A plan HAS_AN_UNESTABLISHED_FACT if nothing is contradicted but a fact that the plan's own requirement depends on is nowhere established in the text. A plan is SOUND if neither applies. Ordinary small imperfections (no rehearsal, one alert channel, a single owner) do not make a plan unsound. Say CANNOT_TELL only if you truly cannot decide.
+
+=== S01 (the plan) ===
+[S01:1] Lead storage engineer Marcus Vance will initiate the primary maintenance incident bridge in Slack channel storage-ops at 20:00 UTC.
+[S01:2] Infrastructure operations lead Sarah Jenkins will notify the finance data platform team of the upcoming lifecycle configuration changes at 20:05 UTC.
+[S01:3] Site reliability engineer David Cho will verify baseline read and write latency metrics across the production storage cluster at 20:10 UTC.
+[S01:4] Security administrator Kevin Patel will confirm that elevated IAM change permissions for bucket lifecycle administration expire automatically at 23:59 UTC.
+[S01:5] Backup administrator Rachel Adams will validate that the daily point-in-time configuration snapshot for all storage bucket definitions completed at 19:30 UTC.
+[S01:6] Marcus Vance will export the current XML lifecycle configuration for bucket finance-archive-production to local secure storage at 20:15 UTC.
+[S01:7] Rachel Adams will check the cross-region replication lag from us-east-1 to us-west-2 to ensure replication latency remains under three minutes.
+[S01:8] David Cho will verify that S3 server access logging delivers access records to bucket finance-access-logs without packet drops at 20:20 UTC.
+[S01:9] Sarah Jenkins will confirm that the daily storage inventory report for finance-archive-production generated successfully at 06:00 UTC today.
+[S01:10] Kevin Patel will confirm that bucket-level Object Lock compliance mode remains active on finance-archive-production with default retention disabled.
+[S01:11] The raw-telemetry prefix contains fifty terabytes of diagnostic logs that will transition to cold storage under the new lifecycle policy.
+[S01:12] Marcus Vance will configure raw-telemetry objects to transition to Glacier Flexible Retrieval after ninety days and expire after 365 days.
+[S01:13] Sarah Jenkins has confirmed that the ninety-day transition threshold and 365-day expiration for raw-telemetry meet engineering requirements.
+[S01:14] The transaction-logs prefix stores immutable financial ledger records requiring non-erasable archival for regulatory recordkeeping.
+[S01:15] Marcus Vance will configure transaction-logs objects to transition to Glacier Instant Retrieval after thirty days of initial ingestion.
+[S01:16] Elena Rostova has confirmed that the retention duration for transaction-logs objects is set to 2555 retention days under compliance guidelines.
+[S01:17] The quarterly-reports prefix contains published financial statements that require synchronized cross-region replication to us-west-2.
+[S01:18] Rachel Adams will configure real-time replication rules for quarterly-reports to replicate all new object versions within fifteen minutes.
+[S01:19] Elena Rostova has confirmed that quarterly-reports objects must maintain 1825 retention days with replication status tracking enabled.
+[S01:20] David Cho will silence automated alerting rule S3-LifecycleRuleFailure for finance-archive-production between 21:00 UTC and 23:00 UTC.
+[S01:21] Sarah Jenkins will log change ticket CHG-88241 into the enterprise IT service management portal before commencing bucket configuration changes.
+[S01:22] Marcus Vance and David Cho will conduct a dual-engineer review of the JSON lifecycle policy document in git repository storage-configs at 20:30 UTC.
+[S01:23] Kevin Patel will calculate SHA-256 checksums of the staged lifecycle configuration files to guarantee file integrity prior to execution.
+[S01:24] Rachel Adams will verify that object versioning remains strictly enabled across finance-archive-production and its replication destination.
+[S01:25] All retention days and replication parameters for the raw-telemetry, transaction-logs, and quarterly-reports prefixes are fully confirmed.
+[S01:26] Sarah Jenkins will send a status broadcast to the infrastructure engineering mailing list announcing the start of the preparation phase at 20:45 UTC.
+[S01:27] Marcus Vance will configure the AWS CLI session on bastion host ops-bastion-02 with multi-factor authentication tokens valid for four hours.
+[S01:28] Rachel Adams will inspect destination bucket finance-archive-dr in us-west-2 to ensure replica modification sync permissions are intact.
+[S01:29] David Cho will verify that direct connect interface bandwidth utilization between us-east-1 and us-west-2 remains below sixty percent.
+[S01:30] Kevin Patel will configure AWS CloudTrail to log all PutBucketLifecycleConfiguration API events into the dedicated security monitoring stream.
+[S01:31] Sarah Jenkins will verify that AWS service quotas for maximum lifecycle rules per bucket have at least twenty unused slots available.
+[S01:32] Marcus Vance will stage rollback script rollback-lifecycle.sh in the local execution directory with executable permissions at 21:00 UTC.
+[S01:33] David Cho will test the rollback script in isolated staging environment sandbox-storage-01 to ensure policy reversion completes in sixty seconds.
+[S01:34] Elena Rostova will confirm that administrative legal hold flags can be placed or removed on individual object versions via the management console.
+[S01:35] Kevin Patel will verify that AWS KMS customer managed key arn:aws:kms:us-east-1:112233445566:key/storage-01 grants read and decrypt rights.
+[S01:36] David Cho will launch Grafana dashboard 4402 to monitor bucket request counts, replication latency, and error rates during the deployment window.
+[S01:37] Sarah Jenkins will verify that storage transition pricing models align with quarterly infrastructure budget allocations for fiscal year 2026.
+[S01:38] Marcus Vance, Sarah Jenkins, and Elena Rostova will sign the pre-execution operational checklist on the bridge at 21:15 UTC.
+[S01:39] Sarah Jenkins will announce the formal start of the sixty-minute storage maintenance change window on the engineering bridge at 21:30 UTC.
+[S01:40] The legal-hold prefix stores regulatory records that are currently preserved for ongoing external compliance audits across multiple jurisdictions.
+[S01:41] The retention days for the legal-hold prefix remain unconfirmed and pending signoff from legal counsel Elena Rostova until Friday afternoon.
+[S01:42] Rachel Adams will monitor cross-region replication metrics every five minutes throughout the entire active deployment window.
+[S01:43] David Cho will inspect CloudWatch synthetic canary tests to ensure object retrieval from finance-archive-production continues without interruption.
+[S01:44] Kevin Patel will re-verify the active IAM session credentials on ops-bastion-02 to prevent credential expiration during command execution.
+[S01:45] Sarah Jenkins will confirm that CloudTrail captures pre-change PutBucketLifecycleConfiguration dry-run events with zero authentication errors.
+[S01:46] David Cho will confirm that incoming client write traffic to finance-archive-production remains normal at approximately 1200 requests per second.
+[S01:47] Rachel Adams will record the definitive snapshot identifier of the pre-change bucket policy configuration in the deployment change ticket.
+[S01:48] The legal-hold prefix is designated as in scope for tonight's storage lifecycle and replication policy rollout.
+[S01:49] Marcus Vance will verify that the production lifecycle policy payload contains rule entries for raw-telemetry, transaction-logs, and quarterly-reports.
+[S01:50] Sarah Jenkins will conduct the final go-no-go poll across all participating engineering leads on the bridge at 22:15 UTC.
+[S01:51] Every storage component included within the scope of this lifecycle update must have its retention days and replication settings confirmed prior to policy execution.
+[S01:52] Elena Rostova will confirm on the bridge that no unauthorized prefix modifications are bundled into the staged configuration payload at 22:20 UTC.
+[S01:53] Marcus Vance will load the validated lifecycle configuration file lifecycle-v3.json into the AWS CLI execution buffer at 22:25 UTC.
+[S01:54] Marcus Vance will apply the new bucket lifecycle configuration to finance-archive-production across all in-scope prefixes tonight at 22:30 UTC.
+[S01:55] David Cho will query the bucket lifecycle configuration via the AWS CLI at 22:35 UTC to confirm the new rules are active and returning HTTP 200.
+[S01:56] Rachel Adams will verify at 22:40 UTC that replication rules on finance-archive-production continue replicating objects to us-west-2 without errors.
+[S01:57] David Cho will unmute alerting rule S3-LifecycleRuleFailure and verify that all storage metrics report healthy status at 22:45 UTC.
+[S01:58] Sarah Jenkins will close change ticket CHG-88241 and dismiss the engineering maintenance bridge in Slack channel storage-ops at 22:50 UTC.
+
+End your answer with exactly this block and nothing after it:
+AUDIT-BEGIN
+CLASS: SOUND | HAS_A_DEFECT | HAS_AN_UNESTABLISHED_FACT | CANNOT_TELL
+REASON: <one sentence>
+DECISIVE_FACT: <the single fact that, if added or corrected, would change your CLASS; or none>
+REQUIREMENT_LINE: <S01:n of the line that states the plan's requirement, or none>
+REQUIREMENT_DECIDES: YES | NO
+OTHER_PROBLEMS: <none, or lines such as S01:7; S02:3 that are unknown or contradictory for a reason other than your CLASS>
+AUDIT-END
