@@ -200,8 +200,9 @@ def analyse(text, instance, family):
     if kind and checks["ORACLE_REFS_IN_RANGE"]:
         source = instance["changedSource"]
         mine = [(source, n) for n in changed]
-        checks["CITES_SURVIVE_AND_COVER_THE_EDIT"] = (len(cites) <= 4 and not (kind == "deleted" and set(cites) & set(mine))
-                                                      and (kind == "deleted" or set(mine) <= set(cites)))
+        # a deletion leaves nothing to cite at the deleted lines: they are dropped from the citations (the author is told to cite surviving lines), and at least one must survive
+        cites = [c for c in cites if kind != "deleted" or c not in set(mine)]
+        checks["CITES_SURVIVE_AND_COVER_THE_EDIT"] = len(cites) <= 4 and bool(cites) and (kind == "deleted" or set(mine) <= set(cites))
         checks["REQUIREMENT_NOT_AN_EDITED_LINE"] = not (source == "S01" and requirement in changed)
         low_high = lambda b, s: assign.bucket_range(len(sound[s]), b)
         first, last = low_high(instance["buckets"]["changed"], source)

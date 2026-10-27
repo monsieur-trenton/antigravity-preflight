@@ -284,6 +284,10 @@ class CheckerTests(unittest.TestCase):
         _, facts = su.case_report(r, f)
         bad = self.mutated("omitted_unknown", cite=[("S01", facts["changed"][0])])[0]
         self.assertIn("CITES_SURVIVE_AND_COVER_THE_EDIT", bad)
+        # a deleted line among surviving ones is dropped from the citations, not a failure
+        bad, result, parsed, _ = self.mutated("omitted_unknown", cite=[("S01", facts["changed"][0]), ("S01", facts["requirement"])])
+        self.assertNotIn("CITES_SURVIVE_AND_COVER_THE_EDIT", bad)
+        self.assertEqual(parsed["oracle"]["cite"], [("S01", facts["requirement"])])
         # an edit must be among its own citations
         r, f = instance_of("defect", split="test")
         _, facts = su.case_report(r, f)
