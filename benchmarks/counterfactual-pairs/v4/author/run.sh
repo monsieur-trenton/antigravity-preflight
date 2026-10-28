@@ -94,7 +94,7 @@ print('HOST_OK qualification', q['status'], 'capabilities', c['status'], 'versio
     [ "${3:-}" = "--go" ] || { echo "REFUSED: live N --go needs the owner's go for N calls" >&2; exit 2; }
     count "${2:-}"; host_done
     { echo; echo "== live $2 calls (author): start $(date -Is)"; } >> "$ROOT/identity.txt"
-    author --execute --max-calls "$2" ${4:+--pairs "$4"} | tee -a "$ROOT/identity.txt"
+    author --execute --max-calls "$2" ${MAX_ATTEMPTS:+--max-attempts "$MAX_ATTEMPTS"} ${4:+--pairs "$4"} | tee -a "$ROOT/identity.txt"
     echo "end: $(date -Is)" >> "$ROOT/identity.txt"
     ;;
   reword)  # reword N --go [PAIR,PAIR]: at most N wording-B calls (test split only; needs the accepted wording A of each pair)

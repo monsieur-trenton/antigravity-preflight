@@ -22,7 +22,7 @@ Expected values (`run.sh checks` compares them for you): `agy` at `/home/john/.l
 
 1. If anything fails or prints something unexpected, **stop and send the exact output**. Do not debug, edit, install, update, log in or retry on your own.
 2. Do not edit or commit anything in the repository, and do not change a prompt or an assignment. Do not fix, trim or "improve" an authored report: a report is either accepted unmodified by the checks or it is kept as a failed attempt.
-3. **Live calls only on the owner's go, and only as many as the owner names** (`live N --go`). Each call takes about 2 to 3 minutes and spends the owner's account credits. A pair is tried at most twice in total (the driver counts earlier attempts); a pair that has used both attempts is the owner's decision, not yours.
+3. **Live calls only on the owner's go, and only as many as the owner names** (`live N --go`). Each call takes about 2 to 3 minutes and spends the owner's account credits. A pair gets at most two reports (a call that ends in a runtime stop produces none and does not count, but no pair gets more than four calls); a pair that has used its attempts is the owner's decision, not yours. To allow a further attempt the owner sets `MAX_ATTEMPTS=3` for `live`.
 4. **Test split: do not open, read, summarize or paste any authored file** (`accepted/`, `calls/*/REPORT.md`, `prompts/`). Upload the archive and stop. Dev split: you may look, but you are not asked to judge.
 5. The route needs the owner's logged-in desktop session (D-Bus and Secret Service), kept awake. Do not use any other model or CLI as a substitute, and send nothing from this machine except the final archive.
 

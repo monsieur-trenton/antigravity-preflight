@@ -2,7 +2,7 @@
 
 The runtime was qualified as a tool-free reviewer; the probe (../probe/) showed it can serve as a generator through a thin wrapper, and this is that wrapper, bound to the
 same runtime package and `agy` binary as the v3 Gemini run. Without --execute it only builds the prompts (no model call). With --execute it makes at most --max-calls live
-calls in this invocation, never in a reused call directory, and never more than --max-attempts for one pair and purpose. A failed attempt is not an observation: it is
+calls in this invocation, never in a reused call directory, and never more than --max-attempts reports for one pair and purpose (a runtime stop produces none and does not count, up to two per pair). A failed attempt is not an observation: it is
 recorded in calls.jsonl with its mechanical check results and the report is kept, and the pair may be tried again until the attempts are used up. Nothing is scored here.
 
 Outputs under --workdir (which may be reused to resume; it must be outside the repository):
@@ -40,6 +40,7 @@ probe = load("author_probe", HERE.parent / "probe" / "probe.py")
 rg, rp = probe.rg, probe.rg.rp
 RUN_MANIFEST, CORPUS_MANIFEST = probe.RUN_MANIFEST, probe.CORPUS_MANIFEST
 DEFAULT_MAX_ATTEMPTS = 2
+MAX_STOPS_PER_PAIR = 2
 
 
 def failed_names(result):
@@ -142,13 +143,15 @@ def main(argv=None):
             (work / "prompts" / f"{pair}.{wording}.txt").write_bytes(prompt)
             if not args.execute:
                 continue
-            used = sum(1 for row in read_ledger(ledger) if row["pair"] == pair and row["purpose"] == purpose)
-            if used >= args.max_attempts:
+            own = [row for row in read_ledger(ledger) if row["pair"] == pair and row["purpose"] == purpose]
+            # a call that ended in a runtime stop produced no report and does not use up an attempt, but no pair gets more than two calls beyond its limit
+            used = sum(1 for row in own if not row.get("technicalStop"))
+            if used >= args.max_attempts or len(own) >= args.max_attempts + MAX_STOPS_PER_PAIR:
                 summary["attemptsUsedUp"].append(pair)
                 continue
             if summary["calls"] >= args.max_calls:
                 break
-            number = used + 1
+            number = len(own) + 1
             call_dir = work / "calls" / f"{pair}-{purpose}-a{number}"
             row = {"split": args.split, "pair": pair, "purpose": purpose, "attempt": number, "promptSha256": rp.sha(prompt), "promptBytes": len(prompt),
                    "runManifestSha256": run["sha256"], "accepted": False}

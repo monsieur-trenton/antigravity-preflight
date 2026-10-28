@@ -722,6 +722,24 @@ class DriverTests(unittest.TestCase):
             rows = [json.loads(l) for l in (Path(tmp) / "work/calls.jsonl").read_text().splitlines()]
             self.assertTrue(all(x["technicalStop"].startswith("RUNTIME_STOP:") and not x["accepted"] for x in rows))
 
+    def test_a_runtime_stop_does_not_use_up_an_attempt_but_the_pair_is_bounded(self):
+        r, (text, _) = self.clean()
+        bad = text.replace("TWIN-S01-END\n", "")
+        with tempfile.TemporaryDirectory() as tmp:
+            runtime, caps = self.setup(tmp, ["stop", bad, bad, text, "stop"])
+            args = ("--pairs", r["pair"], "--execute")
+            outcomes = [self.run_author(tmp, runtime, caps, *args)[1] for _ in range(4)]
+            self.assertEqual([(o["calls"], o["technicalStops"], o["failedChecks"]) for o in outcomes], [(1, 1, 0), (1, 0, 1), (1, 0, 1), (0, 0, 0)])
+            self.assertEqual(outcomes[3]["attemptsUsedUp"], [r["pair"]])           # two reports used both attempts
+            rows = [json.loads(l) for l in (Path(tmp) / "work/calls.jsonl").read_text().splitlines()]
+            self.assertEqual([x["attempt"] for x in rows], [1, 2, 3])               # attempts number the calls, so no call directory is reused
+            self.assertTrue((Path(tmp) / "work/calls" / f"{r['pair']}-author-a3").is_dir())
+        with tempfile.TemporaryDirectory() as tmp:
+            runtime, caps = self.setup(tmp, ["stop"])
+            outcomes = [self.run_author(tmp, runtime, caps, "--pairs", r["pair"], "--execute", "--max-consecutive-stops", "9")[1] for _ in range(5)]
+            self.assertEqual([o["calls"] for o in outcomes], [1, 1, 1, 1, 0])        # a pair that only ever stops is bounded at the limit plus two
+            self.assertEqual(outcomes[4]["attemptsUsedUp"], [r["pair"]])
+
     def test_an_existing_call_directory_without_a_row_counts_as_interrupted(self):
         r, (text, _) = self.clean()
         with tempfile.TemporaryDirectory() as tmp:
