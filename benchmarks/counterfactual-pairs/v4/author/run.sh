@@ -129,6 +129,7 @@ print(json.dumps({'failedCheckNames':dict(collections.Counter(n for r in rows fo
     stage=$(mktemp -d)
     mkdir -p "$stage/author"
     cp "$ROOT/identity.txt" "$ROOT/work/calls.jsonl" "$stage/author/"
+    cp "$ROOT/work/rechecks.jsonl" "$stage/author/" 2>/dev/null || true
     cp -r "$ROOT/work/accepted" "$ROOT/work/prompts" "$stage/author/"
     mkdir "$stage/author/calls"
     for d in "$ROOT"/work/calls/*/; do

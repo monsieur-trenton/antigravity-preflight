@@ -798,6 +798,7 @@ class DriverTests(unittest.TestCase):
 
 
 DEV_AUTHORING = V4 / "dev-authoring"
+TEST_AUTHORING = V4 / "test-authoring"
 DEV_REVISION = V4 / "dev-authoring-revision"
 DEV_REVISION2 = V4 / "dev-authoring-revision-2"
 REWRITTEN = ["N-102a76", "N-4aedf1", "N-93366f", "N-9cc72c"]
@@ -989,6 +990,66 @@ class RecheckTests(unittest.TestCase):
             recheck.run("test", work, apply=True)
             self.assertEqual((work / "calls.jsonl").read_bytes(), before)
             self.assertEqual(recheck.run("test", Path(tmp) / "nowhere")["considered"], 0)
+
+
+class CommittedTestAuthoringTests(unittest.TestCase):
+    """The committed test-split authoring record holds no case text, only what can be checked without it: the ledger, the receipts and the hashes of the accepted reports."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.rows = [json.loads(line) for line in (TEST_AUTHORING / "calls.jsonl").read_text(encoding="utf-8").splitlines() if line.strip()]
+        cls.sealed = json.loads((TEST_AUTHORING / "sealed-manifest.json").read_bytes())
+        cls.by_pair = {i["pair"]: i for i in DOCS["test"]["instances"]}
+
+    def test_the_ledger_counts_and_the_wording_b_pairs(self):
+        author_rows = [r for r in self.rows if r["purpose"] == "author"]
+        reword_rows = [r for r in self.rows if r["purpose"] == "reword"]
+        self.assertEqual((len(self.rows), len(author_rows), len(reword_rows), sum(1 for r in self.rows if r["technicalStop"])), (109, 97, 12, 4))
+        self.assertEqual({r["pair"] for r in author_rows}, set(self.by_pair))
+        self.assertEqual({r["pair"] for r in reword_rows}, {p for p, i in self.by_pair.items() if i["wordingB"]})
+        self.assertTrue(all(r["accepted"] and r["attempt"] == 1 for r in reword_rows))
+        self.assertEqual({r["runManifestSha256"] for r in self.rows}, {rp.sha((PARENT / "v3-run-gemini/manifest.json").read_bytes())})
+
+    def test_author_prompts_rebuild_exactly_from_the_assignments_and_the_families(self):
+        for r in self.rows:
+            if r["purpose"] == "author":
+                instance = self.by_pair[r["pair"]]
+                prompt = prompts.author_prompt(instance, prompts.family_of(instance), prompts.domain_of(instance)).encode("utf-8")
+                self.assertEqual((rp.sha(prompt), len(prompt)), (r["promptSha256"], r["promptBytes"]), r["pair"])
+
+    def test_every_receipt_is_clean_and_bound_to_its_report_or_names_the_stop(self):
+        binary = json.loads((PARENT / "v3-run-gemini/manifest.json").read_bytes())["binary"]["sha256"]
+        for r in self.rows:
+            receipt = json.loads((TEST_AUTHORING / "receipts" / f"{r['pair']}-{r['purpose']}-a{r['attempt']}.json").read_bytes())
+            if r["technicalStop"]:
+                self.assertEqual((receipt["status"], receipt["failure"]["code"]), ("STOPPED", "UNQUALIFIED_STEP"))
+                self.assertNotIn("reportSha256", r)
+            else:
+                self.assertEqual((receipt["status"], receipt["failure"], receipt["closingFailures"], receipt["retries"], receipt["native"]["sha256"], receipt["report"]["sha256"]),
+                                 ("REPORT_RECEIVED_PENDING_ADJUDICATION", None, [], 0, binary, r["reportSha256"]))
+            self.assertEqual(r["receipt"]["servedAttestation"] if r["receipt"] else "UNAVAILABLE", "UNAVAILABLE")
+
+    def test_the_sealed_manifest_holds_the_hash_of_each_accepted_report_and_no_text(self):
+        self.assertEqual((self.sealed["kind"], self.sealed["cases"], self.sealed["pairs"], self.sealed["dropped"]), ("COUNTERFACTUAL_PAIR_CORPUS_V4_SEALED_HASHES_ONLY", 184, 80, []))
+        self.assertEqual(self.sealed["authoring"]["assignmentsSha256"], rp.sha((HERE / "assignments-test.json").read_bytes()))
+        accepted = self.sealed["authoring"]["acceptedReportSha256"]
+        self.assertEqual(set(accepted), set(self.by_pair))
+        self.assertEqual({p for p, v in accepted.items() if "B" in v}, {p for p, i in self.by_pair.items() if i["wordingB"]})
+        for pair, hashes in accepted.items():
+            last = [r for r in self.rows if r["pair"] == pair and r["purpose"] == "author" and r.get("reportSha256")][-1]
+            self.assertEqual(hashes["A"], last["reportSha256"], pair)
+            if "B" in hashes:
+                self.assertEqual(hashes["B"], next(r["reportSha256"] for r in self.rows if r["pair"] == pair and r["purpose"] == "reword"))
+        text = json.dumps(self.sealed)
+        for word in ("mechanism", "baitNotes", "submissionOrder", "rubricKeywords", "whyNoFallback"):
+            self.assertNotIn(word, text)
+
+    def test_nine_pairs_were_accepted_by_re_checking_a_held_report(self):
+        rechecked = sorted(p for p in self.by_pair if not any(r["pair"] == p and r["purpose"] == "author" and r["accepted"] for r in self.rows))
+        self.assertEqual(rechecked, ["N-0338d1", "N-16fb50", "N-2e3b2d", "N-9123f1", "N-920e4a", "N-acf6ba", "N-af992a", "N-c86ed8", "N-d50fec"])
+        for pair in rechecked:
+            last = [r for r in self.rows if r["pair"] == pair and r["purpose"] == "author"][-1]
+            self.assertEqual(last["failedChecks"], ["CITES_SURVIVE_AND_COVER_THE_EDIT"] if pair == "N-acf6ba" else ["RUBRIC_GROUNDED_IN_THE_PLAN"])
 
 
 class RunScriptTests(unittest.TestCase):
