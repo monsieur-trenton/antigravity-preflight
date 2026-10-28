@@ -19,4 +19,4 @@ What this says about authoring at scale, for the test split: of 24 pairs written
 
 ## The owner's spot check
 
-A second sample of six pairs, disjoint from the six of the agent reading and drawn with `audit_report.py spot --corpus ../dev --exclude N-c42f85,N-8fbc5c,N-d0d08d,N-3f18f1,N-e889b3,N-90d970 --fraction 0.25`, goes to the owner without the key or any audit answer. The index (which plan is the twin) is not committed until the owner has answered.
+A second sample of six pairs, disjoint from the six of the agent reading and drawn with `audit_report.py spot --corpus ../dev --exclude N-c42f85,N-8fbc5c,N-d0d08d,N-3f18f1,N-e889b3,N-90d970 --fraction 0.25`, was sent to the owner without the key or any audit answer. **The owner did not read it (no time, 2026-10-28), so no human has read any dev pair blind.** The index (which plan is the twin) is not committed, and the sample can be regenerated from the arguments above.
