@@ -301,9 +301,10 @@ class CheckerTests(unittest.TestCase):
                 self.assertIn("ORACLE_CONTENT" if changes != {"rubric": ""} else "ORACLE_FIELDS", self.mutated("omitted_unknown", **changes)[0])
         self.assertIn("ORACLE_CONTENT", self.mutated("defect", split="test", why="Nothing else makes up for it, so the twin stays wrong.")[0])
         self.assertIn("RUBRIC_GROUNDED_IN_THE_PLAN", self.mutated("omitted_unknown", rubric="zebra, giraffe")[0])
-        # a gap needs one grounded group, a defect needs all of them
+        # one grounded group is enough, for a gap and for a defect alike
         self.assertNotIn("RUBRIC_GROUNDED_IN_THE_PLAN", self.mutated("omitted_unknown", rubric="platform, task ; zebra, giraffe")[0])
-        self.assertIn("RUBRIC_GROUNDED_IN_THE_PLAN", self.mutated("defect", split="test", rubric="platform, task ; zebra, giraffe")[0])
+        self.assertNotIn("RUBRIC_GROUNDED_IN_THE_PLAN", self.mutated("defect", split="test", rubric="platform, task ; zebra, giraffe")[0])
+        self.assertIn("RUBRIC_GROUNDED_IN_THE_PLAN", self.mutated("defect", split="test", rubric="zebra, giraffe ; lion")[0])
         self.assertIn("CLAIM_SENTENCE_NEUTRAL", self.mutated("omitted_unknown", why="Nothing else in the twin bounds it, so the requirement stays unsupported.")[0])
         self.assertIn("ORACLE_REFS_IN_RANGE", self.mutated("omitted_unknown", requirement="third")[0])
 
@@ -820,7 +821,11 @@ class CommittedDevAuthoringTests(unittest.TestCase):
             report = (call / "REPORT.md").read_bytes()
             self.assertEqual((rp.sha(report), len(report)), (r["reportSha256"], r["reportBytes"]))
             result, _ = ca.analyse(report.decode("utf-8"), instance, f)
-            self.assertEqual((result["allPassed"], sorted(k for k, ok in result["checks"].items() if not ok)), (r["allPassed"], r["failedChecks"]))
+            failed = sorted(k for k, ok in result["checks"].items() if not ok)
+            if r["failedChecks"] == ["RUBRIC_GROUNDED_IN_THE_PLAN"]:       # that rule was relaxed after the batch: the held report may pass it now
+                self.assertEqual(failed, [])
+            else:
+                self.assertEqual((result["allPassed"], failed), (r["allPassed"], r["failedChecks"]))
             self.assertEqual(r["accepted"], r["allPassed"])
             if r["accepted"]:
                 self.assertEqual((DEV_AUTHORING / "accepted" / f"{r['pair']}.A.md").read_bytes(), report)
@@ -941,7 +946,7 @@ class RecheckTests(unittest.TestCase):
         defect = next(i for i in DOCS["test"]["instances"] if i["family"] == "budget_arithmetic")
         stopped = next(i for i in DOCS["test"]["instances"] if i["family"] == "omitted_access_check")
         good, _ = su.case_report(gap, prompts.family_of(gap), lambda facts: facts.update(rubric="platform, task ; unmeasured, untested"))
-        bad, _ = su.case_report(defect, prompts.family_of(defect), lambda facts: facts.update(rubric="platform, task ; zebra, giraffe"))
+        bad, _ = su.case_report(defect, prompts.family_of(defect), lambda facts: facts.update(rubric="zebra, giraffe ; lion"))
         with tempfile.TemporaryDirectory() as tmp:
             work = self.work(tmp, [(gap["pair"], good, {}), (defect["pair"], bad, {}), (stopped["pair"], None, {"technicalStop": "RUNTIME_STOP:x", "failedChecks": None})])
             dry = recheck.run("test", work)

@@ -232,9 +232,9 @@ def analyse(text, instance, family):
     if groups:
         sound_text = "\n".join(line for lines in sound.values() for line in lines).lower()
         grounded = [any(w in sound_text for w in group) for group in groups]
-        # for a gap the family guidance asks for words about the missing fact ("tested", "stale"), which the sound plan need not use: one grounded group is enough there;
-        # for a defect or a decoy every group must be grounded in the plan or reference
-        checks["RUBRIC_GROUNDED_IN_THE_PLAN"] = any(grounded) if family["twinClass"] == "UNCERTAIN" else all(grounded)
+        # the rubric is a draft of how a reviewer's report would name the point of the case, so its words describe the missing fact or the broken relationship and need not
+        # occur in the plan; one grounded group guards against nonsense keywords (the first test batches showed that requiring every group rejected reports for following the guidance)
+        checks["RUBRIC_GROUNDED_IN_THE_PLAN"] = any(grounded)
     parsed = None
     if oracle and kind:
         parsed = {"sound": sound, "twin": twin, "edit": {"type": kind, "source": instance["changedSource"], "lines": changed},
