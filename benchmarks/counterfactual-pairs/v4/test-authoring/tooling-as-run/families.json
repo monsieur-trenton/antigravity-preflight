@@ -1,0 +1,634 @@
+{
+  "schemaVersion": 1,
+  "purpose": "The 14 families of corpus v4. A family is a mechanism; an instance is one pair built from it in one domain. Specifications constrain authors and fix what the oracle must say; they hold no case text.",
+  "targets": {
+    "test": {
+      "pairs": 80,
+      "byKind": {
+        "omitted_unknown": 20,
+        "cross_source_defect": 24,
+        "defect": 20,
+        "decoy_pair": 16
+      },
+      "wordingBPairs": 12
+    },
+    "dev": {
+      "pairs": 24,
+      "byKind": {
+        "omitted_unknown": 8,
+        "cross_source_defect": 8,
+        "defect": 0,
+        "decoy_pair": 8
+      },
+      "wordingBPairs": 0
+    }
+  },
+  "limits": {
+    "planLines": [
+      25,
+      80
+    ],
+    "referenceLines": [
+      8,
+      25
+    ],
+    "lineChars": [
+      60,
+      220
+    ],
+    "callReportBytesMax": 28000
+  },
+  "verdictMap": {
+    "GO": "NO_BLOCKERS_FOUND",
+    "GO_WITH_CHANGES": "CHANGES_RECOMMENDED",
+    "NO_GO": "BLOCKERS_FOUND"
+  },
+  "noise": "Everything else in the plan is realistic detail that does not bear on the requirement and introduces no second unestablished fact that does.",
+  "families": [
+    {
+      "id": "omitted_measurement",
+      "kind": "omitted_unknown",
+      "split": "test",
+      "instances": 7,
+      "title": "A budget with no measurement stated",
+      "twinClass": "UNCERTAIN",
+      "difficulty": "omission",
+      "sources": [
+        {
+          "id": "S01",
+          "role": "plan",
+          "lines": [
+            30,
+            60
+          ]
+        }
+      ],
+      "requirement": "A hard budget on time, size or rate that the plan states as a testable sentence (for example: every run must finish within three hours, or every request body must stay under five megabytes), with the consequence of missing it.",
+      "soundHas": "One to three lines stating a measurement taken at production-class scale, with a margin of at least 1.5 times against the budget.",
+      "twinDiffers": "Delete exactly those lines. Nothing replaces them and nothing else estimates, projects or bounds the quantity.",
+      "expectedVerdict": {
+        "sound": "GO",
+        "twin": "GO_WITH_CHANGES"
+      },
+      "citeRule": "The requirement line, or the line that performs the step the budget governs; the decisive fact has no line in the twin.",
+      "hazards": [
+        "No line elsewhere may give an estimate, a design target, a capacity figure or a 'should fit' sentence.",
+        "The budget must be checkable from one number; no unit conversions across lines.",
+        "Keep the consequence concrete (output discarded, release blocked), not rhetorical."
+      ],
+      "gapNamedGuidance": "Keywords for the quantity, the unit and the missing measurement (measured, benchmark, throughput, size, tested), at most three groups.",
+      "slots": [
+        "quantity and unit",
+        "budget value",
+        "consequence of missing it",
+        "scale at which the measurement was taken",
+        "margin"
+      ]
+    },
+    {
+      "id": "omitted_propagation_window",
+      "kind": "omitted_unknown",
+      "split": "test",
+      "instances": 7,
+      "title": "A convergence window with no bound stated",
+      "twinClass": "UNCERTAIN",
+      "difficulty": "omission",
+      "sources": [
+        {
+          "id": "S01",
+          "role": "plan",
+          "lines": [
+            30,
+            60
+          ]
+        }
+      ],
+      "requirement": "A change must reach every client, replica or cache within a stated time of being made (for example: within five minutes of the change every client resolves the new address), and the same bound applies to undoing it.",
+      "soundHas": "One to three lines stating the setting that bounds the window (a time-to-live, a refresh or push interval, a lag cap) and a check that the setting is honoured in practice.",
+      "twinDiffers": "Delete exactly those lines. Nothing else states the setting, its current value or how long stale copies live.",
+      "expectedVerdict": {
+        "sound": "GO",
+        "twin": "GO_WITH_CHANGES"
+      },
+      "citeRule": "The requirement line, or the line that makes the change; the undo step may also be cited.",
+      "hazards": [
+        "The requirement must be a testable sentence about when every client observes the change; the probe's 'either the old or the new path' wording is ambiguous and is not to be reused.",
+        "The rollback line must not restate the bound.",
+        "The probe's domain (payments_api_cdn_cutover) is dev-only."
+      ],
+      "gapNamedGuidance": "Keywords for the cache or propagation mechanism and for the missing setting (TTL, interval, lag, stale, propagation).",
+      "slots": [
+        "what propagates",
+        "who observes it",
+        "time bound",
+        "bounding mechanism",
+        "how it was checked"
+      ]
+    },
+    {
+      "id": "omitted_access_check",
+      "kind": "omitted_unknown",
+      "split": "test",
+      "instances": 6,
+      "title": "A one-shot action with no access check stated",
+      "twinClass": "UNCERTAIN",
+      "difficulty": "omission",
+      "sources": [
+        {
+          "id": "S01",
+          "role": "plan",
+          "lines": [
+            30,
+            60
+          ]
+        }
+      ],
+      "requirement": "A scheduled action runs once, with no retry, and a failure costs something concrete and stated (a missed release, a lost window); it needs credentials or permissions that the plan can only know by trying.",
+      "soundHas": "One to two lines stating that the real identity performed the same kind of operation against the real target recently, with the outcome.",
+      "twinDiffers": "Delete exactly those lines. Nothing else says the identity can perform the operation, and no line says it has done something similar on the target.",
+      "expectedVerdict": {
+        "sound": "GO",
+        "twin": "GO_WITH_CHANGES"
+      },
+      "citeRule": "The requirement line, or the line that names the action and the identity.",
+      "hazards": [
+        "No line may imply the access (for example 'the service already writes to this bucket').",
+        "No line may say the access is unchecked: the omission is silent.",
+        "Do not make the access obviously available by the plan's own design."
+      ],
+      "gapNamedGuidance": "Keywords for the identity, the permission and the missing test (permission, credentials, access, tested, write).",
+      "slots": [
+        "identity",
+        "target",
+        "operation",
+        "cost of failure",
+        "what was previously exercised"
+      ]
+    },
+    {
+      "id": "omitted_precondition_check",
+      "kind": "omitted_unknown",
+      "split": "dev",
+      "instances": 8,
+      "title": "An irreversible step with no precondition check stated",
+      "twinClass": "UNCERTAIN",
+      "difficulty": "omission",
+      "sources": [
+        {
+          "id": "S01",
+          "role": "plan",
+          "lines": [
+            30,
+            60
+          ]
+        }
+      ],
+      "requirement": "A step fails or corrupts data if a precondition on the data is false, and the plan states the failure consequence.",
+      "soundHas": "One to three lines stating a query, scan or dry run over production-scale data that shows the precondition holds, with its result.",
+      "twinDiffers": "Delete exactly those lines. Nothing else establishes the precondition, and no other mechanism guarantees it.",
+      "expectedVerdict": {
+        "sound": "GO",
+        "twin": "GO_WITH_CHANGES"
+      },
+      "citeRule": "The requirement line, or the line that performs the step.",
+      "hazards": [
+        "Avoid uniqueness-constraint on a customers table (the v3 family); vary the precondition (no nulls, ordering, size, referential integrity).",
+        "A write-path guarantee stated elsewhere would absorb the gap; keep it out.",
+        "The check named in the sound lines covers the same data and the same environment the step acts on (not a source, a snapshot or a copy), and runs after the last write, replay or sync that could change the data, so that the sound plan leaves no second unestablished fact."
+      ],
+      "gapNamedGuidance": "Keywords for the data and the precondition (duplicates, nulls, constraint, query, scan, check).",
+      "slots": [
+        "data set and size",
+        "precondition",
+        "step it protects",
+        "consequence",
+        "what check was run"
+      ]
+    },
+    {
+      "id": "config_limit",
+      "kind": "cross_source_defect",
+      "split": "test",
+      "instances": 8,
+      "title": "A plan number against a limit in a settings excerpt",
+      "twinClass": "DEFECT",
+      "difficulty": "direct",
+      "sources": [
+        {
+          "id": "S01",
+          "role": "plan",
+          "lines": [
+            25,
+            50
+          ]
+        },
+        {
+          "id": "S02",
+          "role": "reference",
+          "lines": [
+            8,
+            20
+          ]
+        }
+      ],
+      "requirement": "The plan's own rule: nothing may exceed the limits in the referenced settings (S02), because exceeding one has a stated consequence.",
+      "soundHas": "Every number the plan sets fits every relevant limit in S02, including two limits that the plan comes close to without crossing.",
+      "twinDiffers": "Change exactly one line in exactly one source so that a number in the plan exceeds a limit in S02: either raise a plan number or lower a limit. Nothing is reordered or added.",
+      "expectedVerdict": {
+        "sound": "GO",
+        "twin": "NO_GO"
+      },
+      "citeRule": "The changed line or the line it contradicts, in either source, with its source id.",
+      "hazards": [
+        "The plan states the number explicitly: no arithmetic beyond comparison.",
+        "S02 holds at least four limits so that no single keyword finds the right one.",
+        "The edited line must not mention the limit by name."
+      ],
+      "gapNamedGuidance": "Keywords for the quantity, both numbers and the word limit or its synonym; quotations from either source count.",
+      "slots": [
+        "limited quantity",
+        "plan value",
+        "limit value",
+        "consequence",
+        "near-miss limits"
+      ]
+    },
+    {
+      "id": "contract_clause",
+      "kind": "cross_source_defect",
+      "split": "test",
+      "instances": 8,
+      "title": "A plan's load against a partner or vendor clause",
+      "twinClass": "DEFECT",
+      "difficulty": "inference",
+      "sources": [
+        {
+          "id": "S01",
+          "role": "plan",
+          "lines": [
+            25,
+            50
+          ]
+        },
+        {
+          "id": "S02",
+          "role": "reference",
+          "lines": [
+            8,
+            20
+          ]
+        }
+      ],
+      "requirement": "The plan must stay within the obligations in the referenced contract excerpt (S02), whose consequences for breach are stated there.",
+      "soundHas": "Combined figures in the plan (for example workers times rate, or batch size times count) stay under the clause with a stated margin.",
+      "twinDiffers": "Change exactly one number or unit in the plan so that the combined figure exceeds a clause in S02. Violation needs two plan lines and one clause line.",
+      "expectedVerdict": {
+        "sound": "GO",
+        "twin": "NO_GO"
+      },
+      "citeRule": "Any of the plan lines that make up the figure, or the clause line, with source ids.",
+      "hazards": [
+        "The clause and the plan use the same unit; no hidden conversions.",
+        "S02 states the consequence of breach so the requirement is not a matter of taste.",
+        "Do not let the plan describe the clause."
+      ],
+      "gapNamedGuidance": "Keywords for the clause subject, the combined quantity and the breach.",
+      "slots": [
+        "obligation type",
+        "plan factors",
+        "clause value",
+        "margin in the sound plan",
+        "consequence of breach"
+      ]
+    },
+    {
+      "id": "policy_rule",
+      "kind": "cross_source_defect",
+      "split": "test",
+      "instances": 8,
+      "title": "A plan step against two lines of an internal policy",
+      "twinClass": "DEFECT",
+      "difficulty": "inference",
+      "sources": [
+        {
+          "id": "S01",
+          "role": "plan",
+          "lines": [
+            25,
+            50
+          ]
+        },
+        {
+          "id": "S02",
+          "role": "reference",
+          "lines": [
+            8,
+            20
+          ]
+        }
+      ],
+      "requirement": "The plan must comply with the referenced policy (S02): approvals, change windows, separation of duties.",
+      "soundHas": "Every approval, actor and date in the plan satisfies every relevant policy line.",
+      "twinDiffers": "Change exactly one line in the plan (an actor, a date or an approver) so that two policy lines taken together forbid it.",
+      "expectedVerdict": {
+        "sound": "GO",
+        "twin": "NO_GO"
+      },
+      "citeRule": "The changed plan line or either policy line, with source ids.",
+      "hazards": [
+        "Both policy lines are needed: one alone does not forbid the step.",
+        "Dates are given so that a window or freeze can be checked by reading, not by calendar knowledge.",
+        "The policy does not name the plan."
+      ],
+      "gapNamedGuidance": "Keywords for the actor or date and the two policy rules.",
+      "slots": [
+        "policy domain",
+        "actor",
+        "date or window",
+        "the two rules",
+        "sound plan's compliant version"
+      ]
+    },
+    {
+      "id": "schema_state",
+      "kind": "cross_source_defect",
+      "split": "dev",
+      "instances": 8,
+      "title": "A plan's assumption against a listing of the current state",
+      "twinClass": "DEFECT",
+      "difficulty": "inference",
+      "sources": [
+        {
+          "id": "S01",
+          "role": "plan",
+          "lines": [
+            25,
+            50
+          ]
+        },
+        {
+          "id": "S02",
+          "role": "reference",
+          "lines": [
+            8,
+            25
+          ]
+        }
+      ],
+      "requirement": "The plan's steps assume a state of the system (a column, an index, a topic, a user group) that the referenced listing (S02) shows.",
+      "soundHas": "Every assumption the plan makes holds in S02, and the step order is valid against it.",
+      "twinDiffers": "Change exactly one line in S02 or in the plan so that one step contradicts the listed state (the object exists already, or is still referenced, or has a different type).",
+      "expectedVerdict": {
+        "sound": "GO",
+        "twin": "NO_GO"
+      },
+      "citeRule": "The contradicted plan step or the listing line, with source ids.",
+      "hazards": [
+        "The listing is long enough that the contradicted entry is not first or last.",
+        "Two near-identical names appear so that a careless read matches the wrong one."
+      ],
+      "gapNamedGuidance": "Keywords for the object name and the state conflict (exists, referenced, type, missing).",
+      "slots": [
+        "object kind",
+        "object name",
+        "listed state",
+        "plan step that depends on it",
+        "decoy near-name"
+      ]
+    },
+    {
+      "id": "ordering_dependency",
+      "kind": "defect",
+      "split": "test",
+      "instances": 7,
+      "title": "A step that precedes what it depends on",
+      "twinClass": "DEFECT",
+      "difficulty": "inference",
+      "sources": [
+        {
+          "id": "S01",
+          "role": "plan",
+          "lines": [
+            30,
+            60
+          ]
+        }
+      ],
+      "requirement": "The plan states that each step may use only artifacts, permissions or data that an earlier step has produced.",
+      "soundHas": "Dependencies are stated in different lines from the steps that use them, and the order satisfies all of them.",
+      "twinDiffers": "Edit exactly one line in place (a time, a day or an 'after' or 'before' phrase) so that a dependent step now precedes the step it needs. No line moves.",
+      "expectedVerdict": {
+        "sound": "GO",
+        "twin": "NO_GO"
+      },
+      "citeRule": "The edited line or the line stating the dependency.",
+      "hazards": [
+        "The edit must be a single-line, in-place change; reordering lines would also move positions.",
+        "The dependency is stated once, plainly, and not repeated."
+      ],
+      "gapNamedGuidance": "Keywords for the two steps and the order (before, after, depends, requires).",
+      "slots": [
+        "dependent step",
+        "prerequisite",
+        "stated dependency",
+        "the edit"
+      ]
+    },
+    {
+      "id": "budget_arithmetic",
+      "kind": "defect",
+      "split": "test",
+      "instances": 7,
+      "title": "Figures in several lines that add up past a ceiling",
+      "twinClass": "DEFECT",
+      "difficulty": "direct",
+      "sources": [
+        {
+          "id": "S01",
+          "role": "plan",
+          "lines": [
+            30,
+            60
+          ]
+        }
+      ],
+      "requirement": "The plan states a ceiling (a rate, a size, a duration or a cost) and the consequence of passing it.",
+      "soundHas": "Three to four figures in separate lines combine to at most two thirds of the ceiling.",
+      "twinDiffers": "Change exactly one figure so that the combination passes the ceiling. Nothing else changes.",
+      "expectedVerdict": {
+        "sound": "GO",
+        "twin": "NO_GO"
+      },
+      "citeRule": "The changed figure's line, the ceiling line, or another line of the combination.",
+      "hazards": [
+        "The arithmetic is one multiplication and one addition at most, with whole numbers.",
+        "The ceiling and the figures use the same unit.",
+        "Not a v3 rate-arithmetic or capacity case: new quantities."
+      ],
+      "gapNamedGuidance": "Keywords for the quantity, the ceiling and the combined value.",
+      "slots": [
+        "quantity",
+        "ceiling",
+        "figures and their lines",
+        "consequence"
+      ]
+    },
+    {
+      "id": "scope_authority",
+      "kind": "defect",
+      "split": "test",
+      "instances": 6,
+      "title": "An action assigned beyond an actor's stated authority",
+      "twinClass": "DEFECT",
+      "difficulty": "inference",
+      "sources": [
+        {
+          "id": "S01",
+          "role": "plan",
+          "lines": [
+            30,
+            60
+          ]
+        }
+      ],
+      "requirement": "The plan states who may do what (roles and the actions each role is allowed), and that every action is done by an actor who may do it.",
+      "soundHas": "Every action is assigned to a role whose stated authority covers it.",
+      "twinDiffers": "Edit exactly one line in place so that an action is now done by a role whose stated authority excludes it.",
+      "expectedVerdict": {
+        "sound": "GO",
+        "twin": "NO_GO"
+      },
+      "citeRule": "The edited line or the line that states the role's authority.",
+      "hazards": [
+        "The authority statements are explicit, in lines apart from the actions.",
+        "No line grants an exception."
+      ],
+      "gapNamedGuidance": "Keywords for the role, the action and the stated limit of authority.",
+      "slots": [
+        "roles",
+        "actions",
+        "authority statements",
+        "the reassigned action"
+      ]
+    },
+    {
+      "id": "open_item_becomes_decisive",
+      "kind": "decoy_pair",
+      "split": "test",
+      "instances": 8,
+      "title": "A stated open item that stops being irrelevant",
+      "twinClass": "DEFECT",
+      "difficulty": "decoy",
+      "sources": [
+        {
+          "id": "S01",
+          "role": "plan",
+          "lines": [
+            30,
+            60
+          ]
+        }
+      ],
+      "requirement": "A testable requirement, stated in the plan, that the open item does or does not bear on.",
+      "soundHas": "One line states an open item (flagged as pending or unconfirmed) and a separate line states, plainly, that the requirement does not depend on it.",
+      "twinDiffers": "Edit the independence line in place so that it states that the requirement depends on the open item. Nothing else changes and no failure is asserted, but the plan's own steps proceed to the governed action without waiting for the open item, so the twin contradicts its own requirement with no outside fact.",
+      "expectedVerdict": {
+        "sound": "GO",
+        "twin": "NO_GO"
+      },
+      "citeRule": "The edited line or the open-item line, and the requirement line.",
+      "hazards": [
+        "The twin must not assert that the item fails, only that the requirement depends on it.",
+        "The open item sits at least five lines from the independence line.",
+        "The plan carries exactly one open item; every other requirement-relevant fact is stated as established.",
+        "A later line of the plan puts the governed action at a time or in a step before the open item could be resolved."
+      ],
+      "gapNamedGuidance": "Keywords for the open item and the dependence.",
+      "slots": [
+        "open item",
+        "independence statement",
+        "requirement",
+        "position of each"
+      ]
+    },
+    {
+      "id": "open_item_absorbed",
+      "kind": "decoy_pair",
+      "split": "test",
+      "instances": 8,
+      "title": "A stated open item whose absorbing fallback is deleted",
+      "twinClass": "UNCERTAIN",
+      "difficulty": "decoy",
+      "sources": [
+        {
+          "id": "S01",
+          "role": "plan",
+          "lines": [
+            30,
+            60
+          ]
+        }
+      ],
+      "requirement": "A testable requirement, stated in the plan, that the open item would otherwise threaten.",
+      "soundHas": "One line states an open item and a separate line states an automatic fallback that keeps the requirement true whatever the item turns out to be.",
+      "twinDiffers": "Delete exactly the fallback line. Nothing replaces it and nothing else absorbs the item.",
+      "expectedVerdict": {
+        "sound": "GO",
+        "twin": "GO_WITH_CHANGES"
+      },
+      "citeRule": "The open-item line or the requirement line; the deleted fallback has no line.",
+      "hazards": [
+        "The fallback is real and automatic, not a promise to check later.",
+        "No other line limits the damage of the open item.",
+        "The plan carries exactly one open item; every other requirement-relevant fact is stated as established."
+      ],
+      "gapNamedGuidance": "Keywords for the open item and the missing fallback.",
+      "slots": [
+        "open item",
+        "fallback mechanism",
+        "requirement",
+        "distance between the two lines"
+      ]
+    },
+    {
+      "id": "open_item_scope",
+      "kind": "decoy_pair",
+      "split": "dev",
+      "instances": 8,
+      "title": "A stated open item moved into scope by one line",
+      "twinClass": "DEFECT",
+      "difficulty": "decoy",
+      "sources": [
+        {
+          "id": "S01",
+          "role": "plan",
+          "lines": [
+            30,
+            60
+          ]
+        }
+      ],
+      "requirement": "A testable requirement, stated in the plan, about the components this change touches.",
+      "soundHas": "One line states an open item in a component, and a separate line states that this component is out of scope of this change.",
+      "twinDiffers": "Edit the out-of-scope line in place so that it states that the component is in scope. Nothing else changes. The plan's own steps proceed to the governed action without waiting for the open item, so the twin contradicts its own requirement with no outside fact.",
+      "expectedVerdict": {
+        "sound": "GO",
+        "twin": "NO_GO"
+      },
+      "citeRule": "The edited line or the open-item line, and the requirement line.",
+      "hazards": [
+        "The scope line says in or out, once.",
+        "No later line restates the scope.",
+        "The plan carries exactly one open item: every other setting of every component in scope is stated as confirmed, and nothing else in the sound plan is pending.",
+        "A later line of the plan puts the governed action at a time or in a step before the open item could be resolved."
+      ],
+      "gapNamedGuidance": "Keywords for the component, the open item and the scope.",
+      "slots": [
+        "component",
+        "open item",
+        "scope statement",
+        "requirement"
+      ]
+    }
+  ]
+}

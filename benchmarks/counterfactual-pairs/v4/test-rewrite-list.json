@@ -1,0 +1,25 @@
+{
+  "note": "Pairs sent back by the blind audit of the test corpus (decision REVIEW under the final claim rule). Each is re-authored once with the revised hazards and re-audited; a pair that is still sent back is dropped and reported. Ids only: no case text.",
+  "pairs": [
+    "N-0338d1",
+    "N-0a7387",
+    "N-32b8ec",
+    "N-497117",
+    "N-4c39c5",
+    "N-5e4a36",
+    "N-68f179",
+    "N-6b4be1",
+    "N-797729",
+    "N-7f61bb",
+    "N-9123f1",
+    "N-95483c",
+    "N-9be677",
+    "N-a86988",
+    "N-acf6ba",
+    "N-af104e",
+    "N-c86ed8",
+    "N-e154ea",
+    "N-ef81c9",
+    "N-f41ebe"
+  ]
+}

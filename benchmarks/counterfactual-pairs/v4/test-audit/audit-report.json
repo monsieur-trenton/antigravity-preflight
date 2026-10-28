@@ -10,17 +10,17 @@
   ]
  },
  "firstPassAgreement": {
-  "count": 54,
+  "count": 60,
   "of": 80,
   "wilson95": [
-   0.566,
-   0.768
+   0.645,
+   0.832
   ]
  },
  "decisions": {
   "PASS": 14,
-  "PASS_WITH_READ": 40,
-  "REVIEW": 26,
+  "PASS_WITH_READ": 46,
+  "REVIEW": 20,
   "INCOMPLETE": 0
  },
  "byKind": {
@@ -31,8 +31,8 @@
   },
   "decoy_pair": {
    "PASS": 5,
-   "PASS_WITH_READ": 5,
-   "REVIEW": 6
+   "PASS_WITH_READ": 6,
+   "REVIEW": 5
   },
   "defect": {
    "PASS": 5,
@@ -41,8 +41,8 @@
   },
   "omitted_unknown": {
    "PASS": 1,
-   "PASS_WITH_READ": 9,
-   "REVIEW": 10
+   "PASS_WITH_READ": 14,
+   "REVIEW": 5
   }
  },
  "needsAPersonsRead": [
@@ -145,11 +145,11 @@
   "N-0501a8": {
    "kind": "omitted_unknown",
    "family": "omitted_propagation_window",
-   "decision": "REVIEW",
-   "reasons": [
-    "CLAIM_CONTRADICTED:S01:18"
+   "decision": "PASS_WITH_READ",
+   "reasons": [],
+   "flags": [
+    "CLAIM_REJECTED_ON_THE_REQUIREMENT_LINE_ONLY"
    ],
-   "flags": [],
    "incompleteCalls": []
   },
   "N-059c5e": {
@@ -285,13 +285,12 @@
   "N-35f458": {
    "kind": "decoy_pair",
    "family": "open_item_absorbed",
-   "decision": "REVIEW",
-   "reasons": [
-    "CLAIM_CONTRADICTED:S01:47"
-   ],
+   "decision": "PASS_WITH_READ",
+   "reasons": [],
    "flags": [
     "SOUND_OTHER_PROBLEMS:S01:13",
-    "TWIN_OTHER_PROBLEMS:S01:13,S01:4"
+    "TWIN_OTHER_PROBLEMS:S01:13,S01:4",
+    "CLAIM_REJECTED_ON_THE_REQUIREMENT_LINE_ONLY"
    ],
    "incompleteCalls": []
   },
@@ -483,13 +482,12 @@
   "N-79a949": {
    "kind": "omitted_unknown",
    "family": "omitted_measurement",
-   "decision": "REVIEW",
-   "reasons": [
-    "CLAIM_CONTRADICTED:S01:16"
-   ],
+   "decision": "PASS_WITH_READ",
+   "reasons": [],
    "flags": [
     "SOUND_OTHER_PROBLEMS:S01:26,S01:29",
-    "TWIN_OTHER_PROBLEMS:S01:25,S01:20"
+    "TWIN_OTHER_PROBLEMS:S01:25,S01:20",
+    "CLAIM_REJECTED_ON_THE_REQUIREMENT_LINE_ONLY"
    ],
    "incompleteCalls": []
   },
@@ -531,13 +529,12 @@
   "N-842279": {
    "kind": "omitted_unknown",
    "family": "omitted_measurement",
-   "decision": "REVIEW",
-   "reasons": [
-    "CLAIM_CONTRADICTED:S01:47"
-   ],
+   "decision": "PASS_WITH_READ",
+   "reasons": [],
    "flags": [
     "SOUND_OTHER_PROBLEMS:S01:56,S01:54",
-    "TWIN_OTHER_PROBLEMS:S01:53,S01:55,S01:47,S01:35"
+    "TWIN_OTHER_PROBLEMS:S01:53,S01:55,S01:47,S01:35",
+    "CLAIM_REJECTED_ON_THE_REQUIREMENT_LINE_ONLY"
    ],
    "incompleteCalls": []
   },
@@ -590,7 +587,7 @@
    "decision": "REVIEW",
    "reasons": [
     "PAIR_CHOICE:NEITHER",
-    "CLAIM_CONTRADICTED:S01:27,S01:29"
+    "CLAIM_CONTRADICTED:S01:29"
    ],
    "flags": [
     "TWIN_OTHER_PROBLEMS:S01:31,S01:35,S01:30"
@@ -643,12 +640,11 @@
   "N-96f774": {
    "kind": "omitted_unknown",
    "family": "omitted_propagation_window",
-   "decision": "REVIEW",
-   "reasons": [
-    "CLAIM_CONTRADICTED:S01:3"
-   ],
+   "decision": "PASS_WITH_READ",
+   "reasons": [],
    "flags": [
-    "SOUND_OTHER_PROBLEMS:S01:28"
+    "SOUND_OTHER_PROBLEMS:S01:28",
+    "CLAIM_REJECTED_ON_THE_REQUIREMENT_LINE_ONLY"
    ],
    "incompleteCalls": []
   },
@@ -723,7 +719,7 @@
    "family": "omitted_propagation_window",
    "decision": "REVIEW",
    "reasons": [
-    "CLAIM_CONTRADICTED:S01:26,S01:31"
+    "CLAIM_CONTRADICTED:S01:31"
    ],
    "flags": [
     "TWIN_OTHER_PROBLEMS:S01:19"
@@ -827,13 +823,12 @@
   "N-d5c77b": {
    "kind": "omitted_unknown",
    "family": "omitted_propagation_window",
-   "decision": "REVIEW",
-   "reasons": [
-    "CLAIM_CONTRADICTED:S01:17"
-   ],
+   "decision": "PASS_WITH_READ",
+   "reasons": [],
    "flags": [
     "SOUND_OTHER_PROBLEMS:S01:13,S01:35",
-    "TWIN_OTHER_PROBLEMS:S01:13,S01:14,S01:20,S01:33"
+    "TWIN_OTHER_PROBLEMS:S01:13,S01:14,S01:20,S01:33",
+    "CLAIM_REJECTED_ON_THE_REQUIREMENT_LINE_ONLY"
    ],
    "incompleteCalls": []
   },
@@ -896,7 +891,7 @@
    "family": "open_item_absorbed",
    "decision": "REVIEW",
    "reasons": [
-    "CLAIM_CONTRADICTED:S01:2,S01:11,S01:35"
+    "CLAIM_CONTRADICTED:S01:2,S01:35"
    ],
    "flags": [
     "SOUND_OTHER_PROBLEMS:S01:49,S01:33,S01:9",
@@ -975,7 +970,7 @@
    "reasons": [
     "SOUND_MEMBER_NOT_RECOVERED:HAS_AN_UNESTABLISHED_FACT",
     "PAIR_CHOICE:BOTH",
-    "CLAIM_CONTRADICTED:S01:36,S01:37,S01:38"
+    "CLAIM_CONTRADICTED:S01:37,S01:38"
    ],
    "flags": [
     "SOUND_OTHER_PROBLEMS:S01:38",

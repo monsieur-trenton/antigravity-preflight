@@ -116,8 +116,13 @@ def analyse(corpus, rows):
                 reasons.append("NOT_ONE_EDIT")
         if "claim" in needed and "claim" not in incomplete:
             a = answers["claim"]["answer"]
-            if a["CLAIM_HOLDS"] != "YES":
-                reasons.append("CLAIM_CONTRADICTED:" + ",".join(a["CONTRADICTING_LINES"]))
+            req = oracle[twin]["requirement"]
+            # the requirement line states what the plan must achieve and so always "implies" the missing fact; a contradiction counts only if the auditor names some other line
+            others = [ref for ref in a["CONTRADICTING_LINES"] if ref != f"{req['source']}:{req['line']}"]
+            if a["CLAIM_HOLDS"] != "YES" and others:
+                reasons.append("CLAIM_CONTRADICTED:" + ",".join(others))
+            elif a["CLAIM_HOLDS"] != "YES":
+                flags.append("CLAIM_REJECTED_ON_THE_REQUIREMENT_LINE_ONLY")
         decision = "INCOMPLETE" if incomplete else "REVIEW" if reasons else "PASS_WITH_READ" if flags else "PASS"
         per_pair[pair] = {"kind": kind, "family": oracle[twin]["family"], "decision": decision, "reasons": reasons, "flags": flags, "incompleteCalls": incomplete}
         by_kind.setdefault(kind, []).append(decision)

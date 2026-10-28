@@ -1,0 +1,997 @@
+{
+ "kind": "V4_BLIND_AUDIT_REPORT",
+ "pairs": 80,
+ "memberClassRecovered": {
+  "count": 145,
+  "of": 160,
+  "wilson95": [
+   0.851,
+   0.942
+  ]
+ },
+ "firstPassAgreement": {
+  "count": 54,
+  "of": 80,
+  "wilson95": [
+   0.566,
+   0.768
+  ]
+ },
+ "decisions": {
+  "PASS": 14,
+  "PASS_WITH_READ": 40,
+  "REVIEW": 26,
+  "INCOMPLETE": 0
+ },
+ "byKind": {
+  "cross_source_defect": {
+   "PASS": 3,
+   "PASS_WITH_READ": 15,
+   "REVIEW": 6
+  },
+  "decoy_pair": {
+   "PASS": 5,
+   "PASS_WITH_READ": 5,
+   "REVIEW": 6
+  },
+  "defect": {
+   "PASS": 5,
+   "PASS_WITH_READ": 11,
+   "REVIEW": 4
+  },
+  "omitted_unknown": {
+   "PASS": 1,
+   "PASS_WITH_READ": 9,
+   "REVIEW": 10
+  }
+ },
+ "needsAPersonsRead": [
+  "N-0338d1",
+  "N-046068",
+  "N-0501a8",
+  "N-060fb4",
+  "N-0a7387",
+  "N-0afbd7",
+  "N-16fb50",
+  "N-2c3576",
+  "N-2d6197",
+  "N-2e3b2d",
+  "N-32b8ec",
+  "N-35f458",
+  "N-3bf296",
+  "N-3d7661",
+  "N-405801",
+  "N-497117",
+  "N-4c39c5",
+  "N-5064ca",
+  "N-56c83e",
+  "N-56f591",
+  "N-5e4a36",
+  "N-68f179",
+  "N-6b4be1",
+  "N-7554f3",
+  "N-78d7fe",
+  "N-791b2a",
+  "N-797729",
+  "N-79a949",
+  "N-7d34eb",
+  "N-7f61bb",
+  "N-80f19a",
+  "N-842279",
+  "N-852c75",
+  "N-86c50d",
+  "N-8b2a66",
+  "N-8ed86c",
+  "N-9123f1",
+  "N-945bcd",
+  "N-95483c",
+  "N-96594e",
+  "N-96f774",
+  "N-9be677",
+  "N-9ddd73",
+  "N-9ff502",
+  "N-a86988",
+  "N-a91e58",
+  "N-acf6ba",
+  "N-af104e",
+  "N-af307a",
+  "N-af992a",
+  "N-c86ed8",
+  "N-cbf2b7",
+  "N-d50fec",
+  "N-d5c77b",
+  "N-d885cd",
+  "N-d9be0a",
+  "N-dccdf6",
+  "N-ddbfc4",
+  "N-dddf51",
+  "N-e154ea",
+  "N-e342e4",
+  "N-e63237",
+  "N-e96901",
+  "N-ef81c9",
+  "N-f41436",
+  "N-f41ebe"
+ ],
+ "perPair": {
+  "N-0338d1": {
+   "kind": "defect",
+   "family": "ordering_dependency",
+   "decision": "REVIEW",
+   "reasons": [
+    "SOUND_MEMBER_NOT_RECOVERED:HAS_AN_UNESTABLISHED_FACT"
+   ],
+   "flags": [],
+   "incompleteCalls": []
+  },
+  "N-042947": {
+   "kind": "defect",
+   "family": "budget_arithmetic",
+   "decision": "PASS",
+   "reasons": [],
+   "flags": [],
+   "incompleteCalls": []
+  },
+  "N-046068": {
+   "kind": "decoy_pair",
+   "family": "open_item_becomes_decisive",
+   "decision": "PASS_WITH_READ",
+   "reasons": [],
+   "flags": [
+    "TWIN_OTHER_PROBLEMS:S01:26"
+   ],
+   "incompleteCalls": []
+  },
+  "N-0501a8": {
+   "kind": "omitted_unknown",
+   "family": "omitted_propagation_window",
+   "decision": "REVIEW",
+   "reasons": [
+    "CLAIM_CONTRADICTED:S01:18"
+   ],
+   "flags": [],
+   "incompleteCalls": []
+  },
+  "N-059c5e": {
+   "kind": "cross_source_defect",
+   "family": "config_limit",
+   "decision": "PASS",
+   "reasons": [],
+   "flags": [],
+   "incompleteCalls": []
+  },
+  "N-060fb4": {
+   "kind": "cross_source_defect",
+   "family": "config_limit",
+   "decision": "PASS_WITH_READ",
+   "reasons": [],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S01:10,S02:4",
+    "TWIN_OTHER_PROBLEMS:S01:10,S02:4"
+   ],
+   "incompleteCalls": []
+  },
+  "N-080a39": {
+   "kind": "decoy_pair",
+   "family": "open_item_becomes_decisive",
+   "decision": "PASS",
+   "reasons": [],
+   "flags": [],
+   "incompleteCalls": []
+  },
+  "N-0a7387": {
+   "kind": "cross_source_defect",
+   "family": "config_limit",
+   "decision": "REVIEW",
+   "reasons": [
+    "SOUND_MEMBER_NOT_RECOVERED:HAS_A_DEFECT",
+    "PAIR_CHOICE:BOTH"
+   ],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S01:29,S01:12",
+    "TWIN_OTHER_PROBLEMS:S01:9,S02:4,S01:29"
+   ],
+   "incompleteCalls": []
+  },
+  "N-0afbd7": {
+   "kind": "defect",
+   "family": "scope_authority",
+   "decision": "PASS_WITH_READ",
+   "reasons": [],
+   "flags": [
+    "TWIN_OTHER_PROBLEMS:S01:32"
+   ],
+   "incompleteCalls": []
+  },
+  "N-0df324": {
+   "kind": "decoy_pair",
+   "family": "open_item_becomes_decisive",
+   "decision": "PASS",
+   "reasons": [],
+   "flags": [],
+   "incompleteCalls": []
+  },
+  "N-16fb50": {
+   "kind": "omitted_unknown",
+   "family": "omitted_measurement",
+   "decision": "PASS_WITH_READ",
+   "reasons": [],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S01:31",
+    "TWIN_OTHER_PROBLEMS:S01:30"
+   ],
+   "incompleteCalls": []
+  },
+  "N-175735": {
+   "kind": "decoy_pair",
+   "family": "open_item_absorbed",
+   "decision": "PASS",
+   "reasons": [],
+   "flags": [],
+   "incompleteCalls": []
+  },
+  "N-2643e7": {
+   "kind": "defect",
+   "family": "budget_arithmetic",
+   "decision": "PASS",
+   "reasons": [],
+   "flags": [],
+   "incompleteCalls": []
+  },
+  "N-2c3576": {
+   "kind": "cross_source_defect",
+   "family": "contract_clause",
+   "decision": "PASS_WITH_READ",
+   "reasons": [],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S01:26,S01:5,S01:24,S02:8"
+   ],
+   "incompleteCalls": []
+  },
+  "N-2d6197": {
+   "kind": "omitted_unknown",
+   "family": "omitted_access_check",
+   "decision": "PASS_WITH_READ",
+   "reasons": [],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S01:3"
+   ],
+   "incompleteCalls": []
+  },
+  "N-2e3b2d": {
+   "kind": "defect",
+   "family": "budget_arithmetic",
+   "decision": "PASS_WITH_READ",
+   "reasons": [],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S01:38,S01:39,S01:28",
+    "TWIN_OTHER_PROBLEMS:S01:4,S01:28,S01:13,S01:14,S01:38,S01:39"
+   ],
+   "incompleteCalls": []
+  },
+  "N-32b8ec": {
+   "kind": "defect",
+   "family": "ordering_dependency",
+   "decision": "REVIEW",
+   "reasons": [
+    "SOUND_MEMBER_NOT_RECOVERED:HAS_AN_UNESTABLISHED_FACT"
+   ],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S01:9,S01:27,S01:38",
+    "TWIN_OTHER_PROBLEMS:S01:38"
+   ],
+   "incompleteCalls": []
+  },
+  "N-35f458": {
+   "kind": "decoy_pair",
+   "family": "open_item_absorbed",
+   "decision": "REVIEW",
+   "reasons": [
+    "CLAIM_CONTRADICTED:S01:47"
+   ],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S01:13",
+    "TWIN_OTHER_PROBLEMS:S01:13,S01:4"
+   ],
+   "incompleteCalls": []
+  },
+  "N-3bf296": {
+   "kind": "omitted_unknown",
+   "family": "omitted_propagation_window",
+   "decision": "PASS_WITH_READ",
+   "reasons": [],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S01:22,S01:38",
+    "TWIN_OTHER_PROBLEMS:S01:22"
+   ],
+   "incompleteCalls": []
+  },
+  "N-3d7661": {
+   "kind": "defect",
+   "family": "budget_arithmetic",
+   "decision": "PASS_WITH_READ",
+   "reasons": [],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S01:15,S01:26,S01:32",
+    "TWIN_OTHER_PROBLEMS:S01:15"
+   ],
+   "incompleteCalls": []
+  },
+  "N-405801": {
+   "kind": "cross_source_defect",
+   "family": "contract_clause",
+   "decision": "PASS_WITH_READ",
+   "reasons": [],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S01:24,S02:15,S01:22,S02:7,S01:7",
+    "TWIN_OTHER_PROBLEMS:S01:22,S01:24"
+   ],
+   "incompleteCalls": []
+  },
+  "N-497117": {
+   "kind": "cross_source_defect",
+   "family": "policy_rule",
+   "decision": "REVIEW",
+   "reasons": [
+    "SOUND_MEMBER_NOT_RECOVERED:HAS_A_DEFECT"
+   ],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S01:17",
+    "TWIN_OTHER_PROBLEMS:S01:17,S01:5"
+   ],
+   "incompleteCalls": []
+  },
+  "N-4c39c5": {
+   "kind": "decoy_pair",
+   "family": "open_item_absorbed",
+   "decision": "REVIEW",
+   "reasons": [
+    "SOUND_MEMBER_NOT_RECOVERED:HAS_AN_UNESTABLISHED_FACT"
+   ],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S01:11,S01:12",
+    "TWIN_OTHER_PROBLEMS:S01:11,S01:12"
+   ],
+   "incompleteCalls": []
+  },
+  "N-5064ca": {
+   "kind": "omitted_unknown",
+   "family": "omitted_measurement",
+   "decision": "PASS_WITH_READ",
+   "reasons": [],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S01:21",
+    "TWIN_OTHER_PROBLEMS:S01:21,S01:25"
+   ],
+   "incompleteCalls": []
+  },
+  "N-56c83e": {
+   "kind": "decoy_pair",
+   "family": "open_item_becomes_decisive",
+   "decision": "PASS_WITH_READ",
+   "reasons": [],
+   "flags": [
+    "TWIN_OTHER_PROBLEMS:S01:47,S01:10,S01:7"
+   ],
+   "incompleteCalls": []
+  },
+  "N-56f591": {
+   "kind": "cross_source_defect",
+   "family": "policy_rule",
+   "decision": "PASS_WITH_READ",
+   "reasons": [],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S01:11,S01:18"
+   ],
+   "incompleteCalls": []
+  },
+  "N-5e4a36": {
+   "kind": "defect",
+   "family": "ordering_dependency",
+   "decision": "REVIEW",
+   "reasons": [
+    "SOUND_MEMBER_NOT_RECOVERED:HAS_AN_UNESTABLISHED_FACT"
+   ],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S01:4"
+   ],
+   "incompleteCalls": []
+  },
+  "N-68f179": {
+   "kind": "cross_source_defect",
+   "family": "config_limit",
+   "decision": "REVIEW",
+   "reasons": [
+    "SOUND_MEMBER_NOT_RECOVERED:HAS_AN_UNESTABLISHED_FACT",
+    "TWIN_NOT_RECOVERED:HAS_AN_UNESTABLISHED_FACT"
+   ],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S01:8,S01:20",
+    "TWIN_OTHER_PROBLEMS:S01:8,S01:20,S01:21"
+   ],
+   "incompleteCalls": []
+  },
+  "N-6b4be1": {
+   "kind": "omitted_unknown",
+   "family": "omitted_measurement",
+   "decision": "REVIEW",
+   "reasons": [
+    "TWIN_NOT_RECOVERED:SOUND",
+    "PAIR_CHOICE:NEITHER"
+   ],
+   "flags": [
+    "TWIN_OTHER_PROBLEMS:S01:5",
+    "TWIN_REQUIREMENT_DOES_NOT_DECIDE"
+   ],
+   "incompleteCalls": []
+  },
+  "N-6c4345": {
+   "kind": "cross_source_defect",
+   "family": "policy_rule",
+   "decision": "PASS",
+   "reasons": [],
+   "flags": [],
+   "incompleteCalls": []
+  },
+  "N-7554f3": {
+   "kind": "defect",
+   "family": "ordering_dependency",
+   "decision": "PASS_WITH_READ",
+   "reasons": [],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S01:25",
+    "TWIN_OTHER_PROBLEMS:S01:29"
+   ],
+   "incompleteCalls": []
+  },
+  "N-78d7fe": {
+   "kind": "cross_source_defect",
+   "family": "contract_clause",
+   "decision": "PASS_WITH_READ",
+   "reasons": [],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S01:23,S01:15,S01:28,S01:13",
+    "TWIN_OTHER_PROBLEMS:S01:23,S01:28"
+   ],
+   "incompleteCalls": []
+  },
+  "N-791b2a": {
+   "kind": "defect",
+   "family": "ordering_dependency",
+   "decision": "PASS_WITH_READ",
+   "reasons": [],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S01:25",
+    "TWIN_OTHER_PROBLEMS:S01:25"
+   ],
+   "incompleteCalls": []
+  },
+  "N-797729": {
+   "kind": "cross_source_defect",
+   "family": "policy_rule",
+   "decision": "REVIEW",
+   "reasons": [
+    "SOUND_MEMBER_NOT_RECOVERED:HAS_A_DEFECT",
+    "PAIR_CHOICE:BOTH"
+   ],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S01:23,S02:19",
+    "TWIN_OTHER_PROBLEMS:S01:20,S01:23"
+   ],
+   "incompleteCalls": []
+  },
+  "N-79a949": {
+   "kind": "omitted_unknown",
+   "family": "omitted_measurement",
+   "decision": "REVIEW",
+   "reasons": [
+    "CLAIM_CONTRADICTED:S01:16"
+   ],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S01:26,S01:29",
+    "TWIN_OTHER_PROBLEMS:S01:25,S01:20"
+   ],
+   "incompleteCalls": []
+  },
+  "N-7d34eb": {
+   "kind": "defect",
+   "family": "scope_authority",
+   "decision": "PASS_WITH_READ",
+   "reasons": [],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S01:8,S01:42",
+    "TWIN_OTHER_PROBLEMS:S01:8,S01:30,S01:31"
+   ],
+   "incompleteCalls": []
+  },
+  "N-7f61bb": {
+   "kind": "omitted_unknown",
+   "family": "omitted_access_check",
+   "decision": "REVIEW",
+   "reasons": [
+    "SOUND_MEMBER_NOT_RECOVERED:HAS_AN_UNESTABLISHED_FACT",
+    "NOT_ONE_EDIT"
+   ],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S01:2",
+    "TWIN_OTHER_PROBLEMS:S01:2"
+   ],
+   "incompleteCalls": []
+  },
+  "N-80f19a": {
+   "kind": "cross_source_defect",
+   "family": "contract_clause",
+   "decision": "PASS_WITH_READ",
+   "reasons": [],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S01:11"
+   ],
+   "incompleteCalls": []
+  },
+  "N-842279": {
+   "kind": "omitted_unknown",
+   "family": "omitted_measurement",
+   "decision": "REVIEW",
+   "reasons": [
+    "CLAIM_CONTRADICTED:S01:47"
+   ],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S01:56,S01:54",
+    "TWIN_OTHER_PROBLEMS:S01:53,S01:55,S01:47,S01:35"
+   ],
+   "incompleteCalls": []
+  },
+  "N-852c75": {
+   "kind": "defect",
+   "family": "scope_authority",
+   "decision": "PASS_WITH_READ",
+   "reasons": [],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S01:7",
+    "TWIN_OTHER_PROBLEMS:S01:7,S01:34"
+   ],
+   "incompleteCalls": []
+  },
+  "N-86c50d": {
+   "kind": "defect",
+   "family": "scope_authority",
+   "decision": "PASS_WITH_READ",
+   "reasons": [],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S01:11,S01:39"
+   ],
+   "incompleteCalls": []
+  },
+  "N-8b2a66": {
+   "kind": "omitted_unknown",
+   "family": "omitted_access_check",
+   "decision": "PASS_WITH_READ",
+   "reasons": [],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S01:59,S01:46,S01:37",
+    "TWIN_OTHER_PROBLEMS:S01:14,S01:58,S01:45"
+   ],
+   "incompleteCalls": []
+  },
+  "N-8ed86c": {
+   "kind": "defect",
+   "family": "scope_authority",
+   "decision": "PASS_WITH_READ",
+   "reasons": [],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S01:3,S01:43,S01:40,S01:45",
+    "TWIN_OTHER_PROBLEMS:S01:3,S01:43,S01:40"
+   ],
+   "incompleteCalls": []
+  },
+  "N-9123f1": {
+   "kind": "omitted_unknown",
+   "family": "omitted_measurement",
+   "decision": "REVIEW",
+   "reasons": [
+    "PAIR_CHOICE:NEITHER",
+    "CLAIM_CONTRADICTED:S01:27,S01:29"
+   ],
+   "flags": [
+    "TWIN_OTHER_PROBLEMS:S01:31,S01:35,S01:30"
+   ],
+   "incompleteCalls": []
+  },
+  "N-920e4a": {
+   "kind": "defect",
+   "family": "budget_arithmetic",
+   "decision": "PASS",
+   "reasons": [],
+   "flags": [],
+   "incompleteCalls": []
+  },
+  "N-945bcd": {
+   "kind": "decoy_pair",
+   "family": "open_item_becomes_decisive",
+   "decision": "PASS_WITH_READ",
+   "reasons": [],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S01:9,S01:30,S01:13",
+    "TWIN_OTHER_PROBLEMS:S01:9,S01:30,S01:13"
+   ],
+   "incompleteCalls": []
+  },
+  "N-95483c": {
+   "kind": "defect",
+   "family": "scope_authority",
+   "decision": "REVIEW",
+   "reasons": [
+    "SOUND_MEMBER_NOT_RECOVERED:HAS_A_DEFECT"
+   ],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S01:1,S01:9,S01:13,S01:32,S01:34,S01:26",
+    "TWIN_OTHER_PROBLEMS:S01:2,S01:4,S01:5,S01:12,S01:17,S01:30,S01:31"
+   ],
+   "incompleteCalls": []
+  },
+  "N-96594e": {
+   "kind": "omitted_unknown",
+   "family": "omitted_measurement",
+   "decision": "PASS_WITH_READ",
+   "reasons": [],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S01:16,S01:13",
+    "TWIN_OTHER_PROBLEMS:S01:16,S01:26"
+   ],
+   "incompleteCalls": []
+  },
+  "N-96f774": {
+   "kind": "omitted_unknown",
+   "family": "omitted_propagation_window",
+   "decision": "REVIEW",
+   "reasons": [
+    "CLAIM_CONTRADICTED:S01:3"
+   ],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S01:28"
+   ],
+   "incompleteCalls": []
+  },
+  "N-9be677": {
+   "kind": "decoy_pair",
+   "family": "open_item_absorbed",
+   "decision": "REVIEW",
+   "reasons": [
+    "NOT_ONE_EDIT"
+   ],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S01:12"
+   ],
+   "incompleteCalls": []
+  },
+  "N-9ddd73": {
+   "kind": "cross_source_defect",
+   "family": "config_limit",
+   "decision": "PASS_WITH_READ",
+   "reasons": [],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S01:12,S02:12,S01:2,S01:13",
+    "TWIN_OTHER_PROBLEMS:S01:12,S02:12"
+   ],
+   "incompleteCalls": []
+  },
+  "N-9ff502": {
+   "kind": "omitted_unknown",
+   "family": "omitted_access_check",
+   "decision": "PASS_WITH_READ",
+   "reasons": [],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S01:15,S01:34,S01:38",
+    "TWIN_OTHER_PROBLEMS:S01:3,S01:15,S01:37,S01:33"
+   ],
+   "incompleteCalls": []
+  },
+  "N-a86988": {
+   "kind": "cross_source_defect",
+   "family": "policy_rule",
+   "decision": "REVIEW",
+   "reasons": [
+    "SOUND_MEMBER_NOT_RECOVERED:HAS_A_DEFECT",
+    "PAIR_CHOICE:BOTH"
+   ],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S01:25,S02:15",
+    "TWIN_OTHER_PROBLEMS:S01:30,S02:20"
+   ],
+   "incompleteCalls": []
+  },
+  "N-a91e58": {
+   "kind": "decoy_pair",
+   "family": "open_item_absorbed",
+   "decision": "PASS_WITH_READ",
+   "reasons": [],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S01:30,S01:43"
+   ],
+   "incompleteCalls": []
+  },
+  "N-a96a7e": {
+   "kind": "defect",
+   "family": "budget_arithmetic",
+   "decision": "PASS",
+   "reasons": [],
+   "flags": [],
+   "incompleteCalls": []
+  },
+  "N-acf6ba": {
+   "kind": "omitted_unknown",
+   "family": "omitted_propagation_window",
+   "decision": "REVIEW",
+   "reasons": [
+    "CLAIM_CONTRADICTED:S01:26,S01:31"
+   ],
+   "flags": [
+    "TWIN_OTHER_PROBLEMS:S01:19"
+   ],
+   "incompleteCalls": []
+  },
+  "N-af104e": {
+   "kind": "decoy_pair",
+   "family": "open_item_becomes_decisive",
+   "decision": "REVIEW",
+   "reasons": [
+    "PAIR_CHOICE:BOTH"
+   ],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S01:1,S01:33,S01:40",
+    "TWIN_OTHER_PROBLEMS:S01:1,S01:33,S01:40"
+   ],
+   "incompleteCalls": []
+  },
+  "N-af307a": {
+   "kind": "decoy_pair",
+   "family": "open_item_absorbed",
+   "decision": "PASS_WITH_READ",
+   "reasons": [],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S01:7,S01:5,S01:24,S01:43,S01:49",
+    "TWIN_OTHER_PROBLEMS:S01:16,S01:54,S01:32"
+   ],
+   "incompleteCalls": []
+  },
+  "N-af992a": {
+   "kind": "omitted_unknown",
+   "family": "omitted_propagation_window",
+   "decision": "PASS_WITH_READ",
+   "reasons": [],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S01:23,S01:28,S01:29",
+    "TWIN_OTHER_PROBLEMS:S01:26,S01:27,S01:6"
+   ],
+   "incompleteCalls": []
+  },
+  "N-c71e10": {
+   "kind": "decoy_pair",
+   "family": "open_item_becomes_decisive",
+   "decision": "PASS",
+   "reasons": [],
+   "flags": [],
+   "incompleteCalls": []
+  },
+  "N-c86ed8": {
+   "kind": "omitted_unknown",
+   "family": "omitted_propagation_window",
+   "decision": "REVIEW",
+   "reasons": [
+    "NOT_ONE_EDIT"
+   ],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S01:30,S01:41,S01:20,S01:43",
+    "TWIN_OTHER_PROBLEMS:S01:28,S01:39,S01:9,S01:19,S01:41"
+   ],
+   "incompleteCalls": []
+  },
+  "N-c8803e": {
+   "kind": "omitted_unknown",
+   "family": "omitted_access_check",
+   "decision": "PASS",
+   "reasons": [],
+   "flags": [],
+   "incompleteCalls": []
+  },
+  "N-c88690": {
+   "kind": "cross_source_defect",
+   "family": "config_limit",
+   "decision": "PASS",
+   "reasons": [],
+   "flags": [],
+   "incompleteCalls": []
+  },
+  "N-cbf2b7": {
+   "kind": "cross_source_defect",
+   "family": "policy_rule",
+   "decision": "PASS_WITH_READ",
+   "reasons": [],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S01:15,S02:7",
+    "TWIN_OTHER_PROBLEMS:S01:15"
+   ],
+   "incompleteCalls": []
+  },
+  "N-d50fec": {
+   "kind": "defect",
+   "family": "ordering_dependency",
+   "decision": "PASS_WITH_READ",
+   "reasons": [],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S01:34,S01:29,S01:24,S01:37,S01:33",
+    "TWIN_OTHER_PROBLEMS:S01:34"
+   ],
+   "incompleteCalls": []
+  },
+  "N-d5c77b": {
+   "kind": "omitted_unknown",
+   "family": "omitted_propagation_window",
+   "decision": "REVIEW",
+   "reasons": [
+    "CLAIM_CONTRADICTED:S01:17"
+   ],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S01:13,S01:35",
+    "TWIN_OTHER_PROBLEMS:S01:13,S01:14,S01:20,S01:33"
+   ],
+   "incompleteCalls": []
+  },
+  "N-d885cd": {
+   "kind": "cross_source_defect",
+   "family": "contract_clause",
+   "decision": "PASS_WITH_READ",
+   "reasons": [],
+   "flags": [
+    "TWIN_OTHER_PROBLEMS:S02:1,S02:5,S02:8"
+   ],
+   "incompleteCalls": []
+  },
+  "N-d9be0a": {
+   "kind": "cross_source_defect",
+   "family": "policy_rule",
+   "decision": "PASS_WITH_READ",
+   "reasons": [],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S01:27,S01:4",
+    "TWIN_OTHER_PROBLEMS:S01:4,S02:3"
+   ],
+   "incompleteCalls": []
+  },
+  "N-dccdf6": {
+   "kind": "defect",
+   "family": "ordering_dependency",
+   "decision": "PASS_WITH_READ",
+   "reasons": [],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S01:38,S01:39,S01:16,S01:19",
+    "TWIN_OTHER_PROBLEMS:S01:38,S01:39"
+   ],
+   "incompleteCalls": []
+  },
+  "N-ddbfc4": {
+   "kind": "cross_source_defect",
+   "family": "contract_clause",
+   "decision": "PASS_WITH_READ",
+   "reasons": [],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S01:6,S02:9",
+    "TWIN_OTHER_PROBLEMS:S01:13"
+   ],
+   "incompleteCalls": []
+  },
+  "N-dddf51": {
+   "kind": "cross_source_defect",
+   "family": "contract_clause",
+   "decision": "PASS_WITH_READ",
+   "reasons": [],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S01:21",
+    "TWIN_OTHER_PROBLEMS:S01:26"
+   ],
+   "incompleteCalls": []
+  },
+  "N-e154ea": {
+   "kind": "decoy_pair",
+   "family": "open_item_absorbed",
+   "decision": "REVIEW",
+   "reasons": [
+    "CLAIM_CONTRADICTED:S01:2,S01:11,S01:35"
+   ],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S01:49,S01:33,S01:9",
+    "TWIN_OTHER_PROBLEMS:S01:8,S01:33,S01:54"
+   ],
+   "incompleteCalls": []
+  },
+  "N-e1785c": {
+   "kind": "defect",
+   "family": "budget_arithmetic",
+   "decision": "PASS",
+   "reasons": [],
+   "flags": [],
+   "incompleteCalls": []
+  },
+  "N-e342e4": {
+   "kind": "cross_source_defect",
+   "family": "contract_clause",
+   "decision": "PASS_WITH_READ",
+   "reasons": [],
+   "flags": [
+    "TWIN_OTHER_PROBLEMS:S01:15,S01:16"
+   ],
+   "incompleteCalls": []
+  },
+  "N-e63237": {
+   "kind": "cross_source_defect",
+   "family": "config_limit",
+   "decision": "PASS_WITH_READ",
+   "reasons": [],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S01:15",
+    "TWIN_OTHER_PROBLEMS:S01:12,S01:15,S01:40"
+   ],
+   "incompleteCalls": []
+  },
+  "N-e96901": {
+   "kind": "cross_source_defect",
+   "family": "config_limit",
+   "decision": "PASS_WITH_READ",
+   "reasons": [],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S01:36",
+    "TWIN_OTHER_PROBLEMS:S01:36"
+   ],
+   "incompleteCalls": []
+  },
+  "N-ef81c9": {
+   "kind": "cross_source_defect",
+   "family": "policy_rule",
+   "decision": "REVIEW",
+   "reasons": [
+    "SOUND_MEMBER_NOT_RECOVERED:HAS_AN_UNESTABLISHED_FACT"
+   ],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S02:2,S01:10,S01:13,S01:31,S01:24",
+    "TWIN_OTHER_PROBLEMS:S01:10,S01:34,S01:31,S01:24,S02:2,S02:5"
+   ],
+   "incompleteCalls": []
+  },
+  "N-f41436": {
+   "kind": "omitted_unknown",
+   "family": "omitted_access_check",
+   "decision": "PASS_WITH_READ",
+   "reasons": [],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S01:30,S01:4,S01:8,S01:39",
+    "TWIN_OTHER_PROBLEMS:S01:29,S01:38"
+   ],
+   "incompleteCalls": []
+  },
+  "N-f41ebe": {
+   "kind": "decoy_pair",
+   "family": "open_item_absorbed",
+   "decision": "REVIEW",
+   "reasons": [
+    "SOUND_MEMBER_NOT_RECOVERED:HAS_AN_UNESTABLISHED_FACT",
+    "PAIR_CHOICE:BOTH",
+    "CLAIM_CONTRADICTED:S01:36,S01:37,S01:38"
+   ],
+   "flags": [
+    "SOUND_OTHER_PROBLEMS:S01:38",
+    "TWIN_OTHER_PROBLEMS:S01:38,S01:37"
+   ],
+   "incompleteCalls": []
+  },
+  "N-fb5615": {
+   "kind": "decoy_pair",
+   "family": "open_item_becomes_decisive",
+   "decision": "PASS",
+   "reasons": [],
+   "flags": [],
+   "incompleteCalls": []
+  }
+ },
+ "providerCalls": 0,
+ "note": "A decision of REVIEW means the auditor disagreed with the oracle; the pair is rewritten or dropped by a person, and a drop is recorded with its reason."
+}

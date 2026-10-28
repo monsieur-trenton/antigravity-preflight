@@ -66,8 +66,8 @@ def assignment_block(instance, family, domain):
     return "\n".join(lines)
 
 
-def author_prompt(instance, family, domain):
-    template = (HERE / "author-template.txt").read_text(encoding="utf-8")
+def author_prompt(instance, family, domain, template_path=None):
+    template = Path(template_path or HERE / "author-template.txt").read_text(encoding="utf-8")
     return template.replace("{ASSIGNMENT}", assignment_block(instance, family, domain)).replace("{FORMAT}", format_block(instance))
 
 

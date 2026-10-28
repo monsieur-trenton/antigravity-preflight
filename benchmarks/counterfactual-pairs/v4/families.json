@@ -74,7 +74,8 @@
       "hazards": [
         "No line elsewhere may give an estimate, a design target, a capacity figure or a 'should fit' sentence.",
         "The budget must be checkable from one number; no unit conversions across lines.",
-        "Keep the consequence concrete (output discarded, release blocked), not rhetorical."
+        "Keep the consequence concrete (output discarded, release blocked), not rhetorical.",
+        "No automatic abort, discard or fail path makes the removed measurement unnecessary: the requirement depends only on that measurement."
       ],
       "gapNamedGuidance": "Keywords for the quantity, the unit and the missing measurement (measured, benchmark, throughput, size, tested), at most three groups.",
       "slots": [
@@ -114,7 +115,8 @@
       "hazards": [
         "The requirement must be a testable sentence about when every client observes the change; the probe's 'either the old or the new path' wording is ambiguous and is not to be reused.",
         "The rollback line must not restate the bound.",
-        "The probe's domain (payments_api_cdn_cutover) is dev-only."
+        "The probe's domain (payments_api_cdn_cutover) is dev-only.",
+        "The mechanism and its verified bound sit in one line or one adjacent pair, so that the deletion is a single edit, and the requirement line does not itself state how the bound is enforced."
       ],
       "gapNamedGuidance": "Keywords for the cache or propagation mechanism and for the missing setting (TTL, interval, lag, stale, propagation).",
       "slots": [
@@ -154,7 +156,8 @@
       "hazards": [
         "No line may imply the access (for example 'the service already writes to this bucket').",
         "No line may say the access is unchecked: the omission is silent.",
-        "Do not make the access obviously available by the plan's own design."
+        "Do not make the access obviously available by the plan's own design.",
+        "Evidence offered as verification was taken in the same environment and under the same conditions as the planned step."
       ],
       "gapNamedGuidance": "Keywords for the identity, the permission and the missing test (permission, credentials, access, tested, write).",
       "slots": [
@@ -242,7 +245,8 @@
       "hazards": [
         "The plan states the number explicitly: no arithmetic beyond comparison.",
         "S02 holds at least four limits so that no single keyword finds the right one.",
-        "The edited line must not mention the limit by name."
+        "The edited line must not mention the limit by name.",
+        "A limit that applies only under a condition has that condition stated as met, in the plan or in the reference."
       ],
       "gapNamedGuidance": "Keywords for the quantity, both numbers and the word limit or its synonym; quotations from either source count.",
       "slots": [
@@ -338,7 +342,8 @@
       "hazards": [
         "Both policy lines are needed: one alone does not forbid the step.",
         "Dates are given so that a window or freeze can be checked by reading, not by calendar knowledge.",
-        "The policy does not name the plan."
+        "The policy does not name the plan.",
+        "Recompute every derived number (totals, durations, counts) against the policy source, use one title for each person throughout, and keep author and reviewer duties with different people."
       ],
       "gapNamedGuidance": "Keywords for the actor or date and the two policy rules.",
       "slots": [
@@ -424,7 +429,8 @@
       "citeRule": "The edited line or the line stating the dependency.",
       "hazards": [
         "The edit must be a single-line, in-place change; reordering lines would also move positions.",
-        "The dependency is stated once, plainly, and not repeated."
+        "The dependency is stated once, plainly, and not repeated.",
+        "Every artifact, permission or data item that a step uses is created or confirmed by an earlier line that says so, in the requirement's own words."
       ],
       "gapNamedGuidance": "Keywords for the two steps and the order (before, after, depends, requires).",
       "slots": [
@@ -580,7 +586,8 @@
       "hazards": [
         "The fallback is real and automatic, not a promise to check later.",
         "No other line limits the damage of the open item.",
-        "The plan carries exactly one open item; every other requirement-relevant fact is stated as established."
+        "The plan carries exactly one open item; every other requirement-relevant fact is stated as established.",
+        "The fallback does not depend on the same unconfirmed fact as the open item, and the fallback line and the requirement it protects are stated close together."
       ],
       "gapNamedGuidance": "Keywords for the open item and the missing fallback.",
       "slots": [

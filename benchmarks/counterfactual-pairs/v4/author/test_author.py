@@ -934,8 +934,7 @@ class CommittedDevRevision2Tests(unittest.TestCase):
             instance = next(i for i in DOCS["dev"]["instances"] if i["pair"] == r["pair"])
             prompt = (DEV_REVISION2 / "prompts" / f"{r['pair']}.A.txt").read_bytes()
             self.assertEqual(rp.sha(prompt), r["promptSha256"])
-            self.assertEqual(prompt, prompts.author_prompt(instance, prompts.family_of(instance), prompts.domain_of(instance)).encode("utf-8"))
-            self.assertIn("check every number that appears twice", prompt.decode("utf-8"))
+            self.assertIn("check every number that appears twice", prompt.decode("utf-8"))      # the hazards were revised again afterwards, so the prompt is not rebuilt
             report = (DEV_REVISION2 / "calls" / f"{r['pair']}-author-a1" / "REPORT.md").read_bytes()
             self.assertEqual((rp.sha(report), (DEV_REVISION2 / "accepted" / f"{r['pair']}.A.md").read_bytes()), (r["reportSha256"], report))
             self.assertTrue(ca.analyse(report.decode("utf-8"), instance, prompts.family_of(instance))[0]["allPassed"])
@@ -1010,11 +1009,17 @@ class CommittedTestAuthoringTests(unittest.TestCase):
         self.assertTrue(all(r["accepted"] and r["attempt"] == 1 for r in reword_rows))
         self.assertEqual({r["runManifestSha256"] for r in self.rows}, {rp.sha((PARENT / "v3-run-gemini/manifest.json").read_bytes())})
 
-    def test_author_prompts_rebuild_exactly_from_the_assignments_and_the_families(self):
+    def test_author_prompts_rebuild_exactly_from_the_assignments_and_the_tooling_as_run(self):
+        # the family hazards and the template were revised after this batch, so the prompts are rebuilt from the copies the batch ran with
+        as_run = TEST_AUTHORING / "tooling-as-run"
+        identity = (TEST_AUTHORING / "identity.txt").read_text(encoding="utf-8")
+        self.assertIn(rp.sha((as_run / "author-template.txt").read_bytes()), identity)
+        self.assertIn(rp.sha((as_run / "families.json").read_bytes()), identity)
+        families = {f["id"]: f for f in json.loads((as_run / "families.json").read_bytes())["families"]}
         for r in self.rows:
             if r["purpose"] == "author":
                 instance = self.by_pair[r["pair"]]
-                prompt = prompts.author_prompt(instance, prompts.family_of(instance), prompts.domain_of(instance)).encode("utf-8")
+                prompt = prompts.author_prompt(instance, families[instance["family"]], prompts.domain_of(instance), as_run / "author-template.txt").encode("utf-8")
                 self.assertEqual((rp.sha(prompt), len(prompt)), (r["promptSha256"], r["promptBytes"]), r["pair"])
 
     def test_every_receipt_is_clean_and_bound_to_its_report_or_names_the_stop(self):
