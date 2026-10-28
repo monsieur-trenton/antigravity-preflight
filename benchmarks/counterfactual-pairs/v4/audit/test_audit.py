@@ -22,6 +22,8 @@ import audit  # noqa: E402
 import audit_parse as ap  # noqa: E402
 import audit_prompts as apr  # noqa: E402
 import audit_report as ar  # noqa: E402
+import redact_ledger  # noqa: E402
+import reparse_lenient  # noqa: E402
 import build_corpus as bc  # noqa: E402
 import prompts as author_prompts  # noqa: E402
 import support as su  # noqa: E402
@@ -482,6 +484,47 @@ class SpotCheckTests(unittest.TestCase):
                 answers.write_text(json.dumps({n: {"needsChange": k["twin"], "oneEdit": True, "problem": {"DEFECT": "DEFECT", "UNCERTAIN": "UNESTABLISHED"}[k["twinClass"]]} for n, k in index.items()}))
                 self.assertEqual(ar.main(["spot-score", "--corpus", str(self.out), "--index", str(Path(tmp) / "spot/spot-index.json"), "--answers", str(answers)]), 0)
             self.assertTrue(json.loads(out.getvalue().split("\n", 1)[1])["clean"])
+
+
+class LenientReparseTests(unittest.TestCase):
+    ANNOTATED = MEMBER.replace("OTHER_PROBLEMS: none", 'OTHER_PROBLEMS: S01:15 (16 shard primaries described as "expanding"); S02:3')
+
+    def test_the_strict_parser_still_refuses_commentary_and_the_lenient_one_drops_only_parentheses(self):
+        with self.assertRaises(ap.AuditParseError):
+            ap.parse(self.ANNOTATED, "member")
+        self.assertEqual(ap.parse(self.ANNOTATED, "member", lenient=True)["OTHER_PROBLEMS"], ["S01:15", "S02:3"])
+        self.assertEqual(ap.parse(MEMBER.replace("OTHER_PROBLEMS: none", "OTHER_PROBLEMS: S01:7, S02:3"), "member", lenient=True)["OTHER_PROBLEMS"], ["S01:7", "S02:3"])
+        for bad in ("OTHER_PROBLEMS: line seven is odd", "OTHER_PROBLEMS: S01:7 is odd", "OTHER_PROBLEMS: S01:0 (x)", "OTHER_PROBLEMS: S03:1"):
+            with self.subTest(bad=bad):
+                with self.assertRaises(ap.AuditParseError):
+                    ap.parse(MEMBER.replace("OTHER_PROBLEMS: none", bad), "member", lenient=True)
+        self.assertEqual(ap.parse(CLAIM.replace("none", "S01:4 (the edit itself)"), "claim", lenient=True)["CONTRADICTING_LINES"], ["S01:4"])
+
+    def test_the_tool_rereads_only_bad_refs_stops_whose_held_answer_hashes_to_the_ledger(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            attempts = Path(tmp) / "attempts"
+            rows = []
+            for name, text, reason in (("member_R-a", self.ANNOTATED, "UNPARSEABLE_ANSWER:BAD_REFS"), ("member_R-b", self.ANNOTATED, "UNPARSEABLE_ANSWER:BAD_REFS"),
+                                       ("member_R-c", "no block", "UNPARSEABLE_ANSWER:MARKERS"), ("member_R-d", MEMBER, None)):
+                (attempts / name).mkdir(parents=True)
+                (attempts / name / "ANSWER.md").write_text(text, encoding="utf-8")
+                rows.append({"call": name.replace("_", ":"), "type": "member", "reportSha256": hashlib.sha256(text.encode()).hexdigest(), "technicalStop": reason})
+            rows[1]["reportSha256"] = "0" * 64                                   # the held answer does not match the ledger
+            out, refused = reparse_lenient.reparse(rows, attempts)
+            self.assertEqual([r["call"] for r in out], ["member:R-a"])
+            self.assertTrue(out[0]["lenientReparse"] and "technicalStop" not in out[0] and out[0]["answer"]["OTHER_PROBLEMS"] == ["S01:15", "S02:3"])
+            self.assertEqual(refused, [{"call": "member:R-b", "why": "ANSWER_MISSING_OR_HASH_MISMATCH"}])
+            self.assertEqual(rows[0]["technicalStop"], "UNPARSEABLE_ANSWER:BAD_REFS")        # the original rows are not changed
+
+
+class RedactTests(unittest.TestCase):
+    def test_free_text_is_replaced_by_its_hash_and_enums_survive(self):
+        row = {"call": "member:R-a", "answer": ap.parse(MEMBER, "member"), "costUsd": 0.1}
+        out = redact_ledger.redact(row)
+        self.assertNotIn("REASON", out["answer"])
+        self.assertEqual(out["answer"]["CLASS"], "SOUND")
+        self.assertEqual(out["freeTextSha256"]["REASON"], hashlib.sha256(row["answer"]["REASON"].encode()).hexdigest())
+        self.assertEqual(redact_ledger.redact({"call": "x", "technicalStop": "y"}), {"call": "x", "technicalStop": "y"})
 
 
 class RunScriptTests(unittest.TestCase):

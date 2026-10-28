@@ -21,16 +21,19 @@ class AuditParseError(Exception):
     pass
 
 
-def parse_refs(value):
+def parse_refs(value, lenient=False):
     if value.strip().lower() == "none":
         return []
+    if lenient:   # the one relaxation: parenthetical commentary after a reference is dropped, and a comma may separate references
+        value = re.sub(r"\([^)]*\)", "", value).replace(",", ";")
+        value = ";".join(p for p in value.split(";") if p.strip())
     parts = [p.strip() for p in value.split(";")]
     if not all(REF.match(p) for p in parts):
         raise AuditParseError("BAD_REFS")
     return parts
 
 
-def parse(text, call):
+def parse(text, call, lenient=False):
     spec = SPECS[call]
     lines = text.replace("\r\n", "\n").split("\n")
     begin = [i for i, line in enumerate(lines) if line.strip() == "AUDIT-BEGIN"]
@@ -55,7 +58,7 @@ def parse(text, call):
             if value.lower() != "none" and not REF.match(value):
                 raise AuditParseError("BAD_VALUE:" + key)
         elif allowed == "refs-or-none":
-            fields[key] = parse_refs(value)
+            fields[key] = parse_refs(value, lenient)
             continue
         fields[key] = value
     if set(fields) != set(spec):
