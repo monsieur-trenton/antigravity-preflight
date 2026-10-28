@@ -1047,6 +1047,11 @@ class CommittedTestAuthoringTests(unittest.TestCase):
     def test_nine_pairs_were_accepted_by_re_checking_a_held_report(self):
         rechecked = sorted(p for p in self.by_pair if not any(r["pair"] == p and r["purpose"] == "author" and r["accepted"] for r in self.rows))
         self.assertEqual(rechecked, ["N-0338d1", "N-16fb50", "N-2e3b2d", "N-9123f1", "N-920e4a", "N-acf6ba", "N-af992a", "N-c86ed8", "N-d50fec"])
+        records = [json.loads(line) for line in (TEST_AUTHORING / "rechecks.jsonl").read_text(encoding="utf-8").splitlines() if line.strip()]
+        self.assertEqual(sorted(r["pair"] for r in records), rechecked)
+        accepted = self.sealed["authoring"]["acceptedReportSha256"]
+        self.assertTrue(all(r["accepted"] and r["reportSha256"] == accepted[r["pair"]]["A"] for r in records))
+        self.assertEqual({r["checkerSha256"][:12] for r in records}, {"5c02e3fcbcad", "6c3c1bc447c6", "42316a7f6ef4"})   # check_author.py at 5e0a5f6, c12751c and 1774079
         for pair in rechecked:
             last = [r for r in self.rows if r["pair"] == pair and r["purpose"] == "author"][-1]
             self.assertEqual(last["failedChecks"], ["CITES_SURVIVE_AND_COVER_THE_EDIT"] if pair == "N-acf6ba" else ["RUBRIC_GROUNDED_IN_THE_PLAN"])
