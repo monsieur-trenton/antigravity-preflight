@@ -36,9 +36,20 @@ Families, pairs kept of 8 authored (7 for some): contract_clause 8, open_item_be
 | C-skill | Claude Opus 5.5, Claude CLI, tools disabled, effort high | `skill` | 2 |
 | C-skill-go | same | `skill-go` | 2 |
 
-Per trial every arm sees all 166 cases once, in one frozen random order, one tool-free turn per case, **no retries, repairs or fallbacks**. Cases of a pair are submitted independently (no shared session or context). Model, effort, runtime, CLI or `agy` binary, host, request hashes and the run manifest are pinned and stamped on every ledger row; the Gemini served model is not attested (recorded as unavailable). Arms run in one sitting on one machine, with the arm order within a trial fixed in advance, so the comparison is concurrent. The optional repeat of G-skill and G-bare on the 24 pairs whose SHA-256 of `pair id + "|v4-repeat"` is smallest (48 cases or fewer, wording-B members included when their pair is drawn) is run only if the first trial leaves a result within sampling noise of a stated threshold, and only after the owner approves it.
+Per trial every arm sees all 166 cases once, in one frozen random order, one tool-free turn per case, **no retries, repairs or fallbacks**. Cases of a pair are submitted independently (no shared session or context). Model, effort, runtime, CLI or `agy` binary, host, request hashes and the run manifest are pinned and stamped on every ledger row; the Gemini served model is not attested (recorded as unavailable). Arms run on one machine, paced in small alternating blocks (next section), so the comparison is concurrent. The optional repeat of G-skill and G-bare on the 24 pairs whose SHA-256 of `pair id + "|v4-repeat"` is smallest (48 cases or fewer, wording-B members included when their pair is drawn) is run only if the first trial leaves a result within sampling noise of a stated threshold, and only after the owner approves it.
 
-**Cost and time (estimates from v3):** Gemini about 3 minutes per case, so about 8 to 10 hours per arm; Claude about $0.04 per case, so about $12 to $15 per arm-pair of trials, about $25 to $30 for both Claude arms. Every live call is owner-gated and the run is split into stages with a stop between them.
+**Cost and time (estimates from v3):** Gemini about 3 minutes per case, so about 8 to 10 hours per arm; Claude about $0.04 per case, so about $12 to $15 per arm-pair of trials, about $25 to $30 for both Claude arms. Every live call is owner-gated and the run is split into small blocks (next section).
+
+## Pacing (small blocks, one process at a time)
+
+The first draft said "one sitting". That is withdrawn: a Gemini trial is about 9 hours and the session window is 5, and the host is shared with the owner's other work, so the run is paced in small blocks.
+
+- **Block = a set of pairs, 6 pairs (about 12 to 14 cases) by default.** About 40 minutes of Gemini time or about 10 minutes of Claude time per block; about 14 blocks per trial. Both members of a pair (and its rewording) are in the same block, so every matched comparison is made within one block. The block assignment and the case order inside each block are drawn from a seed, written into the run manifest and frozen before any run.
+- **Alternation.** Blocks are run in a fixed order that alternates arms (G-skill, G-bare, then the next block, and so on; for Claude, C-skill, C-skill-go, with trial 2 after trial 1). A schedule that stops early therefore leaves the arms equally far along and the comparison concurrent; a day, load or version effect hits arms alike. A finished arm is never compared with an unfinished one: the analysis uses only blocks completed in every arm being compared, and says how many.
+- **One process at a time.** No parallel runs, no concurrent Gemini and Claude blocks, `nice` and `ionice` at low priority, and a block starts only when the host load is below the threshold the host qualification already needs (about 1.5). The owner starts each block, and may run it whenever the machine is idle. A block is one command with a case cap, stops at a case boundary, and is resume-safe: a recorded case is never rerun and an interrupted case is logged as a stop, not retried.
+- **Total time is unchanged**: about 18 hours of Gemini and 4 of Claude over roughly 28 Gemini and 8 Claude blocks, which can be spread over days or weeks. What changes is that no single run needs more than the window or the machine for an hour.
+- **Measure first.** Before the first block the load and memory of one Gemini block and one Claude block are recorded and reported; if a block bogs down the host, the block size is cut before anything is lost.
+- **Early stopping.** The owner may stop after any completed block set. Hypotheses are then analysed on the completed blocks, and the analysis states what fraction of the corpus that is. No block is added or dropped after seeing results.
 
 ## Outcome definitions
 
@@ -88,6 +99,7 @@ A result is for one model, route, prompt and this corpus hash; trials of a case 
 4. A run verifier, as `verify_run.py` and `verify_gemini_run.py` are for v3.
 5. The analysis script (matched-unit sign tests, by-kind and by-family intervals) and the mechanism-reading tool.
 6. The hash-drawn repeat subset, computed from the pair ids and written down.
+7. The block assignment and schedule (seeded), a block cap and load check in both drivers, and the resource measurement.
 
 ## Decisions for the owner
 
