@@ -799,6 +799,7 @@ class DriverTests(unittest.TestCase):
 
 DEV_AUTHORING = V4 / "dev-authoring"
 TEST_AUTHORING = V4 / "test-authoring"
+TEST_REVISION = V4 / "test-authoring-revision"
 DEV_REVISION = V4 / "dev-authoring-revision"
 DEV_REVISION2 = V4 / "dev-authoring-revision-2"
 REWRITTEN = ["N-102a76", "N-4aedf1", "N-93366f", "N-9cc72c"]
@@ -1060,6 +1061,68 @@ class CommittedTestAuthoringTests(unittest.TestCase):
         for pair in rechecked:
             last = [r for r in self.rows if r["pair"] == pair and r["purpose"] == "author"][-1]
             self.assertEqual(last["failedChecks"], ["CITES_SURVIVE_AND_COVER_THE_EDIT"] if pair == "N-acf6ba" else ["RUBRIC_GROUNDED_IN_THE_PLAN"])
+
+
+class CommittedTestRevisionTests(unittest.TestCase):
+    """The rewrite round of the test split, as hashes and receipts only."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.rows = [json.loads(line) for line in (TEST_REVISION / "calls.jsonl").read_text(encoding="utf-8").splitlines() if line.strip()]
+        cls.sealed = json.loads((TEST_REVISION / "sealed-manifest.json").read_bytes())
+        cls.by_pair = {i["pair"]: i for i in DOCS["test"]["instances"]}
+        cls.listed = json.loads((V4 / "test-rewrite-list.json").read_bytes())["pairs"]
+        cls.drops = json.loads((V4 / "test-drops.json").read_bytes())
+
+    def test_calls_stops_and_the_pairs_they_cover(self):
+        author_rows = [r for r in self.rows if r["purpose"] == "author"]
+        self.assertEqual((len(self.rows), len(author_rows), sum(1 for r in self.rows if r["purpose"] == "reword"), sum(1 for r in self.rows if r["technicalStop"])), (33, 28, 5, 8))
+        self.assertEqual(set(r["pair"] for r in author_rows), set(self.listed))
+        accepted = {r["pair"] for r in author_rows if r["accepted"]}
+        self.assertEqual(set(self.listed) - accepted, {"N-68f179"})
+        self.assertEqual([d["pair"] for d in self.drops], ["N-68f179"])
+        own = [r for r in author_rows if r["pair"] == "N-68f179"]
+        self.assertEqual([(r["attempt"], bool(r["technicalStop"]), r.get("failedChecks")) for r in own], [(1, True, None), (2, True, None), (3, False, ["LINE_SHAPE"]), (4, False, ["LINE_SHAPE"])])
+        rewordings = {r["pair"] for r in self.rows if r["purpose"] == "reword" and r["accepted"]}
+        self.assertEqual(rewordings, {p for p in self.listed if self.by_pair[p]["wordingB"]})
+
+    def test_prompts_rebuild_exactly_from_the_tooling_as_run(self):
+        as_run = TEST_REVISION / "tooling-as-run"
+        families = {f["id"]: f for f in json.loads((as_run / "families.json").read_bytes())["families"]}
+        for r in self.rows:
+            if r["purpose"] == "author":
+                instance = self.by_pair[r["pair"]]
+                prompt = prompts.author_prompt(instance, families[instance["family"]], prompts.domain_of(instance), as_run / "author-template.txt").encode("utf-8")
+                self.assertEqual((rp.sha(prompt), len(prompt)), (r["promptSha256"], r["promptBytes"]), r["pair"])
+
+    def test_receipts_are_clean_and_the_stops_are_named(self):
+        binary = json.loads((PARENT / "v3-run-gemini/manifest.json").read_bytes())["binary"]["sha256"]
+        codes = []
+        for r in self.rows:
+            receipt = json.loads((TEST_REVISION / "receipts" / f"{r['pair']}-{r['purpose']}-a{r['attempt']}.json").read_bytes())
+            if r["technicalStop"]:
+                codes.append((receipt["failure"] or {}).get("code") or receipt["status"])
+            else:
+                self.assertEqual((receipt["status"], receipt["failure"], receipt["closingFailures"], receipt["retries"], receipt["native"]["sha256"], receipt["report"]["sha256"]),
+                                 ("REPORT_RECEIVED_PENDING_ADJUDICATION", None, [], 0, binary, r["reportSha256"]))
+        self.assertEqual(sorted(codes), ["MISSING_INIT", "MISSING_INIT"] + ["UNQUALIFIED_STEP"] * 6)
+
+    def test_the_sealed_manifest_of_the_current_test_corpus(self):
+        self.assertEqual((self.sealed["cases"], self.sealed["pairs"], [d["pair"] for d in self.sealed["dropped"]]), (182, 79, ["N-68f179"]))
+        accepted = self.sealed["authoring"]["acceptedReportSha256"]
+        first = json.loads((TEST_AUTHORING / "sealed-manifest.json").read_bytes())["authoring"]["acceptedReportSha256"]
+        self.assertEqual(set(accepted), set(self.by_pair) - {"N-68f179"})
+        for pair, hashes in accepted.items():
+            if pair in self.listed:
+                new = [r["reportSha256"] for r in self.rows if r["pair"] == pair and r["purpose"] == "author" and r["accepted"]][-1]
+                self.assertEqual((hashes["A"], hashes["A"] != first[pair]["A"]), (new, True), pair)
+                if "B" in hashes:
+                    self.assertEqual(hashes["B"], [r["reportSha256"] for r in self.rows if r["pair"] == pair and r["purpose"] == "reword" and r["accepted"]][-1])
+            else:
+                self.assertEqual(hashes, first[pair], pair)
+        text = json.dumps(self.sealed)
+        for word in ("mechanism", "baitNotes", "submissionOrder", "rubricKeywords", "whyNoFallback"):
+            self.assertNotIn(word, text)
 
 
 class RunScriptTests(unittest.TestCase):

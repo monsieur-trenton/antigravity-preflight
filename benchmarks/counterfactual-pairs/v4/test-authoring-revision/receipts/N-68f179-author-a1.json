@@ -1,0 +1,292 @@
+{
+  "status": "STOPPED",
+  "failure": {
+    "code": "UNQUALIFIED_STEP",
+    "failureClass": "ValueError"
+  },
+  "closingFailures": [],
+  "model": "gemini-3.8-flash-high",
+  "effort": "high",
+  "effortEvidence": "launcher_configuration",
+  "servedAttestation": "UNAVAILABLE",
+  "promptSent": true,
+  "elapsedSeconds": 200.249,
+  "invocations": {
+    "proxy": 1,
+    "native": 1
+  },
+  "retries": 0,
+  "providerRequestCount": "UNAVAILABLE",
+  "events": 32,
+  "promptDelivery": {
+    "status": "COMPLETE",
+    "wireBytes": 6264,
+    "bytesWritten": 6264,
+    "meaning": "Bytes accepted by host pipe; not proof of native consumption"
+  },
+  "eventLedger": [
+    {
+      "ordinal": 0,
+      "kind": "init",
+      "bytes": 1346
+    },
+    {
+      "ordinal": 1,
+      "kind": "step_update",
+      "bytes": 151,
+      "stepType": "user_input",
+      "state": "DONE"
+    },
+    {
+      "ordinal": 2,
+      "kind": "step_update",
+      "bytes": 185,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 3,
+      "kind": "step_update",
+      "bytes": 185,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 4,
+      "kind": "step_update",
+      "bytes": 198,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 5,
+      "kind": "step_update",
+      "bytes": 185,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 6,
+      "kind": "step_update",
+      "bytes": 197,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 7,
+      "kind": "step_update",
+      "bytes": 195,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 8,
+      "kind": "step_update",
+      "bytes": 185,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 9,
+      "kind": "step_update",
+      "bytes": 197,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 10,
+      "kind": "step_update",
+      "bytes": 185,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 11,
+      "kind": "step_update",
+      "bytes": 198,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 12,
+      "kind": "step_update",
+      "bytes": 185,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 13,
+      "kind": "step_update",
+      "bytes": 185,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 14,
+      "kind": "step_update",
+      "bytes": 185,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 15,
+      "kind": "step_update",
+      "bytes": 197,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 16,
+      "kind": "step_update",
+      "bytes": 185,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 17,
+      "kind": "step_update",
+      "bytes": 197,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 18,
+      "kind": "step_update",
+      "bytes": 185,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 19,
+      "kind": "step_update",
+      "bytes": 197,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 20,
+      "kind": "step_update",
+      "bytes": 198,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 21,
+      "kind": "step_update",
+      "bytes": 185,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 22,
+      "kind": "step_update",
+      "bytes": 197,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 23,
+      "kind": "step_update",
+      "bytes": 185,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 24,
+      "kind": "step_update",
+      "bytes": 197,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 25,
+      "kind": "step_update",
+      "bytes": 197,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 26,
+      "kind": "step_update",
+      "bytes": 177,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 27,
+      "kind": "step_update",
+      "bytes": 185,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 28,
+      "kind": "step_update",
+      "bytes": 186,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 29,
+      "kind": "step_update",
+      "bytes": 185,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 30,
+      "kind": "step_update",
+      "bytes": 185,
+      "stepType": "agent_response",
+      "state": "ACTIVE"
+    },
+    {
+      "ordinal": 31,
+      "kind": "step_update",
+      "bytes": 978,
+      "stepType": "agent_response",
+      "state": "DONE"
+    },
+    {
+      "ordinal": 32,
+      "kind": "step_update",
+      "bytes": 175,
+      "stepType": "error_message",
+      "state": "DONE"
+    }
+  ],
+  "eventLedgerStorage": {
+    "entryCap": 256,
+    "storedRows": 33,
+    "omittedRows": 0,
+    "scope": "Storage only; every event is validated"
+  },
+  "transport": {
+    "stdout": {
+      "bytes": 8186,
+      "sha256": "b6fa6f943dea6798d070745dbaa133c209fa0a94f476dcdfc66df36cd680557d"
+    },
+    "stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "processes": {
+    "native": {
+      "spawned": true,
+      "reaped": true
+    },
+    "proxy": {
+      "spawned": true,
+      "reaped": true
+    }
+  },
+  "report": null,
+  "privateHomeAbsent": true,
+  "socketDirectoryAbsent": true,
+  "qualificationCredit": 0,
+  "native": {
+    "sha256": "16e228cb243fa098eeb27b3b2aca963caec84e4a8ac49e3821b00c56f99f7508",
+    "bytes": 221278464
+  }
+}

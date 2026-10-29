@@ -1,0 +1,89 @@
+{
+  "status": "STOPPED",
+  "failure": {
+    "code": "UNQUALIFIED_STEP",
+    "failureClass": "ValueError"
+  },
+  "closingFailures": [],
+  "model": "gemini-3.8-flash-high",
+  "effort": "high",
+  "effortEvidence": "launcher_configuration",
+  "servedAttestation": "UNAVAILABLE",
+  "promptSent": true,
+  "elapsedSeconds": 295.031,
+  "invocations": {
+    "proxy": 1,
+    "native": 1
+  },
+  "retries": 0,
+  "providerRequestCount": "UNAVAILABLE",
+  "events": 3,
+  "promptDelivery": {
+    "status": "COMPLETE",
+    "wireBytes": 6264,
+    "bytesWritten": 6264,
+    "meaning": "Bytes accepted by host pipe; not proof of native consumption"
+  },
+  "eventLedger": [
+    {
+      "ordinal": 0,
+      "kind": "init",
+      "bytes": 1346
+    },
+    {
+      "ordinal": 1,
+      "kind": "step_update",
+      "bytes": 151,
+      "stepType": "user_input",
+      "state": "DONE"
+    },
+    {
+      "ordinal": 2,
+      "kind": "step_update",
+      "bytes": 304,
+      "stepType": "agent_response",
+      "state": "DONE"
+    },
+    {
+      "ordinal": 3,
+      "kind": "step_update",
+      "bytes": 175,
+      "stepType": "error_message",
+      "state": "DONE"
+    }
+  ],
+  "eventLedgerStorage": {
+    "entryCap": 256,
+    "storedRows": 4,
+    "omittedRows": 0,
+    "scope": "Storage only; every event is validated"
+  },
+  "transport": {
+    "stdout": {
+      "bytes": 1980,
+      "sha256": "162e8e83f8734990bb3130d0a7861576e0f44c0977537f94c656a0b20e1d4968"
+    },
+    "stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "processes": {
+    "native": {
+      "spawned": true,
+      "reaped": true
+    },
+    "proxy": {
+      "spawned": true,
+      "reaped": true
+    }
+  },
+  "report": null,
+  "privateHomeAbsent": true,
+  "socketDirectoryAbsent": true,
+  "qualificationCredit": 0,
+  "native": {
+    "sha256": "16e228cb243fa098eeb27b3b2aca963caec84e4a8ac49e3821b00c56f99f7508",
+    "bytes": 221278464
+  }
+}

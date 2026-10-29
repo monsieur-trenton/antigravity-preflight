@@ -1,0 +1,6 @@
+[
+  {
+    "pair": "N-68f179",
+    "reason": "The rewrite after the first audit did not produce an acceptable report: of four calls, two ended in runtime stops and the two reports both failed the line-shape check, so both attempts were used. By the policy (rewrite once, drop what still fails) it is dropped. Its first version had been sent back by the blind audit as a config_limit pair with a sound member judged defective on a conditional-limit reading that the abstract triage rated as likely overreach, so the loss is of an arguable case."
+  }
+]

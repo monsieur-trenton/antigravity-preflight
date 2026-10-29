@@ -1,0 +1,37 @@
+commit: 33e1fcb7b9bf8da9994e5cecdc64c1c3541a3bda
+split: test
+run manifest (v3 gemini): d853fee334b39a42d8b1b20b87a9dc27d68f108a9a4b4afa8e28c48e901ff5d2
+author template: 530455ad03cba6017a855bcc9cde5f78a19e4ff2099f5e419e5a2f931134dece
+reword template: 5ee054df5a23cfba5a7258011d36113d28d0b3eeb03bae620fdf29fc1fcaf5f0
+families: 3e2da8f672febc1d3f855012ee69010e7c2ac97a768a420314024a59b25a53d3
+assignments-test: eacf1417293682d5dccd430d10de6d015b796de7c54bf9cfed4d1ef122f1b65f
+agy: /home/john/.local/bin/agy  16e228cb243fa098eeb27b3b2aca963caec84e4a8ac49e3821b00c56f99f7508
+agy version: 1.4.1
+host: Linux john-laptop 7.0.0-38-generic #38~24.04.4-Ubuntu SMP PREEMPT_DYNAMIC Mon Sep 14 16:37:11 UTC 2 x86_64 x86_64 x86_64 GNU/Linux
+
+commit: 4214ce4c18d80dccd4aaafab826a67b5718b9638
+NOTE: qualification and capabilities REUSED from /tmp/v4author-test (same runtime package and agy binary, verified by hash); the host stage was not rerun here because the machine was overloaded (load average 20) and the 0.5 s timing control stopped it twice. Owner's decision 2026-10-28T14:14:19-07:00.
+
+== live 20 calls (author): start 2026-10-28T14:14:39-07:00
+{"split": "test", "purpose": "author", "runManifestSha256": "d853fee334b39a42d8b1b20b87a9dc27d68f108a9a4b4afa8e28c48e901ff5d2", "dryRun": false, "pairsSelected": 20, "calls": 6, "accepted": 2, "failedChecks": 0, "technicalStops": 4, "alreadyAccepted": 0, "attemptsUsedUp": [], "waitingForAccepted": [], "halted": "CONSECUTIVE_STOPS", "status": "COMPLETE", "providerCalls": 6}
+end: 2026-10-28T14:33:37-07:00
+
+== live 20 calls (author): start 2026-10-28T14:35:45-07:00
+{"split": "test", "purpose": "author", "runManifestSha256": "d853fee334b39a42d8b1b20b87a9dc27d68f108a9a4b4afa8e28c48e901ff5d2", "dryRun": false, "pairsSelected": 20, "calls": 6, "accepted": 3, "failedChecks": 0, "technicalStops": 3, "alreadyAccepted": 2, "attemptsUsedUp": [], "waitingForAccepted": [], "halted": "CONSECUTIVE_STOPS", "status": "COMPLETE", "providerCalls": 6}
+end: 2026-10-28T14:53:02-07:00
+
+== live 20 calls (author): start 2026-10-28T19:05:15-07:00
+{"split": "test", "purpose": "author", "runManifestSha256": "d853fee334b39a42d8b1b20b87a9dc27d68f108a9a4b4afa8e28c48e901ff5d2", "dryRun": false, "pairsSelected": 20, "calls": 15, "accepted": 14, "failedChecks": 1, "technicalStops": 0, "alreadyAccepted": 5, "attemptsUsedUp": [], "waitingForAccepted": [], "status": "COMPLETE", "providerCalls": 15}
+end: 2026-10-28T20:25:01-07:00
+
+== live 20 calls (author): start 2026-10-28T20:25:27-07:00
+{"split": "test", "purpose": "author", "runManifestSha256": "d853fee334b39a42d8b1b20b87a9dc27d68f108a9a4b4afa8e28c48e901ff5d2", "dryRun": false, "pairsSelected": 20, "calls": 1, "accepted": 0, "failedChecks": 1, "technicalStops": 0, "alreadyAccepted": 19, "attemptsUsedUp": [], "waitingForAccepted": [], "status": "COMPLETE", "providerCalls": 1}
+end: 2026-10-28T20:30:20-07:00
+
+== live 4 calls (reword): start 2026-10-28T20:30:42-07:00
+{"split": "test", "purpose": "reword", "runManifestSha256": "d853fee334b39a42d8b1b20b87a9dc27d68f108a9a4b4afa8e28c48e901ff5d2", "dryRun": false, "pairsSelected": 4, "calls": 4, "accepted": 3, "failedChecks": 0, "technicalStops": 1, "alreadyAccepted": 0, "attemptsUsedUp": [], "waitingForAccepted": [], "status": "COMPLETE", "providerCalls": 4}
+end: 2026-10-28T20:51:30-07:00
+
+== live 4 calls (reword): start 2026-10-28T20:51:59-07:00
+{"split": "test", "purpose": "reword", "runManifestSha256": "d853fee334b39a42d8b1b20b87a9dc27d68f108a9a4b4afa8e28c48e901ff5d2", "dryRun": false, "pairsSelected": 4, "calls": 1, "accepted": 1, "failedChecks": 0, "technicalStops": 0, "alreadyAccepted": 3, "attemptsUsedUp": [], "waitingForAccepted": [], "status": "COMPLETE", "providerCalls": 1}
+end: 2026-10-28T20:57:00-07:00
