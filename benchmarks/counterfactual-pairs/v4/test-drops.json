@@ -2,5 +2,37 @@
   {
     "pair": "N-68f179",
     "reason": "The rewrite after the first audit did not produce an acceptable report: of four calls, two ended in runtime stops and the two reports both failed the line-shape check, so both attempts were used. By the policy (rewrite once, drop what still fails) it is dropped. Its first version had been sent back by the blind audit as a config_limit pair with a sound member judged defective on a conditional-limit reading that the abstract triage rated as likely overreach, so the loss is of an arguable case."
+  },
+  {
+    "pair": "N-497117",
+    "reason": "Sent back by the blind audit again after the rewrite (twin recovered as an unestablished fact where the oracle says defect; the sound member's answer also stopped on commentary that the lenient re-read could not repair); by the rewrite-once policy it is dropped. Decision recorded from the audit's reason codes only; the sealed text was not read."
+  },
+  {
+    "pair": "N-4c39c5",
+    "reason": "Sent back by the blind audit again after the rewrite (sound plan not recovered as sound (unestablished fact) and not exactly one edit); by the rewrite-once policy it is dropped. Decision recorded from the audit's reason codes only; the sealed text was not read."
+  },
+  {
+    "pair": "N-797729",
+    "reason": "Sent back by the blind audit again after the rewrite (twin recovered as an unestablished fact where the oracle says defect); by the rewrite-once policy it is dropped. Decision recorded from the audit's reason codes only; the sealed text was not read."
+  },
+  {
+    "pair": "N-9123f1",
+    "reason": "Sent back by the blind audit again after the rewrite (sound plan not recovered as sound (unestablished fact)); by the rewrite-once policy it is dropped. Decision recorded from the audit's reason codes only; the sealed text was not read."
+  },
+  {
+    "pair": "N-9be677",
+    "reason": "Sent back by the blind audit again after the rewrite (not exactly one edit); by the rewrite-once policy it is dropped. Decision recorded from the audit's reason codes only; the sealed text was not read."
+  },
+  {
+    "pair": "N-a86988",
+    "reason": "Sent back by the blind audit again after the rewrite (sound plan not recovered as sound (unestablished fact)); by the rewrite-once policy it is dropped. Decision recorded from the audit's reason codes only; the sealed text was not read."
+  },
+  {
+    "pair": "N-acf6ba",
+    "reason": "Sent back by the blind audit again after the rewrite (sound plan not recovered as sound (unestablished fact) and the wrong plan chosen); by the rewrite-once policy it is dropped. Decision recorded from the audit's reason codes only; the sealed text was not read."
+  },
+  {
+    "pair": "N-ef81c9",
+    "reason": "Sent back by the blind audit again after the rewrite (sound plan recovered as having a defect); by the rewrite-once policy it is dropped. Decision recorded from the audit's reason codes only; the sealed text was not read."
   }
 ]

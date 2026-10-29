@@ -1080,7 +1080,7 @@ class CommittedTestRevisionTests(unittest.TestCase):
         self.assertEqual(set(r["pair"] for r in author_rows), set(self.listed))
         accepted = {r["pair"] for r in author_rows if r["accepted"]}
         self.assertEqual(set(self.listed) - accepted, {"N-68f179"})
-        self.assertEqual([d["pair"] for d in self.drops], ["N-68f179"])
+        self.assertEqual([d["pair"] for d in self.drops][0], "N-68f179")                          # the later entries are the pairs sent back again by the second audit round
         own = [r for r in author_rows if r["pair"] == "N-68f179"]
         self.assertEqual([(r["attempt"], bool(r["technicalStop"]), r.get("failedChecks")) for r in own], [(1, True, None), (2, True, None), (3, False, ["LINE_SHAPE"]), (4, False, ["LINE_SHAPE"])])
         rewordings = {r["pair"] for r in self.rows if r["purpose"] == "reword" and r["accepted"]}
@@ -1108,7 +1108,7 @@ class CommittedTestRevisionTests(unittest.TestCase):
         self.assertEqual(sorted(codes), ["MISSING_INIT", "MISSING_INIT"] + ["UNQUALIFIED_STEP"] * 6)
 
     def test_the_sealed_manifest_of_the_current_test_corpus(self):
-        self.assertEqual((self.sealed["cases"], self.sealed["pairs"], [d["pair"] for d in self.sealed["dropped"]]), (182, 79, ["N-68f179"]))
+        self.assertEqual((self.sealed["cases"], self.sealed["pairs"], [d["pair"] for d in self.sealed["dropped"]]), (182, 79, ["N-68f179"]))      # the corpus of the rewrite round, before the second audit
         accepted = self.sealed["authoring"]["acceptedReportSha256"]
         first = json.loads((TEST_AUTHORING / "sealed-manifest.json").read_bytes())["authoring"]["acceptedReportSha256"]
         self.assertEqual(set(accepted), set(self.by_pair) - {"N-68f179"})
@@ -1123,6 +1123,43 @@ class CommittedTestRevisionTests(unittest.TestCase):
         text = json.dumps(self.sealed)
         for word in ("mechanism", "baitNotes", "submissionOrder", "rubricKeywords", "whyNoFallback"):
             self.assertNotIn(word, text)
+
+
+TEST_FINAL = V4 / "test-audit-revision"
+
+
+class FinalTestCorpusRecordTests(unittest.TestCase):
+    """The final test corpus, as hashes only, and the decisions that led to it."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.sealed = json.loads((TEST_FINAL / "sealed-manifest-final.json").read_bytes())
+        cls.drops = json.loads((V4 / "test-drops.json").read_bytes())
+        cls.report = json.loads((TEST_FINAL / "audit-report-final.json").read_bytes())
+
+    def test_nine_pairs_are_dropped_and_the_corpus_is_71_pairs_and_166_cases(self):
+        dropped = [d["pair"] for d in self.drops]
+        self.assertEqual(sorted(dropped), sorted(["N-68f179", "N-497117", "N-4c39c5", "N-797729", "N-9123f1", "N-9be677", "N-a86988", "N-acf6ba", "N-ef81c9"]))
+        self.assertEqual((self.sealed["cases"], self.sealed["pairs"], sorted(d["pair"] for d in self.sealed["dropped"])), (166, 71, sorted(dropped)))
+        self.assertTrue(all(d["reason"].strip() for d in self.drops))
+        accepted = self.sealed["authoring"]["acceptedReportSha256"]
+        self.assertEqual(set(accepted), {i["pair"] for i in DOCS["test"]["instances"]} - set(dropped))
+        self.assertEqual(sum(1 for v in accepted.values() if "B" in v), 12)
+
+    def test_the_final_report_has_no_pair_sent_back_and_the_final_manifest_hash_is_the_one_recorded(self):
+        self.assertEqual((self.report["pairs"], self.report["decisions"]["REVIEW"], self.report["decisions"]["INCOMPLETE"]), (71, 0, 0))
+        self.assertEqual(set(self.report["perPair"]), set(self.sealed["authoring"]["acceptedReportSha256"]))
+        self.assertTrue(self.sealed["manifestSha256"].startswith("2d13d475"))
+        text = json.dumps(self.sealed)
+        for word in ("mechanism", "baitNotes", "submissionOrder", "rubricKeywords", "whyNoFallback"):
+            self.assertNotIn(word, text)
+
+    def test_the_redacted_ledger_has_no_free_text_and_binds_the_rewritten_pairs_requests(self):
+        rows = [json.loads(line) for line in (TEST_FINAL / "audit-answers-redacted.jsonl").read_text(encoding="utf-8").splitlines() if line.strip()]
+        self.assertEqual(len(rows), 66)
+        self.assertEqual({r["corpusManifestSha256"][:8] for r in rows}, {"0198eeb2"})
+        for r in rows:
+            self.assertFalse({"REASON", "DECISIVE_FACT", "WHY", "DIFFERENCE"} & set(r.get("answer") or {}))
 
 
 class RunScriptTests(unittest.TestCase):
