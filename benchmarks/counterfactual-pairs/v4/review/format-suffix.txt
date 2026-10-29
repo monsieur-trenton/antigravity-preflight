@@ -1,0 +1,9 @@
+
+Question Q01: Does the plan contain any blocker supported by its own text or by the reference excerpt? Answer from the sources only.
+
+Write a short rationale, then finish the report with exactly this block, with no text after it:
+MACHINE SUMMARY
+COMPLETENESS: <COMPLETE or INCOMPLETE>
+ASSESSMENT: <BLOCKERS_FOUND or CHANGES_RECOMMENDED or NO_BLOCKERS_FOUND>
+FINDING: <BLOCKER or RISK or NOTE> | <VERIFIED or UNVERIFIED or CANNOT_CHECK> | <source id and line number as S01:12 or S02:5, or - if none> | <exact single-line quotation from that line, or - if none>
+Write one FINDING line per finding, and none if there are no findings. Use only {SOURCES}. Copy quotations exactly, without added quote marks.

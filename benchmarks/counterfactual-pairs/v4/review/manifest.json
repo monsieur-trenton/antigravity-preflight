@@ -1,0 +1,26 @@
+{
+  "kind": "V4_REVIEWER_FILES_PINNED",
+  "arms": [
+    "skill",
+    "skill-go",
+    "bare"
+  ],
+  "pins": {
+    "prompt.txt": "c794f0fb607b34ad669fd88b81b4b8301bd8783f13bd62d7d86ad98f4f2631ab",
+    "format-suffix.txt": "13ef8e208dcbedb92c842530ba52df879422fd2c3248a58d3f3eccc21fde7df0",
+    "bare-request.txt": "4da82573f4936be7af4c8f7025f5e95f5bfc023063828a0f29dc5be07277f1cc",
+    "bare-reference-lead.txt": "574d02b96857e03435b83388e246809fe854b7f8dd7a1458571928d44b51a37a",
+    "review_requests.py": "29f096af1d298299178203873294e93906a99349f99fba8d0582a5cdd7df71ee"
+  },
+  "borrowed": {
+    "ablation/skill-go/skill-go-sentence.txt": "503ff4914702464cb873f681c963b8cf092c16ae1c8acf4a8d84219a5edccdec",
+    "ablation/bare-system.txt": "9db26da266bd05448800db1d986281ad1a92645dba943c208cd421b97e87fb06",
+    "v4/parse_v4.py": "433164ce499f13243c45ff5f31316e5ec10949a8f224e55ded3a93ef375823d7",
+    "v4/score_v4.py": "a520e81c2ba40deacc194183e3b6c1978353146e8d064cfda42f074123397e28",
+    "v4/families.json": "1f42441b7cff64e4e60d42269a4f6cf6a0d7b9a2ea734625cb3b8e7830d6bed1",
+    "run_pilot.py": "09a229234fe9a151f26b8e418c7655161537edc4c847ff468c69f5ed1fe5c1be",
+    "score.py": "d3c1a388b2e1c55b927e7eb375ac01494aac828219b2cccd6044df18d1e1c08a"
+  },
+  "claudeSkillSystemPromptSha256": "5bb08d37446ad283dfde5a9b62350644a92706e452e45974de8d28a15f95faec",
+  "note": "Pins the reviewer-visible wording of corpus v4. Not a run manifest: the corpus, the drivers and the preregistration are bound to it separately, and nothing here has been run."
+}
