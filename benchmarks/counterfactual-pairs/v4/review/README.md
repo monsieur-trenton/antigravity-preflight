@@ -23,8 +23,8 @@ What the reviewer under test is shown, as files and a builder, with nothing run 
 | `skill-go` | `skill` plus the one optional-suggestions sentence tested in v3 | Claude Opus 5.5 CLI |
 | `bare` | a plain request, verdict on the last line | Gemini 3.8 Flash High native (and, optionally, Claude) |
 
-**Caveat that stays attached to the Gemini `bare` arm.** The native runtime runs every request under its fixed agent persona (`preflight-inline`) and embeds the request in a packet with a fixed question. The bare request therefore sits inside the runtime's own framing, which a plain chat request would not have. The arm measures "the plain request, in this runtime", not "no skill at all". If an offline check shows the wrapper changes the request more than the preregistration allows, the arm is dropped and the drop is reported.
+**Caveat that stays attached to the Gemini `bare` arm.** The native runtime sends the request byte for byte as the user message (the verifier checks this), but under its fixed agent persona (`preflight-inline`: inline snapshots only, no tools, a cited Markdown report). The bare request therefore sits inside the runtime's own framing, which a plain chat request would not have. The arm measures "the plain request, in this runtime", not "no skill at all". If an offline check shows the wrapper changes the request more than the preregistration allows, the arm is dropped and the drop is reported.
 
-## What does not exist yet
+## Where the rest is
 
-The v4 Claude driver, the Gemini wrapper that builds a multi-source packet, the run manifest that binds the corpus, these files and the drivers, the run verifier, and the analysis script. They are written, tested and committed before any run, and the preregistration is frozen only after that.
+The block driver, the Gemini multi-source packet, the schedule, the run manifest builder, the verifier, the analysis and the mechanism-reading tool are in [../run/](../run/HANDOFF.md). The run manifest, which binds the corpus, these files, the drivers and the preregistration, is written at the freeze.

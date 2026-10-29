@@ -36,7 +36,7 @@ Families, pairs kept of 8 authored (7 for some): contract_clause 8, open_item_be
 | C-skill | Claude Opus 5.5, Claude CLI, tools disabled, effort high | `skill` | 2 |
 | C-skill-go | same | `skill-go` | 2 |
 
-Per trial every arm sees all 166 cases once, in one frozen random order, one tool-free turn per case, **no retries, repairs or fallbacks**. Cases of a pair are submitted independently (no shared session or context). Model, effort, runtime, CLI or `agy` binary, host, request hashes and the run manifest are pinned and stamped on every ledger row; the Gemini served model is not attested (recorded as unavailable). Arms run on one machine, paced in small alternating blocks (next section), so the comparison is concurrent. The optional repeat of G-skill and G-bare on the 24 pairs whose SHA-256 of `pair id + "|v4-repeat"` is smallest (48 cases or fewer, wording-B members included when their pair is drawn) is run only if the first trial leaves a result within sampling noise of a stated threshold, and only after the owner approves it.
+Per trial every arm sees all 166 cases once, in one frozen random order, one tool-free turn per case, **no retries, repairs or fallbacks**. Cases of a pair are submitted independently (no shared session or context). Model, effort, runtime, CLI or `agy` binary, host, request hashes and the run manifest are pinned and stamped on every ledger row; the Gemini served model is not attested (recorded as unavailable). Arms run on one machine, paced in small alternating blocks (next section), so the comparison is concurrent. The optional repeat of G-skill and G-bare (trial 2) on the 24 pairs whose SHA-256 of `pair id + "|v4-repeat"` is smallest (58 cases for the test split as drawn, wording-B members included when their pair is drawn; four blocks, listed in the schedule) is run only if the first trial leaves a result within sampling noise of a stated threshold, and only after the owner approves it.
 
 **Cost and time (estimates from v3):** Gemini about 3 minutes per case, so about 8 to 10 hours per arm; Claude about $0.04 per case, so about $12 to $15 per arm-pair of trials, about $25 to $30 for both Claude arms. Every live call is owner-gated and the run is split into small blocks (next section).
 
@@ -44,12 +44,15 @@ Per trial every arm sees all 166 cases once, in one frozen random order, one too
 
 The first draft said "one sitting". That is withdrawn: a Gemini trial is about 9 hours and the session window is 5, and the host is shared with the owner's other work, so the run is paced in small blocks.
 
-- **Block = a set of pairs, 6 pairs (about 12 to 14 cases) by default.** About 40 minutes of Gemini time or about 10 minutes of Claude time per block; about 14 blocks per trial. Both members of a pair (and its rewording) are in the same block, so every matched comparison is made within one block. The block assignment and the case order inside each block are drawn from a seed, written into the run manifest and frozen before any run.
+- **Block = a set of pairs, 6 pairs (12 to 18 cases, 14 on average) by default.** About 40 minutes of Gemini time or about 10 minutes of Claude time per block; 12 blocks per trial (11 of 6 pairs and one of 5). Both members of a pair (and its rewording) are in the same block, so every matched comparison is made within one block. The assignment is a function of the committed seed and the pair ids (pairs ordered by kind, then by seeded hash, dealt round-robin so every block mixes the kinds), the case order inside a block is the corpus's frozen submission order, and both are written into `run/schedule-test.json`, rebuilt from public inputs and checked against the sealed manifest's pins, and pinned by the run manifest.
 - **Alternation.** Blocks are run in a fixed order that alternates arms (G-skill, G-bare, then the next block, and so on; for Claude, C-skill, C-skill-go, with trial 2 after trial 1). A schedule that stops early therefore leaves the arms equally far along and the comparison concurrent; a day, load or version effect hits arms alike. A finished arm is never compared with an unfinished one: the analysis uses only blocks completed in every arm being compared, and says how many.
 - **One process at a time.** No parallel runs, no concurrent Gemini and Claude blocks, `nice` and `ionice` at low priority, and a block starts only when the host load is below the threshold the host qualification already needs (about 1.5). The owner starts each block, and may run it whenever the machine is idle. A block is one command with a case cap, stops at a case boundary, and is resume-safe: a recorded case is never rerun and an interrupted case is logged as a stop, not retried.
-- **Total time is unchanged**: about 18 hours of Gemini and 4 of Claude over roughly 28 Gemini and 8 Claude blocks, which can be spread over days or weeks. What changes is that no single run needs more than the window or the machine for an hour.
-- **Measure first.** Before the first block the load and memory of one Gemini block and one Claude block are recorded and reported; if a block bogs down the host, the block size is cut before anything is lost.
-- **Early stopping.** The owner may stop after any completed block set. Hypotheses are then analysed on the completed blocks, and the analysis states what fraction of the corpus that is. No block is added or dropped after seeing results.
+- **Total time is unchanged**: about 18 hours of Gemini (24 block-runs: 12 blocks × 2 arms) and about 4 of Claude (48 block-runs: 12 blocks × 2 arms × 2 trials), which can be spread over days or weeks. What changes is that no single run needs more than the window or the machine for an hour.
+- **Measure first.** Before the first block of the test split, a short rehearsal records the seconds per case, child CPU time, peak child memory and load of each route (`run_v4.py status`, from the block log); if a block bogs down the host, the block size is cut before the freeze and the schedule rebuilt (`schedule.py --pairs-per-block`).
+- **A rehearsal on the dev corpus** (public text, 23 pairs) may run any number of blocks before the freeze to test the tooling; its outputs are never evidence and no reviewer file is tuned on them without the change being recorded here.
+- **Tooling:** [run/](../run/HANDOFF.md) holds the block driver, the wrapper and the skill [`v4-benchmark-blocks`](../../../../.claude/skills/v4-benchmark-blocks/SKILL.md) that lets an orchestrating agent run one authorized block at a time; guards are checked between cases (`--max-minutes`, `--max-cases`, `--max-load`, the STOP file, three stops in a row, a spend cap).
+- **Early stopping.** The owner may stop after any completed block set. Hypotheses are then analysed on the completed blocks, and the analysis states how many blocks and cases that is. No block is added or dropped after seeing results.
+- **How the analysis uses partial runs.** Each arm and trial is scored on its own completed blocks (a block is complete when every case has a ledger row, a stop included). A comparison uses only blocks complete in both arms (and, within a route, in every trial being matched), matched units and an exact two-sided sign test. A comparison across routes matches trial 1 of the Claude arm to Gemini's only trial, on cases. Subgroup tables (omitted against absorbed gap twins; cross-source against single-source defect twins) are rates with Wilson intervals, not tests.
 
 ## Outcome definitions
 
@@ -64,7 +67,7 @@ Verdict mapping for every arm: `GO` = `NO_BLOCKERS_FOUND`, `GO_WITH_CHANGES` = `
 
 **Secondary:** hedged and blocked sound plans; gap twins `NO_GO` (overclaimed) and `GO` (waved through); all of the above by kind (cross-source, single-source, decoy, omitted, absorbed) and by family; **decoy discipline** (decoy and absorbed members: false-blocker rate on the sound member and the absorbed twin); for the skill arms, decisive-line citation (a finding's cited source and line, checked against that source) and S02 citation on cross-source twins; mechanism judgments (below); wording-B consistency (A and B verdicts agree); verdict repeatability between trials; stops, apart from semantic errors. **Gate, must be zero:** unsupported VERIFIED findings (a VERIFIED finding whose quotation is not on the line it cites, in the source it names). The gate applies to the skill arms only.
 
-**Mechanism judgments.** There is no human reader. For observations where a twin's verdict is correct, a reader model that sees only the oracle's decisive-fact description and the report text, arm label stripped and order shuffled, rules `MECHANISM_NAMED`, `NOT_NAMED` or `WRONG_MECHANISM`. This is done for all correct-verdict twin reports of trial 1 of every arm, and every observation on which trials disagree. It is a model reading (Claude Opus 5.5, so not independent of the Claude arms) and is reported as such; it feeds no headline rate.
+**Mechanism judgments.** There is no human reader. For observations where a twin's verdict is correct, a reader model that sees only the oracle's decisive-fact description and the report text, arm label stripped and order shuffled, rules `MECHANISM_NAMED`, `NOT_NAMED` or `WRONG_MECHANISM`. `mechanism.py` builds the items: every twin whose verdict is the right one in trial 1 of every arm, and every twin whose verdict differs between trials of the same arm; the reader sees the oracle's decisive-fact text and one report, never the arm, route, trial or case. It is a model reading (Claude Opus 5.5, so not independent of the Claude arms) and is reported as such; it feeds no headline rate.
 
 ## Hypotheses, stated against the final class counts (analysed two-sided; the opposite outcome is reportable)
 
@@ -84,26 +87,25 @@ No pass threshold and no general accuracy rate is claimed; with 83 units per tri
 - Reports are read by the scorer first; no outcome is changed by hand. The headline is the all-pairs result and nothing replaces it.
 - **Written before any metric is computed:** an adjudication file listing observations the reviewer excludes or relabels, with its reason. A pair may be reported as invalid (alongside, never instead of, the headline) only if an adjudicator reading the case text confirms a flaw in the sound member that the reviewers' reports identify and that is checkable from the text. Because the case text is sealed, that adjudicator is a separate session the owner starts, which returns a verdict and a redacted reason; the repository session does not read the text.
 - Technical stops (`UNPARSEABLE_REPORT`, `SAFETY_INTERRUPTED`, `MODEL_MISMATCH`, runtime stops) are recorded, never replaced and never counted as verdicts; a stopped case is not run again.
-- Snapshot labels read as line numbers by Gemini are tolerated as in v3 and counted.
+- One parsing tolerance, fixed here: a FINDING line field written `[S02:5]` is read as `S02:5` and the row is marked. Any other deviation from the report format is an `UNPARSEABLE_REPORT` stop.
 - Packets, oracle, scorer and rubric are not edited after a run. A flaw found afterwards needs a new corpus version; nothing is re-scored retroactively.
 
 ## What results can claim
 
 A result is for one model, route, prompt and this corpus hash; trials of a case are not independent samples. The Claude arms run on the CLI route, which is not the skill's qualified containment. Nothing here concerns the skill's mechanical citation check or adjudication step beyond the VERIFIED-quotation gate, real repositories, or other models. The corpus is Gemini-written and Claude-filtered, sealed and unread by a human; claims are limited accordingly.
 
-## Not yet written (required before freezing)
+## Tooling (written, tested offline; nothing run on the test corpus)
 
-1. The v4 Claude driver (extends `run_pilot_claude.py` to multi-source requests and the three arm names).
-2. The Gemini wrapper that builds a multi-source packet for the native runtime, tested offline against the packet and prompt caps, plus the offline faithfulness check for G-bare.
-3. The run manifest binding the corpus manifest, [review/manifest.json](manifest.json), the drivers, this file and the repository commit.
-4. A run verifier, as `verify_run.py` and `verify_gemini_run.py` are for v3.
-5. The analysis script (matched-unit sign tests, by-kind and by-family intervals) and the mechanism-reading tool.
-6. The hash-drawn repeat subset, computed from the pair ids and written down.
-7. The block assignment and schedule (seeded), a block cap and load check in both drivers, and the resource measurement.
+All in [../run/](../run/HANDOFF.md), tested by `run/test_run_v4.py` with a stub Claude binary and a stub native runtime on the public dev corpus:
+1. `run_v4.py`: the block driver for both routes (multi-source requests from `review/review_requests.py`; the Gemini packet lists the same sources for every arm and only the prompt file, which the runtime sends byte for byte, differs between arms); `blocks.sh`; the skill `v4-benchmark-blocks`.
+2. The Gemini bare-arm faithfulness check is by construction and by the verifier: the runtime's user message is exactly the packet's prompt file (`cli_review.py` writes it as the one `user` frame), the verifier compares the packet prompt and the frame size against the request rebuilt from the pinned files, and the persona file is the same for every arm. What it cannot remove is the persona itself.
+3. `build_run_manifest.py`, `schedule.py` (including the hash-drawn repeat subset), `verify_v4.py`, `analyze_v4.py`, `mechanism.py`.
+
+**Still required before the freeze:** the final text of this file; a rehearsal on the dev corpus with each route verified clean; the host measurement; the run manifest written from the final files (`build_run_manifest.py --split test --write`); the owner's approvals (below). Items that did not exist when this draft was first written (driver, wrapper, manifest, verifier, analysis, schedule, repeat subset) now do.
 
 ## Decisions for the owner
 
 - Budget as in "Cost and time", or a smaller first stage (for example Claude first, Gemini after).
 - Whether the Gemini repeat subset is pre-approved or decided after trial 1.
 - Whether the mechanism reading by a Claude model is enough, or a separate non-Claude reader is wanted.
-- Whether to proceed with writing items 1 to 6.
+- Whether to run the dev rehearsal now (a few cases per route, owner-gated) so the skill is exercised end to end before the freeze.

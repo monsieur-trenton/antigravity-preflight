@@ -1,0 +1,1118 @@
+{
+ "kind": "V4_RUN_SCHEDULE",
+ "split": "test",
+ "seedSha256": "fa5ac852babfc02a8ae86c8c2468b412b890d3618c7079bf8a14bc6039929643",
+ "pairsPerBlock": 6,
+ "pairs": 71,
+ "cases": 166,
+ "submissionOrder": [
+  "R-9f9ec8",
+  "R-a11984",
+  "R-1d1d1c",
+  "R-0da75f",
+  "R-2fd8f8",
+  "R-ad4096",
+  "R-7133f4",
+  "R-4a49c2",
+  "R-665f52",
+  "R-aa1b21",
+  "R-c0e76c",
+  "R-50e154",
+  "R-e3623d",
+  "R-3cc66a",
+  "R-9376b2",
+  "R-f12af7",
+  "R-ca4eb9",
+  "R-734041",
+  "R-6b1211",
+  "R-218667",
+  "R-aa9bdc",
+  "R-1c8336",
+  "R-9e06fd",
+  "R-53d94b",
+  "R-09f5bf",
+  "R-348cd5",
+  "R-699208",
+  "R-301fc8",
+  "R-3e71ae",
+  "R-5f8918",
+  "R-3e75d9",
+  "R-d0152a",
+  "R-c50852",
+  "R-66f2fa",
+  "R-f95c2c",
+  "R-ab0fd8",
+  "R-4fc40e",
+  "R-9795fb",
+  "R-3b74ee",
+  "R-e6cad2",
+  "R-7af414",
+  "R-b52d5f",
+  "R-4b85c9",
+  "R-1215d4",
+  "R-ed18c0",
+  "R-c13dc2",
+  "R-61d903",
+  "R-18aa8e",
+  "R-0d8eb5",
+  "R-512b1e",
+  "R-486178",
+  "R-8931b6",
+  "R-ac8777",
+  "R-dc52f7",
+  "R-0d6894",
+  "R-2d28fb",
+  "R-63fe22",
+  "R-30a892",
+  "R-4262c7",
+  "R-169754",
+  "R-e72bbb",
+  "R-738a81",
+  "R-e9da31",
+  "R-d6e4f1",
+  "R-f06a4d",
+  "R-9dae39",
+  "R-4b1cf3",
+  "R-40ed54",
+  "R-f55482",
+  "R-e8610d",
+  "R-48dbe1",
+  "R-33f70b",
+  "R-dd945d",
+  "R-0e9cc7",
+  "R-e7ea7c",
+  "R-4ff1a9",
+  "R-1a2f96",
+  "R-093e57",
+  "R-13189c",
+  "R-b76280",
+  "R-6047b7",
+  "R-213188",
+  "R-15d68c",
+  "R-9ad91d",
+  "R-93dc40",
+  "R-2e7624",
+  "R-277a65",
+  "R-ddbc29",
+  "R-1e4db4",
+  "R-4052d0",
+  "R-8fa1ab",
+  "R-6efbd2",
+  "R-d33750",
+  "R-137244",
+  "R-8598e4",
+  "R-4ef1f0",
+  "R-83345e",
+  "R-1670d0",
+  "R-281f11",
+  "R-dc213c",
+  "R-759d46",
+  "R-54d716",
+  "R-e52db8",
+  "R-116f6d",
+  "R-40f662",
+  "R-1d45cf",
+  "R-594e1e",
+  "R-739c4a",
+  "R-a0b0ac",
+  "R-316c51",
+  "R-e641e2",
+  "R-556b3e",
+  "R-9238b2",
+  "R-6e0469",
+  "R-474d9b",
+  "R-f6072f",
+  "R-59131d",
+  "R-e10ef5",
+  "R-79292d",
+  "R-08e950",
+  "R-7a7577",
+  "R-294409",
+  "R-b3864e",
+  "R-2e6cbd",
+  "R-86fd53",
+  "R-7a14b7",
+  "R-e591a5",
+  "R-109a73",
+  "R-9d0898",
+  "R-b2461c",
+  "R-b933ba",
+  "R-d5d3f1",
+  "R-d0c456",
+  "R-b6c34a",
+  "R-622ae9",
+  "R-a58a54",
+  "R-9dbef9",
+  "R-50253a",
+  "R-1f006e",
+  "R-0e1c18",
+  "R-c6b2ba",
+  "R-cf5b94",
+  "R-c9a965",
+  "R-99d841",
+  "R-c52f45",
+  "R-74a8ac",
+  "R-47db0d",
+  "R-c077e7",
+  "R-5e3ef4",
+  "R-0213bb",
+  "R-6c9905",
+  "R-abd634",
+  "R-fab54b",
+  "R-d88a4d",
+  "R-8c1b47",
+  "R-5159d0",
+  "R-a5afc6",
+  "R-a9558e",
+  "R-09c36a",
+  "R-467879",
+  "R-6d546c",
+  "R-305a92",
+  "R-473c26",
+  "R-894165",
+  "R-1bb218",
+  "R-878aee"
+ ],
+ "blocks": [
+  {
+   "id": "B01",
+   "pairs": [
+    "N-0338d1",
+    "N-0a7387",
+    "N-56c83e",
+    "N-6b4be1",
+    "N-6c4345",
+    "N-7d34eb"
+   ],
+   "cases": [
+    "R-4a49c2",
+    "R-53d94b",
+    "R-b52d5f",
+    "R-486178",
+    "R-4b1cf3",
+    "R-48dbe1",
+    "R-13189c",
+    "R-213188",
+    "R-4052d0",
+    "R-e52db8",
+    "R-316c51",
+    "R-b3864e",
+    "R-0213bb",
+    "R-305a92"
+   ]
+  },
+  {
+   "id": "B02",
+   "pairs": [
+    "N-2c3576",
+    "N-78d7fe",
+    "N-791b2a",
+    "N-8ed86c",
+    "N-c71e10",
+    "N-c8803e"
+   ],
+   "cases": [
+    "R-50e154",
+    "R-1c8336",
+    "R-301fc8",
+    "R-3e75d9",
+    "R-9795fb",
+    "R-7af414",
+    "R-2e7624",
+    "R-1670d0",
+    "R-622ae9",
+    "R-5e3ef4",
+    "R-abd634",
+    "R-473c26"
+   ]
+  },
+  {
+   "id": "B03",
+   "pairs": [
+    "N-0afbd7",
+    "N-405801",
+    "N-96f774",
+    "N-d885cd",
+    "N-dccdf6",
+    "N-fb5615"
+   ],
+   "cases": [
+    "R-7133f4",
+    "R-734041",
+    "R-9e06fd",
+    "R-3e71ae",
+    "R-66f2fa",
+    "R-ac8777",
+    "R-dc52f7",
+    "R-093e57",
+    "R-9ad91d",
+    "R-8598e4",
+    "R-9238b2",
+    "R-7a14b7"
+   ]
+  },
+  {
+   "id": "B04",
+   "pairs": [
+    "N-042947",
+    "N-059c5e",
+    "N-7f61bb",
+    "N-a96a7e",
+    "N-e154ea",
+    "N-e96901"
+   ],
+   "cases": [
+    "R-9376b2",
+    "R-09f5bf",
+    "R-c50852",
+    "R-4b85c9",
+    "R-0d6894",
+    "R-738a81",
+    "R-e9da31",
+    "R-d6e4f1",
+    "R-9dae39",
+    "R-1a2f96",
+    "R-83345e",
+    "R-e641e2",
+    "R-474d9b",
+    "R-b2461c",
+    "R-1f006e",
+    "R-c6b2ba",
+    "R-c9a965",
+    "R-6c9905"
+   ]
+  },
+  {
+   "id": "B05",
+   "pairs": [
+    "N-046068",
+    "N-5e4a36",
+    "N-9ddd73",
+    "N-c86ed8",
+    "N-e1785c",
+    "N-e63237"
+   ],
+   "cases": [
+    "R-e3623d",
+    "R-aa9bdc",
+    "R-f95c2c",
+    "R-61d903",
+    "R-169754",
+    "R-f06a4d",
+    "R-dd945d",
+    "R-ddbc29",
+    "R-dc213c",
+    "R-739c4a",
+    "R-99d841",
+    "R-d88a4d",
+    "R-a9558e",
+    "R-894165"
+   ]
+  },
+  {
+   "id": "B06",
+   "pairs": [
+    "N-080a39",
+    "N-3d7661",
+    "N-5064ca",
+    "N-56f591",
+    "N-842279",
+    "N-ddbfc4"
+   ],
+   "cases": [
+    "R-ca4eb9",
+    "R-c13dc2",
+    "R-0d8eb5",
+    "R-2d28fb",
+    "R-63fe22",
+    "R-f55482",
+    "R-4ff1a9",
+    "R-b76280",
+    "R-556b3e",
+    "R-59131d",
+    "R-79292d",
+    "R-08e950",
+    "R-e591a5",
+    "R-9dbef9"
+   ]
+  },
+  {
+   "id": "B07",
+   "pairs": [
+    "N-0501a8",
+    "N-175735",
+    "N-2643e7",
+    "N-8b2a66",
+    "N-c88690",
+    "N-e342e4"
+   ],
+   "cases": [
+    "R-a11984",
+    "R-512b1e",
+    "R-4262c7",
+    "R-e72bbb",
+    "R-0e9cc7",
+    "R-277a65",
+    "R-1e4db4",
+    "R-4ef1f0",
+    "R-281f11",
+    "R-40f662",
+    "R-47db0d",
+    "R-6d546c"
+   ]
+  },
+  {
+   "id": "B08",
+   "pairs": [
+    "N-16fb50",
+    "N-80f19a",
+    "N-96594e",
+    "N-af307a",
+    "N-d50fec",
+    "N-f41ebe"
+   ],
+   "cases": [
+    "R-9f9ec8",
+    "R-0da75f",
+    "R-c0e76c",
+    "R-348cd5",
+    "R-699208",
+    "R-d0152a",
+    "R-4fc40e",
+    "R-e8610d",
+    "R-54d716",
+    "R-594e1e",
+    "R-7a7577",
+    "R-2e6cbd",
+    "R-9d0898",
+    "R-1bb218"
+   ]
+  },
+  {
+   "id": "B09",
+   "pairs": [
+    "N-86c50d",
+    "N-945bcd",
+    "N-a91e58",
+    "N-af992a",
+    "N-dddf51",
+    "N-f41436"
+   ],
+   "cases": [
+    "R-ad4096",
+    "R-aa1b21",
+    "R-5f8918",
+    "R-e6cad2",
+    "R-33f70b",
+    "R-15d68c",
+    "R-6efbd2",
+    "R-a0b0ac",
+    "R-6e0469",
+    "R-f6072f",
+    "R-b933ba",
+    "R-74a8ac"
+   ]
+  },
+  {
+   "id": "B10",
+   "pairs": [
+    "N-2d6197",
+    "N-79a949",
+    "N-852c75",
+    "N-920e4a",
+    "N-af104e",
+    "N-cbf2b7"
+   ],
+   "cases": [
+    "R-665f52",
+    "R-3cc66a",
+    "R-1215d4",
+    "R-ed18c0",
+    "R-30a892",
+    "R-40ed54",
+    "R-e7ea7c",
+    "R-6047b7",
+    "R-1d45cf",
+    "R-109a73",
+    "R-d5d3f1",
+    "R-50253a",
+    "R-0e1c18",
+    "R-fab54b",
+    "R-467879",
+    "R-878aee"
+   ]
+  },
+  {
+   "id": "B11",
+   "pairs": [
+    "N-0df324",
+    "N-2e3b2d",
+    "N-7554f3",
+    "N-9ff502",
+    "N-d5c77b",
+    "N-d9be0a"
+   ],
+   "cases": [
+    "R-1d1d1c",
+    "R-2fd8f8",
+    "R-3b74ee",
+    "R-18aa8e",
+    "R-8931b6",
+    "R-93dc40",
+    "R-8fa1ab",
+    "R-d33750",
+    "R-137244",
+    "R-759d46",
+    "R-116f6d",
+    "R-e10ef5",
+    "R-294409",
+    "R-c52f45",
+    "R-8c1b47",
+    "R-a5afc6"
+   ]
+  },
+  {
+   "id": "B12",
+   "pairs": [
+    "N-060fb4",
+    "N-32b8ec",
+    "N-35f458",
+    "N-3bf296",
+    "N-95483c"
+   ],
+   "cases": [
+    "R-f12af7",
+    "R-6b1211",
+    "R-218667",
+    "R-ab0fd8",
+    "R-86fd53",
+    "R-d0c456",
+    "R-b6c34a",
+    "R-a58a54",
+    "R-cf5b94",
+    "R-c077e7",
+    "R-5159d0",
+    "R-09c36a"
+   ]
+  }
+ ],
+ "repeatBlocks": [
+  {
+   "id": "R01",
+   "pairs": [
+    "N-2e3b2d",
+    "N-79a949",
+    "N-852c75",
+    "N-8ed86c",
+    "N-d50fec",
+    "N-dccdf6"
+   ],
+   "cases": [
+    "R-0da75f",
+    "R-2fd8f8",
+    "R-1c8336",
+    "R-3e75d9",
+    "R-3b74ee",
+    "R-30a892",
+    "R-e8610d",
+    "R-e7ea7c",
+    "R-9ad91d",
+    "R-137244",
+    "R-8598e4",
+    "R-1d45cf",
+    "R-109a73",
+    "R-0e1c18",
+    "R-8c1b47",
+    "R-878aee"
+   ]
+  },
+  {
+   "id": "R02",
+   "pairs": [
+    "N-0afbd7",
+    "N-35f458",
+    "N-7d34eb",
+    "N-86c50d",
+    "N-c86ed8",
+    "N-d5c77b"
+   ],
+   "cases": [
+    "R-1d1d1c",
+    "R-e3623d",
+    "R-ab0fd8",
+    "R-8931b6",
+    "R-169754",
+    "R-4b1cf3",
+    "R-13189c",
+    "R-6efbd2",
+    "R-739c4a",
+    "R-9238b2",
+    "R-6e0469",
+    "R-7a14b7",
+    "R-cf5b94",
+    "R-5159d0",
+    "R-09c36a",
+    "R-894165"
+   ]
+  },
+  {
+   "id": "R03",
+   "pairs": [
+    "N-042947",
+    "N-046068",
+    "N-3d7661",
+    "N-945bcd",
+    "N-a96a7e",
+    "N-e96901"
+   ],
+   "cases": [
+    "R-9376b2",
+    "R-09f5bf",
+    "R-0d6894",
+    "R-2d28fb",
+    "R-e9da31",
+    "R-d6e4f1",
+    "R-f06a4d",
+    "R-15d68c",
+    "R-dc213c",
+    "R-a0b0ac",
+    "R-474d9b",
+    "R-08e950",
+    "R-1f006e",
+    "R-6c9905"
+   ]
+  },
+  {
+   "id": "R04",
+   "pairs": [
+    "N-6c4345",
+    "N-7554f3",
+    "N-c8803e",
+    "N-cbf2b7",
+    "N-d9be0a",
+    "N-f41436"
+   ],
+   "cases": [
+    "R-3cc66a",
+    "R-b52d5f",
+    "R-1215d4",
+    "R-33f70b",
+    "R-93dc40",
+    "R-8fa1ab",
+    "R-d33750",
+    "R-622ae9",
+    "R-74a8ac",
+    "R-5e3ef4",
+    "R-0213bb",
+    "R-a5afc6"
+   ]
+  }
+ ],
+ "routes": {
+  "gemini": {
+   "arms": [
+    "skill",
+    "bare"
+   ],
+   "trials": 1,
+   "steps": [
+    {
+     "step": 1,
+     "block": "B01",
+     "arm": "bare",
+     "trial": 1
+    },
+    {
+     "step": 2,
+     "block": "B01",
+     "arm": "skill",
+     "trial": 1
+    },
+    {
+     "step": 3,
+     "block": "B02",
+     "arm": "skill",
+     "trial": 1
+    },
+    {
+     "step": 4,
+     "block": "B02",
+     "arm": "bare",
+     "trial": 1
+    },
+    {
+     "step": 5,
+     "block": "B03",
+     "arm": "bare",
+     "trial": 1
+    },
+    {
+     "step": 6,
+     "block": "B03",
+     "arm": "skill",
+     "trial": 1
+    },
+    {
+     "step": 7,
+     "block": "B04",
+     "arm": "skill",
+     "trial": 1
+    },
+    {
+     "step": 8,
+     "block": "B04",
+     "arm": "bare",
+     "trial": 1
+    },
+    {
+     "step": 9,
+     "block": "B05",
+     "arm": "bare",
+     "trial": 1
+    },
+    {
+     "step": 10,
+     "block": "B05",
+     "arm": "skill",
+     "trial": 1
+    },
+    {
+     "step": 11,
+     "block": "B06",
+     "arm": "skill",
+     "trial": 1
+    },
+    {
+     "step": 12,
+     "block": "B06",
+     "arm": "bare",
+     "trial": 1
+    },
+    {
+     "step": 13,
+     "block": "B07",
+     "arm": "bare",
+     "trial": 1
+    },
+    {
+     "step": 14,
+     "block": "B07",
+     "arm": "skill",
+     "trial": 1
+    },
+    {
+     "step": 15,
+     "block": "B08",
+     "arm": "skill",
+     "trial": 1
+    },
+    {
+     "step": 16,
+     "block": "B08",
+     "arm": "bare",
+     "trial": 1
+    },
+    {
+     "step": 17,
+     "block": "B09",
+     "arm": "bare",
+     "trial": 1
+    },
+    {
+     "step": 18,
+     "block": "B09",
+     "arm": "skill",
+     "trial": 1
+    },
+    {
+     "step": 19,
+     "block": "B10",
+     "arm": "skill",
+     "trial": 1
+    },
+    {
+     "step": 20,
+     "block": "B10",
+     "arm": "bare",
+     "trial": 1
+    },
+    {
+     "step": 21,
+     "block": "B11",
+     "arm": "bare",
+     "trial": 1
+    },
+    {
+     "step": 22,
+     "block": "B11",
+     "arm": "skill",
+     "trial": 1
+    },
+    {
+     "step": 23,
+     "block": "B12",
+     "arm": "skill",
+     "trial": 1
+    },
+    {
+     "step": 24,
+     "block": "B12",
+     "arm": "bare",
+     "trial": 1
+    }
+   ]
+  },
+  "claude": {
+   "arms": [
+    "skill",
+    "skill-go"
+   ],
+   "trials": 2,
+   "steps": [
+    {
+     "step": 1,
+     "block": "B01",
+     "arm": "skill-go",
+     "trial": 1
+    },
+    {
+     "step": 2,
+     "block": "B01",
+     "arm": "skill",
+     "trial": 1
+    },
+    {
+     "step": 3,
+     "block": "B02",
+     "arm": "skill",
+     "trial": 1
+    },
+    {
+     "step": 4,
+     "block": "B02",
+     "arm": "skill-go",
+     "trial": 1
+    },
+    {
+     "step": 5,
+     "block": "B03",
+     "arm": "skill-go",
+     "trial": 1
+    },
+    {
+     "step": 6,
+     "block": "B03",
+     "arm": "skill",
+     "trial": 1
+    },
+    {
+     "step": 7,
+     "block": "B04",
+     "arm": "skill",
+     "trial": 1
+    },
+    {
+     "step": 8,
+     "block": "B04",
+     "arm": "skill-go",
+     "trial": 1
+    },
+    {
+     "step": 9,
+     "block": "B05",
+     "arm": "skill-go",
+     "trial": 1
+    },
+    {
+     "step": 10,
+     "block": "B05",
+     "arm": "skill",
+     "trial": 1
+    },
+    {
+     "step": 11,
+     "block": "B06",
+     "arm": "skill",
+     "trial": 1
+    },
+    {
+     "step": 12,
+     "block": "B06",
+     "arm": "skill-go",
+     "trial": 1
+    },
+    {
+     "step": 13,
+     "block": "B07",
+     "arm": "skill-go",
+     "trial": 1
+    },
+    {
+     "step": 14,
+     "block": "B07",
+     "arm": "skill",
+     "trial": 1
+    },
+    {
+     "step": 15,
+     "block": "B08",
+     "arm": "skill",
+     "trial": 1
+    },
+    {
+     "step": 16,
+     "block": "B08",
+     "arm": "skill-go",
+     "trial": 1
+    },
+    {
+     "step": 17,
+     "block": "B09",
+     "arm": "skill-go",
+     "trial": 1
+    },
+    {
+     "step": 18,
+     "block": "B09",
+     "arm": "skill",
+     "trial": 1
+    },
+    {
+     "step": 19,
+     "block": "B10",
+     "arm": "skill",
+     "trial": 1
+    },
+    {
+     "step": 20,
+     "block": "B10",
+     "arm": "skill-go",
+     "trial": 1
+    },
+    {
+     "step": 21,
+     "block": "B11",
+     "arm": "skill-go",
+     "trial": 1
+    },
+    {
+     "step": 22,
+     "block": "B11",
+     "arm": "skill",
+     "trial": 1
+    },
+    {
+     "step": 23,
+     "block": "B12",
+     "arm": "skill",
+     "trial": 1
+    },
+    {
+     "step": 24,
+     "block": "B12",
+     "arm": "skill-go",
+     "trial": 1
+    },
+    {
+     "step": 25,
+     "block": "B01",
+     "arm": "skill",
+     "trial": 2
+    },
+    {
+     "step": 26,
+     "block": "B01",
+     "arm": "skill-go",
+     "trial": 2
+    },
+    {
+     "step": 27,
+     "block": "B02",
+     "arm": "skill-go",
+     "trial": 2
+    },
+    {
+     "step": 28,
+     "block": "B02",
+     "arm": "skill",
+     "trial": 2
+    },
+    {
+     "step": 29,
+     "block": "B03",
+     "arm": "skill",
+     "trial": 2
+    },
+    {
+     "step": 30,
+     "block": "B03",
+     "arm": "skill-go",
+     "trial": 2
+    },
+    {
+     "step": 31,
+     "block": "B04",
+     "arm": "skill-go",
+     "trial": 2
+    },
+    {
+     "step": 32,
+     "block": "B04",
+     "arm": "skill",
+     "trial": 2
+    },
+    {
+     "step": 33,
+     "block": "B05",
+     "arm": "skill",
+     "trial": 2
+    },
+    {
+     "step": 34,
+     "block": "B05",
+     "arm": "skill-go",
+     "trial": 2
+    },
+    {
+     "step": 35,
+     "block": "B06",
+     "arm": "skill-go",
+     "trial": 2
+    },
+    {
+     "step": 36,
+     "block": "B06",
+     "arm": "skill",
+     "trial": 2
+    },
+    {
+     "step": 37,
+     "block": "B07",
+     "arm": "skill",
+     "trial": 2
+    },
+    {
+     "step": 38,
+     "block": "B07",
+     "arm": "skill-go",
+     "trial": 2
+    },
+    {
+     "step": 39,
+     "block": "B08",
+     "arm": "skill-go",
+     "trial": 2
+    },
+    {
+     "step": 40,
+     "block": "B08",
+     "arm": "skill",
+     "trial": 2
+    },
+    {
+     "step": 41,
+     "block": "B09",
+     "arm": "skill",
+     "trial": 2
+    },
+    {
+     "step": 42,
+     "block": "B09",
+     "arm": "skill-go",
+     "trial": 2
+    },
+    {
+     "step": 43,
+     "block": "B10",
+     "arm": "skill-go",
+     "trial": 2
+    },
+    {
+     "step": 44,
+     "block": "B10",
+     "arm": "skill",
+     "trial": 2
+    },
+    {
+     "step": 45,
+     "block": "B11",
+     "arm": "skill",
+     "trial": 2
+    },
+    {
+     "step": 46,
+     "block": "B11",
+     "arm": "skill-go",
+     "trial": 2
+    },
+    {
+     "step": 47,
+     "block": "B12",
+     "arm": "skill-go",
+     "trial": 2
+    },
+    {
+     "step": 48,
+     "block": "B12",
+     "arm": "skill",
+     "trial": 2
+    }
+   ]
+  }
+ },
+ "optional": {
+  "gemini": {
+   "note": "Run only if the owner approves after trial 1; trial 2 of both Gemini arms on the hash-drawn repeat pairs.",
+   "steps": [
+    {
+     "step": 1,
+     "block": "R01",
+     "arm": "skill",
+     "trial": 2
+    },
+    {
+     "step": 2,
+     "block": "R01",
+     "arm": "bare",
+     "trial": 2
+    },
+    {
+     "step": 3,
+     "block": "R02",
+     "arm": "bare",
+     "trial": 2
+    },
+    {
+     "step": 4,
+     "block": "R02",
+     "arm": "skill",
+     "trial": 2
+    },
+    {
+     "step": 5,
+     "block": "R03",
+     "arm": "skill",
+     "trial": 2
+    },
+    {
+     "step": 6,
+     "block": "R03",
+     "arm": "bare",
+     "trial": 2
+    },
+    {
+     "step": 7,
+     "block": "R04",
+     "arm": "bare",
+     "trial": 2
+    },
+    {
+     "step": 8,
+     "block": "R04",
+     "arm": "skill",
+     "trial": 2
+    }
+   ]
+  }
+ }
+}

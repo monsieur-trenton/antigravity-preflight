@@ -1,0 +1,473 @@
+{
+ "kind": "V4_RUN_SCHEDULE",
+ "split": "dev",
+ "seedSha256": "363546b973d31b5def4a2cb8c9a986e6773569b560d115aefb64c7fefe8dbb97",
+ "pairsPerBlock": 6,
+ "pairs": 23,
+ "cases": 46,
+ "submissionOrder": [
+  "R-2fa6b3",
+  "R-d53fa1",
+  "R-c94c90",
+  "R-f6b2c6",
+  "R-bc5f51",
+  "R-f5e1df",
+  "R-e1dbe6",
+  "R-89054d",
+  "R-e3cf4c",
+  "R-e93919",
+  "R-653eb5",
+  "R-237c3b",
+  "R-bc5cc9",
+  "R-eb2d87",
+  "R-d18c2e",
+  "R-d08a12",
+  "R-616254",
+  "R-ae561a",
+  "R-6858a9",
+  "R-94f0b7",
+  "R-7d578d",
+  "R-abec66",
+  "R-54ca90",
+  "R-b4ed4d",
+  "R-9ec66c",
+  "R-76dffb",
+  "R-68ba18",
+  "R-12b20f",
+  "R-602bc9",
+  "R-f53063",
+  "R-2f74e3",
+  "R-dbb865",
+  "R-2ec850",
+  "R-308a49",
+  "R-1a89b2",
+  "R-c56798",
+  "R-7aca5a",
+  "R-1c8c19",
+  "R-21df26",
+  "R-4844da",
+  "R-3b36bf",
+  "R-32c6c4",
+  "R-df96e0",
+  "R-ce90f7",
+  "R-22493d",
+  "R-7ef1bf"
+ ],
+ "blocks": [
+  {
+   "id": "B01",
+   "pairs": [
+    "N-19a280",
+    "N-466973",
+    "N-b4a14c",
+    "N-b8603d",
+    "N-c42f85",
+    "N-d0d08d"
+   ],
+   "cases": [
+    "R-d53fa1",
+    "R-e1dbe6",
+    "R-e3cf4c",
+    "R-616254",
+    "R-2f74e3",
+    "R-308a49",
+    "R-1a89b2",
+    "R-c56798",
+    "R-7aca5a",
+    "R-32c6c4",
+    "R-df96e0",
+    "R-ce90f7"
+   ]
+  },
+  {
+   "id": "B02",
+   "pairs": [
+    "N-5770ac",
+    "N-90d970",
+    "N-a9e9f9",
+    "N-ab7473",
+    "N-e889b3",
+    "N-fc68f6"
+   ],
+   "cases": [
+    "R-c94c90",
+    "R-f6b2c6",
+    "R-89054d",
+    "R-e93919",
+    "R-bc5cc9",
+    "R-6858a9",
+    "R-7d578d",
+    "R-68ba18",
+    "R-f53063",
+    "R-2ec850",
+    "R-21df26",
+    "R-7ef1bf"
+   ]
+  },
+  {
+   "id": "B03",
+   "pairs": [
+    "N-3f18f1",
+    "N-4aedf1",
+    "N-93366f",
+    "N-9c5803",
+    "N-f32098",
+    "N-f9a801"
+   ],
+   "cases": [
+    "R-bc5f51",
+    "R-f5e1df",
+    "R-d08a12",
+    "R-94f0b7",
+    "R-9ec66c",
+    "R-76dffb",
+    "R-12b20f",
+    "R-602bc9",
+    "R-dbb865",
+    "R-1c8c19",
+    "R-4844da",
+    "R-22493d"
+   ]
+  },
+  {
+   "id": "B04",
+   "pairs": [
+    "N-4b040d",
+    "N-8fbc5c",
+    "N-9cc72c",
+    "N-b6780a",
+    "N-ba0d02"
+   ],
+   "cases": [
+    "R-2fa6b3",
+    "R-653eb5",
+    "R-237c3b",
+    "R-eb2d87",
+    "R-d18c2e",
+    "R-ae561a",
+    "R-abec66",
+    "R-54ca90",
+    "R-b4ed4d",
+    "R-3b36bf"
+   ]
+  }
+ ],
+ "repeatBlocks": [
+  {
+   "id": "R01",
+   "pairs": [
+    "N-466973",
+    "N-a9e9f9",
+    "N-b4a14c",
+    "N-b6780a",
+    "N-b8603d",
+    "N-e889b3"
+   ],
+   "cases": [
+    "R-e1dbe6",
+    "R-e3cf4c",
+    "R-bc5cc9",
+    "R-eb2d87",
+    "R-d18c2e",
+    "R-616254",
+    "R-7d578d",
+    "R-2f74e3",
+    "R-2ec850",
+    "R-7aca5a",
+    "R-32c6c4",
+    "R-7ef1bf"
+   ]
+  },
+  {
+   "id": "R02",
+   "pairs": [
+    "N-8fbc5c",
+    "N-9c5803",
+    "N-9cc72c",
+    "N-c42f85",
+    "N-d0d08d",
+    "N-f9a801"
+   ],
+   "cases": [
+    "R-d53fa1",
+    "R-f5e1df",
+    "R-237c3b",
+    "R-d08a12",
+    "R-ae561a",
+    "R-94f0b7",
+    "R-54ca90",
+    "R-b4ed4d",
+    "R-9ec66c",
+    "R-308a49",
+    "R-1a89b2",
+    "R-c56798"
+   ]
+  },
+  {
+   "id": "R03",
+   "pairs": [
+    "N-3f18f1",
+    "N-4aedf1",
+    "N-5770ac",
+    "N-93366f",
+    "N-ab7473",
+    "N-ba0d02"
+   ],
+   "cases": [
+    "R-2fa6b3",
+    "R-f6b2c6",
+    "R-89054d",
+    "R-abec66",
+    "R-76dffb",
+    "R-68ba18",
+    "R-12b20f",
+    "R-602bc9",
+    "R-1c8c19",
+    "R-21df26",
+    "R-4844da",
+    "R-22493d"
+   ]
+  },
+  {
+   "id": "R04",
+   "pairs": [
+    "N-19a280",
+    "N-4b040d",
+    "N-90d970",
+    "N-f32098",
+    "N-fc68f6"
+   ],
+   "cases": [
+    "R-c94c90",
+    "R-bc5f51",
+    "R-e93919",
+    "R-653eb5",
+    "R-6858a9",
+    "R-f53063",
+    "R-dbb865",
+    "R-3b36bf",
+    "R-df96e0",
+    "R-ce90f7"
+   ]
+  }
+ ],
+ "routes": {
+  "gemini": {
+   "arms": [
+    "skill",
+    "bare"
+   ],
+   "trials": 1,
+   "steps": [
+    {
+     "step": 1,
+     "block": "B01",
+     "arm": "bare",
+     "trial": 1
+    },
+    {
+     "step": 2,
+     "block": "B01",
+     "arm": "skill",
+     "trial": 1
+    },
+    {
+     "step": 3,
+     "block": "B02",
+     "arm": "skill",
+     "trial": 1
+    },
+    {
+     "step": 4,
+     "block": "B02",
+     "arm": "bare",
+     "trial": 1
+    },
+    {
+     "step": 5,
+     "block": "B03",
+     "arm": "bare",
+     "trial": 1
+    },
+    {
+     "step": 6,
+     "block": "B03",
+     "arm": "skill",
+     "trial": 1
+    },
+    {
+     "step": 7,
+     "block": "B04",
+     "arm": "skill",
+     "trial": 1
+    },
+    {
+     "step": 8,
+     "block": "B04",
+     "arm": "bare",
+     "trial": 1
+    }
+   ]
+  },
+  "claude": {
+   "arms": [
+    "skill",
+    "skill-go"
+   ],
+   "trials": 2,
+   "steps": [
+    {
+     "step": 1,
+     "block": "B01",
+     "arm": "skill-go",
+     "trial": 1
+    },
+    {
+     "step": 2,
+     "block": "B01",
+     "arm": "skill",
+     "trial": 1
+    },
+    {
+     "step": 3,
+     "block": "B02",
+     "arm": "skill",
+     "trial": 1
+    },
+    {
+     "step": 4,
+     "block": "B02",
+     "arm": "skill-go",
+     "trial": 1
+    },
+    {
+     "step": 5,
+     "block": "B03",
+     "arm": "skill-go",
+     "trial": 1
+    },
+    {
+     "step": 6,
+     "block": "B03",
+     "arm": "skill",
+     "trial": 1
+    },
+    {
+     "step": 7,
+     "block": "B04",
+     "arm": "skill",
+     "trial": 1
+    },
+    {
+     "step": 8,
+     "block": "B04",
+     "arm": "skill-go",
+     "trial": 1
+    },
+    {
+     "step": 9,
+     "block": "B01",
+     "arm": "skill",
+     "trial": 2
+    },
+    {
+     "step": 10,
+     "block": "B01",
+     "arm": "skill-go",
+     "trial": 2
+    },
+    {
+     "step": 11,
+     "block": "B02",
+     "arm": "skill-go",
+     "trial": 2
+    },
+    {
+     "step": 12,
+     "block": "B02",
+     "arm": "skill",
+     "trial": 2
+    },
+    {
+     "step": 13,
+     "block": "B03",
+     "arm": "skill",
+     "trial": 2
+    },
+    {
+     "step": 14,
+     "block": "B03",
+     "arm": "skill-go",
+     "trial": 2
+    },
+    {
+     "step": 15,
+     "block": "B04",
+     "arm": "skill-go",
+     "trial": 2
+    },
+    {
+     "step": 16,
+     "block": "B04",
+     "arm": "skill",
+     "trial": 2
+    }
+   ]
+  }
+ },
+ "optional": {
+  "gemini": {
+   "note": "Run only if the owner approves after trial 1; trial 2 of both Gemini arms on the hash-drawn repeat pairs.",
+   "steps": [
+    {
+     "step": 1,
+     "block": "R01",
+     "arm": "skill",
+     "trial": 2
+    },
+    {
+     "step": 2,
+     "block": "R01",
+     "arm": "bare",
+     "trial": 2
+    },
+    {
+     "step": 3,
+     "block": "R02",
+     "arm": "bare",
+     "trial": 2
+    },
+    {
+     "step": 4,
+     "block": "R02",
+     "arm": "skill",
+     "trial": 2
+    },
+    {
+     "step": 5,
+     "block": "R03",
+     "arm": "skill",
+     "trial": 2
+    },
+    {
+     "step": 6,
+     "block": "R03",
+     "arm": "bare",
+     "trial": 2
+    },
+    {
+     "step": 7,
+     "block": "R04",
+     "arm": "bare",
+     "trial": 2
+    },
+    {
+     "step": 8,
+     "block": "R04",
+     "arm": "skill",
+     "trial": 2
+    }
+   ]
+  }
+ }
+}

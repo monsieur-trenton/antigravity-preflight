@@ -48,6 +48,9 @@ jobs:
       - run: python3 -B -I benchmarks/counterfactual-pairs/v4/audit/test_audit.py
       - run: python3 -B -I benchmarks/counterfactual-pairs/v4/review/test_review.py
       - run: python3 -B -I benchmarks/counterfactual-pairs/v4/review/build_manifest.py --check
+      - run: python3 -B -I benchmarks/counterfactual-pairs/v4/run/schedule.py --split dev --check benchmarks/counterfactual-pairs/v4/run/schedule-dev.json
+      - run: python3 -B -I benchmarks/counterfactual-pairs/v4/run/schedule.py --split test --check benchmarks/counterfactual-pairs/v4/run/schedule-test.json
+      - run: python3 -B -I benchmarks/counterfactual-pairs/v4/run/test_run_v4.py
       - run: python3 -B -I benchmarks/counterfactual-pairs/ablation/build_manifest.py --check
       - run: python3 -B -I benchmarks/counterfactual-pairs/ablation/defined/build_manifest.py --check
       - run: python3 -B -I benchmarks/counterfactual-pairs/ablation/defined-go/build_manifest.py --check
